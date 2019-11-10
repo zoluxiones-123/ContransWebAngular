@@ -1,0 +1,7 @@
+{
+    "/ContransAPI/*": {
+        "target" : "http://www.contrans.net.pe",
+        "secure" : false,
+        "changeOrigin" : true
+    }
+}

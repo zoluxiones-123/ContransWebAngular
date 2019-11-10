@@ -7,6 +7,11 @@ import {LoginComponent} from "./login.component";
 
 import {PeityModule } from '../../components/charts/peity';
 import {SparklineModule } from '../../components/charts/sparkline';
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { AuthService } from "app/services/auth.service";
+import { HttpClientModule } from "@angular/common/http";
+
 
 @NgModule({
   declarations: [
@@ -17,12 +22,19 @@ import {SparklineModule } from '../../components/charts/sparkline';
     BrowserModule,
     RouterModule,
     PeityModule,
-    SparklineModule
+    SparklineModule,
+    FormsModule,
+    HttpModule,
+    HttpClientModule
   ],
   exports: [
     StarterViewComponent,
     LoginComponent
   ],
+  providers: [
+    AuthService,
+
+  ]
 })
 
 export class AppviewsModule {

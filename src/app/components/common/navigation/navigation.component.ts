@@ -11,7 +11,17 @@ declare var jQuery:any;
 
 export class NavigationComponent {
 
-  constructor(private router: Router) {}
+  public usuarionombre:string;
+
+  constructor(private router: Router) {
+
+
+  }
+
+  ngOnInit() {
+    this.usuarionombre = localStorage.getItem("NombreUsuario");
+  }
+
 
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
