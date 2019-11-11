@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 import 'jquery-slimscroll';
+import { stringify } from 'querystring';
 
 declare var jQuery:any;
 
@@ -14,6 +15,7 @@ export class NavigationComponent {
   public usuarionombre:string;
   public rolactual:string;
   public entinombre:string;
+  public listarol:any;
 
 
   constructor(private router: Router) {
@@ -23,9 +25,24 @@ export class NavigationComponent {
 
   ngOnInit() {
     this.usuarionombre = localStorage.getItem("NombreUsuario");
-    this.rolactual = localStorage.getItem("RolActual");
+    this.listarol = JSON.parse(localStorage.getItem("ListaRol"));
+    this.rolactual =  this.ObtenerRolActual(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.entinombre = localStorage.getItem("EntiNombre");
 
+
+  }
+
+  ObtenerRolActual (rolxdefecto:string)
+  {
+    let Rol:string = "";
+    this.listarol.forEach(item => {
+      if(item.RolCodigo == rolxdefecto)
+      {
+        Rol = item.RolDesc;
+      }    
+    });
+    
+    return Rol;
   }
 
 
