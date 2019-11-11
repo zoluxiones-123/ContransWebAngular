@@ -5,15 +5,12 @@
         <div class="profile-element" dropdown>
           <img alt="image" class="img-circle" src="assets/images/profile_small.jpg">
           <a dropdownToggle>
-            <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong> </span>
-            <span class="text-muted text-xs block">Art Director <b class="caret"></b> </span>
+            <span class="block m-t-xs"> <strong class="font-bold">{{this.usuarionombre}}</strong> </span>
+            <span class="block m-t-xs">{{this.entinombre}} </span>
+            <span class="text-muted text-xs block">{{this.rolactual}} <b class="caret"></b> </span>
           </a>
-          <ul class="animated fadeInRight dropdown-menu" *dropdownMenu>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Contacts</a></li>
-            <li><a href="#">Mailbox</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Logout</a></li>
+          <ul class="animated fadeInRight dropdown-menu" >
+            <li *ngFor="let item of this.listarol"><a>{{item.RolDesc}}</a></li>
           </ul>
         </div>
         <div class="logo-element">
@@ -21,7 +18,7 @@
         </div>
       </li>
       <li [ngClass]="{active: activeRoute('starter')}">
-        <a [routerLink]="['/starterview']"><i class="fa fa-th-large"></i> <span class="nav-label">Starter view</span></a>
+        <a [routerLink]="['/starterview']"><i class="fa fa-th-large"></i> <span class="nav-label">Menu principal</span></a>
       </li>
       <li [ngClass]="{active: activeRoute('dashboards')}">
         <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard examples</span> <span class="fa arrow"></span> </a>
@@ -31,10 +28,11 @@
           <li [ngClass]="{active: activeRoute('dashboard3')}"><a [routerLink]="['/dashboards/dashboard3']">Dashboard v.3</a></li>
           <li [ngClass]="{active: activeRoute('dashboard4')}"><a [routerLink]="['/dashboards/dashboard4']">Dashboard v.4</a></li>
           <li [ngClass]="{active: activeRoute('dashboard5')}"><a [routerLink]="['/dashboards/dashboard5']">Dashboard v.5</a></li>
+          <li [ngClass]="{active: activeRoute('repstock')}"><a [routerLink]="['/dashboards/repstock']">Repstock</a></li>
         </ul>
       </li>
       <li [ngClass]="{active: activeRoute('login')}">
-        <a [routerLink]="['/login']"><i class="fa fa-th-large"></i> <span class="nav-label">Login example</span></a>
+        <a [routerLink]="['/login']"><i class="fa fa-th-large"></i> <span class="nav-label">Iniciar Sesion</span></a>
       </li>
     </ul>
 
