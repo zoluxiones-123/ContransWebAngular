@@ -1,6 +1,6 @@
 {
-  "name": "inspinia",
-  "version": "2.7.1",
+  "name": "constransintranet",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxyconfig.json -o",

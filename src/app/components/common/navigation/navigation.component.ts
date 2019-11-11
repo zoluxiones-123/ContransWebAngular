@@ -12,6 +12,9 @@ declare var jQuery:any;
 export class NavigationComponent {
 
   public usuarionombre:string;
+  public rolactual:string;
+  public entinombre:string;
+
 
   constructor(private router: Router) {
 
@@ -20,6 +23,9 @@ export class NavigationComponent {
 
   ngOnInit() {
     this.usuarionombre = localStorage.getItem("NombreUsuario");
+    this.rolactual = localStorage.getItem("RolActual");
+    this.entinombre = localStorage.getItem("EntiNombre");
+
   }
 
 

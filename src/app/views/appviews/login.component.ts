@@ -63,6 +63,8 @@ export class LoginComponent {
           if (this.UserRPT.IDMsj == 0)
           {
             localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
+            localStorage.setItem("RolActual", this.UserRPT.listRol[0].RolDesc)
+            localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre)
             this.router.navigate(['home']);
           }
           else{

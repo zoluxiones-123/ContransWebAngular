@@ -10,4 +10,5 @@ export interface UserInterfaceRPT {
     DiaCaducacion?: number;
     RolEmpUsuaCodigoDefault?: number;
     Token?: string;
+    listRol: any;
   }
