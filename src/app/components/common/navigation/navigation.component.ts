@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 import 'jquery-slimscroll';
 import { stringify } from 'querystring';
-
+import { switchAll } from 'rxjs/operators';
+import swal from 'sweetalert';
 
 declare var jQuery:any;
 
@@ -63,8 +64,23 @@ export class NavigationComponent {
 
   CambioRol(item: any)
   {
-    localStorage.setItem("RolEmpUsuaCodigoDefault", item.RolCodigo);
-    location.reload();
+    
+    swal({
+      title: "Cambio de Rol",
+      text: "¿Desea cambiar de Rol?",
+      icon: "warning",
+      buttons: ["No","Si"]
+    })
+    .then(willDelete => {
+      if (willDelete) {
+        localStorage.setItem("RolEmpUsuaCodigoDefault", item.RolCodigo);
+        location.reload();
+        swal({text :"Se ha cambiado de rol correctamente", icon:"success"});
+
+      }
+    });
+
+
   }
 
 
