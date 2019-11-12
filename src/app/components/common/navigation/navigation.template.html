@@ -3,14 +3,16 @@
     <ul class="nav metismenu" id="side-menu">
       <li class="nav-header">
         <div class="profile-element" dropdown>
-          <img alt="image" class="img-circle" src="assets/images/profile_small.jpg">
+          <img alt="image" class="img-container" src="assets/images/LogoContrans.png">
+          <br/><br/>
+          <img alt="image" class="img-circle" src="assets/images/Persona.png">
           <a dropdownToggle>
             <span class="block m-t-xs"> <strong class="font-bold">{{this.usuarionombre}}</strong> </span>
             <span class="block m-t-xs">{{this.entinombre}} </span>
             <span class="text-muted text-xs block">{{this.rolactual}} <b class="caret"></b> </span>
           </a>
           <ul class="animated fadeInRight dropdown-menu" >
-            <li *ngFor="let item of this.listarol"><a>{{item.RolDesc}}</a></li>
+            <li *ngFor="let item of this.listarol" (click)="CambioRol(item)"><a>{{item.RolDesc}}</a></li>
           </ul>
         </div>
         <div class="logo-element">

@@ -19,11 +19,6 @@ export class AuthService {
       }
     );
 
-  
-
-  /////////////////////////////////////////////////////////////////////////
-  // ACA ES EL METODO A UTILIZAR
-
   loginuser(usuario: string, password: string): Observable<any> {
     const url_api =`/ContransAPI/api/login/${usuario}/${password}/wddwdw/dwwddw/asasas`;
     return this.http
@@ -35,12 +30,12 @@ export class AuthService {
   }
 
   getIp()
-    {
-      this.http.get<{ip:string}>('https://jsonip.com')
-      .subscribe( data => {
-        localStorage.setItem("DireccionIP", data.ip);
-      })
-    }
+  {
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      localStorage.setItem("DireccionIP", data.ip);
+    })
+  }
 
   loginusuario(login: LoginRQT ): Observable<any> 
   {
@@ -50,17 +45,6 @@ export class AuthService {
         url_api, login, { headers: this.headers })
       .pipe(map(data => data));
   }
-
-  /////////////////////////////////////////////////////////////////////////
-
-  // setUser(user: UserInterfaceRPT): void {
-  //   let user_string = JSON.stringify(user);
-  //   localStorage.setItem("currentUser", user_string);
-  // }
-
-  // setToken(token): void {
-  //   localStorage.setItem("accessToken", token);
-  // }
 
   getToken() {
     return localStorage.getItem("accessToken");
@@ -76,11 +60,4 @@ export class AuthService {
     }
   }
 
-  // logoutUser() {
-  //   let accessToken = localStorage.getItem("accessToken");
-  //   const url_api = `http://localhost:3000/api/Users/logout?access_token=${accessToken}`;
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("currentUser");
-  //   return this.htttp.post<UserInterfaceRPT>(url_api, { headers: this.headers });
-  // }
 }

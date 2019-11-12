@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import 'jquery-slimscroll';
 import { stringify } from 'querystring';
 
+
 declare var jQuery:any;
 
 @Component({
@@ -58,6 +59,12 @@ export class NavigationComponent {
 
   activeRoute(routename: string): boolean{
     return this.router.url.indexOf(routename) > -1;
+  }
+
+  CambioRol(item: any)
+  {
+    localStorage.setItem("RolEmpUsuaCodigoDefault", item.RolCodigo);
+    location.reload();
   }
 
 
