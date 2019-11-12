@@ -61,7 +61,8 @@ export class LoginComponent {
           this.UserRPT = data;
 
           if (this.UserRPT.IDMsj == 0)
-          {
+          { 
+            localStorage.setItem("Usuario", this.login.User);          
             localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
