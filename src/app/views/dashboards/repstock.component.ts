@@ -41,7 +41,6 @@ export class RepstockComponent implements OnInit  {
   private repStockImpRQT: RepStockImpRQT = {
     IDUser: 'jalvarado',
     IDRol: 2
-
   };
 
   title = 'Angular 8 with Chart Js';
