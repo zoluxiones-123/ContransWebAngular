@@ -4,7 +4,7 @@ export class FacturasRQT {
     UnidadNeg : string;
     Desde : string;
     Hasta : string;
-    Docuento : string;
+    Documento : string;
     Cliente : string;
   }
 

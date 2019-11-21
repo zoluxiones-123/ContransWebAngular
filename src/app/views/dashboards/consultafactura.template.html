@@ -3,61 +3,74 @@
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
         <div class="ibox-title">
-          <h5>Custom responsive table </h5>
+          <h5>Consulta de Facturas </h5>
           <iboxtools></iboxtools>
         </div>
         <div class="ibox-content">
-          <!-- aca puede ir la cabecera de datos -->
-          <select >
-            <option *ngFor="let item of this.ListaUnidadNegocio">{{item.UnidadNegocio}}</option>
-          </select>
+          <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
+            <div class="row">
+              <div class="col-sm-4">
+                <select name="listUniNeg" class="form-control" [ngModel] required>
+                  <option value="" selected disabled hidden>--Seleccione--</option>
+                  <option *ngFor="let item of this.ListaUnidadNegocio" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option>
+                </select>
+              </div>
+              <div class="col-sm-2"><div class="form-group"><input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' }" [ngModel] required></div></div>
+              <div class="col-sm-2"><div class="form-group"><input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' }" [ngModel] required></div></div>
+              <div class="col-sm-2"><div class="form-group"><input type="text" name="txtbox_Registro" placeholder="Registro / Nro Documento" class="form-control" [ngModel] required/> </div></div>
+              <div class="col-sm-2"><div class="form-group"><input type="text" name="txtbox_Cliente" placeholder="Cliente" class="form-control" [ngModel] required/> </div></div>
+            </div>
+            <div class="row">
+              <!-- <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary" >Ingresar</button></div> -->
+              <div class="col-sm-4"><button type="button" (click)="CargarGrilla(formFact)" class="btn btn-w-m btn-primary" >Prueba</button></div>
 
-          <!-- <mat-form-field>
-              <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
-          </mat-form-field> -->
+              <div class="col-sm-4"><button type="reset" class="btn btn-w-m btn-default">Limpiar</button></div>
+            </div>
+          </form>
+          <div class="row">
+            <div id="grilla" class="table-responsive">
+            <!-- <div class="table-responsive"> -->
 
-          <div *ngIf="this.SiCargoData" class="table-responsive">
-            <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
-              [dtTrigger]="dtTrigger">
-              <thead>
-                <tr>
-                  <th>FilePath </th>
-                  <th>FilePathXML</th>
-                  <th>Registro </th>
-                  <th>Documento </th>
-                  <th>TipoDoc </th>
-                  <th>DocDate </th>
-                  <th>CardName </th>
-                  <th>NumAtCard </th>
-                  <th>DocCur </th>
-                  <th>Subtotal </th>
-                  <th>Igv </th>
-                  <th>Total </th>
-                  <th>DocDueDate </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of this.objFacturaRPT">
-                  <td><a (click)="Redirrecionar(item.FilePath)" target="_blank"><img
-                        src="../../../assets/images/IconPDF.png"></a></td>
-                  <td><a (click)="Redirrecionar(item.FilePathXML)" target="_blank"><img
-                        src="../../../assets/images/IconXML.png"></a></td>
-                  <td>{{item.Registro}}</td>
-                  <td>{{item.Documento}}</td>
-                  <td>{{item.TipoDoc}}</td>
-                  <td>{{item.DocDate}}</td>
-                  <td>{{item.CardName}}</td>
-                  <td>{{item.NumAtCard}}</td>
-                  <td>{{item.DocCur}}</td>
-                  <td>{{item.Subtotal}}</td>
-                  <td>{{item.Igv}}</td>
-                  <td>{{item.Total}}</td>
-                  <td>{{item.DocDueDate}}</td>
-                </tr>
-              </tbody>
-            </table>
+              <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger">
+                <thead>
+                  <tr>
+                    <th>FilePath </th>
+                    <th>FilePathXML</th>
+                    <th>Registro </th>
+                    <th>Documento </th>
+                    <th>TipoDoc </th>
+                    <th>DocDate </th>
+                    <th>CardName </th>
+                    <th>NumAtCard </th>
+                    <th>DocCur </th>
+                    <th>Subtotal </th>
+                    <th>Igv </th>
+                    <th>Total </th>
+                    <th>DocDueDate </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.objFacturaRPT">
+                    <td><a (click)="Redirrecionar(item.FilePath)" target="_blank"><img
+                          src="../../../assets/images/IconPDF.png"></a></td>
+                    <td><a (click)="Redirrecionar(item.FilePathXML)" target="_blank"><img
+                          src="../../../assets/images/IconXML.png"></a></td>
+                    <td>{{item.Registro}}</td>
+                    <td>{{item.Documento}}</td>
+                    <td>{{item.TipoDoc}}</td>
+                    <td>{{item.DocDate}}</td>
+                    <td>{{item.CardName}}</td>
+                    <td>{{item.NumAtCard}}</td>
+                    <td>{{item.DocCur}}</td>
+                    <td>{{item.Subtotal}}</td>
+                    <td>{{item.Igv}}</td>
+                    <td>{{item.Total}}</td>
+                    <td>{{item.DocDueDate}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
