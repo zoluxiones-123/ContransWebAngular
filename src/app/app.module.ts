@@ -13,7 +13,6 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 
 // App modules/components
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RepfillrateComponent } from './views/dashboards/repfillrate.component';
 import { SuscripComponent } from './views/appviews/suscrip.component';
 import { ReactiveFormsModule } from '@angular/forms';
