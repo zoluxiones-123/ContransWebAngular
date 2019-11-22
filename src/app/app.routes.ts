@@ -7,11 +7,13 @@ import {Dashboard4Component} from "./views/dashboards/dashboard4.component";
 import {Dashboard41Component} from "./views/dashboards/dashboard41.component";
 import {Dashboard5Component} from "./views/dashboards/dashboard5.component";
 
-import { RepstockComponent } from "./views/dashboards/repstock.component";
+import {RepstockComponent } from "./views/dashboards/repstock.component";
+import {RepfillrateComponent} from  "./views/dashboards/repfillrate.component";
 
 
 import {StarterViewComponent} from "./views/appviews/starterview.component";
 import {LoginComponent} from "./views/appviews/login.component";
+import {SuscripComponent} from "./views/appviews/suscrip.component";
 
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
 import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.component";
@@ -30,7 +32,9 @@ export const ROUTES:Routes = [
       {path: 'dashboard3', component: Dashboard3Component},
       {path: 'dashboard4', component: Dashboard4Component},
       {path: 'dashboard5', component: Dashboard5Component},
-      {path: 'repstock', component: RepstockComponent}
+      {path: 'repstock', component: RepstockComponent},
+      {path: 'repfillrate', component: RepfillrateComponent},
+      {path: 'suscripcion', component: SuscripComponent}
 
     ]
   },

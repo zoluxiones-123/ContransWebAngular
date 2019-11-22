@@ -13,5 +13,6 @@ export class RepStockImpRPT {
     CNTSTK_ALR: number;
     CNTSTK_ALA: number;
     CNTSTK_ALV: number;
+    CNTSTK_ALG: number;
     CNTSTK_EN: any;
   }

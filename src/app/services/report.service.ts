@@ -7,7 +7,14 @@ import { LoginRQT } from "../models/user-LoginRQT";
 
 import { RepStockImpRQT } from "../models/rep_stockimpRQT";
 import { RepStockImpRPT } from "../models/rep_stockimpRPT";
-
+import { RepEriRPT } from "../models/rep_eriRPT";
+import { RepEriRQT } from "../models/rep_eriRQT";
+import { RepOcupabilidad } from "../models/rep_ocupabilidad";
+import { RepFillRate } from "../models/rep_fillrate";
+import { SolicitudInscrip } from '../models/solicinsc';
+import { RespSolicitud } from '../models/resp_solicinsc';
+import { Entidades } from '../models/entidad';
+import { entidad } from '../models/entidad';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +43,50 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  SolicitudInsc(solicitudInsc: SolicitudInscrip ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/solicitodregistro`;    
+    return this.http
+      .post<RespSolicitud>(
+        url_api, solicitudInsc, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getOcupabilidad(repstockrqt: RepStockImpRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/ocupabilidad`;    
+    return this.http
+      .post<RepOcupabilidad>(
+        url_api, repstockrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getListaEntidades(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/entidadlist`;    
+    return this.http
+      .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+  
+  getEri(reperirqt: RepEriRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/eri`;    
+    return this.http
+      .post<RepEriRPT>(
+        url_api, reperirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getFillRate(repstockrqt: RepStockImpRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/fillrate`;    
+    return this.http
+      .post<RepFillRate>(
+        url_api, repstockrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
   /////////////////////////////////////////////////////////////////////////
 
   // setUser(user: UserInterfaceRPT): void {

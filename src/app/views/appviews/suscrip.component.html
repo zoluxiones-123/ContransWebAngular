@@ -1,0 +1,108 @@
+
+
+ <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="RegistrarSusc(formFact)">
+  <div class="row"   >               
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Datos del Cliente</h5>            
+            </div>
+            <div class="ibox-content">
+                
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Razon Social</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="txtbox_razonSocial" class="form-control" [ngModel] >
+                        </div>
+                    </div>       
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Razon Social</label>
+                    <div class="col-sm-10">
+                    
+                    <select name="listUniNeg" class="form-control" [ngModel] required>
+                        <option value="" selected disabled hidden></option>
+                        <option *ngFor="let item of this.ListaEntidades" [value]="item.Entidad">{{item.Nombre}}</option>
+                    </select>
+
+                    </div>
+                    </div>  
+
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Razon Social</label>
+                        <div class="col-sm-10">                                
+                            <mat-form-field>
+                                <input
+                                  type="text"
+                                  placeholder="Pick one"
+                                  matInput
+                                  [formControl]="myControl"
+                                  [matAutocomplete]="auto"
+                                />
+                             
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option *ngFor="let option of (filteredOptions | async)" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>                                
+                        </div>
+                    </div>  
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Datos Generales</h5>               
+            </div>
+            <div class="ibox-content">
+                
+
+
+
+                    <div class="form-group  row"><label class="col-sm-2 col-form-label">Nombres(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_nombres" class="form-control" [ngModel]></div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group  row"><label class="col-sm-2 col-form-label">Apellidos(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_apellidos" class="form-control" [ngModel]></div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Cargo(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_cargo" class="form-control" [ngModel]   ></div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Documento de Identidad(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_docIdentidad" class="form-control" [ngModel]></div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Telefono(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_telefono" class="form-control" [ngModel] ></div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Celular(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_celular" class="form-control" [ngModel]></div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Correo Confirmacion(*)</label>
+                        <div class="col-sm-10"><input type="text" name="txtbox_correo" class="form-control" [ngModel]></div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                    <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary">Ingresar</button></div>
+                    </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</form>
