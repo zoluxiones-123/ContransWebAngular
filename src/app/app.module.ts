@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from "@angular/router";
@@ -14,11 +14,41 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 // App modules/components
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RepfillrateComponent } from './views/dashboards/repfillrate.component';
+import { SuscripComponent } from './views/appviews/suscrip.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatSelectModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
-  declarations: [ AppComponent ],
-  imports:      [ BrowserModule, FormsModule, HttpModule, DashboardsModule, LayoutsModule, AppviewsModule, RouterModule.forRoot(ROUTES), BrowserAnimationsModule],
-  providers:    [{provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap:    [AppComponent]
+  declarations: [
+    AppComponent,
+    RepfillrateComponent,
+    SuscripComponent
+   
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    DashboardsModule,
+    LayoutsModule,
+    AppviewsModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(ROUTES),
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxMatSelectSearchModule
+  
+  ],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  bootstrap: [AppComponent]
+
+  
 })
 export class AppModule { }

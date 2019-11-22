@@ -36,11 +36,15 @@ export class RepstockComponent implements OnInit  {
   public stkAlr : string;
   public stkAla : string;
   public stkAlv : string;
+  public stkAlg : string;
   public esAgenteAduanas : boolean;
+  public seVisualiza: boolean;
           
   private repStockImpRQT: RepStockImpRQT = {
-    IDUser: 'jalvarado',
-    IDRol: 2
+    IDUser: 0,
+    IDRol: 2,
+    UniNeg : ''
+
   };
 
   title = 'Angular 8 with Chart Js';
@@ -57,12 +61,13 @@ export class RepstockComponent implements OnInit  {
   
   ngOnInit() {
 
-    this.reportService.getStockImp(this.repStockImpRQT);   
+    //this.reportService.getStockImp(this.repStockImpRQT);   
     
     this.esAgenteAduanas = localStorage.getItem("RolEmpUsuaCodigoDefault") != "2";
 
-    this.repStockImpRQT.IDUser = localStorage.getItem("Usuario").toString();   
+    this.repStockImpRQT.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.repStockImpRQT.IDRol = Number(localStorage.getItem("RolEmpUsuaCodigoDefault").toString()); 
+    this.seVisualiza = false;
    
     return this.reportService
     //.loginuser(this.user.Usuario, this.user.Password)
@@ -71,39 +76,50 @@ export class RepstockComponent implements OnInit  {
     data => {
       
       this.repStockImpRPT = data;
+      this.seVisualiza = (data != null);
+
+      if (data !=null)
+      {
+        this.seVisualiza = this.repStockImpRPT.CNTSTK_TOT > 0;
+      }
+
+      if (this.seVisualiza == false)
+      {
+          //this.router.navigate(['home']);
+      }
+
 
       if (this.repStockImpRPT.CNTSTK_TOT != 0)
       {
-        localStorage.setItem("StockTotal", this.repStockImpRPT.CNTSTK_TOT.toString());
-        localStorage.setItem("Stock20", this.repStockImpRPT.CNTSTK_20.toString());
-        localStorage.setItem("Stock40", this.repStockImpRPT.CNTSTK_40.toString());
-        localStorage.setItem("Stock20ST", this.repStockImpRPT.CNTSTK_20ST.toString());
-        localStorage.setItem("Stock20OT", this.repStockImpRPT.CNTSTK_20OT.toString());
+        //localStorage.setItem("StockTotal", this.repStockImpRPT.CNTSTK_TOT.toString());
+        //localStorage.setItem("Stock20", this.repStockImpRPT.CNTSTK_20.toString());
+        //localStorage.setItem("Stock40", this.repStockImpRPT.CNTSTK_40.toString());
+        //localStorage.setItem("Stock20ST", this.repStockImpRPT.CNTSTK_20ST.toString());
+        //localStorage.setItem("Stock20OT", this.repStockImpRPT.CNTSTK_20OT.toString());
 
-        localStorage.setItem("Stock40ST", this.repStockImpRPT.CNTSTK_40ST.toString());
-        localStorage.setItem("Stock40HC", this.repStockImpRPT.CNTSTK_40HC.toString());
-        localStorage.setItem("Stock40OT", this.repStockImpRPT.CNTSTK_40OT.toString());
+        //localStorage.setItem("Stock40ST", this.repStockImpRPT.CNTSTK_40ST.toString());
+        //localStorage.setItem("Stock40HC", this.repStockImpRPT.CNTSTK_40HC.toString());
+        //localStorage.setItem("Stock40OT", this.repStockImpRPT.CNTSTK_40OT.toString());
 
-        localStorage.setItem("StockAlr", this.repStockImpRPT.CNTSTK_ALR.toString());
-        localStorage.setItem("StockAla", this.repStockImpRPT.CNTSTK_ALA.toString());
-        localStorage.setItem("StockAlv", this.repStockImpRPT.CNTSTK_ALV.toString());
-
-       
-        
+        //localStorage.setItem("StockAlr", this.repStockImpRPT.CNTSTK_ALR.toString());
+        //localStorage.setItem("StockAla", this.repStockImpRPT.CNTSTK_ALA.toString());
+        //localStorage.setItem("StockAlv", this.repStockImpRPT.CNTSTK_ALV.toString());
 
                 
         localStorage.setItem("ListaClientes",JSON.stringify(this.repStockImpRPT.CNTSTK_EN));
-        this.stocktotal = localStorage.getItem("StockTotal");
-        this.stk20 =  localStorage.getItem("Stock20");
-        this.stk40 = localStorage.getItem("Stock40");
 
-        this.stk20ST = localStorage.getItem("Stock20ST");
-        this.stk20OT = localStorage.getItem("Stock20OT");
+        //this.stocktotal = localStorage.getItem("StockTotal");
+        this.stocktotal = this.repStockImpRPT.CNTSTK_TOT.toString();        
+        this.stk20 =  this.repStockImpRPT.CNTSTK_20.toString();
+        this.stk40 = this.repStockImpRPT.CNTSTK_40.toString();
 
-        this.stk40ST = localStorage.getItem("Stock40ST");
-        this.stk40HC = localStorage.getItem("Stock40HC");
-        this.stk40OT = localStorage.getItem("Stock40OT");
-        
+        this.stk20ST =  this.repStockImpRPT.CNTSTK_20ST.toString();
+        this.stk20OT =  this.repStockImpRPT.CNTSTK_20OT.toString();
+
+        this.stk40ST = this.repStockImpRPT.CNTSTK_40ST.toString();
+        this.stk40HC = this.repStockImpRPT.CNTSTK_40HC.toString();
+        this.stk40OT = this.repStockImpRPT.CNTSTK_40OT.toString();
+                      
         let listaclientes = JSON.parse(localStorage.getItem("ListaClientes"));
 
         listaclientes.forEach(item => {          
@@ -111,22 +127,24 @@ export class RepstockComponent implements OnInit  {
           this.YLabels.push(item.CNTSTK.toString());             
         });
 
-        localStorage.setItem("StockME15", this.repStockImpRPT.CNTSTK_ME15.toString());
-        localStorage.setItem("Stock1530", this.repStockImpRPT.CNTSTK_1530.toString());
-        localStorage.setItem("StockMA30", this.repStockImpRPT.CNTSTK_MA30.toString());
+        //localStorage.setItem("StockME15", this.repStockImpRPT.CNTSTK_ME15.toString());
+        //localStorage.setItem("Stock1530", this.repStockImpRPT.CNTSTK_1530.toString());
+        //localStorage.setItem("StockMA30", this.repStockImpRPT.CNTSTK_MA30.toString());
 
-        this.stkMe15 = localStorage.getItem("StockME15");
-        this.stk1530 = localStorage.getItem("Stock1530");
-        this.stkMa30 = localStorage.getItem("StockMA30");
+        this.stkMe15 = this.repStockImpRPT.CNTSTK_ME15.toString();
+        this.stk1530 = this.repStockImpRPT.CNTSTK_1530.toString();
+        this.stkMa30 = this.repStockImpRPT.CNTSTK_MA30.toString();
 
         this.YStCT.push(this.stkMe15.toString());
         this.YStCT.push(this.stk1530.toString());
         this.YStCT.push(this.stkMa30.toString());
 
-        this.stkAlr = localStorage.getItem("StockAlr"); 
-        this.stkAla = localStorage.getItem("StockAla");
-        this.stkAlv = localStorage.getItem("StockAlv");
+        this.stkAlr = this.repStockImpRPT.CNTSTK_ALR.toString();
+        this.stkAla = this.repStockImpRPT.CNTSTK_ALA.toString();
+        this.stkAlv = this.repStockImpRPT.CNTSTK_ALV.toString();
+        this.stkAlg = this.repStockImpRPT.CNTSTK_ALG.toString();
 
+        this.YAband.push(this.stkAlg.toString());
         this.YAband.push(this.stkAlr.toString());
         this.YAband.push(this.stkAla.toString());
         this.YAband.push(this.stkAlv.toString());
@@ -142,14 +160,15 @@ export class RepstockComponent implements OnInit  {
         this.onIsError();   
       }
 
-      
-      
+     // this.router.navigate(['home']);    
 
     },  
     error => {
       this.onIsError();           
       console.log("Error");}
     );
+  
+   //this.router.navigate(['home']);    
 
   }
 
@@ -158,33 +177,65 @@ export class RepstockComponent implements OnInit  {
     this.BarChart = new Chart('barChart', {
       type: 'bar',
       data: {
-          labels: this.XLabels,
+          //labels: this.XLabels,
+          labels: ['Clientes'],       
           datasets: [{
-              label: 'Número de Contenedores',
-              data: this.YLabels,
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(255, 206, 16, 0.2)'
+            label: this.XLabels[0].toString(),
+            backgroundColor: 'rgba(255, 122, 51, 0.68)',
+            borderColor : 'rgba(255, 122, 51, 1)',
+            data: [this.YLabels[0].toString()]
+            },  
+            { label: this.XLabels[1].toString(),
+              backgroundColor: 'rgba(51, 255, 243, 0.65)',
+              borderColor : 'rgba(51, 255, 243, 1)',
+              data: [this.YLabels[1].toString()]
+            },
+            { label: this.XLabels[2].toString(),
+              backgroundColor: 'rgba(51, 255, 88, 0.75)',
+              borderColor : 'rgba(51, 255, 88, 1)',
+              data: [this.YLabels[2].toString()]
+            },
+            { label: this.XLabels[3].toString(),
+              backgroundColor: 'rgba(51, 82, 255, 0.66)',
+              borderColor : 'rgba(51, 82, 255, 1)',
+              data: [this.YLabels[3].toString()]
+            },
+        
+        ]   
+          //datasets: [{
+           //   label: 'Número de Contenedores',
+           //   data: this.YLabels,
+            //  backgroundColor: [                 
+              //    'rgba(255, 122, 51, 0.68)',
+              //    'rgba(51, 255, 243, 0.65)',
+              //    'rgba(51, 255, 88, 0.75)',
+              //    'rgba(51, 82, 255, 0.66)'
                   
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(255, 206, 86, 1)'                  
-              ],
-              borderWidth: 1
-          }]
+              //],
+              //borderColor: [
+              //  'rgba(255, 122, 51, 1)',
+              //  'rgba(51, 255, 243, 1)',
+              //  'rgba(51, 255, 88, 1)',
+              //  'rgba(51, 82, 255, 1)'             
+              //],
+              //borderWidth: 1
+          //}]
       },
-      options: {
+    options: {       
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: "#000080",
+        }
+      },
         title: {
-          text : "Stock de Contenedores x Cliente",
+          text : "Stock de Contenedores por Cliente",
           display : true
         },
           scales: {
             xAxes:[{
+              position : 'bottom',
               scaleLabel: {
                 display: true,
                 labelString: 'Clientes'
@@ -192,7 +243,10 @@ export class RepstockComponent implements OnInit  {
               barPercentage: 0.2,
               gridLines: {
               display:false
-              }
+              },
+              ticks: {
+                display: false
+            }
               }],
               yAxes: [{
                 scaleLabel: {
@@ -210,17 +264,19 @@ export class RepstockComponent implements OnInit  {
   this.BarChartH = new Chart('barChartH', {
     type: 'horizontalBar',
     data: {
-        labels: ['1-5 dias', '6-11 dias', '> 11 dias' ],
+        labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
         datasets: [{
             label: 'Número de Contenedores',
             data: this.YAband,
             backgroundColor: [
+                'rgba(2, 4, 12, 0.68)',
                 'rgba(229, 10, 9, 0.68)',
                 'rgba(255, 251, 29, 0.75)',
                 'rgba(54, 179, 63, 0.65)'
                 
             ],
             borderColor: [
+                'rgba(2, 4, 12, 0.68)',
                 'rgba(229, 10, 9, 1)',
                 'rgba(255, 251, 29, 1)',
                 'rgba(54, 179, 63, 1)'
@@ -229,9 +285,12 @@ export class RepstockComponent implements OnInit  {
             borderWidth: 1
         }]
     },
-    options: {
+    options: {      
+        legend: {
+            display: false,
+        },
       title: {
-        text : "Abandono Legal x Cliente/Agencia Aduanas/Agente Cargo",
+        text : "Abandono Legal",
         display : true
       },
         scales: {
@@ -270,23 +329,27 @@ export class RepstockComponent implements OnInit  {
             label: 'Número de Contenedores',
             data: this.YStCT,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
+              'rgba(255, 122, 51, 0.68)',
+              'rgba(51, 255, 243, 0.65)',
+              'rgba(51, 255, 88, 0.75)',
                 
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)'
+              'rgba(255, 122, 51, 1)',
+              'rgba(51, 255, 243, 1)',
+              'rgba(51, 255, 88, 1)',
                 
             ],
             borderWidth: 1
         }]
     },
     options: {
+      legend: {
+        position : 'right',
+        display: false,
+      },
       title: {
-        text : "Stock de Contenedores x Capacidad y Tipo",
+        text : "Stock de Contenedores por Tipo",
         display : true
       },
         scales: {

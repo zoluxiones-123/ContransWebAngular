@@ -20,9 +20,9 @@ import swal from 'sweetalert';
 
     public SiCargoData = true;
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
+    
     constructor(private reportService: ReportService) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
-
      }
     
     dtTrigger:Subject<any> = new Subject();
@@ -84,8 +84,7 @@ import swal from 'sweetalert';
       }
 
       if(this.ValidarErorresInput(this.objFacturaRQT))
-      {
-        
+      {        
         swal({
               text: "Error en los campos de ingreso, por favor verificar",
               icon: "warning",
@@ -106,6 +105,7 @@ import swal from 'sweetalert';
           {
             swal("No existen datos");
           }
+          this.dtTrigger.unsubscribe();
         }, 
         error => {
           swal("Error al cargar los datos"); 
