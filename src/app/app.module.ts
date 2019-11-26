@@ -12,16 +12,19 @@ import { DashboardsModule } from "./views/dashboards/dashboards.module";
 import { AppviewsModule } from "./views/appviews/appviews.module";
 
 // App modules/components
+import { TopNavigationLayoutComponent } from './components/common/layouts/topNavigationlayout.component';
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RepfillrateComponent } from './views/dashboards/repfillrate.component';
 import { SuscripComponent } from './views/appviews/suscrip.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSelectModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 
 @NgModule({
   declarations: [
@@ -43,8 +46,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    NgxMatSelectSearchModule
-  
+    NgxMatSelectSearchModule,
+    ModalModule.forRoot()
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]

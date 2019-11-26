@@ -20,6 +20,7 @@ import swal from 'sweetalert';
 
     public SiCargoData = true;
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
+    public TieneData = false;
     
     constructor(private reportService: ReportService) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
@@ -73,6 +74,12 @@ import swal from 'sweetalert';
 
     public CargarGrilla(form: NgForm) {
 
+      if (this.TieneData)
+      {
+        return;
+      }
+
+
       this.objFacturaRQT = {
         IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -100,6 +107,7 @@ import swal from 'sweetalert';
             this.SiCargoData = true;
             this.dtTrigger.next(this.objFacturaRPT);
             this.SetGrillaVisibility(true);
+            this.TieneData = true;
           }
           else
           {
@@ -139,5 +147,10 @@ import swal from 'sweetalert';
       else {
         document.getElementById('grilla').style.visibility = "hidden";
       }
+    }
+
+    public SiTieneData(param :boolean)
+    {
+      this.TieneData = false;
     }
   }

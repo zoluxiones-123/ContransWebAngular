@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef} from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { UserInterfaceRQT } from 'app/models/user-interfaceRQT';
 import { UserInterfaceRPT } from 'app/models/user-interfaceRPT';
@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { LoginRQT } from 'app/models/user-LoginRQT';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
 
@@ -16,8 +17,10 @@ import { LoginRQT } from 'app/models/user-LoginRQT';
 })
 export class LoginComponent { 
 
-  constructor(private authService: AuthService, private router: Router, private location: Location) { }
-  private user: UserInterfaceRQT = {
+  modalRef: BsModalRef;
+
+  constructor(private authService: AuthService, private router: Router, private location: Location, private modalService: BsModalService) { }
+  public user: UserInterfaceRQT = {
     Usuario: '',
     Password: ''
   };
@@ -67,20 +70,13 @@ export class LoginComponent {
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
-            this.router.navigate(['home']);
+            this.router.navigate(['starterview']);
           }
           else{
             localStorage.removeItem('NombreUsuario');   
             localStorage.removeItem('DireccionIP');           
             this.onIsError();   
           }
-
-          
-          // location.reload();
-          // console.log("Exito");
-          // console.log(data);
-          // console.log(data[0].UsuaNombres);
-
         },  
         error => {
           this.onIsError();           
@@ -101,13 +97,20 @@ export class LoginComponent {
     }, 4000);
   }
 
-
-
   omit_special_char(val)
   {
     var k = val.keyCode;
     var res = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
     return res
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  onRecoverPass(form: NgForm){
+    
+
   }
 
 }
