@@ -2,8 +2,8 @@ export class FacturasRQT {
     IDUSer : number;
     IDRol : number;
     UnidadNeg : string;
-    Desde : string;
-    Hasta : string;
+    Desde : any;
+    Hasta : any;
     Documento : string;
     Cliente : string;
   }

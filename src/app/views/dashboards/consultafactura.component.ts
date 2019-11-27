@@ -21,6 +21,7 @@ import swal from 'sweetalert';
     public SiCargoData = true;
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
     public TieneData = false;
+    public UnidadNegSelect:string;
     
     constructor(private reportService: ReportService) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
@@ -46,7 +47,7 @@ import swal from 'sweetalert';
         {
           sortAscending :"Activar para ordenar la columna de manera ascendente",
           sortDescending: "Activar para ordenar la columna de manera descendente"
-        }                
+        }
       }
     };
 
@@ -65,6 +66,7 @@ import swal from 'sweetalert';
     
     public ngOnInit():any {      
       this.SetGrillaVisibility(false);
+      this.SetClienteInput();
     }
     
 
@@ -83,14 +85,14 @@ import swal from 'sweetalert';
       this.objFacturaRQT = {
         IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
-        UnidadNeg : form.value.listUniNeg,
-        Desde : form.value.txtbox_Desde.toLocaleDateString(),
-        Hasta : form.value.txtbox_Hasta.toLocaleDateString(),
+        UnidadNeg : this.UnidadNegSelect,
+        Desde : form.value.txtbox_Desde,
+        Hasta : form.value.txtbox_Hasta,
         Documento : form.value.txtbox_Registro,
         Cliente : form.value.txtbox_Cliente
       }
 
-      if(this.ValidarErorresInput(this.objFacturaRQT))
+      if(this.ValidarInput(this.objFacturaRQT))
       {        
         swal({
               text: "Error en los campos de ingreso, por favor verificar",
@@ -126,17 +128,32 @@ import swal from 'sweetalert';
       this.dtTrigger.unsubscribe();
     }
 
-    public ValidarErorresInput(param : FacturasRQT) : boolean
+    public ValidarInput(param : FacturasRQT) : boolean
     {
-      if (param.UnidadNeg === undefined || param.Desde === undefined || param.Hasta === undefined || param.Documento === undefined|| param.Cliente === undefined)
+      if (this.NullEmpty(this.UnidadNegSelect) ||this.NullEmpty(param.Desde) || this.NullEmpty(param.Hasta))
       {
         return true;
       }
 
-      if (param.UnidadNeg == null || param.Desde == null || param.Hasta == null || param.Documento == null || param.Cliente == null)
+      this.objFacturaRQT.Desde = this.objFacturaRQT.Desde.toLocaleDateString();
+      this.objFacturaRQT.Hasta = this.objFacturaRQT.Hasta.toLocaleDateString();
+
+      if(this.NullEmpty(param.Documento))
       {
-        return true;
+        this.objFacturaRQT.Documento = " ";
       }
+
+      if(this.NullEmpty(param.Cliente))
+      {
+        this.objFacturaRQT.Cliente = " ";
+      }
+
+      return false;
+    }
+
+    public NullEmpty (param:any) : boolean
+    {
+      return !(typeof param!='undefined' && param)
     }
 
     public SetGrillaVisibility(param:boolean)
@@ -153,4 +170,24 @@ import swal from 'sweetalert';
     {
       this.TieneData = false;
     }
+
+    public ChangingValue(param : any)
+    {
+      this.UnidadNegSelect = param.target.value;
+    }
+
+    public SetClienteInput()
+    {
+      let enticodigo = localStorage.getItem("EntiCodigo");
+      let entiNombre = localStorage.getItem("EntiNombre");
+
+      if (enticodigo != "002915")
+      {
+        document.getElementById("txtbox_Cliente").textContent = entiNombre;
+        document.getElementById("txtbox_Cliente").innerText = entiNombre;
+        document.getElementById("txtbox_Cliente").setAttribute("placeholder",entiNombre)
+        document.getElementById("txtbox_Cliente").setAttribute("disabled","true");
+      }
+    }
+
   }

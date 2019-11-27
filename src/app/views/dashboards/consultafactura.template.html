@@ -9,28 +9,31 @@
         <div class="ibox-content">
           <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
             <div class="row">
-              <div class="col-sm-4">
-                <select name="listUniNeg" class="form-control" [ngModel] required>
-                  <option value="" selected disabled hidden>--Seleccione--</option>
-                  <option *ngFor="let item of this.ListaUnidadNegocio" [value]="item.IDUnidadNegocio">
-                    {{item.UnidadNegocio}}</option>
+              <div class="col-sm-2">
+                <select name="listUniNeg"  class="form-control" (change)="ChangingValue($event)">
+                  <option [value]="" selected hidden>--Seleccione--</option>
+                  <option *ngFor="let item of this.ListaUnidadNegocio" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option>
                 </select>
               </div>
               <div class="col-sm-2">
-                <div class="form-group"><input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control"
-                    bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' }" [ngModel] required></div>
+                <div class="form-group">
+                  <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control"bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' }" [ngModel] required>
+                </div>
               </div>
               <div class="col-sm-2">
-                <div class="form-group"><input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control"
-                    bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' }" [ngModel] required></div>
+                <div class="form-group">
+                  <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' }" [ngModel] required>
+                </div>
               </div>
               <div class="col-sm-2">
-                <div class="form-group"><input type="text" name="txtbox_Registro" placeholder="Registro / Nro Documento"
-                    class="form-control" [ngModel] required /> </div>
+                <div class="form-group">
+                  <input type="text" name="txtbox_Registro" placeholder="Registro / Nro Documento" class="form-control" [ngModel] required /> 
+                </div>
               </div>
-              <div class="col-sm-2">
-                <div class="form-group"><input type="text" name="txtbox_Cliente" placeholder="Cliente"
-                    class="form-control" [ngModel] required /> </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <input id ="txtbox_Cliente" type="text" name="txtbox_Cliente" placeholder="Cliente" class="form-control" [ngModel] required />
+                </div>
               </div>
             </div>
             <div class="row">

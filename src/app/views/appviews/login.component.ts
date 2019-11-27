@@ -70,6 +70,7 @@ export class LoginComponent {
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
+            localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
             this.router.navigate(['starterview']);
           }
           else{
@@ -110,7 +111,10 @@ export class LoginComponent {
 
   onRecoverPass(form: NgForm){
     
+  }
+
+  onItemChange(param){
 
   }
 
-}
+}   
