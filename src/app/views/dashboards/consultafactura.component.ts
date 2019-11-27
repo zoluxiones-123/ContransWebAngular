@@ -4,11 +4,7 @@ import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataTableDirective } from 'angular-datatables';
-
-
 import swal from 'sweetalert';
-
-
 
 
 @Component({
@@ -28,10 +24,15 @@ import swal from 'sweetalert';
      }
     
     dtTrigger:Subject<any> = new Subject();
-    dtOptions : DataTables.Settings = {
+    dtOptions : any = {
       pagingType: 'full_numbers',
       pageLength: 10,
       searching: false,
+      dom: 'Bfrtip',
+      buttons: [
+        'colvis',
+        'excel'
+      ],
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",
@@ -42,6 +43,10 @@ import swal from 'sweetalert';
           last:     "Último",
           next:     "Siguiente",
           previous: "Anterior"
+        },
+        buttons : {
+          colvis : "Mostrar/Ocultar Columnas",
+          excel : "Exportar a Excel"
         },
         aria :
         {
