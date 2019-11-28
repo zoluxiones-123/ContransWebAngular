@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, } from '@angular/core';
 
 @Component({
-  selector: 'starter',
+  selector: 'starter', 
   templateUrl: 'starter.template.html'
 })
 export class StarterViewComponent implements OnDestroy, OnInit  {

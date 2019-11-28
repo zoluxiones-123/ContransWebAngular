@@ -16,7 +16,7 @@
           [(ngModel)]="user.Password" required>
       </div>
       <button type="submit" class="btn btn-primary block full-width m-b">Ingresar</button>
-      <div class="form-group"> Registrarse en la Extranet <a routerLink="/user/register"> Click aquí</a>
+      <div class="form-group"> Registrarse en la Extranet <a (click)="onCreate()"> Click aquí</a>
       </div>
     </form>
 

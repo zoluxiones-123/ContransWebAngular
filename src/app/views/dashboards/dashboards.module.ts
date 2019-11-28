@@ -30,6 +30,7 @@ import { es } from 'ngx-bootstrap/locale';
 defineLocale('es', es);
 
 
+
 @NgModule({
   declarations: [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component,RepstockComponent,ConsultaFacturaComponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule],
