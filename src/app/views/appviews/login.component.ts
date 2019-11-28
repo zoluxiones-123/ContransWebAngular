@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { LoginRQT } from 'app/models/user-LoginRQT';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
 
 
@@ -50,7 +50,6 @@ export class LoginComponent {
       this.login.Ip =  localStorage.getItem("DireccionIP")
        
       return this.authService
-        //.loginuser(this.user.Usuario, this.user.Password)
         .loginusuario(this.login)
         .subscribe(
         data => {
@@ -106,15 +105,16 @@ export class LoginComponent {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   onRecoverPass(form: NgForm){
     
   }
 
-  onItemChange(param){
-
+  onItemChange(param :any){
+    
   }
 
 }   
