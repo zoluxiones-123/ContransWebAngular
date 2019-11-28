@@ -7,7 +7,7 @@ import {Dashboard3Component} from "./dashboard3.component";
 import {Dashboard4Component} from "./dashboard4.component";
 import {Dashboard41Component} from "./dashboard41.component";
 import {Dashboard5Component} from "./dashboard5.component";
-import { RepstockComponent } from "./repstock.component";
+
 
 
 // Chart.js Angular 2 Directive by Valor Software (npm)
@@ -20,8 +20,9 @@ import { SparklineModule } from '../../components/charts/sparkline';
 import { JVectorMapModule } from '../../components/map/jvectorMap';
 
 
+
 @NgModule({
-  declarations: [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component,RepstockComponent],
+  declarations: [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule],
   exports     : [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component],
 })

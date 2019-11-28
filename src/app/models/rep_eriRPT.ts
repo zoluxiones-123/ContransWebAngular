@@ -9,5 +9,7 @@ export class RepEriRPT {
     TotalFecha: number;
     TotalGe: number;
     UnidNegoDescripcion: string;
+    Faltantes: number;
+    FaltantesG: number;
     Data: any;
   }

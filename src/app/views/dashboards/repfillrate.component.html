@@ -1,10 +1,10 @@
-<section id="report">
-<div class="row">
+<section id="report">      
+
+<div *ngIf = "this.seVisualizaFillRate" class="row">
   <div class="col-lg-3">
       <div class="ibox ">
           <div class="ibox-title">                             
-              <h5 class="font-bold text-navy">% Ocupabilidad {{this.mes}} {{this.anio}}</h5>           
-              
+              <h5 class="font-bold text-navy">% Ocupabilidad {{this.mes}} {{this.anio}}</h5>                         
           </div>
       <div class="ibox-content">                     
                 <h3 class="font-bold text-danger">{{this.valor}}%</h3>
@@ -67,12 +67,16 @@
                                 <td class="text-navy"> {{this.sindif}}</td>
                                 <td class="text-navy"> {{this.sindifg}} </td>
                             </tr>
-                            <tr>
-                               
+                            <tr>                               
                                 <td class="text-navy">Sobrante</td>
                                 <td class="text-navy"> {{this.sob}}</td>
                                 <td class="text-navy"> {{this.sobg}} </td>
                             </tr>
+                            <tr>                               
+                                    <td class="text-navy">Faltante</td>
+                                    <td class="text-navy"> {{this.falt}}</td>
+                                    <td class="text-navy"> {{this.faltg}} </td>
+                                </tr>
                             <tr>
                               
                                 <td class="font-bold">Total General</td>
@@ -90,18 +94,21 @@
 
 </div>
 
-<div class="row">    
-        <div class="col-lg-12">
+<div *ngIf = "this.seVisualizaFillRate" class="row">    
+        <div class="col-lg-9">
             <div class="ibox ">            
                 <div class="ibox-content">
                     <div class="row">                          
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <td style ="width: 700px; height : 50%"> <canvas id="lineChart"  ></canvas>  </td>
                         </div>                  
                     </div>
                </div>
-          </div>
-        </div>   
-        </div>
+           </div>
+       </div>   
+</div>
+
+      
+
 
 </section>

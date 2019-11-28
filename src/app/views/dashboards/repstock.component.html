@@ -8,8 +8,7 @@
                                     <ul class="stat-list">
                                         <li>
                                             <div class="ibox ">
-                                                <div class="ibox-title">
-                                                    <span class="label label-success float-left">Tipo 20H</span>                                    
+                                                <div class="ibox-title">                                                                                       
                                                 </div>
                                                 <div class="ibox-content">
                                                     <h1 class="no-margins">{{this.stocktotal}}</h1>
@@ -40,7 +39,6 @@
                             <li>
                                 <div class="ibox ">
                                     <div class="ibox-title">
-                                        <span class="label label-success float-left">Stock x Capacidad y Tipo</span>                                    
                                     </div>
                                     <div class="ibox-content">
                                         <h1 class="no-margins">{{this.stocktotal}}</h1>
@@ -53,29 +51,36 @@
             <div class="col-lg-6">
                 <td style ="width: 700px; height : 50%"> <canvas id="barChart2"  ></canvas>  </td>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <ul class="stat-list">
                     <li>
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <span class="label label-success float-left">Tipo 20H</span>                                    
+                                <span class="label label-success float-left">Tamaño 20</span>                                    
                             </div>
                             <div class="ibox-content">
                                 <h1 class="no-margins">{{this.stk20}}</h1>
                                 <small>Contenedores</small>
-                                <div class="stat-percent font-bold text-success"> {{this.stk20ST}} ST {{this.stk20OT}} Otros<i class="fa fa-bolt"></i></div>                                    
+                                <div class="stat-percent"> 
+                                        <span class="font-bold text-danger">{{this.stk20ST}} ST </span>
+                                        <span class="font-bold text-navy">{{this.stk20OT}} Otros </span>                                
+                                </div>                                    
                             </div>
                         </div>
                     </li>
                     <li>
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <span class="label label-success float-left">Tipo 40H</span>                                    
+                                <span class="label label-success float-left">Tamaño 40</span>                                    
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{this.stk40}}</h1>
-                                <small>Contenedores</small>
-                                <div class="stat-percent font-bold text-success">{{this.stk40ST}} ST {{this.stk40HC}} HC {{this.stk40OT}} Otros<i class="fa fa-bolt"></i></div>                                    
+                                <h1 class="no-margins">{{this.stk40}}</h1>                            
+                                <small>Contenedores</small>                                                     
+                                <div class="stat-percent">                                   
+                                <span class="font-bold text-danger">{{this.stk40ST}} ST </span>
+                                <span class="font-bold text-info">{{this.stk40HC}} HC </span>
+                                <span class="font-bold text-navy">{{this.stk40OT}} Otros </span>                                
+                                </div>
                             </div>
                         </div>
                     </li>                     

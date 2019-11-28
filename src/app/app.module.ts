@@ -14,20 +14,22 @@ import {AppviewsModule} from "./views/appviews/appviews.module";
 
 // App modules/components
 import {LayoutsModule} from "./components/common/layouts/layouts.module";
-import { RepfillrateComponent } from './views/dashboards/repfillrate.component';
+
 import { SuscripComponent } from './views/appviews/suscrip.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatSelectModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
+import { MatSelectModule, MatAutocompleteModule, MatInputModule, MatDialogModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RepfillrateComponent,
     SuscripComponent
+   
    
   ],
   imports: [
@@ -43,12 +45,14 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    NgxMatSelectSearchModule
-  
+    NgxMatSelectSearchModule,
+    MatDialogModule
+   
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap: [AppComponent]
-
+  bootstrap: [AppComponent],
+  entryComponents: [SuscripComponent]
+  
   
 })
 export class AppModule { }

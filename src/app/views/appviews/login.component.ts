@@ -7,8 +7,8 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { LoginRQT } from 'app/models/user-LoginRQT';
-
-
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { SuscripComponent } from '../appviews/suscrip.component';
 
 @Component({
   selector: 'login',
@@ -16,7 +16,9 @@ import { LoginRQT } from 'app/models/user-LoginRQT';
 })
 export class LoginComponent { 
 
-  constructor(private authService: AuthService, private router: Router, private location: Location) { }
+  constructor(private authService: AuthService, private dialog : MatDialog, 
+  private router: Router, 
+  private location: Location) { }
   private user: UserInterfaceRQT = {
     Usuario: '',
     Password: ''
@@ -38,6 +40,15 @@ export class LoginComponent {
       localStorage.removeItem('DireccionIP');               
       this.authService.getIp();       
    }
+   
+  onCreate(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "40%";
+    this.dialog.open(SuscripComponent, dialogConfig);      
+  }
+
 
   onLogin(form: NgForm) {
     if (form.valid) {
@@ -109,5 +120,7 @@ export class LoginComponent {
     var res = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
     return res
   }
+
+  
 
 }
