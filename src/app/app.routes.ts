@@ -6,6 +6,7 @@ import {Dashboard3Component} from "./views/dashboards/dashboard3.component";
 import {Dashboard4Component} from "./views/dashboards/dashboard4.component";
 import {Dashboard41Component} from "./views/dashboards/dashboard41.component";
 import {Dashboard5Component} from "./views/dashboards/dashboard5.component";
+import {ConsultaFacturaComponent} from "./views/dashboards/consultafactura.component";
 
 import {RepstockComponent } from "./views/dashboards/repstock.component";
 import {RepfillrateComponent} from  "./views/dashboards/repfillrate.component";
@@ -34,6 +35,7 @@ export const ROUTES:Routes = [
       {path: 'dashboard5', component: Dashboard5Component},
       {path: 'repstock', component: RepstockComponent},
       {path: 'repfillrate', component: RepfillrateComponent},
+      {path: 'consultafactura', component: ConsultaFacturaComponent},
       {path: 'suscripcion', component: SuscripComponent}
 
     ]

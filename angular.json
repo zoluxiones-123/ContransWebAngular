@@ -24,12 +24,15 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/animate.css/animate.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/metismenu/dist/metisMenu.js",
               "node_modules/jquery-sparkline/jquery.sparkline.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
               "vendor/pace/pace.min.js"
             ]
           },
@@ -84,6 +87,9 @@
               "vendor/pace/pace.min.js"
             ],
             "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/animate.css/animate.min.css",
