@@ -19,7 +19,7 @@ export class LoginComponent {
 
   modalRef: BsModalRef;
 
-  constructor(private authService: AuthService, private router: Router, private location: Location, private modalService: BsModalService, private dialog : MatDialog, private router: Router, private location: Location) { }
+  constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog, private router: Router, private location: Location) { }
   public user: UserInterfaceRQT = {
     Usuario: '',
     Password: ''

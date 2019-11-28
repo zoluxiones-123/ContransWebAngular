@@ -32,7 +32,7 @@ defineLocale('es', es);
 
 
 @NgModule({
-  declarations: [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component,RepstockComponent,ConsultaFacturaComponent],
+  declarations: [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component,ConsultaFacturaComponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule],
   exports     : [Dashboard1Component,Dashboard2Component,Dashboard3Component,Dashboard4Component,Dashboard41Component,Dashboard5Component,ConsultaFacturaComponent],
 })
