@@ -10,6 +10,7 @@ import { LoginRQT } from 'app/models/user-LoginRQT';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'login',
@@ -18,6 +19,16 @@ import { SuscripComponent } from '../appviews/suscrip.component';
 export class LoginComponent { 
 
   modalRef: BsModalRef;
+
+  RecObj : LoginRQT = {
+    User: '',
+    Password: '',
+    Ip: '',
+    Hostname: '',
+    App: '',
+    TipEnvio: ''
+  }
+
 
   constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog, private router: Router, private location: Location) { }
   public user: UserInterfaceRQT = {
@@ -32,7 +43,8 @@ export class LoginComponent {
     Password: '',
     Ip: '',
     Hostname: 'HP-LPPER20-004',
-    App: 'W'
+    App: 'W',
+    TipEnvio : ''
   };
   public e:any;
 
@@ -62,13 +74,6 @@ export class LoginComponent {
         .loginusuario(this.login)
         .subscribe(
         data => {
-          // this.authService.setUser(data.user);
-          // const token = data.id;
-          // this.authService.setToken(token);
-          // this.router.navigate(['/user/profile']);
-          // location.reload();
-          // this.isError = false;
-          //this.UserRPT = data[0];
           this.UserRPT = data;
 
           if (this.UserRPT.IDMsj == 0)
@@ -121,11 +126,42 @@ export class LoginComponent {
   }
 
   onRecoverPass(form: NgForm){
-    
+    if( this.NullEmpty(this.RecObj) || this.NullEmpty(this.RecObj.TipEnvio) ){
+      swal({ icon: "warning", text: "Algunos campos estan vacios"});
+      return;
+    }
+    this.RecObj.User = form.value.Usuario.toString();
+
+    this.authService.recuperarContrasena(this.RecObj)
+    .subscribe((data)=>
+    {
+      if (data.Cod === 0) {
+        swal({
+          icon: "success",
+          text: "Se realizo correctamente el cambio de contraseña"
+        });
+      }
+      else if(data.Cod === 1) {
+        swal({
+          icon: "error",
+          text: "Ocurrio error"
+        });
+      }
+    });    
   }
 
   onItemChange(param :any){
-    
+
+    if(param.target.id == "SMS"){
+      this.RecObj.TipEnvio = "S";
+    }
+    else if(param.target.id == "Correo"){
+      this.RecObj.TipEnvio = "M";
+    }
+  }
+
+  NullEmpty (param:any) : boolean{
+    return (typeof param=='undefined' || !param);
   }
 
 }   

@@ -60,4 +60,15 @@ export class AuthService {
     }
   }
 
+  recuperarContrasena(login: LoginRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/recuperarContrasena`;
+    return this.http
+      .post<UserInterfaceRPT>(
+        url_api, login, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+
+
 }
