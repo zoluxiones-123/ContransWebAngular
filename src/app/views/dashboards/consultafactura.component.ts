@@ -5,6 +5,7 @@ import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataTableDirective } from 'angular-datatables';
 import swal from 'sweetalert';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @Component({

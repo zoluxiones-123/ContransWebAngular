@@ -70,38 +70,38 @@ export class LoginComponent {
       this.login.Password = this.user.Password;
       this.login.Ip =  localStorage.getItem("DireccionIP")
        
-      return this.authService
-        .loginusuario(this.login)
-        .subscribe(
+      this.authService.loginusuario(this.login).subscribe(
         data => {
-          this.UserRPT = data;
-
-          if (this.UserRPT.IDMsj == 0)
-          { 
-            localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
-            localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
-            localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
-            localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
-            localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
-            localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
-            this.router.navigate(['starterview']);
-          }
-          else{
-            localStorage.removeItem('NombreUsuario');   
-            localStorage.removeItem('DireccionIP');           
-            this.onIsError();   
-          }
+          this.UserRPT = data;          
         },  
         error => {
           this.onIsError();           
           console.log("Error");}
-        );
+      );
 
-
+      if (this.UserRPT.IDMsj == 0)
+        { 
+          if(this.UserRPT.UsuaAceptUso)
+          {
+            //TO-DO: recargar el formulario a cero
+            return;
+          }
+          localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
+          localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
+          localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
+          localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
+          localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
+          localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
+          this.router.navigate(['starterview']);
+        }
+        else{
+          localStorage.removeItem('NombreUsuario');   
+          localStorage.removeItem('DireccionIP');           
+          this.onIsError();   
+        }
     } else {
       this.onIsError();
     }
-
   }
 
   onIsError(): void {
@@ -163,5 +163,30 @@ export class LoginComponent {
   NullEmpty (param:any) : boolean{
     return (typeof param=='undefined' || !param);
   }
+
+  EsUsuarioNuevo() : boolean {
+    if (){
+      return true;
+    }
+    else{
+      //TO-DO: cargar los datos del servicio de api/texto
+      //TO-DO: mostrar el modal para con los terminos y condicionees
+      //TO-DO: cuando presione el boton llamar a una funcion
+    }
+  }
+
+  AceptarTyC()
+  {
+    //TO-DO: checkear el checkbutton
+    if (checkbutton) {
+      //TO-DO: llamar al servicio que le diga que
+      //TO-DO: Redigir al menuprincipal
+    }
+    else{
+      //TO-DO: que aparezca un mensaje que si no acepta no va a poder continuar
+    }
+  }
+
+
 
 }   

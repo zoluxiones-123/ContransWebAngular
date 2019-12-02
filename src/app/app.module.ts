@@ -12,7 +12,7 @@ import { DashboardsModule } from "./views/dashboards/dashboards.module";
 import { AppviewsModule } from "./views/appviews/appviews.module";
 
 // App modules/components
-import { TopNavigationLayoutComponent } from './components/common/layouts/topNavigationlayout.component';
+import { topnavigationlayout } from './components/common/layouts/topnavigationlayout.component';
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 
 import { SuscripComponent } from './views/appviews/suscrip.component';
@@ -24,6 +24,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatInputModule,
     NgxMatSelectSearchModule,
     ModalModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
+    BsDatepickerModule.forRoot()
    
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
