@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef} from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { UserInterfaceRQT } from 'app/models/user-interfaceRQT';
 import { UserInterfaceRPT } from 'app/models/user-interfaceRPT';
@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { LoginRQT } from 'app/models/user-LoginRQT';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
 import { ContraseniaComponent } from '../appviews/contrasenia.component';
@@ -18,11 +19,10 @@ import { ContraseniaComponent } from '../appviews/contrasenia.component';
 })
 export class LoginComponent { 
 
-  constructor(private authService: AuthService, private dialog : MatDialog, 
+  modalRef: BsModalRef;
   private dialogc : MatDialog,
-  private router: Router, 
-  private location: Location) { }
-  private user: UserInterfaceRQT = {
+  constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog, private router: Router, private location: Location) { }
+  public user: UserInterfaceRQT = {
     Usuario: '',
     Password: ''
   };
@@ -71,7 +71,6 @@ export class LoginComponent {
       this.login.Ip =  localStorage.getItem("DireccionIP")
        
       return this.authService
-        //.loginuser(this.user.Usuario, this.user.Password)
         .loginusuario(this.login)
         .subscribe(
         data => {
@@ -91,26 +90,20 @@ export class LoginComponent {
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
+            localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
+            this.router.navigate(['starterview']);
 
             if (this.UserRPT.DiaCaducacion <= 0)
             {
                 this.onCambioContrasenia();
             }
 
-            this.router.navigate(['home']);
           }
           else{
             localStorage.removeItem('NombreUsuario');   
             localStorage.removeItem('DireccionIP');           
             this.onIsError();   
           }
-
-          
-          // location.reload();
-          // console.log("Exito");
-          // console.log(data);
-          // console.log(data[0].UsuaNombres);
-
         },  
         error => {
           this.onIsError();           
@@ -131,8 +124,6 @@ export class LoginComponent {
     }, 4000);
   }
 
-
-
   omit_special_char(val)
   {
     var k = val.keyCode;
@@ -142,4 +133,17 @@ export class LoginComponent {
 
   
 
-}
+  openModal(template: TemplateRef<any>) {
+
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  onRecoverPass(form: NgForm){
+    
+  }
+
+  onItemChange(param :any){
+    
+  }
+
+}   

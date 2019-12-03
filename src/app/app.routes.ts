@@ -60,5 +60,5 @@ export const ROUTES:Routes = [
   },
 
   // Handle all other routes
-  {path: '**',  redirectTo: 'starterview'}
+  {path: '**',  redirectTo: 'login'}
 ];

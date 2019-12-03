@@ -1,26 +1,56 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown">
+  <div>
     <div>
-        <div>
-            <h1 class="logo-name">C</h1>
-        </div>
-        <h3>Bienvenido a Contrans</h3>
-        <p>Ingrese su usuario y contraseña.</p>
-        <div class="alert alert-danger" role="alert" *ngIf="isError">Usuario y/o password erróneo</div>
-        <form class="m-t" role="form" #formLogin="ngForm" (ngSubmit)="onLogin(formLogin)">
-            <div class="form-group">
-                <input type="text" id="email" name="email" class="form-control" (keypress)="omit_special_char($event)" placeholder="Usuario" [(ngModel)]="user.Usuario" required >
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" [(ngModel)]="user.Password" required>
-            </div>
-            <button type="submit" class="btn btn-primary block full-width m-b">Ingresar</button>
-            <div class="form-group">
-              <a routerLink="/user/register">¿Olvidó su contraseña?</a>
-            </div>
-            <div class="form-group">
-                Registrarse en la Extranet <a (click)="onCreate()">  Click aquí</a>
-            </div>    
-        </form>
-        <p class="m-t"> <small>Diseñado por Zoluxiones SAC &copy; 2019</small> </p>
+      <h1 class="logo-name">C</h1>
     </div>
+    <h3>Bienvenido a Contrans</h3>
+    <p>Ingrese su usuario y contraseña.</p>
+    <div class="alert alert-danger" role="alert" *ngIf="isError">Usuario y/o password erróneo</div>
+    <form class="m-t" role="form" #formLogin="ngForm" (ngSubmit)="onLogin(formLogin)">
+      <div class="form-group">
+        <input type="text" id="email" name="email" class="form-control" (keypress)="omit_special_char($event)"
+          placeholder="Usuario" [(ngModel)]="user.Usuario" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña"
+          [(ngModel)]="user.Password" required>
+      </div>
+      <button type="submit" class="btn btn-primary block full-width m-b">Ingresar</button>
+      <div class="form-group"> Registrarse en la Extranet <a (click)="onCreate()"> Click aquí</a>
+      </div>
+    </form>
+
+    <a (click)="openModal(template)">¿Olvidó su contraseña?</a>
+    <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Restaurar Contraseña</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="m-t" #formRecCon="ngForm" (ngSubmit)="onRecoverPass(formRecCon)">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label>Seleccione :</label><br>
+              <label class="radio-inline"><input type="radio" name="optradioSMS" (change)="onItemChange($event)" >SMS</label>
+              <label class="radio-inline"><input type="radio" name="optradioCorreo" (change)="onItemChange($event)" >Correo</label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6"><label>Usuario/Nro Documento :</label></div>
+            <div class="col-sm-12"><input type="text" class="form-control" name="Usuario" [ngModel]></div>
+          </div>
+          <br>
+          <div class="form-group row text-center" >
+            <div class="col-sm-6"><button type="submit" class="btn btn-w-m btn-primary">Enviar</button></div>
+            <div class="col-sm-6"><button type="button" (click)="modalRef.hide()" class="btn btn-w-m btn-default">Cancelar</button></div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+
+    <p class="m-t"> <small>Diseñado por Zoluxiones SAC &copy; 2019</small> </p>
+
+  </div>
 </div>
