@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule, MatAutocompleteModule, MatInputModule, MatDialogModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,7 +31,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 @NgModule({
   declarations: [
     AppComponent,
-    SuscripComponent
+    SuscripComponent,
+
+    ContraseniaComponent
    
    
   ],
@@ -55,7 +58,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent]
+  entryComponents: [SuscripComponent, ContraseniaComponent]
   
   
 })

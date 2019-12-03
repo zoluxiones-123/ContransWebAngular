@@ -10,6 +10,8 @@ import { LoginRQT } from 'app/models/user-LoginRQT';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
+import { ContraseniaComponent } from '../appviews/contrasenia.component';
+
 import swal from 'sweetalert';
 import 'sweetalert2';
 import Swal from 'sweetalert2';
@@ -22,7 +24,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent { 
 
   modalRef: BsModalRef;
-
+  private dialogc : MatDialog,
   tycObj:any;
 
   RecObj : LoginRQT = {
@@ -69,6 +71,16 @@ export class LoginComponent {
     this.dialog.open(SuscripComponent, dialogConfig);      
   }
 
+  onCambioContrasenia()
+  {
+    const dialogConfigC = new MatDialogConfig();
+    dialogConfigC.disableClose = true;
+    dialogConfigC.autoFocus = true;
+    dialogConfigC.width = "40%";
+    this.dialogc.open(ContraseniaComponent, dialogConfigC);      
+
+  }
+
 
   onLogin(form: NgForm) {
     if (form.valid) {
@@ -99,6 +111,11 @@ export class LoginComponent {
               return;
             }
           this.router.navigate(['starterview']);
+
+            if (this.UserRPT.DiaCaducacion <= 0)
+            {
+                this.onCambioContrasenia();
+            }
 
           }
           else{

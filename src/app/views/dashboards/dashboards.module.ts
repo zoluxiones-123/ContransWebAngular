@@ -9,7 +9,6 @@ import {Dashboard2Component} from "./dashboard2.component";
 // import {Dashboard4Component} from "./dashboard4.component";
 // import {Dashboard41Component} from "./dashboard41.component";
 import {Dashboard5Component} from "./dashboard5.component";
-import {RepstockComponent} from "./repstock.component";
 import {ConsultaFacturaComponent} from "./consultafactura.component";
 
 // Chart.js Angular 2 Directive by Valor Software (npm)

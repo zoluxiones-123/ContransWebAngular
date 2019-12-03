@@ -13,9 +13,7 @@ import { AuthService } from "app/services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
 import { RepfillrateComponent } from "../dashboards/repfillrate.component";
 import { RepstockComponent } from "../dashboards/repstock.component";
-
-
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -24,7 +22,6 @@ import { RepstockComponent } from "../dashboards/repstock.component";
     LoginComponent,
     RepfillrateComponent,
     RepstockComponent
-
    
   ],
   imports: [
@@ -34,7 +31,8 @@ import { RepstockComponent } from "../dashboards/repstock.component";
     SparklineModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   exports: [
     StarterViewComponent,
@@ -44,7 +42,6 @@ import { RepstockComponent } from "../dashboards/repstock.component";
   ],
   providers: [
     AuthService,
-
   ]
 })
 
