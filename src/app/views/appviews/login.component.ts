@@ -11,6 +11,9 @@ import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
 import swal from 'sweetalert';
+import 'sweetalert2';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'login',
@@ -19,6 +22,8 @@ import swal from 'sweetalert';
 export class LoginComponent { 
 
   modalRef: BsModalRef;
+
+  tycObj:any;
 
   RecObj : LoginRQT = {
     User: '',
@@ -51,7 +56,9 @@ export class LoginComponent {
   ngOnInit() {
       localStorage.removeItem('NombreUsuario');   
       localStorage.removeItem('DireccionIP');               
-      this.authService.getIp();       
+      this.authService.getIp(); 
+      
+  
    }
    
   onCreate(){
@@ -72,33 +79,40 @@ export class LoginComponent {
        
       this.authService.loginusuario(this.login).subscribe(
         data => {
-          this.UserRPT = data;          
+          this.UserRPT = data;   
+          
+          if (this.UserRPT.IDMsj == 0) { 
+            if(!this.UserRPT.UsuaAceptUso)
+            {
+              this.authService.getTyC().toPromise().then((data) => {
+                this.tycObj = data;
+                console.log(this.tycObj);
+                this.EsUsuarioNuevo();     
+        
+              });
+              return;
+            }
+            localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
+            localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
+            localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
+            localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
+            localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
+            localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
+            this.router.navigate(['starterview']);
+          }
+          else{
+            localStorage.removeItem('NombreUsuario');   
+            localStorage.removeItem('DireccionIP');           
+            this.onIsError();   
+          }
+
         },  
         error => {
           this.onIsError();           
           console.log("Error");}
       );
 
-      if (this.UserRPT.IDMsj == 0)
-        { 
-          if(this.UserRPT.UsuaAceptUso)
-          {
-            //TO-DO: recargar el formulario a cero
-            return;
-          }
-          localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
-          localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
-          localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
-          localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
-          localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
-          localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
-          this.router.navigate(['starterview']);
-        }
-        else{
-          localStorage.removeItem('NombreUsuario');   
-          localStorage.removeItem('DireccionIP');           
-          this.onIsError();   
-        }
+
     } else {
       this.onIsError();
     }
@@ -164,27 +178,31 @@ export class LoginComponent {
     return (typeof param=='undefined' || !param);
   }
 
-  EsUsuarioNuevo() : boolean {
-    if (){
-      return true;
+  async EsUsuarioNuevo() {
+
+    console.log(this.tycObj);
+    let accept = await Swal({
+
+      title: this.tycObj.Titulo,
+      input: "checkbox",
+      html: `<div class="form-control" style="overflow-y: scroll; height:400px;">` + this.tycObj.Cuerpo + "</div>",
+      inputPlaceholder: "Estoy de acuerdo con los terminos y condiciones",
+      width: 500
+
+    });
+    
+    if (accept.value == '1') {
+      this.AceptarTyC(this.UserRPT.UsuaCodigo.toString());
+      this.router.navigate(['starterview']);
+    }else{
+      Swal("","Debe aceptar el termino de \n condiciones para poder continuar",'warning');
     }
-    else{
-      //TO-DO: cargar los datos del servicio de api/texto
-      //TO-DO: mostrar el modal para con los terminos y condicionees
-      //TO-DO: cuando presione el boton llamar a una funcion
-    }
+    
   }
 
-  AceptarTyC()
+  AceptarTyC(idusuario:string)
   {
-    //TO-DO: checkear el checkbutton
-    if (checkbutton) {
-      //TO-DO: llamar al servicio que le diga que
-      //TO-DO: Redigir al menuprincipal
-    }
-    else{
-      //TO-DO: que aparezca un mensaje que si no acepta no va a poder continuar
-    }
+    this.authService.setTyCUsuario(idusuario).subscribe(null,(error)=>console.log("Error en el servicio de actualizar el TyC ", error));
   }
 
 

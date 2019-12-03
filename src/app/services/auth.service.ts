@@ -7,6 +7,9 @@ import { LoginRQT } from "../models/user-LoginRQT";
 
 import { UserInterfaceRQT } from "../models/user-interfaceRQT";
 import { UserInterfaceRPT } from "../models/user-interfaceRPT";
+import { TermCond } from "app/models/termcond";
+import { UsuarioRQT } from "app/models/UsuarioRQT";
+import { Suscripcion } from "app/models/user_suscripcion";
 
 @Injectable({
   providedIn: "root"
@@ -67,6 +70,26 @@ export class AuthService {
       .post<UserInterfaceRPT>(
         url_api, login, { headers: this.headers })
       .pipe(map(data => data));
+  }
+
+  getTyC(): Observable<any>
+  {
+    const url_api =`/ContransAPI/api/texto`;
+    return this.http.post<TermCond>(url_api,{ "IdTexto": 1 },{ headers: this.headers })
+    .pipe(map(data => data));
+  }
+
+  setTyCUsuario(IDUserParam:string)
+  {
+    let objUser : UsuarioRQT = {
+      IDUser : Number.parseInt(IDUserParam)
+    }
+    const url_api =`/ContransAPI/api/texto`;
+
+    return this.http.post<Suscripcion>(url_api,objUser,{ headers: this.headers })
+    .pipe(map(data => data));
+
+
   }
 
 
