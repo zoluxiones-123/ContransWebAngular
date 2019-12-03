@@ -8,8 +8,7 @@ import swal from 'sweetalert';
 
 @Component({
   selector: 'app-contrasenia',
-  templateUrl: './contrasenia.component.html',
-  styleUrls: ['./contrasenia.component.css']
+  templateUrl: './contrasenia.component.html'
 })
 export class ContraseniaComponent implements OnInit {
 

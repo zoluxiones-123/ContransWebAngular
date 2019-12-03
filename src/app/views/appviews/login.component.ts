@@ -24,7 +24,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent { 
 
   modalRef: BsModalRef;
-  private dialogc : MatDialog,
+  private dialogc : MatDialog;
   tycObj:any;
 
   RecObj : LoginRQT = {
@@ -202,7 +202,7 @@ export class LoginComponent {
 
       title: this.tycObj.Titulo,
       input: "checkbox",
-      html: `<div class="form-control" style="overflow-y: scroll; height:400px;">` + this.tycObj.Cuerpo + "</div>",
+      html: `<div class="form-control" style="overflow-y: scroll; height:400px; text-align: justify;">` + this.tycObj.Cuerpo + "</div>",
       inputPlaceholder: "Estoy de acuerdo con los terminos y condiciones",
       width: 500
 
