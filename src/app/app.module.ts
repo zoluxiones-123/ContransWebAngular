@@ -21,13 +21,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule, MatAutocompleteModule, MatInputModule, MatDialogModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SuscripComponent
+    SuscripComponent,
+
+    ContraseniaComponent
    
    
   ],
@@ -50,7 +53,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent]
+  entryComponents: [SuscripComponent, ContraseniaComponent]
   
   
 })

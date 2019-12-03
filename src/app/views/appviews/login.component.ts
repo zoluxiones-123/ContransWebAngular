@@ -9,6 +9,8 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { LoginRQT } from 'app/models/user-LoginRQT';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
+import { ContraseniaComponent } from '../appviews/contrasenia.component';
+
 
 @Component({
   selector: 'login',
@@ -17,6 +19,7 @@ import { SuscripComponent } from '../appviews/suscrip.component';
 export class LoginComponent { 
 
   constructor(private authService: AuthService, private dialog : MatDialog, 
+  private dialogc : MatDialog,
   private router: Router, 
   private location: Location) { }
   private user: UserInterfaceRQT = {
@@ -49,6 +52,16 @@ export class LoginComponent {
     this.dialog.open(SuscripComponent, dialogConfig);      
   }
 
+  onCambioContrasenia()
+  {
+    const dialogConfigC = new MatDialogConfig();
+    dialogConfigC.disableClose = true;
+    dialogConfigC.autoFocus = true;
+    dialogConfigC.width = "40%";
+    this.dialogc.open(ContraseniaComponent, dialogConfigC);      
+
+  }
+
 
   onLogin(form: NgForm) {
     if (form.valid) {
@@ -78,6 +91,12 @@ export class LoginComponent {
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
+
+            if (this.UserRPT.DiaCaducacion <= 0)
+            {
+                this.onCambioContrasenia();
+            }
+
             this.router.navigate(['home']);
           }
           else{

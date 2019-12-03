@@ -7,6 +7,8 @@ import { LoginRQT } from "../models/user-LoginRQT";
 
 import { UserInterfaceRQT } from "../models/user-interfaceRQT";
 import { UserInterfaceRPT } from "../models/user-interfaceRPT";
+import { actContraseniaRQT} from "../models/user_actContraseniaRQT";
+import { actContraseniaRPT} from "../models/user_actContraseniaRPT";
 
 @Injectable({
   providedIn: "root"
@@ -58,6 +60,17 @@ export class AuthService {
     } else {
       return null;
     }
+  }
+
+  
+  
+  actContrasenia(reqactContra: actContraseniaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/actualizarContrasena`;    
+    return this.http
+      .post<actContraseniaRPT>(
+        url_api, reqactContra, { headers: this.headers })
+      .pipe(map(data => data));
   }
 
 }
