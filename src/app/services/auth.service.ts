@@ -82,9 +82,14 @@ export class AuthService {
   setTyCUsuario(IDUserParam:string)
   {
     let objUser : UsuarioRQT = {
-      IDUser : Number.parseInt(IDUserParam)
+      IDUser : Number.parseInt(IDUserParam),
+      Cargo : "",
+      Celular: "",
+      Email : "",
+      RolEmpUsuaCodigoDefault : 0,
+      Telefono : ""
     }
-    const url_api =`/ContransAPI/api/texto`;
+    const url_api =`/ContransAPI/api/acepTermCond`;
 
     return this.http.post<Suscripcion>(url_api,objUser,{ headers: this.headers })
     .pipe(map(data => data));

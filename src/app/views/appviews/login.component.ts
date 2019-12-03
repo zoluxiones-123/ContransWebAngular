@@ -82,23 +82,24 @@ export class LoginComponent {
           this.UserRPT = data;   
           
           if (this.UserRPT.IDMsj == 0) { 
-            if(!this.UserRPT.UsuaAceptUso)
-            {
-              this.authService.getTyC().toPromise().then((data) => {
-                this.tycObj = data;
-                console.log(this.tycObj);
-                this.EsUsuarioNuevo();     
-        
-              });
-              return;
-            }
             localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
             localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
             localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
-            this.router.navigate(['starterview']);
+
+            if(!this.UserRPT.UsuaAceptUso)
+            {
+              this.authService.getTyC().toPromise().then((data) => {
+                this.tycObj = data;
+                this.EsUsuarioNuevo();     
+        
+              });
+              return;
+            }
+          this.router.navigate(['starterview']);
+
           }
           else{
             localStorage.removeItem('NombreUsuario');   
@@ -180,7 +181,6 @@ export class LoginComponent {
 
   async EsUsuarioNuevo() {
 
-    console.log(this.tycObj);
     let accept = await Swal({
 
       title: this.tycObj.Titulo,

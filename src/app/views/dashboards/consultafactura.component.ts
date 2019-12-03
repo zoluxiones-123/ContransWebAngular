@@ -57,16 +57,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
       }
     };
 
-    public objFacturaRQT : FacturasRQT = 
-    {
-      IDUSer: 1,
-      IDRol: 1,
-      UnidadNeg: "UN0001",
-      Desde: "13/11/2019",
-      Hasta: "13/11/2019",
-      Documento: "",
-      Cliente: ""
-    }
+    public objFacturaRQT : FacturasRQT;
 
     public objFacturaRPT: Array<FacturasRPT>;
     
@@ -87,6 +78,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         return;
       }
 
+      
 
       this.objFacturaRQT = {
         IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
@@ -96,7 +88,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         Hasta : form.value.txtbox_Hasta,
         Documento : form.value.txtbox_Registro,
         Cliente : form.value.txtbox_Cliente
-      }
+      };
 
       if(this.ValidarInput(this.objFacturaRQT))
       {        
@@ -107,7 +99,11 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         return;
       }
 
-      this.reportService.getFacturas(this.objFacturaRQT).subscribe( 
+
+      let res = this.reportService.getFacturas(this.objFacturaRQT);
+      
+      
+      res.subscribe( 
         data => { 
           this.objFacturaRPT = data.Data;
           if (data.Data.length >= 1)
@@ -115,7 +111,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
             this.SiCargoData = true;
             this.dtTrigger.next(this.objFacturaRPT);
             this.SetGrillaVisibility(true);
-            this.TieneData = true;
+            // this.TieneData = true;
           }
           else
           {
@@ -126,7 +122,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         error => {
           swal("Error al cargar los datos"); 
           console.log("Error : ", error); 
-        });
+        }
+      );
+
     }
     
     public ngOnDestroy():any {
