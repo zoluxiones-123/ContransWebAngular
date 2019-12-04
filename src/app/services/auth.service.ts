@@ -12,6 +12,7 @@ import { UsuarioRQT } from "app/models/UsuarioRQT";
 import { actContraseniaRQT} from "../models/user_actContraseniaRQT";
 import { actContraseniaRPT} from "../models/user_actContraseniaRPT";
 import { Suscripcion } from "app/models/user_suscripcion";
+import { Notificaciones} from "../models/notificacion";
 
 @Injectable({
   providedIn: "root"
@@ -106,8 +107,17 @@ export class AuthService {
 
     return this.http.post<Suscripcion>(url_api,objUser,{ headers: this.headers })
     .pipe(map(data => data));
+    
+  }
 
-
+  
+  getNotificaciones(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/avisos`;    
+    return this.http
+      .post<Notificaciones>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
   }
 
 

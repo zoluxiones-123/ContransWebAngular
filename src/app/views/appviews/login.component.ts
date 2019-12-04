@@ -11,10 +11,12 @@ import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
 import { ContraseniaComponent } from '../appviews/contrasenia.component';
+import {SwAlert} from 'app/models/swalert';
 
 import swal from 'sweetalert';
 import 'sweetalert2';
 import Swal from 'sweetalert2';
+import { Notificaciones } from 'app/models/notificacion';
 
 
 @Component({
@@ -26,6 +28,8 @@ export class LoginComponent {
   modalRef: BsModalRef;
   private dialogc : MatDialog;
   tycObj:any;
+  notify:any;
+  public lista : number;
 
   RecObj : LoginRQT = {
     User: '',
@@ -44,6 +48,15 @@ export class LoginComponent {
   };
   public isError = false;
   public UserRPT :UserInterfaceRPT = null;
+  public LNotif : Notificaciones;
+  public notific: any;
+  public notific1: any;
+
+  public swmodal : SwAlert = {
+   title : '',
+   html : '',
+   width : 0
+  }
   
   private login: LoginRQT = {
     User: '',
@@ -54,6 +67,9 @@ export class LoginComponent {
     TipEnvio : ''
   };
   public e:any;
+  steps = [];
+  notifys = [];
+  notificaciones = [];
 
   ngOnInit() {
       localStorage.removeItem('NombreUsuario');   
@@ -110,7 +126,52 @@ export class LoginComponent {
               });
               return;
             }
-          this.router.navigate(['starterview']);
+            
+            this.authService
+            .getNotificaciones()
+            .subscribe(
+              data => {
+                
+                this.LNotif = data;
+          
+                if (this.LNotif.Data != null)
+                {                            
+                  let listanotif =JSON.parse(JSON.stringify(this.LNotif.Data));
+                  
+                 
+
+                  for (var i = 0; i <= listanotif.length-1; i++) {
+                    
+                    let notifi = listanotif[i]; 
+                    //this.steps.push((i + 1).toString());  
+
+                    let modal = new SwAlert( 
+                    "Notificacion " + (i + 1).toString(),
+                    `<div class="form-control" style="overflow-y: scroll; height:400px; text-align: justify;">` + notifi.Aviso + "</div>",
+                     500
+                    )
+
+                   
+
+                    this.notificaciones.push(modal);
+                  
+                  }
+
+                
+
+                  Swal.queue(this.notificaciones);
+            
+                 
+                                           
+                }                         
+              },  
+              error => {
+                this.onIsError();           
+                console.log("Error");}
+              );
+            
+            
+            this.router.navigate(['starterview']);
 
             if (this.UserRPT.DiaCaducacion <= 0)
             {
@@ -195,6 +256,8 @@ export class LoginComponent {
   NullEmpty (param:any) : boolean{
     return (typeof param=='undefined' || !param);
   }
+
+  
 
   async EsUsuarioNuevo() {
 
