@@ -26,7 +26,6 @@ import { Notificaciones } from 'app/models/notificacion';
 export class LoginComponent { 
 
   modalRef: BsModalRef;
-  private dialogc : MatDialog;
   tycObj:any;
   notify:any;
   public lista : number;
@@ -41,7 +40,10 @@ export class LoginComponent {
   }
 
 
-  constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog, private router: Router, private location: Location) { }
+  constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog,
+  private dialogc : MatDialog, private router: Router, private location: Location) 
+  { }
+  
   public user: UserInterfaceRQT = {
     Usuario: '',
     Password: ''
@@ -126,6 +128,11 @@ export class LoginComponent {
               });
               return;
             }
+
+            if (this.UserRPT.DiaCaducacion <= 0)
+            {
+                this.onCambioContrasenia();
+            }
             
             this.authService
             .getNotificaciones()
@@ -161,8 +168,8 @@ export class LoginComponent {
 
                   Swal.queue(this.notificaciones);
             
-                 
-                                           
+                
+
                 }                         
               },  
               error => {
@@ -173,10 +180,7 @@ export class LoginComponent {
             
             this.router.navigate(['starterview']);
 
-            if (this.UserRPT.DiaCaducacion <= 0)
-            {
-                this.onCambioContrasenia();
-            }
+          
 
           }
           else{
