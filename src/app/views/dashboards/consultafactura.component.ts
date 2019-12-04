@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataTableDirective } from 'angular-datatables';
 import swal from 'sweetalert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { HttpClient } from 'selenium-webdriver/http';
 
 
 @Component({
@@ -68,7 +69,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     
 
     public Redirrecionar(param:string){
-      window.location.href = param;
+      window.location.href = "http://" + param;
     }
 
     public CargarGrilla(form: NgForm) {
@@ -77,8 +78,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
       {
         return;
       }
-
-      
 
       this.objFacturaRQT = {
         IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
