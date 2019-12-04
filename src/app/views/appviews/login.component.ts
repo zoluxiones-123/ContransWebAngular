@@ -153,7 +153,6 @@ export class LoginComponent {
   
 
   openModal(template: TemplateRef<any>) {
-
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
@@ -199,13 +198,11 @@ export class LoginComponent {
   async EsUsuarioNuevo() {
 
     let accept = await Swal({
-
       title: this.tycObj.Titulo,
       input: "checkbox",
       html: `<div class="form-control" style="overflow-y: scroll; height:400px; text-align: justify;">` + this.tycObj.Cuerpo + "</div>",
       inputPlaceholder: "Estoy de acuerdo con los terminos y condiciones",
       width: 500
-
     });
     
     if (accept.value == '1') {
@@ -221,7 +218,4 @@ export class LoginComponent {
   {
     this.authService.setTyCUsuario(idusuario).subscribe(null,(error)=>console.log("Error en el servicio de actualizar el TyC ", error));
   }
-
-
-
 }   
