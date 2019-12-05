@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 // App views
 import { DashboardsModule } from "./views/dashboards/dashboards.module";
 import { AppviewsModule } from "./views/appviews/appviews.module";
+import { FormulariosModule } from "./views/formularios/formularios.module";
 
 // App modules/components
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
@@ -21,12 +22,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+//import { ActualizarDatosUsuarioComponent } from './actualizar-datos-usuario/actualizar-datos-usuario.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RepfillrateComponent,
-    SuscripComponent
+    SuscripComponent,
+    /*ActualizarDatosUsuarioComponent*/
    
   ],
   imports: [
@@ -36,6 +39,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     DashboardsModule,
     LayoutsModule,
     AppviewsModule,
+    FormulariosModule,
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
     BrowserAnimationsModule,
