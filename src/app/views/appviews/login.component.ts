@@ -240,7 +240,7 @@ export class LoginComponent {
       else if(data.Cod === 1) {
         swal({
           icon: "error",
-          text: "Ocurrio error"
+          text: data.Msj.toString()
         });
       }
     });    
