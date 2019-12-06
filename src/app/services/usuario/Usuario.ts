@@ -31,7 +31,12 @@ import { map } from "rxjs/operators";
         url_api, params, { headers: this.headers }).pipe(map(data => data));
     }
 
-
+    cambiarClave(params : UsuarioRequest) : Observable<any>
+    {
+      const url_api =`/ContransAPI/api/xxxxxxxxxxx`;    
+      return this.http.post<UsuarioResponse>(
+        url_api, params, { headers: this.headers }).pipe(map(data => data));
+    }
 
 
   }

@@ -23,6 +23,11 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
   rolDefault :string;
   roles: Array<string>;
 
+  cambiarClave :string; 
+  claveActual :string; 
+  claveNueva :string; 
+  claveRepetida :string; 
+
   usuarioRequest : UsuarioRequest;
 
   constructor(private usuario: Usuario ) { 
@@ -39,7 +44,15 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
     this.correo = emptyString;
     this.rolDefault = "ADMINISTRADOR";
 
-    this.usuarioRequest = { IDUSer : 10}
+    this.cambiarClave = "NO";
+    
+
+    this.usuarioRequest = { IDUSer : 10,
+      Cargo : "",
+      Telefono : "",
+      Celular : "",
+      Email : "",
+      RolEmpUsuaCodigoDefault : 0}
     this.CargarDatosUsuario(this.usuarioRequest);
   }
 
@@ -84,25 +97,56 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
       RolEmpUsuaCodigoDefault : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"))
     }
 
-    /*if(this.ValidarErorresInput(this.usuarioRequest))
+    var msgValidacion : string;
+    msgValidacion = this.validarPrevioGuardar();
+    
+    if(msgValidacion.length > 0)
     {        
       swal({
-            text: "Error en los campos de ingreso, por favor verificar",
+            text: msgValidacion,
             icon: "warning",
           });
       return;
-    }*/
+    }
 
     this.usuario.obtUsuario(this.usuarioRequest).subscribe( 
       data => { 
-        swal("Datos Guardados Correctamente"); 
+        if(this.cambiarClave == "NO")
+          swal("Datos Guardados Correctamente"); 
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+        swal("Error al intentar guardar los datos"); 
         console.log("Error : ", error); 
       });
 
+      if(this.cambiarClave == "SI"){
+        this.usuario.cambiarClave(this.usuarioRequest).subscribe( 
+          data => { 
+            swal("Datos Guardados y Contraseña Cambiada Correctamente"); 
+          }, 
+          error => {
+            swal("Se guardaron los datos pero sucedio un error al cambiar la contraseña"); 
+            console.log("Error : ", error); 
+          });        
+      }
 
+  }
+
+  public validarPrevioGuardar(){
+    var msg : string = "";
+
+    if(this.cargo.length == 0) msg = "Debe indicar el Cargo";
+      else if(this.telefono.length == 0) msg = "Debe indicar el Teléfono";
+        else if(this.celular.length == 0) msg = "Debe indicar el Celular";
+          else if(this.correo.length == 0) msg = "Debe indicar el Correo";
+    
+    if(this.cambiarClave == "SI"){
+      if(this.claveActual.length == 0) msg = "Ingrese la Contraseña Actual";
+      else if(this.claveNueva.length == 0) msg = "Ingrese la Contraseña Nueva";
+      else if(this.claveNueva != this.claveRepetida) msg = "Debe repetir correctamente la Contraseña";      
+    }
+
+    return msg;
   }
 
   
