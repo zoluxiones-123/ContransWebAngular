@@ -13,23 +13,30 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 import { FormulariosModule } from "./views/formularios/formularios.module";
 
 // App modules/components
+import { topnavigationlayout } from './components/common/layouts/topnavigationlayout.component';
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
-import { RepfillrateComponent } from './views/dashboards/repfillrate.component';
+
 import { SuscripComponent } from './views/appviews/suscrip.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatSelectModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
+import { MatSelectModule, MatAutocompleteModule, MatInputModule, MatDialogModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-//import { ActualizarDatosUsuarioComponent } from './actualizar-datos-usuario/actualizar-datos-usuario.component';
+import { ContraseniaComponent } from './views/appviews/contrasenia.component';
+
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RepfillrateComponent,
     SuscripComponent,
-    /*ActualizarDatosUsuarioComponent*/
+
+    ContraseniaComponent
+   
    
   ],
   imports: [
@@ -46,12 +53,16 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    NgxMatSelectSearchModule
-  
+    NgxMatSelectSearchModule,
+    ModalModule.forRoot(),
+    MatDialogModule,
+    BsDatepickerModule.forRoot()
+   
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap: [AppComponent]
-
+  bootstrap: [AppComponent],
+  entryComponents: [SuscripComponent, ContraseniaComponent]
+  
   
 })
 export class AppModule { }

@@ -1,18 +1,18 @@
 import { Chart } from 'chart.js'
 import { Component, OnInit } from '@angular/core';
-import { ReportService } from '../../services/report.service'
-import { RepOcupabilidad } from '../../models/rep_ocupabilidad'
-import { RepStockImpRQT } from '../../models/rep_stockimpRQT'
-import { RepFillRate } from '../../models/rep_fillrate'
-import { RepEriRQT } from '../../models/rep_eriRQT'
-import { RepEriRPT } from '../../models/rep_eriRPT'
-
-
+import { ReportService } from '../../services/report.service';
+import { RepOcupabilidad } from '../../models/rep_ocupabilidad';
+import { RepStockImpRQT } from '../../models/rep_stockimpRQT';
+import { RepFillRate } from '../../models/rep_fillrate';
+import { RepEriRQT } from '../../models/rep_eriRQT';
+import { RepEriRPT } from '../../models/rep_eriRPT';
 
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { SuscripComponent } from '../appviews/suscrip.component';
 
 @Component({
   selector: 'app-repfillrate',
@@ -20,7 +20,7 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
  
 })
 export class RepfillrateComponent implements OnInit {
-  constructor(private reportService: ReportService, private router: Router, private location: Location) { }
+  constructor(private reportService: ReportService, private dialog : MatDialog, private router: Router, private location: Location) { }
   
   public isError = false;
   public repOcupabilidad :RepOcupabilidad = null;
@@ -40,7 +40,6 @@ export class RepfillrateComponent implements OnInit {
   public valorf: string;
   public unidSol: string;
   public pedSol: string;
-
   
   public fechae : string;
   public diae: string;
@@ -54,12 +53,15 @@ export class RepfillrateComponent implements OnInit {
   public uninego: string;
   public uninegof: string;
   public uninegoo: string;
-
+  public falt: number;
+  public faltg: number;
+  
   public mese: string;
   public anioe: string;
   public finocup : boolean;
   public fineri : boolean;
   public finfill : boolean;
+  public seVisualizaFillRate: boolean;
 
            
   private repStockImpRQT: RepStockImpRQT = {
@@ -111,6 +113,14 @@ export class RepfillrateComponent implements OnInit {
 
 
     }
+
+    onCreate(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "40%";
+      this.dialog.open(SuscripComponent, dialogConfig);      
+    }
     
     generaRepEri():void{
 
@@ -126,7 +136,7 @@ export class RepfillrateComponent implements OnInit {
       if (this.repEri.Data != null)
       {
                         
-        localStorage.setItem("ListaEri",JSON.stringify(this.repEri.Data));
+        //localStorage.setItem("ListaEri",JSON.stringify(this.repEri.Data));
       
         let fechaer  = this.repEri.Fecha.toString();
         this.fechae = fechaer;
@@ -139,7 +149,12 @@ export class RepfillrateComponent implements OnInit {
         this.totfech = this.repEri.TotalFecha;
         this.totg = this.repEri.TotalGe;
         this.uninego = this.repEri.UnidNegoDescripcion.toString();
-        
+
+        this.falt = this.repEri.Faltantes; 
+        this.faltg = this.repEri.FaltantesG; 
+
+        this.seVisualizaFillRate = (this.falt != -1);
+                
         let index = this.fechae.indexOf( "-" ); 
         let month = Number(this.fechae.substring(0,index));
         this.anioe = this.fechae.substring(index + 1,this.fechae.length);
@@ -188,7 +203,8 @@ export class RepfillrateComponent implements OnInit {
           break;
       }
        
-        let listaeri = JSON.parse(localStorage.getItem("ListaEri"));
+        //let listaeri = JSON.parse(localStorage.getItem("ListaEri"));
+        let listaeri = JSON.parse(JSON.stringify(this.repEri.Data));
       
         for (var i = 1; i <= listaeri.length; i++) {
           let last = listaeri[listaeri.length-i];
@@ -227,7 +243,7 @@ export class RepfillrateComponent implements OnInit {
   
         if (this.repFillRate.Fecha != null)
         {                      
-          localStorage.setItem("ListaFillRate",JSON.stringify(this.repFillRate.Data));
+          //localStorage.setItem("ListaFillRate",JSON.stringify(this.repFillRate.Data));
     
           this.fechaf = this.repFillRate.Fecha.toString();
           this.valorf = this.repFillRate.Valor.toString();
@@ -282,7 +298,9 @@ export class RepfillrateComponent implements OnInit {
             break;
         }
     
-        let listafillrate = JSON.parse(localStorage.getItem("ListaFillRate"));
+        //let listafillrate = JSON.parse(localStorage.getItem("ListaFillRate"));
+
+        let listafillrate = JSON.parse(JSON.stringify(this.repFillRate.Data));
     
           for (var i = 1; i <= listafillrate.length; i++) {
             let last = listafillrate[listafillrate.length-i];
@@ -302,6 +320,9 @@ export class RepfillrateComponent implements OnInit {
 
     }
 
+    
+ 
+
   generaRepOcu():void{
       this.reportService
       .getOcupabilidad(this.repStockImpRQT)
@@ -313,7 +334,7 @@ export class RepfillrateComponent implements OnInit {
         if (this.repOcupabilidad.Data != null)
         {
                           
-          localStorage.setItem("ListaOcup",JSON.stringify(this.repOcupabilidad.Data));
+          //localStorage.setItem("ListaOcup",JSON.stringify(this.repOcupabilidad.Data));
   
           this.fecha = this.repOcupabilidad.Fecha.toString();
           this.valor = this.repOcupabilidad.Valor.toString();
@@ -368,7 +389,9 @@ export class RepfillrateComponent implements OnInit {
   
           //this.stocktotal = localStorage.getItem("StockTotal");
           
-          let listaocup = JSON.parse(localStorage.getItem("ListaOcup"));
+          //let listaocup = JSON.parse(localStorage.getItem("ListaOcup"));
+          let listaocup = JSON.parse(JSON.stringify(this.repOcupabilidad.Data));
+    
         
           for (var i = 1; i <= listaocup.length; i++) {
             let last = listaocup[listaocup.length-i];
@@ -457,6 +480,7 @@ export class RepfillrateComponent implements OnInit {
       this.isError = false;
     }, 4000);
   }
+
   
 
 }

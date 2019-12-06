@@ -106,7 +106,7 @@ export class RepstockComponent implements OnInit  {
         //localStorage.setItem("StockAlv", this.repStockImpRPT.CNTSTK_ALV.toString());
 
                 
-        localStorage.setItem("ListaClientes",JSON.stringify(this.repStockImpRPT.CNTSTK_EN));
+        //localStorage.setItem("ListaClientes",JSON.stringify(this.repStockImpRPT.CNTSTK_EN));
 
         //this.stocktotal = localStorage.getItem("StockTotal");
         this.stocktotal = this.repStockImpRPT.CNTSTK_TOT.toString();        
@@ -120,12 +120,20 @@ export class RepstockComponent implements OnInit  {
         this.stk40HC = this.repStockImpRPT.CNTSTK_40HC.toString();
         this.stk40OT = this.repStockImpRPT.CNTSTK_40OT.toString();
                       
-        let listaclientes = JSON.parse(localStorage.getItem("ListaClientes"));
+        //let listaclientes = JSON.parse(localStorage.getItem("ListaClientes"));
 
-        listaclientes.forEach(item => {          
-          this.XLabels.push(item.NombreEntidad.toString());   
-          this.YLabels.push(item.CNTSTK.toString());             
-        });
+        let listaclientes = JSON.parse(JSON.stringify(this.repStockImpRPT.CNTSTK_EN));
+      
+        for (var i = 0; i <= listaclientes.length - 1; i++) {
+          let first = listaclientes[i];
+          this.XLabels.push(first.NombreEntidad.toString());   
+          this.YLabels.push(first.CNTSTK.toString());          
+        } 
+
+        //listaclientes.forEach(item => {          
+        //  this.XLabels.push(item.NombreEntidad.toString());   
+        //  this.YLabels.push(item.CNTSTK.toString());             
+        //});
 
         //localStorage.setItem("StockME15", this.repStockImpRPT.CNTSTK_ME15.toString());
         //localStorage.setItem("Stock1530", this.repStockImpRPT.CNTSTK_1530.toString());
@@ -152,8 +160,18 @@ export class RepstockComponent implements OnInit  {
         //console.log(this.XLabels);
         //this.router.navigate(['report']);
         //this.router.navigate(['repstock']);
-        this.cargarGraficos();
+        if (listaclientes.length == 1)
+        {this.cargarGraficosCliente();}
         
+        if (listaclientes.length == 4)
+        {this.cargarGraficos();}        
+
+        if (listaclientes.length == 2)
+        {this.cargarGraficos2();}        
+        
+        if (listaclientes.length == 3)
+        {this.cargarGraficos3();}        
+
       }
       else{
         localStorage.removeItem('StockTotal');       
@@ -329,15 +347,605 @@ export class RepstockComponent implements OnInit  {
             label: 'Número de Contenedores',
             data: this.YStCT,
             backgroundColor: [
-              'rgba(255, 122, 51, 0.68)',
-              'rgba(51, 255, 243, 0.65)',
               'rgba(51, 255, 88, 0.75)',
+              'rgba(51, 255, 243, 0.65)',
+              'rgba(255, 122, 51, 0.68)',
+                                           
+            ],
+            borderColor: [
+              'rgba(51, 255, 88, 1)',
+              'rgba(51, 255, 243, 1)',
+              'rgba(255, 122, 51, 1)',
+                             
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      legend: {
+        position : 'right',
+        display: false,
+      },
+      title: {
+        text : "Tiempo de Estadia por Contenedor",
+        display : true
+      },
+        scales: {
+          xAxes:[{
+            scaleLabel: {
+              display: true,
+              labelString: 'Número de Días'
+            }, 
+            barPercentage: 0.2,
+            gridLines: {
+            display:false
+            }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de Contenedores'
+              }, 
+
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+  }
+
+  
+  cargarGraficos3():void{
+
+    this.BarChart = new Chart('barChart', {
+      type: 'bar',
+      data: {
+          //labels: this.XLabels,
+          labels: ['Clientes'],       
+          datasets: [{
+            label: this.XLabels[0].toString(),
+            backgroundColor: 'rgba(255, 122, 51, 0.68)',
+            borderColor : 'rgba(255, 122, 51, 1)',
+            data: [this.YLabels[0].toString()]
+            },  
+            { label: this.XLabels[1].toString(),
+              backgroundColor: 'rgba(51, 255, 243, 0.65)',
+              borderColor : 'rgba(51, 255, 243, 1)',
+              data: [this.YLabels[1].toString()]
+            },
+            { label: this.XLabels[2].toString(),
+              backgroundColor: 'rgba(51, 255, 88, 0.75)',
+              borderColor : 'rgba(51, 255, 88, 1)',
+              data: [this.YLabels[2].toString()]
+            }                    
+        ]   
+          //datasets: [{
+           //   label: 'Número de Contenedores',
+           //   data: this.YLabels,
+            //  backgroundColor: [                 
+              //    'rgba(255, 122, 51, 0.68)',
+              //    'rgba(51, 255, 243, 0.65)',
+              //    'rgba(51, 255, 88, 0.75)',
+              //    'rgba(51, 82, 255, 0.66)'
+                  
+              //],
+              //borderColor: [
+              //  'rgba(255, 122, 51, 1)',
+              //  'rgba(51, 255, 243, 1)',
+              //  'rgba(51, 255, 88, 1)',
+              //  'rgba(51, 82, 255, 1)'             
+              //],
+              //borderWidth: 1
+          //}]
+      },
+    options: {       
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: "#000080",
+        }
+      },
+        title: {
+          text : "Stock de Contenedores por Cliente",
+          display : true
+        },
+          scales: {
+            xAxes:[{
+              position : 'bottom',
+              scaleLabel: {
+                display: true,
+                labelString: 'Clientes'
+              },      
+              barPercentage: 0.2,
+              gridLines: {
+              display:false
+              },
+              ticks: {
+                display: false
+            }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Número de Contenedores'
+                }, 
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  }),
+
+  this.BarChartH = new Chart('barChartH', {
+    type: 'horizontalBar',
+    data: {
+        labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
+        datasets: [{
+            label: 'Número de Contenedores',
+            data: this.YAband,
+            backgroundColor: [
+                'rgba(2, 4, 12, 0.68)',
+                'rgba(229, 10, 9, 0.68)',
+                'rgba(255, 251, 29, 0.75)',
+                'rgba(54, 179, 63, 0.65)'
                 
             ],
             borderColor: [
-              'rgba(255, 122, 51, 1)',
-              'rgba(51, 255, 243, 1)',
+                'rgba(2, 4, 12, 0.68)',
+                'rgba(229, 10, 9, 1)',
+                'rgba(255, 251, 29, 1)',
+                'rgba(54, 179, 63, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {      
+        legend: {
+            display: false,
+        },
+      title: {
+        text : "Abandono Legal",
+        display : true
+      },
+        scales: {
+          xAxes:[{
+            scaleLabel: {
+              display: true,
+              labelString: 'Número de Contenedores'
+            },              
+            gridLines: {
+            display:false
+            },
+            ticks: {
+              beginAtZero: true
+            }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de Días Restantes'
+              },     
+                barPercentage: 0.4,
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+}),
+
+
+  this.BarChart2 = new Chart('barChart2', {
+    type: 'bar',
+    data: {
+        labels: ['< 15', '15-30', '> 30' ],
+        datasets: [{
+            label: 'Número de Contenedores',
+            data: this.YStCT,
+            backgroundColor: [
+              'rgba(51, 255, 88, 0.75)',
+              'rgba(51, 255, 243, 0.65)',
+              'rgba(255, 122, 51, 0.68)',
+                                           
+            ],
+            borderColor: [
               'rgba(51, 255, 88, 1)',
+              'rgba(51, 255, 243, 1)',
+              'rgba(255, 122, 51, 1)',
+                             
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      legend: {
+        position : 'right',
+        display: false,
+      },
+      title: {
+        text : "Tiempo de Estadia por Contenedor",
+        display : true
+      },
+        scales: {
+          xAxes:[{
+            scaleLabel: {
+              display: true,
+              labelString: 'Número de Días'
+            }, 
+            barPercentage: 0.2,
+            gridLines: {
+            display:false
+            }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de Contenedores'
+              }, 
+
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+  }
+
+
+  cargarGraficos2():void{
+
+    this.BarChart = new Chart('barChart', {
+      type: 'bar',
+      data: {
+          //labels: this.XLabels,
+          labels: ['Clientes'],       
+          datasets: [{
+            label: this.XLabels[0].toString(),
+            backgroundColor: 'rgba(255, 122, 51, 0.68)',
+            borderColor : 'rgba(255, 122, 51, 1)',
+            data: [this.YLabels[0].toString()]
+            },  
+            { label: this.XLabels[1].toString(),
+              backgroundColor: 'rgba(51, 255, 243, 0.65)',
+              borderColor : 'rgba(51, 255, 243, 1)',
+              data: [this.YLabels[1].toString()]
+            }                            
+        ]   
+          //datasets: [{
+           //   label: 'Número de Contenedores',
+           //   data: this.YLabels,
+            //  backgroundColor: [                 
+              //    'rgba(255, 122, 51, 0.68)',
+              //    'rgba(51, 255, 243, 0.65)',
+              //    'rgba(51, 255, 88, 0.75)',
+              //    'rgba(51, 82, 255, 0.66)'
+                  
+              //],
+              //borderColor: [
+              //  'rgba(255, 122, 51, 1)',
+              //  'rgba(51, 255, 243, 1)',
+              //  'rgba(51, 255, 88, 1)',
+              //  'rgba(51, 82, 255, 1)'             
+              //],
+              //borderWidth: 1
+          //}]
+      },
+    options: {       
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: "#000080",
+        }
+      },
+        title: {
+          text : "Stock de Contenedores por Cliente",
+          display : true
+        },
+          scales: {
+            xAxes:[{
+              position : 'bottom',
+              scaleLabel: {
+                display: true,
+                labelString: 'Clientes'
+              },      
+              barPercentage: 0.2,
+              gridLines: {
+              display:false
+              },
+              ticks: {
+                display: false
+            }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Número de Contenedores'
+                }, 
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  }),
+
+  this.BarChartH = new Chart('barChartH', {
+    type: 'horizontalBar',
+    data: {
+        labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
+        datasets: [{
+            label: 'Número de Contenedores',
+            data: this.YAband,
+            backgroundColor: [
+                'rgba(2, 4, 12, 0.68)',
+                'rgba(229, 10, 9, 0.68)',
+                'rgba(255, 251, 29, 0.75)',
+                'rgba(54, 179, 63, 0.65)'
+                
+            ],
+            borderColor: [
+                'rgba(2, 4, 12, 0.68)',
+                'rgba(229, 10, 9, 1)',
+                'rgba(255, 251, 29, 1)',
+                'rgba(54, 179, 63, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {      
+        legend: {
+            display: false,
+        },
+      title: {
+        text : "Abandono Legal",
+        display : true
+      },
+        scales: {
+          xAxes:[{
+            scaleLabel: {
+              display: true,
+              labelString: 'Número de Contenedores'
+            },              
+            gridLines: {
+            display:false
+            },
+            ticks: {
+              beginAtZero: true
+            }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de Días Restantes'
+              },     
+                barPercentage: 0.4,
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+}),
+
+
+  this.BarChart2 = new Chart('barChart2', {
+    type: 'bar',
+    data: {
+        labels: ['< 15', '15-30', '> 30' ],
+        datasets: [{
+            label: 'Número de Contenedores',
+            data: this.YStCT,
+            backgroundColor: [
+              'rgba(51, 255, 88, 0.75)',
+              'rgba(51, 255, 243, 0.65)',
+              'rgba(255, 122, 51, 0.68)',
+                                           
+            ],
+            borderColor: [
+              'rgba(51, 255, 88, 1)',
+              'rgba(51, 255, 243, 1)',
+              'rgba(255, 122, 51, 1)',
+                             
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      legend: {
+        position : 'right',
+        display: false,
+      },
+      title: {
+        text : "Tiempo de Estadia por Contenedor",
+        display : true
+      },
+        scales: {
+          xAxes:[{
+            scaleLabel: {
+              display: true,
+              labelString: 'Número de Días'
+            }, 
+            barPercentage: 0.2,
+            gridLines: {
+            display:false
+            }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de Contenedores'
+              }, 
+
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+  }
+
+
+  cargarGraficosCliente():void{
+
+    this.BarChart = new Chart('barChart', {
+      type: 'bar',
+      data: {
+          //labels: this.XLabels,
+          labels: ['Clientes'],       
+          datasets: [{
+            label: this.XLabels[0].toString(),
+            backgroundColor: 'rgba(255, 122, 51, 0.68)',
+            borderColor : 'rgba(255, 122, 51, 1)',
+            data: [this.YLabels[0].toString()]
+            }                                       
+        ]   
+          //datasets: [{
+           //   label: 'Número de Contenedores',
+           //   data: this.YLabels,
+            //  backgroundColor: [                 
+              //    'rgba(255, 122, 51, 0.68)',
+              //    'rgba(51, 255, 243, 0.65)',
+              //    'rgba(51, 255, 88, 0.75)',
+              //    'rgba(51, 82, 255, 0.66)'
+                  
+              //],
+              //borderColor: [
+              //  'rgba(255, 122, 51, 1)',
+              //  'rgba(51, 255, 243, 1)',
+              //  'rgba(51, 255, 88, 1)',
+              //  'rgba(51, 82, 255, 1)'             
+              //],
+              //borderWidth: 1
+          //}]
+      },
+    options: {       
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: "#000080",
+        }
+      },
+        title: {
+          text : "Stock de Contenedores por Cliente",
+          display : true
+        },
+          scales: {
+            xAxes:[{
+              position : 'bottom',
+              scaleLabel: {
+                display: true,
+                labelString: 'Clientes'
+              },      
+              barPercentage: 0.2,
+              gridLines: {
+              display:false
+              },
+              ticks: {
+                display: false
+            }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Número de Contenedores'
+                }, 
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  }),
+
+  this.BarChartH = new Chart('barChartH', {
+    type: 'horizontalBar',
+    data: {
+        labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
+        datasets: [{
+            label: 'Número de Contenedores',
+            data: this.YAband,
+            backgroundColor: [
+                'rgba(2, 4, 12, 0.68)',
+                'rgba(229, 10, 9, 0.68)',
+                'rgba(255, 251, 29, 0.75)',
+                'rgba(54, 179, 63, 0.65)'
+                
+            ],
+            borderColor: [
+                'rgba(2, 4, 12, 0.68)',
+                'rgba(229, 10, 9, 1)',
+                'rgba(255, 251, 29, 1)',
+                'rgba(54, 179, 63, 1)'
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {      
+        legend: {
+            display: false,
+        },
+      title: {
+        text : "Abandono Legal",
+        display : true
+      },
+        scales: {
+          xAxes:[{
+            scaleLabel: {
+              display: true,
+              labelString: 'Número de Contenedores'
+            },              
+            gridLines: {
+            display:false
+            },
+            ticks: {
+              beginAtZero: true
+            }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de Días Restantes'
+              },     
+                barPercentage: 0.4,
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+}),
+
+
+  this.BarChart2 = new Chart('barChart2', {
+    type: 'bar',
+    data: {
+        labels: ['< 15', '15-30', '> 30' ],
+        datasets: [{
+            label: 'Número de Contenedores',
+            data: this.YStCT,
+            backgroundColor: [
+              'rgba(51, 255, 88, 0.75)',
+              'rgba(51, 255, 243, 0.65)',            
+              'rgba(255, 122, 51, 0.68)'
+             
+                
+            ],
+            borderColor: [
+              'rgba(51, 255, 88, 1)',
+              'rgba(51, 255, 243, 1)',             
+              'rgba(255, 122, 51, 1)'
+              
                 
             ],
             borderWidth: 1
@@ -349,7 +957,7 @@ export class RepstockComponent implements OnInit  {
         display: false,
       },
       title: {
-        text : "Stock de Contenedores por Tipo",
+        text : "Tiempo de Estadia por Contenedor",
         display : true
       },
         scales: {

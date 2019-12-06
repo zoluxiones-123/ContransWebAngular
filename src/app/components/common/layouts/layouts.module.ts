@@ -6,7 +6,7 @@ import {BsDropdownModule} from 'ngx-bootstrap';
 
 import {BasicLayoutComponent} from "./basicLayout.component";
 import {BlankLayoutComponent} from "./blankLayout.component";
-import {TopNavigationLayoutComponent} from "./topNavigationlayout.component";
+import {topnavigationlayout} from "./topnavigationlayout.component";
 
 import {NavigationComponent} from "./../navigation/navigation.component";
 import {FooterComponent} from "./../footer/footer.component";
@@ -20,7 +20,7 @@ import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.c
     BasicLayoutComponent,
     BlankLayoutComponent,
     NavigationComponent,
-    TopNavigationLayoutComponent,
+    topnavigationlayout,
     TopNavbarComponent,
     TopNavigationNavbarComponent
   ],
@@ -34,7 +34,7 @@ import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.c
     BasicLayoutComponent,
     BlankLayoutComponent,
     NavigationComponent,
-    TopNavigationLayoutComponent,
+    topnavigationlayout,
     TopNavbarComponent,
     TopNavigationNavbarComponent
   ],

@@ -11,12 +11,18 @@ import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { AuthService } from "app/services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
+import { RepfillrateComponent } from "../dashboards/repfillrate.component";
+import { RepstockComponent } from "../dashboards/repstock.component";
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     StarterViewComponent,
-    LoginComponent
+    LoginComponent,
+    RepfillrateComponent,
+    RepstockComponent
+   
   ],
   imports: [
     BrowserModule,
@@ -25,15 +31,17 @@ import { HttpClientModule } from "@angular/common/http";
     SparklineModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   exports: [
     StarterViewComponent,
-    LoginComponent
+    LoginComponent,
+    RepfillrateComponent,
+    RepstockComponent
   ],
   providers: [
     AuthService,
-
   ]
 })
 

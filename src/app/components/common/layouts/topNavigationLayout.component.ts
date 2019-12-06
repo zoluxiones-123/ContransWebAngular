@@ -10,7 +10,7 @@ declare var jQuery:any;
     '(window:resize)': 'onResize()'
   }
 })
-export class TopNavigationLayoutComponent {
+export class topnavigationlayout {
 
   public ngOnInit():any {
     detectBody();

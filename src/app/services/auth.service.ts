@@ -7,6 +7,12 @@ import { LoginRQT } from "../models/user-LoginRQT";
 
 import { UserInterfaceRQT } from "../models/user-interfaceRQT";
 import { UserInterfaceRPT } from "../models/user-interfaceRPT";
+import { TermCond } from "app/models/termcond";
+import { UsuarioRQT } from "app/models/UsuarioRQT";
+import { actContraseniaRQT} from "../models/user_actContraseniaRQT";
+import { actContraseniaRPT} from "../models/user_actContraseniaRPT";
+import { Suscripcion } from "app/models/user_suscripcion";
+import { Notificaciones} from "../models/notificacion";
 
 @Injectable({
   providedIn: "root"
@@ -59,5 +65,61 @@ export class AuthService {
       return null;
     }
   }
+
+  
+  
+  actContrasenia(reqactContra: actContraseniaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/actualizarContrasena`;    
+    return this.http
+      .post<actContraseniaRPT>(
+        url_api, reqactContra, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  recuperarContrasena(login: LoginRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/recuperarContrasena`;
+    return this.http
+      .post<UserInterfaceRPT>(
+        url_api, login, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getTyC(): Observable<any>
+  {
+    const url_api =`/ContransAPI/api/texto`;
+    return this.http.post<TermCond>(url_api,{ "IdTexto": 1 },{ headers: this.headers })
+    .pipe(map(data => data));
+  }
+
+  setTyCUsuario(IDUserParam:string)
+  {
+    let objUser : UsuarioRQT = {
+      IDUser : Number.parseInt(IDUserParam),
+      Cargo : "",
+      Celular: "",
+      Email : "",
+      RolEmpUsuaCodigoDefault : 0,
+      Telefono : ""
+    }
+    const url_api =`/ContransAPI/api/acepTermCond`;
+
+    return this.http.post<Suscripcion>(url_api,objUser,{ headers: this.headers })
+    .pipe(map(data => data));
+    
+  }
+
+  
+  getNotificaciones(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/avisos`;    
+    return this.http
+      .post<Notificaciones>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+
 
 }

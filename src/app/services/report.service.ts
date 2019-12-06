@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/internal/Observable";
-import { map } from "rxjs/operators";
 import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
+import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../models/Factura';
 
 
@@ -17,6 +17,8 @@ import { SolicitudInscrip } from '../models/solicinsc';
 import { RespSolicitud } from '../models/resp_solicinsc';
 import { Entidades } from '../models/entidad';
 import { entidad } from '../models/entidad';
+import { entid } from '../models/entidad';
+
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +66,28 @@ export class ReportService {
         url_api, { headers: this.headers })
       .pipe(map(data => data));
   }
+
+  search(filter: {nombre: string} = {nombre: ''}, page = 1): Observable<Entidades> {
+    const url_api =`/ContransAPI/api/entidadlist`;   
+
+    return this.http
+    .post<Entidades>(
+      url_api, { headers: this.headers })
+    .pipe(
+      tap((response: Entidades) => {
+        //response.results = response.results
+        response.Data = response.Data
+          .map(enti => new entid(enti.Entidad, enti.Nombre))
+          //map(enti => Data )
+          // Not filtering in the server since in-memory-web-api has somewhat restricted api
+          .filter(enti => enti.Nombre.toLowerCase().includes(filter.nombre.toLowerCase()))
+
+        return response;
+      })
+      );
+  }
+
+
   
   getEri(reperirqt: RepEriRQT ): Observable<any> 
   {

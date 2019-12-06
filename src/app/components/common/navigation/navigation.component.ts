@@ -30,8 +30,6 @@ export class NavigationComponent {
     this.listarol = JSON.parse(localStorage.getItem("ListaRol"));
     this.rolactual =  this.ObtenerRolActual(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.entinombre = localStorage.getItem("EntiNombre");
-
-
   }
 
   ObtenerRolActual (rolxdefecto:string)
@@ -64,10 +62,9 @@ export class NavigationComponent {
 
   CambioRol(item: any)
   {
-    
     swal({
       title: "Cambio de Rol",
-      text: "¿Desea cambiar de Rol?",
+      text: "¿Desea cambiar de "+ this.rolactual  +" a " + item.RolDesc +"?",
       icon: "warning",
       buttons: ["No","Si"]
     })
@@ -79,8 +76,6 @@ export class NavigationComponent {
 
       }
     });
-
-
   }
 
 
