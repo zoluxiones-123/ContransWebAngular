@@ -39,6 +39,7 @@ export class SuscripComponent implements OnInit {
   
   filteredUsers: entid[] = [];
   usersForm: FormGroup;
+  heroForm: FormGroup;
   isLoading = false;
 
   myControl = new FormControl();
@@ -79,8 +80,6 @@ export class SuscripComponent implements OnInit {
   
   
   ngOnInit() {
-
-
     this.usersForm = this.fb.group({
       userInput: null
     })

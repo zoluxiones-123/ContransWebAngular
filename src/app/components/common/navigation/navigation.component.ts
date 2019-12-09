@@ -18,6 +18,7 @@ export class NavigationComponent {
   public rolactual:string;
   public entinombre:string;
   public listarol:any;
+  public NombreIniciales: string;
 
 
   constructor(private router: Router) {
@@ -30,6 +31,7 @@ export class NavigationComponent {
     this.listarol = JSON.parse(localStorage.getItem("ListaRol"));
     this.rolactual =  this.ObtenerRolActual(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.entinombre = localStorage.getItem("EntiNombre");
+    this.NombreIniciales = localStorage.getItem("NombreIniciales");
   }
 
   ObtenerRolActual (rolxdefecto:string)

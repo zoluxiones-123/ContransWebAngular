@@ -5,7 +5,7 @@ declare var jQuery:any;
 
 @Component({
   selector: 'topnavigationlayout',
-  templateUrl: 'topNavigationlayout.template.html',
+  templateUrl: 'topnavigationlayout.template.html',
   host: {
     '(window:resize)': 'onResize()'
   }
