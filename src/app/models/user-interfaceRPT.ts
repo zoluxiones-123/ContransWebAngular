@@ -11,4 +11,5 @@ export interface UserInterfaceRPT {
     RolEmpUsuaCodigoDefault?: number;
     Token?: string;
     listRol: any;
+    UsuaInicial?: string;
   }

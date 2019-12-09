@@ -7,6 +7,7 @@ import { DataTableDirective } from 'angular-datatables';
 import swal from 'sweetalert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 
 @Component({
@@ -20,10 +21,21 @@ import { HttpClient } from 'selenium-webdriver/http';
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
     public TieneData = false;
     public UnidadNegSelect:string;
+
+    minDate: Date;
+    maxDate: Date;
+
     
     constructor(private reportService: ReportService) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
+
      }
+
+    setearFechasLimite(){
+      let date = new Date();
+      this.minDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+      this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
+    }
     
     dtTrigger:Subject<any> = new Subject();
     dtOptions : any = {
@@ -65,11 +77,12 @@ import { HttpClient } from 'selenium-webdriver/http';
     public ngOnInit():any {      
       this.SetGrillaVisibility(false);
       this.SetClienteInput();
+      this.setearFechasLimite();
     }
     
 
     public Redirrecionar(param:string){
-      window.location.href = "http://" + param;
+      window.open("http://" + param,"_blank");
     }
 
     public CargarGrilla(form: NgForm) {

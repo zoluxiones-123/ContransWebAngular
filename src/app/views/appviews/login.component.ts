@@ -12,6 +12,8 @@ import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
 import { ContraseniaComponent } from '../appviews/contrasenia.component';
 import {SwAlert} from 'app/models/swalert';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 import swal from 'sweetalert';
 import 'sweetalert2';
@@ -41,7 +43,7 @@ export class LoginComponent {
 
 
   constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog,
-  private dialogc : MatDialog, private router: Router, private location: Location) 
+  private dialogc : MatDialog, private router: Router, private location: Location, private spinner: NgxSpinnerService) 
   { }
   
   public user: UserInterfaceRQT = {
@@ -57,7 +59,8 @@ export class LoginComponent {
   public swmodal : SwAlert = {
    title : '',
    html : '',
-   width : 0
+   width : 0,
+   confirmButtonText : "Aceptar"
   }
   
   private login: LoginRQT = {
@@ -118,13 +121,13 @@ export class LoginComponent {
             localStorage.setItem("EntiNombre", this.UserRPT.EntiNombre);
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
             localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
+            localStorage.setItem("NombreIniciales", this.UserRPT.UsuaInicial);
 
             if(!this.UserRPT.UsuaAceptUso)
             {
               this.authService.getTyC().toPromise().then((data) => {
                 this.tycObj = data;
-                this.EsUsuarioNuevo();     
-        
+                this.EsUsuarioNuevo();
               });
               return;
             }
@@ -134,68 +137,41 @@ export class LoginComponent {
                 this.onCambioContrasenia();
             }
             
-            this.authService
-            .getNotificaciones()
-            .subscribe(
-              data => {
-                
-                this.LNotif = data;
-          
+            this.authService.getNotificaciones().subscribe(
+              data => {                
+                this.LNotif = data;          
                 if (this.LNotif.Data != null)
                 {                            
                   let listanotif =JSON.parse(JSON.stringify(this.LNotif.Data));
-                  
-                 
-
-                  for (var i = 0; i <= listanotif.length-1; i++) {
-                    
+                  for (var i = 0; i <= listanotif.length-1; i++) {                    
                     let notifi = listanotif[i]; 
-                    //this.steps.push((i + 1).toString());  
-
                     let modal = new SwAlert( 
                     "Notificacion " + (i + 1).toString(),
                     `<div class="form-control" style="overflow-y: scroll; height:400px; text-align: justify;">` + notifi.Aviso + "</div>",
                      500
                     )
-
-                   
-
-                    this.notificaciones.push(modal);
-                  
+                    this.notificaciones.push(modal);                  
                   }
-
-                
-
                   Swal.queue(this.notificaciones);
-            
-                
-
                 }                         
               },  
               error => {
                 this.onIsError();           
                 console.log("Error");}
               );
-            
-            
             this.router.navigate(['starterview']);
-
-          
-
           }
           else{
             localStorage.removeItem('NombreUsuario');   
             localStorage.removeItem('DireccionIP');           
+            localStorage.removeItem("NombreIniciales");
             this.onIsError();   
           }
-
         },  
         error => {
           this.onIsError();           
           console.log("Error");}
       );
-
-
     } else {
       this.onIsError();
     }
@@ -226,11 +202,16 @@ export class LoginComponent {
       swal({ icon: "warning", text: "Algunos campos estan vacios"});
       return;
     }
-    this.RecObj.User = form.value.Usuario.toString();
+    this.spinner.show();
 
+    this.RecObj.User = form.value.Usuario.toString();
     this.authService.recuperarContrasena(this.RecObj)
     .subscribe((data)=>
     {
+      setTimeout(() => {
+        /** spinner ends after 5 seconds */
+        this.spinner.hide();
+      }, 1);
       if (data.Cod === 0) {
         swal({
           icon: "success",
@@ -243,6 +224,8 @@ export class LoginComponent {
           text: data.Msj.toString()
         });
       }
+      
+  
     });    
   }
 
@@ -269,6 +252,7 @@ export class LoginComponent {
       input: "checkbox",
       html: `<div class="form-control" style="overflow-y: scroll; height:400px; text-align: justify;">` + this.tycObj.Cuerpo + "</div>",
       inputPlaceholder: "Estoy de acuerdo con los terminos y condiciones",
+      confirmButtonText: "Acepto",
       width: 500
     });
     

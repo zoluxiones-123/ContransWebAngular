@@ -1,19 +1,17 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown">
   <div>
     <div>
-      <h1 class="logo-name">C</h1>
-    </div>
-    <h3>Bienvenido a Contrans</h3>
+      <img class="rounded" style="width: 80%;" src="assets/images/LogoImagen.png">
+    </div> 
+    <h3>Bienvenid@</h3>
     <p>Ingrese su usuario y contraseña.</p>
-    <div class="alert alert-danger" role="alert" *ngIf="isError">Usuario y/o password erróneo</div>
+    <div class="alert alert-danger" role="alert" *ngIf="isError">Usuario y/o contraseña erróneo</div>
     <form class="m-t" role="form" #formLogin="ngForm" (ngSubmit)="onLogin(formLogin)">
       <div class="form-group">
-        <input type="text" id="email" name="email" class="form-control" (keypress)="omit_special_char($event)"
-          placeholder="Usuario" [(ngModel)]="user.Usuario" required>
+        <input type="text" id="email" name="email" class="form-control" (keypress)="omit_special_char($event)" placeholder="Usuario" [(ngModel)]="user.Usuario" required>
       </div>
       <div class="form-group">
-        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña"
-          [(ngModel)]="user.Password" required>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" [(ngModel)]="user.Password" required>
       </div>
       <button type="submit" class="btn btn-primary block full-width m-b">Ingresar</button>
       <div class="form-group"> Registrarse en la Extranet <a (click)="onCreate()"> Click aquí</a>
@@ -22,9 +20,10 @@
 
     <a (click)="openModal(template)">¿Olvidó su contraseña?</a>
     <ng-template #template>
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Restaurar Contraseña</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%;">
+        <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+        <h4 class="modal-title pull-left" style="display: inline-table;">Restaurar Contraseña</h4>
+        <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -49,8 +48,13 @@
         </form>
       </div>
     </ng-template>
-
-    <p class="m-t"> <small>Diseñado por Zoluxiones SAC &copy; 2019</small> </p>
-
   </div>
 </div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Espere...</p>
+</ngx-spinner>

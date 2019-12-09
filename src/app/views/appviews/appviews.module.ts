@@ -14,6 +14,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { RepfillrateComponent } from "../dashboards/repfillrate.component";
 import { RepstockComponent } from "../dashboards/repstock.component";
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     HttpModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   exports: [
     StarterViewComponent,
