@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import {  Usuario, UsuarioRequest, UsuarioResponse } from '../../../services/usuario/Usuario';
+import {  Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse } from '../../../services/usuario/Usuario';
 
 import swal from 'sweetalert';
 import { stringify } from 'querystring';
@@ -29,9 +29,10 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
   claveRepetida :string; 
 
   usuarioRequest : UsuarioRequest;
+  actualizarClaveRequest : ActualizarClaveRequest;
 
   constructor(private usuario: Usuario ) { 
-    var emptyString = ".";
+    var emptyString = "";
 
     this.razonSocial = emptyString;
     this.nombres = emptyString;
@@ -45,14 +46,18 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
     this.rolDefault = "ADMINISTRADOR";
 
     this.cambiarClave = "NO";
-    
+    this.claveActual = emptyString;
+    this.claveNueva = emptyString;
+    this.claveRepetida = emptyString;   
 
-    this.usuarioRequest = { IDUSer : 10,
+    this.usuarioRequest = { 
+      IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
       Cargo : "",
       Telefono : "",
       Celular : "",
       Email : "",
-      RolEmpUsuaCodigoDefault : 0}
+      RolEmpUsuaCodigoDefault : 0
+    }
     this.CargarDatosUsuario(this.usuarioRequest);
   }
 
@@ -97,39 +102,57 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
       RolEmpUsuaCodigoDefault : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"))
     }
 
+    if(this.cambiarClave == "SI")
+      this.actualizarClaveRequest = {
+        IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
+        OldPass : this.claveActual,
+        NewPass : this.claveNueva
+      }
+
     var msgValidacion : string;
     msgValidacion = this.validarPrevioGuardar();
     
-    if(msgValidacion.length > 0)
-    {        
+    if(msgValidacion.length > 0){        
       swal({
             text: msgValidacion,
             icon: "warning",
           });
-      return;
+      return false;
     }
 
-    this.usuario.obtUsuario(this.usuarioRequest).subscribe( 
+    this.usuario.actualizarDatos(this.usuarioRequest).subscribe( 
       data => { 
         if(this.cambiarClave == "NO")
           swal("Datos Guardados Correctamente"); 
+        else{    
+          this.usuario.actualizarClave(this.actualizarClaveRequest).subscribe( 
+            data => { 
+              if(data != null){
+                var resp : ActualizarClaveResponse;
+                resp = data;
+
+                if(resp.Cod == 0){
+                  this.claveActual = "";
+                  this.claveNueva = "";
+                  this.claveRepetida = "";
+                  swal("Datos Guardados y Contraseña Cambiada Correctamente");
+                }                  
+                else 
+                  swal("Datos Guardados correctamente pero no se pudo cambiar la contraseña. " + resp.Msj);
+              }
+            }, 
+            error => {
+              swal("Se guardaron los datos pero sucedio un error al cambiar la contraseña"); 
+              console.log("Error : ", error); 
+            });        
+        }          
       }, 
       error => {
-        swal("Error al intentar guardar los datos"); 
+        swal("Error al intentar guardar los datos del servicio"); 
         console.log("Error : ", error); 
       });
 
-      if(this.cambiarClave == "SI"){
-        this.usuario.cambiarClave(this.usuarioRequest).subscribe( 
-          data => { 
-            swal("Datos Guardados y Contraseña Cambiada Correctamente"); 
-          }, 
-          error => {
-            swal("Se guardaron los datos pero sucedio un error al cambiar la contraseña"); 
-            console.log("Error : ", error); 
-          });        
-      }
-
+      return false;
   }
 
   public validarPrevioGuardar(){

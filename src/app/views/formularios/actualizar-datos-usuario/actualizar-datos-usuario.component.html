@@ -84,19 +84,19 @@
               <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Contraseña Actual</label>
                   <div class="col-sm-10">
-                      <input type="password" name="txtClaveActual" class="form-control" >
+                      <input type="password" name="txtClaveActual" class="form-control" [(ngModel)]="claveActual" >
                   </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nueva Contraseña</label>
                 <div class="col-sm-10">
-                    <input type="password" name="txtNuevaClave" class="form-control" >
+                    <input type="password" name="txtNuevaClave" class="form-control" [(ngModel)]="claveNueva" >
                 </div>
             </div>                
               <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Confirmar Contraseña</label>
                   <div class="col-sm-10">
-                      <input type="password" name="txtConfirmarClave" class="form-control" >
+                      <input type="password" name="txtConfirmarClave" class="form-control" [(ngModel)]="claveRepetida" >
                   </div>
               </div>  
 

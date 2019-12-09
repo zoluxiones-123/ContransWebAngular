@@ -31,10 +31,10 @@ import { map } from "rxjs/operators";
         url_api, params, { headers: this.headers }).pipe(map(data => data));
     }
 
-    cambiarClave(params : UsuarioRequest) : Observable<any>
+    actualizarClave(params : ActualizarClaveRequest) : Observable<any>
     {
-      const url_api =`/ContransAPI/api/xxxxxxxxxxx`;    
-      return this.http.post<UsuarioResponse>(
+      const url_api =`/ContransAPI/api/actualizarContrasena`;    
+      return this.http.post<ActualizarClaveResponse>(
         url_api, params, { headers: this.headers }).pipe(map(data => data));
     }
 
@@ -61,3 +61,13 @@ import { map } from "rxjs/operators";
     UsuaEmail : string;
   }
 
+  export class ActualizarClaveRequest {
+    IDUSer : number;
+    OldPass : string;
+    NewPass : string;
+ }
+
+  export class ActualizarClaveResponse {
+    Cod : number;
+    Msj : string;
+  }
