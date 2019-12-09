@@ -19,6 +19,7 @@ import {SuscripComponent} from "./views/appviews/suscrip.component";
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
 import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.component";
 import {topnavigationlayout} from "./components/common/layouts/topnavigationlayout.component";
+import {ContraseniaComponent } from "./views/appviews/contrasenia.component";
 
 export const ROUTES:Routes = [
   // Main redirect
@@ -37,6 +38,8 @@ export const ROUTES:Routes = [
       {path: 'repfillrate', component: RepfillrateComponent},
       {path: 'consultafactura', component: ConsultaFacturaComponent},
       {path: 'suscripcion', component: SuscripComponent}
+      
+      
 
     ]
   },
