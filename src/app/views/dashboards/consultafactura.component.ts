@@ -8,6 +8,7 @@ import swal from 'sweetalert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     maxDate: Date;
 
     
-    constructor(private reportService: ReportService) { 
+    constructor(private reportService: ReportService, private router: Router) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
 
      }
@@ -75,6 +76,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     public objFacturaRPT: Array<FacturasRPT>;
     
     public ngOnInit():any {      
+      
+    if (localStorage.getItem("Usuario") == null)
+       {this.router.navigate(['/login']);}
+
       this.SetGrillaVisibility(false);
       this.SetClienteInput();
       this.setearFechasLimite();

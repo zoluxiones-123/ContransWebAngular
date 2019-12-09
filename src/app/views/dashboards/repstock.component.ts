@@ -62,6 +62,9 @@ export class RepstockComponent implements OnInit  {
   ngOnInit() {
 
     //this.reportService.getStockImp(this.repStockImpRQT);   
+
+    if (localStorage.getItem("Usuario") == null)
+    {  this.router.navigate(['/login']);}
     
     this.esAgenteAduanas = localStorage.getItem("RolEmpUsuaCodigoDefault") != "2";
 
@@ -193,6 +196,7 @@ export class RepstockComponent implements OnInit  {
   cargarGraficos():void{
 
     this.BarChart = new Chart('barChart', {
+      responsive : true,
       type: 'bar',
       data: {
           //labels: this.XLabels,
@@ -280,6 +284,7 @@ export class RepstockComponent implements OnInit  {
   }),
 
   this.BarChartH = new Chart('barChartH', {
+    responsive : true,
     type: 'horizontalBar',
     data: {
         labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
@@ -340,6 +345,7 @@ export class RepstockComponent implements OnInit  {
 
 
   this.BarChart2 = new Chart('barChart2', {
+    responsive : true,
     type: 'bar',
     data: {
         labels: ['< 15', '15-30', '> 30' ],
@@ -400,6 +406,7 @@ export class RepstockComponent implements OnInit  {
   cargarGraficos3():void{
 
     this.BarChart = new Chart('barChart', {
+      responsive : true,
       type: 'bar',
       data: {
           //labels: this.XLabels,
@@ -481,7 +488,8 @@ export class RepstockComponent implements OnInit  {
   }),
 
   this.BarChartH = new Chart('barChartH', {
-    type: 'horizontalBar',
+    responsive : true,
+    type: 'horizontalBar',    
     data: {
         labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
         datasets: [{
@@ -541,6 +549,7 @@ export class RepstockComponent implements OnInit  {
 
 
   this.BarChart2 = new Chart('barChart2', {
+    responsive : true,
     type: 'bar',
     data: {
         labels: ['< 15', '15-30', '> 30' ],
@@ -601,6 +610,7 @@ export class RepstockComponent implements OnInit  {
   cargarGraficos2():void{
 
     this.BarChart = new Chart('barChart', {
+      responsive : true,
       type: 'bar',
       data: {
           //labels: this.XLabels,
@@ -677,6 +687,7 @@ export class RepstockComponent implements OnInit  {
   }),
 
   this.BarChartH = new Chart('barChartH', {
+    responsive : true,
     type: 'horizontalBar',
     data: {
         labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
@@ -737,6 +748,7 @@ export class RepstockComponent implements OnInit  {
 
 
   this.BarChart2 = new Chart('barChart2', {
+    responsive : true,
     type: 'bar',
     data: {
         labels: ['< 15', '15-30', '> 30' ],
@@ -797,6 +809,7 @@ export class RepstockComponent implements OnInit  {
   cargarGraficosCliente():void{
 
     this.BarChart = new Chart('barChart', {
+      responsive : true,
       type: 'bar',
       data: {
           //labels: this.XLabels,
@@ -868,6 +881,7 @@ export class RepstockComponent implements OnInit  {
   }),
 
   this.BarChartH = new Chart('barChartH', {
+    responsive : true,
     type: 'horizontalBar',
     data: {
         labels: ['Abandono Legal','1-5 dias', '6-11 dias', '> 11 dias' ],
@@ -928,6 +942,7 @@ export class RepstockComponent implements OnInit  {
 
 
   this.BarChart2 = new Chart('barChart2', {
+    responsive : true,
     type: 'bar',
     data: {
         labels: ['< 15', '15-30', '> 30' ],

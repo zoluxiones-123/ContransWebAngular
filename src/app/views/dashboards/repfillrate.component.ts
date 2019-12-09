@@ -90,6 +90,9 @@ export class RepfillrateComponent implements OnInit {
 
   ngOnInit() {
 
+    if (localStorage.getItem("Usuario") == null)
+    {  this.router.navigate(['/login']);}
+
     //this.reportService.getStockImp(this.repStockImpRQT);         
     this.repStockImpRQT.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.repStockImpRQT.IDRol = Number(localStorage.getItem("RolEmpUsuaCodigoDefault").toString());

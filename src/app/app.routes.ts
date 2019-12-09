@@ -8,6 +8,10 @@ import {Dashboard2Component} from "./views/dashboards/dashboard2.component";
 import {Dashboard5Component} from "./views/dashboards/dashboard5.component";
 import {ConsultaFacturaComponent} from "./views/dashboards/consultafactura.component";
 
+// Forms: Entrada de Datos / Mantenimientos
+import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-datos-usuario/actualizar-datos-usuario.component";
+
+
 import {RepstockComponent } from "./views/dashboards/repstock.component";
 import {RepfillrateComponent} from  "./views/dashboards/repfillrate.component";
 
@@ -19,6 +23,7 @@ import {SuscripComponent} from "./views/appviews/suscrip.component";
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
 import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.component";
 import {topnavigationlayout} from "./components/common/layouts/topnavigationlayout.component";
+import {ContraseniaComponent } from "./views/appviews/contrasenia.component";
 
 export const ROUTES:Routes = [
   // Main redirect
@@ -37,15 +42,19 @@ export const ROUTES:Routes = [
       {path: 'repfillrate', component: RepfillrateComponent},
       {path: 'consultafactura', component: ConsultaFacturaComponent},
       {path: 'suscripcion', component: SuscripComponent}
+      
+      
 
     ]
   },
-  // {
-  //   path: 'dashboards', component: topnavigationlayout,
-  //   children: [
-  //     {path: 'dashboard41', component: Dashboard41Component}
-  //   ]
-  // },
+  // App views
+  {
+    path: 'forms', component: BasicLayoutComponent,
+    children: [
+      {path: 'ActDatosUsuario', component: ActualizarDatosUsuarioComponent}
+    ]
+  },
+
   {
     path: '', component: BasicLayoutComponent,
     children: [

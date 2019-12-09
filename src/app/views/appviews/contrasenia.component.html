@@ -17,14 +17,11 @@
 
                 <div class="form-group row"><label class="col-lg-6 col-form-label">Contraseña Nueva</label>
                     <div class="col-lg-8"><input type="password" 
-                       required pattern = "^(?=.*[@$!%*#?&])[A-Z]([a-zA-Z0-9@$!%*#?&]){8,}$"
+
                        formControlName="contraNueva" placeholder="Nueva Contraseña" class="form-control">
                       <div *ngIf="submitted && this.contraseniaForm.controls['contraNueva'].errors" class="invalid-feedback">
-                        <div *ngIf="this.contraseniaForm.controls['contraNueva'].errors.required">Contraseña Nueva Requerida</div>
-                        <div *ngIf="this.contraseniaForm.controls['contraNueva'].errors.pattern" class="stat-percent font-bold text-danger">
-                            La contraseña debe tener el 1er caracter letra Mayus, al menos una letra, un número, un caracter especial y
-                            debe ser mínimo de 8 caracteres.</div>                        
-                    </div>                    
+                        <div *ngIf="this.contraseniaForm.controls['contraNueva'].errors.required">Contraseña Nueva Requerida</div>                                          
+                      </div>                    
                     </div>
                 </div>
 
@@ -32,10 +29,10 @@
                   <div class="col-lg-8"><input type="password" 
                     required pattern = "^(?=.*[@$!%*#?&])[A-Z]([a-zA-Z0-9@$!%*#?&]){8,}$"
                     formControlName="confContra" placeholder="Conf. Contraseña" class="form-control">
-                    <div *ngIf="submitted && this.contraseniaForm.controls['confContra'].errors" class="invalid-feedback">
+                    <div class="col-lg-10" *ngIf="submitted && this.contraseniaForm.controls['confContra'].errors" class="invalid-feedback">
                       <div *ngIf="this.contraseniaForm.controls['confContra'].errors.required">Conf. Contraseña Requerida</div>                      
-                      <div *ngIf="this.contraseniaForm.controls['confContra'].errors.pattern" class="stat-percent font-bold text-danger" >
-                        La contraseña debe tener el 1er caracter letra Mayus, al menos una letra, un número, un caracter especial y
+                      <div class="col-lg-10" *ngIf="this.contraseniaForm.controls['confContra'].errors.pattern" class="stat-percent font-bold text-danger" >
+                        Para la nueva y confirmación de contraseña, el formato es el sgte: El 1er caracter letra Mayus, al menos una letra, un número, un caracter especial y
                         debe ser mínimo de 8 caracteres.</div>                                          
                     </div>                    
                   </div>

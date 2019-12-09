@@ -1,0 +1,122 @@
+
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-title">
+          <h5>Actualizar Datos Usuarios</h5>
+          <!-- <iboxtools></iboxtools> -->
+        </div>
+
+        <div class="ibox-content">
+          <form class="m-t" role="form" #formUsuario="ngForm" (ngSubmit)="IniciarForm(formUsuario)">
+
+            
+            <div class="row">
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Razón Social</label>
+                <div class="col-sm-10">
+                    <input type="text" name="txtbox_razonSocial" class="form-control" [(ngModel)]="razonSocial" readonly="readonly" >
+                </div>
+              </div>   
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Nombres</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtNombres" class="form-control" [(ngModel)]="nombres" readonly="readonly"  >
+                  </div>
+              </div>  
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Apellidos</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtApellidos" class="form-control" [(ngModel)]="apellidos" readonly="readonly" >
+                  </div>
+              </div>   
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Doc. Identidad</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtDocIdentidad" class="form-control" [(ngModel)]="docIdentidad" readonly="readonly" >
+                  </div>
+              </div>  
+                           
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Cargo (*)</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtCargo" class="form-control" [(ngModel)]="cargo" required>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Teléfono (*)</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtTeléfono" class="form-control" [(ngModel)]="telefono"required>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Celular (*)</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtCelular" class="form-control" [(ngModel)]="celular" required>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Correo Confirmación (*)</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtCorreo" class="form-control" [(ngModel)]="correo" required>
+                  </div>
+              </div>   
+              
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Roles Asignados</label>
+                  <div class="col-sm-10">
+                      <input type="text" name="txtRoles" class="form-control" [(ngModel)]="rolDefault" required>
+                  </div>
+              </div>        
+              
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Actualizar Contraseña</label>
+                  <div class="col-sm-10" style="display: flex">
+                      <label class="col-form-label" for="rbt01">SI</label>
+                      <input type="radio" id="rbt01" name="rbtSi" [(ngModel)]="cambiarClave" value="SI" class="form-control" style="width: auto;" >
+                      <label class="col-form-label" style="margin-left: 40px;">NO</label>
+                      <input type="radio" name="rbtSi" [(ngModel)]="cambiarClave" value="NO" class="form-control" style="width: auto;" checked="checked" >
+                  </div>
+              </div>               
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Contraseña Actual</label>
+                  <div class="col-sm-10">
+                      <input type="password" name="txtClaveActual" class="form-control" >
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Nueva Contraseña</label>
+                <div class="col-sm-10">
+                    <input type="password" name="txtNuevaClave" class="form-control" >
+                </div>
+            </div>                
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Confirmar Contraseña</label>
+                  <div class="col-sm-10">
+                      <input type="password" name="txtConfirmarClave" class="form-control" >
+                  </div>
+              </div>  
+
+
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                  <button type="reset" class="btn btn-w-m btn-primary" (click)="GuardarUsuario(formUsuario)" >Guardar</button>
+                  <button type="reset" class="btn btn-w-m btn-default" style="margin-left: 15px;" >Cancela</button>
+              </div>
+              
+            </div>
+          </form>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

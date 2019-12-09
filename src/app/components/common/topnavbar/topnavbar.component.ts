@@ -13,4 +13,18 @@ export class TopNavbarComponent {
     smoothlyMenu();
   }
 
+  
+  LogOut(){
+    
+    localStorage.removeItem("NombreUsuario");   
+    localStorage.removeItem("DireccionIP");              
+    localStorage.removeItem("Usuario");
+    localStorage.removeItem("NombreUsuario");
+    localStorage.removeItem("RolEmpUsuaCodigoDefault");
+    localStorage.removeItem("EntiNombre");
+    localStorage.removeItem("ListaRol");
+    localStorage.removeItem("EntiCodigo");
+
+  }
+
 }
