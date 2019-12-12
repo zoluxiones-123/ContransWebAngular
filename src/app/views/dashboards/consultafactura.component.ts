@@ -226,15 +226,13 @@ import { Router } from '@angular/router';
 
     this.reportService.getArchivoByte(paramUri,paramNombre,"xml").subscribe(
       data => {
-        
-        const linkSource = 'data:application/xml;base64,' + data;
+        const linkSource = 'data:text/xml;base64,' + data;
         const downloadLink = document.createElement("a");
         const fileName = paramNombre + ".xml";
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
-
       }, (error)=> console.log("Salio error en la descarga: ", error));
   }
 
