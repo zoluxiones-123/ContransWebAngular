@@ -209,7 +209,6 @@ export class LoginComponent {
     .subscribe((data)=>
     {
       setTimeout(() => {
-        /** spinner ends after 5 seconds */
         this.spinner.hide();
       }, 1);
       if (data.Cod === 0) {
