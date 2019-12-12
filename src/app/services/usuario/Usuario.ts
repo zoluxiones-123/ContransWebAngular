@@ -51,6 +51,7 @@ import { map } from "rxjs/operators";
  }
 
   export class UsuarioResponse {
+    EntiNombre : string;
     UsuaCodigo : number;
     UsuaNombres : string;
     UsuarioApellido : string;
@@ -59,6 +60,7 @@ import { map } from "rxjs/operators";
     UsuaTelf : string;
     UsuaCelular : string;
     UsuaEmail : string;
+    RolEmpUsuaCodigoDefault : number;
   }
 
   export class ActualizarClaveRequest {
@@ -70,4 +72,9 @@ import { map } from "rxjs/operators";
   export class ActualizarClaveResponse {
     Cod : number;
     Msj : string;
+  }
+
+  export class RolResponse {
+    RolCodigo : string;
+    RolDesc : string;
   }
