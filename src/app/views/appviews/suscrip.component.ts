@@ -26,6 +26,12 @@ import swal from 'sweetalert';
 export class SuscripComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  cerrado = false;
+
+  myControl = new FormControl();
+  options: string[] = ['Delhi', 'Mumbai', 'Banglore'];
+  filteredOptions: Observable<string[]>;
+  filteredEntidad: Observable<entidad[]>;
 
   constructor(
   private reportService: ReportService, 
@@ -42,10 +48,14 @@ export class SuscripComponent implements OnInit {
   heroForm: FormGroup;
   isLoading = false;
 
-  myControl = new FormControl();
-  
-  filteredOptions: Observable<string[]>;
+  //myControl = new FormControl();
+  //filteredOptions: Observable<string[]>;
+
   public isError = false;
+  public EntidadSelect:string = "";
+  public NEntidadSelect:string = "";
+  public msjfinal:string = "";
+  
   
   public LEntidades : Entidades;
   public ListaEntidades : Array<entidad> = [];
@@ -80,6 +90,18 @@ export class SuscripComponent implements OnInit {
   
   
   ngOnInit() {
+    
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+
+    this.filteredEntidad = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filtere(value))
+    );
+
+
     this.usersForm = this.fb.group({
       userInput: null
     })
@@ -152,23 +174,62 @@ export class SuscripComponent implements OnInit {
   }
 
   
+  displayEnt(entid: entidad) {
+    if (entid) { return entid.Nombre; }
+  }
+
+  public ChangingValue(param : any)
+    {
+      var codenti = param.option.value.toString().split(",");
+      var codentif = codenti[0].toString();
+      
+      //this.EntidadSelect = param.option.value;
+      this.EntidadSelect = codentif;      
+      this.NEntidadSelect = param.option.viewValue;
+      let enti = this.EntidadSelect;
+    }
+  
   onClose(){
+
+    this.solicIns.Entidad = null;
+    //form.value.txtbox_razonSocial;
+    this.solicIns.EntiCodigo = null;
+    //form.value.txtbox_razonSocial;
+    this.solicIns.NombreSolicitud = null;
+    this.solicIns.ApellidoSolicitud = null;
+    this.solicIns.CargoSolicitud = null;
+    this.solicIns.NroDocSolicitud = null;
+    this.solicIns.TelefonoSolicitud = null;
+    this.solicIns.CelularSolicitud = null;
+    this.solicIns.EmailSolicitud =  null;
+    this.cerrado = true;
     this.dialogRef.close();
   }
 
   public RegistrarSusc(form: NgForm)
   {
-    
+
+    if (this.cerrado == true)
+    { return;  }
+
     interface MyObj {
       Entidad: string;
       Nombre: string;
     }
   
     let obj: MyObj = JSON.parse(JSON.stringify(this.usersForm.get('userInput').value));
+
+    if (this.NEntidadSelect == "" || this.EntidadSelect == "" || this.myControl.value.toString() == "")   
+    {swal({text :"Debe seleccionar la empresa"});
+    return;}
     
-    this.solicIns.Entidad = obj.Nombre;
+    //this.solicIns.Entidad = obj.Nombre;
+    //this.solicIns.EntiCodigo =  obj.Entidad;
+
+    this.solicIns.Entidad = this.NEntidadSelect;
     //form.value.txtbox_razonSocial;
-    this.solicIns.EntiCodigo =  obj.Entidad;
+    this.solicIns.EntiCodigo =  this.EntidadSelect;
+
     //form.value.txtbox_razonSocial;
     this.solicIns.NombreSolicitud = form.value.txtbox_nombres;
     this.solicIns.ApellidoSolicitud = form.value.txtbox_apellidos;  
@@ -179,14 +240,20 @@ export class SuscripComponent implements OnInit {
     this.solicIns.EmailSolicitud =  form.value.txtbox_correo;
         
     if (this.solicIns.NombreSolicitud != null && this.solicIns.ApellidoSolicitud != null)
-    {this.registrarSuscripcion();
-    swal({text :"Se ha registrado la suscripción correctamente", icon:"success"});  
-    this.dialogRef.close();
+    {      
+      this.registrarSuscripcion();
+     //swal({text :"Se ha registrado la suscripción correctamente", icon:"success"}); 
+     // swal({text : this.msjfinal, icon:"success"}); 
+     //  this.dialogRef.close();
+     // }
+     // else
+     // {swal({text : this.msjfinal.toString()});}
     } 
         
   }
 
   registrarSuscripcion():void{
+  //void{
 
     //Reporte Eri...............//
     this.reportService
@@ -198,11 +265,22 @@ export class SuscripComponent implements OnInit {
       if (this.respSolic != null)
       {
                         
-          if (this.respSolic.Msj == "Ok")
+          //if (this.respSolic.Msj == "Ok")
+          if (data.Msj == "Ok")
           {
-            console.warn("Usuario Registrado Correctamente")
+            
+            this.msjfinal = "Usuario Registrado Correctamente";
+            swal({text : this.msjfinal, icon:"success"}); 
+            this.dialogRef.close();
+            //return 1;
           }
-      }
+          else
+          { 
+           this.msjfinal = data.Msj.toString(); 
+           swal({text : this.msjfinal.toString()});  
+          }
+          // return 0;}
+      } 
       else{
         localStorage.removeItem('StockTotal');       
         this.onIsError();   
@@ -212,10 +290,23 @@ export class SuscripComponent implements OnInit {
       this.onIsError();           
       console.log("Error");}
     );
-
+    // return 0;
     }
 
+  private _filter(value: string): string[] {
+      const filterValue = value.toLowerCase();
   
+      return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);    
+      
+    }
+
+    
+
+  private _filtere(value: string): entidad[] {
+    const filterValue = value.toLowerCase();
+     
+    return this.ListaEntidades.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
+  }
 
   solo_letras(val)
   {

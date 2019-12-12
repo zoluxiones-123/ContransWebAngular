@@ -23,7 +23,8 @@ export class TopNavbarComponent {
     localStorage.removeItem("RolEmpUsuaCodigoDefault");
     localStorage.removeItem("EntiNombre");
     localStorage.removeItem("ListaRol");
-    localStorage.removeItem("EntiCodigo");
+    localStorage.removeItem("EntiCodigo");    
+    localStorage.removeItem("EsStarter");
 
   }
 

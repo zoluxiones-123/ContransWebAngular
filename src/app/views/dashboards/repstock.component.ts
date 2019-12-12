@@ -39,6 +39,7 @@ export class RepstockComponent implements OnInit  {
   public stkAlg : string;
   public esAgenteAduanas : boolean;
   public seVisualiza: boolean;
+  public alto : string;
           
   private repStockImpRQT: RepStockImpRQT = {
     IDUser: 0,
@@ -65,6 +66,14 @@ export class RepstockComponent implements OnInit  {
 
     if (localStorage.getItem("Usuario") == null)
     {  this.router.navigate(['/login']);}
+
+
+    if (localStorage.getItem("EsStarter").toString() == "1")
+    {
+      this.alto = "420px";
+    }
+    else
+    { this.alto = "515px";}
     
     this.esAgenteAduanas = localStorage.getItem("RolEmpUsuaCodigoDefault") != "2";
 
