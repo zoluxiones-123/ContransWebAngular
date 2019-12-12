@@ -62,6 +62,11 @@ export class NavigationComponent {
     return this.router.url.indexOf(routename) > -1;
   }
 
+  SetStarter()
+  {
+    localStorage.setItem("EsStarter","0");
+  }
+
   CambioRol(item: any)
   {
     swal({

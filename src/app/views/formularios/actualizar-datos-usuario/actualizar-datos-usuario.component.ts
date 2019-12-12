@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import {  Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse } from '../../../services/usuario/Usuario';
+import {  Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse, RolResponse } from '../../../services/usuario/Usuario';
 
 import swal from 'sweetalert';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
 import { stringify } from 'querystring';
 
 @Component({
@@ -20,8 +22,9 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
   telefono :string;
   celular :string;
   correo :string;
-  rolDefault :string;
-  roles: Array<string>;
+
+  codRolDefault :string;
+  roles: Array<RolResponse>;
 
   cambiarClave :string; 
   claveActual :string; 
@@ -31,9 +34,11 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
   usuarioRequest : UsuarioRequest;
   actualizarClaveRequest : ActualizarClaveRequest;
 
-  constructor(private usuario: Usuario ) { 
-    var emptyString = "";
+  constructor(private usuario: Usuario
+            , public dialogRef : MatDialogRef<ActualizarDatosUsuarioComponent>
+            , @Inject(MAT_DIALOG_DATA) public data:any,) { 
 
+              var emptyString = "";
     this.razonSocial = emptyString;
     this.nombres = emptyString;
     this.apellidos = emptyString;
@@ -43,7 +48,7 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
     this.telefono = emptyString;
     this.celular = emptyString;
     this.correo = emptyString;
-    this.rolDefault = "ADMINISTRADOR";
+    this.codRolDefault = "0";
 
     this.cambiarClave = "NO";
     this.claveActual = emptyString;
@@ -63,11 +68,16 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
 
   ngOnInit() {
   }
-
   public IniciarForm(form: NgForm){
 
     
   }
+
+  /*public ChangingValue(param : any){
+    this.codRolDefault = param.target.value;
+    var t = "";
+    t = "d";
+  }*/
 
   public CargarDatosUsuario(param: UsuarioRequest) {
     this.usuario.obtUsuario(param).subscribe( 
@@ -75,7 +85,7 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
         var resp : UsuarioResponse;
         resp = data;
 
-        this.razonSocial = "CONTRANS S.A.C.";
+        this.razonSocial = resp.EntiNombre;
         this.nombres = resp.UsuaNombres;
         this.apellidos = resp.UsuarioApellido;
         this.docIdentidad = resp.UsuaNumDoc;
@@ -83,7 +93,10 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
         this.cargo = resp.UsuaCargo;
         this.telefono = resp.UsuaTelf;
         this.celular = resp.UsuaCelular;
-        this.correo = resp.UsuaEmail;        
+        this.correo = resp.UsuaEmail;
+        
+        this.roles = data.listRol;
+        this.codRolDefault = resp.RolEmpUsuaCodigoDefault.toString();
       }, 
       error => {
         swal("Error al cargar los datos"); 
@@ -99,7 +112,7 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
       Telefono : this.telefono,
       Celular : this.celular,
       Email : this.correo,
-      RolEmpUsuaCodigoDefault : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"))
+      RolEmpUsuaCodigoDefault : Number.parseInt(this.codRolDefault)
     }
 
     if(this.cambiarClave == "SI")
@@ -122,8 +135,10 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
 
     this.usuario.actualizarDatos(this.usuarioRequest).subscribe( 
       data => { 
-        if(this.cambiarClave == "NO")
-          swal("Datos Guardados Correctamente"); 
+        if(this.cambiarClave == "NO"){
+          swal("Datos Guardados Correctamente");
+          this.dialogRef.close();
+        }
         else{    
           this.usuario.actualizarClave(this.actualizarClaveRequest).subscribe( 
             data => { 
@@ -136,6 +151,7 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
                   this.claveNueva = "";
                   this.claveRepetida = "";
                   swal("Datos Guardados y Contraseña Cambiada Correctamente");
+                  this.dialogRef.close();
                 }                  
                 else 
                   swal("Datos Guardados correctamente pero no se pudo cambiar la contraseña. " + resp.Msj);
@@ -172,6 +188,9 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
     return msg;
   }
 
-  
+  public cerrarPopup(){
+    this.dialogRef.close();
+    return false;
+  }
 
 }

@@ -14,6 +14,8 @@ public constructor() {
 
 public ngOnInit():any {
   this.nav.className += " white-bg";
+  localStorage.setItem("EsStarter","1");
+            
 }
 
 

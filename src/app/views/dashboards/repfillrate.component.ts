@@ -79,8 +79,8 @@ export class RepfillrateComponent implements OnInit {
   
   LineChart = [];
   BarChart = [];
-  XLabels = [];
-  YLabels = [];
+  EjeX = [];
+  EjeOcup = [];
   YLabelsF = [];
   YStCT = [];
   YAband = [];
@@ -218,7 +218,17 @@ export class RepfillrateComponent implements OnInit {
         this.fineri = true;
     
         if (this.finocup == true && this.fineri == true && this.finfill == true)
-        { this.cargarGraficos() };
+        { let xvar = this.EjeX;  
+          let ocup = this.EjeOcup;
+          let frate = this.YLabelsF;
+          let eri =  this.YLabelsE;
+
+          console.log(xvar);
+          console.log(ocup); 
+          console.log(frate);
+          console.log(eri);
+
+          this.cargarGraficos() };
         
       }
       else{
@@ -314,7 +324,17 @@ export class RepfillrateComponent implements OnInit {
           this.finfill = true;
 
           if (this.finocup == true && this.fineri == true && this.finfill == true)
-          { this.cargarGraficos() };
+          { let xvar = this.EjeX;  
+            let ocup = this.EjeOcup;
+            let frate = this.YLabelsF;
+            let eri =  this.YLabelsE;
+
+            console.log(xvar);
+            console.log(ocup); 
+            console.log(frate);
+            console.log(eri);
+            
+            this.cargarGraficos() };
         
   
       }
@@ -398,14 +418,16 @@ export class RepfillrateComponent implements OnInit {
         
           for (var i = 1; i <= listaocup.length; i++) {
             let last = listaocup[listaocup.length-i];
-            this.XLabels.push(last.Fecha.toString());   
-            this.YLabels.push(last.Valor.toString());    
+            this.EjeX.push(last.Fecha.toString());   
+            this.EjeOcup.push(last.Valor.toString());    
           }
 
           this.finocup = true;
 
           if (this.finocup == true && this.fineri == true && this.finfill == true)
-          { this.cargarGraficos() };
+          { 
+        
+            this.cargarGraficos() };
         
       
         }
@@ -427,10 +449,10 @@ export class RepfillrateComponent implements OnInit {
     this.LineChart = new Chart('lineChart',{
       type: 'line',
       data: {
-        labels: this.XLabels,      
+        labels: this.EjeX,      
         datasets: [{
           label : '% Ocupabilidad',
-          data: this.YLabels,
+          data: this.EjeOcup,
           fill: false,
           lineTension: 0.2,
           borderColor: "blue",
