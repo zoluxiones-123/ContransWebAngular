@@ -1,3 +1,5 @@
+
+
 div#autoscroll {
   overflow-y: hidden;
   overflow-x: auto;
@@ -17,14 +19,14 @@ div#Timeline div#ContransPart {
 }
 
 div#Timeline div#ContransPart div.Container {
-  width: 100%; /*<<----- ANCHO DE CADA ESTADO*/
+  width: 85px; /*<<----- ANCHO DE CADA ESTADO*/
   /* width: 85px; */
   flex-grow: 6;
 }
 
 
 div#Timeline div#ContransPart div.Container div.medio div.LineaContainer {
-  border: 2px solid red;
+  border: 1px solid rgb(0, 38, 255);
   height: 1px;
   position: relative;
   top: 50%;
@@ -36,13 +38,13 @@ div#Timeline div#IntegralPart {
 }
 
 div#Timeline div#IntegralPart div.Container {
-  width: 100%; /*<<----- ANCHO DE CADA ESTADO*/
+  width: 85px; /*<<----- ANCHO DE CADA ESTADO*/
   flex-grow: 4;
 
 }
 
 div#Timeline div#IntegralPart div.Container div.medio div.LineaContainer {
-  border: 2px solid blue;
+  border: 1px solid rgb(0, 217, 255);
   height: 1px;
   position: relative;
   top: 50%;
@@ -57,21 +59,59 @@ div.Container div.medio div.iconostage {
   position: relative;
   top: 50%;
   left: 50%;
-  transform: translate(-12px, -10px); /*<--- tamaño del icono del centro*/
+  transform: translate(-8px, -7px); /*<--- tamaño del icono del centro*/
 }
 
 div.Container div.medio i { /*<----- el icono */
   position: absolute;
-  zoom: 200%;
+  zoom: 150%;
+  color: #000;
 }
-
 
 div.Container div.carrito {
   /* display: flex; */
   text-align: center;
-  height: 30px;
+  height: 60px;
+}
+
+div.carrito * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+div.carrito i {
+  zoom: 300%;
+  transform: rotateY(180deg);
 }
 
 div.Container div.estado {
   padding-top: 15px;
+
 }
+
+div.estado * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  /* position: relative;
+  top: 50%;
+  left: 50%; */
+
+}
+
+div.estado i {
+  zoom: 150%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  /* transform: translate(-12px); */
+}
+
+div.estado label {
+  text-align: center;
+
+  /* transform: translate(-12px); */
+}
+
