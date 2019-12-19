@@ -7,6 +7,7 @@ import {Dashboard2Component} from "./views/dashboards/dashboard2.component";
 // import {Dashboard41Component} from "./views/dashboards/dashboard41.component";
 import {Dashboard5Component} from "./views/dashboards/dashboard5.component";
 import {ConsultaFacturaComponent} from "./views/dashboards/consultafactura.component";
+import { timelinecomponent } from "./views/dashboards/timeline/timeline.component";
 
 // Forms: Entrada de Datos / Mantenimientos
 import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-datos-usuario/actualizar-datos-usuario.component";
@@ -33,18 +34,11 @@ export const ROUTES:Routes = [
   {
     path: 'dashboards', component: BasicLayoutComponent,
     children: [
-      {path: 'dashboard1', component: Dashboard1Component},
-      {path: 'dashboard2', component: Dashboard2Component},
-      // {path: 'dashboard3', component: Dashboard3Component},
-      // {path: 'dashboard4', component: Dashboard4Component},
-      {path: 'dashboard5', component: Dashboard5Component},
       {path: 'repstock', component: RepstockComponent},
       {path: 'repfillrate', component: RepfillrateComponent},
       {path: 'consultafactura', component: ConsultaFacturaComponent},
-      {path: 'suscripcion', component: SuscripComponent}
-      
-      
-
+      {path: 'suscripcion', component: SuscripComponent},
+      {path: 'tracking', component: timelinecomponent},
     ]
   },
   // App views

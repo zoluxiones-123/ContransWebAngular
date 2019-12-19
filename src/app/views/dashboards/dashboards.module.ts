@@ -24,12 +24,13 @@ import { FormsModule } from "@angular/forms";
 import { BsDatepickerModule, TooltipModule } from "ngx-bootstrap";
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
+import { timelinecomponent } from "./timeline/timeline.component";
 defineLocale('es', esLocale);
 
 
 
 @NgModule({
-  declarations: [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent],
+  declarations: [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent, timelinecomponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, TooltipModule.forRoot()],
   exports     : [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent],
 })
