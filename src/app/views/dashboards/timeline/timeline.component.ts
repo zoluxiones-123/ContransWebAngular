@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class timelinecomponent { 
 
-  public TieneIntegral:boolean = false;
+  public TieneIntegral:boolean = true;
 }
 

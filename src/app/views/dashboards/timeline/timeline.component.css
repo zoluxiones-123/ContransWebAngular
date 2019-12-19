@@ -1,81 +1,77 @@
+div#autoscroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
 div#Timeline {
-  /* border: 2px solid orange; */
+  display: inline-flex;
 }
 
-div#Timeline * {
-  vertical-align: 50px;
+div#Timeline div {
+  width: 100%;
+  /* vertical-align: 50px; */
 }
-
-/*
-/////////////////////////////////////////////
-*/
 
 div#Timeline div#ContransPart {
-  /* border: 2px solid rgb(225, 241, 1); */
   display: flex;
-  /*<------ si o si queda */
-  flex-grow: 6;
 }
 
 div#Timeline div#ContransPart div.Container {
-  /* border: 2px solid darkred; */
-
-  width: 100%;
-}
-
-div.Container div.carrito {
-  /* border: 2px solid rgb(0, 128, 60); */
-  display: flex;
-  /* height: 50px; */
-}
-
-div.Container div.medio {
-  /* border: 1px solid rgb(89, 0, 255); */
-  /* height: 50px; */
-  z-index: 0;
-}
-
-div.Container div.estado {
-  /* height: 50px; */
-
-  /* border: 2px solid gray; */
-}
-
-div.Container div.estado * {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  width: 100%; /*<<----- ANCHO DE CADA ESTADO*/
+  /* width: 85px; */
+  flex-grow: 6;
 }
 
 
-div.Container div.medio div.iconostage { /***************************/
-  /* border: 2px solid turquoise; */
-
-  z-index: 2;
-  position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-12px,-10px);
-
-
-}
-
-div.Container div.medio i {
-
-  position: absolute;
-
-}
-
-div.Container div.medio div.LineaContainer { /***************************/
+div#Timeline div#ContransPart div.Container div.medio div.LineaContainer {
   border: 2px solid red;
   height: 1px;
   position: relative;
   top: 50%;
 }
 
-/*
-/////////////////////////////////////////////
-*/
+
+div#Timeline div#IntegralPart {
+  display: flex;
+}
+
+div#Timeline div#IntegralPart div.Container {
+  width: 100%; /*<<----- ANCHO DE CADA ESTADO*/
+  flex-grow: 4;
+
+}
+
+div#Timeline div#IntegralPart div.Container div.medio div.LineaContainer {
+  border: 2px solid blue;
+  height: 1px;
+  position: relative;
+  top: 50%;
+}
+
+div.Container div.medio {
+  z-index: 0;
+}
+
+div.Container div.medio div.iconostage {
+  z-index: 2;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-12px, -10px); /*<--- tamaño del icono del centro*/
+}
+
+div.Container div.medio i { /*<----- el icono */
+  position: absolute;
+  zoom: 200%;
+}
+
+
+div.Container div.carrito {
+  /* display: flex; */
+  text-align: center;
+  height: 30px;
+}
+
+div.Container div.estado {
+  padding-top: 15px;
+}
