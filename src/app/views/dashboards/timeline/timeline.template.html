@@ -5,7 +5,7 @@
     <div id="Timeline">
       <div id="ContransPart">
         <div class="Container" id="Stage1">
-          <div class="carrito">
+          <div class="carrito" [tooltip]="msjcont">
             <i class="fa fa-truck"></i><label>1</label>
           </div>
           <div class="medio">
@@ -53,7 +53,10 @@
           </div>
         </div>
         <div class="Container" id="Stage5">
-          <div class="carrito"><i class="fa fa-truck"></i><label>100</label></div>
+          <div class="carrito" [tooltip]="msjcont">
+            <i class="fa fa-truck"></i>
+            <label>99</label>
+          </div>
           <div class="medio">
             <div class="iconostage"><i class="fa fa-circle"></i></div>
             <div class="LineaContainer"></div>
