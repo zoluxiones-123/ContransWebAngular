@@ -141,5 +141,18 @@ export class ReportService {
 
     return resul; 
   }
+  
+  getretiroestado(paramIDUSer:string, paramIDRol:string, paramContenedor:string) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/retiroestado`; 
+    
+    let objRequesta = {
+      IDUSer : paramIDUSer,
+      IDRol : paramIDRol,
+      Contenedor : paramContenedor
+    }
+    return this.http.post(
+      url_api, objRequesta, { headers: this.headers }).pipe(map(data => data));
+  }
 
 }
