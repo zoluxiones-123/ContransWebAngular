@@ -143,3 +143,28 @@ i.vacio {
   color: transparent;
 }
 
+div.input-tracking{
+  display: flex;
+  width: fit-content;
+  align-items: center;
+}
+
+div.input-tracking *{
+  display: inline-flex;
+
+}
+
+div.input-tracking label {
+  width: fit-content;
+}
+
+div.input-tracking input {
+  width: 45%;
+  margin-left: 10px;
+}
+
+div.input-tracking button{
+  margin-left: 10px;
+  width: fit-content !important;
+}
+

@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ReportService } from '../../../services/report.service';
+import { AnimationGroupPlayer } from '@angular/animations/src/players/animation_group_player';
+import { Input } from '@angular/compiler/src/core';
 
 
 
@@ -11,77 +14,43 @@ import { ReportService } from '../../../services/report.service';
 })
 export class timelinecomponent { 
 
+  Respuesta:any;
   ContransList : Array<any>;
   TMList : Array<any>;
-  TieneIntegral:boolean;
-
+  IDUserObj; 
+  IDRolObj; 
+  ContenedorObj;  
+  contenedorFormControl = new FormControl('');
 
   constructor(private reportService: ReportService) { 
-    let IDUserObj = localStorage.getItem("IDUser");
-    let IDRolObj = localStorage.getItem("IDRol");
-    let ContenedorObj = "";
-    this.reportService.getretiroestado(IDUserObj,IDRolObj,ContenedorObj).subscribe(data => {
-      this.ContransList = data.Contrans;
-      this.TMList = data.TM;
-      this.TieneIntegral = this.TMList.length > 0;
-    });
+  }
 
+  ngOnInit(){
+    this.IDUserObj = localStorage.getItem("Usuario").toString();
+    this.IDRolObj = localStorage.getItem("RolEmpUsuaCodigoDefault").toString();
+    this.ContenedorObj = "";
+    this.generarTimeline();
+  }
 
-   }
+  ngAfterContentInit(){
 
-  lista : Array<any> = [
-    {
-      msjcont : 
-      "Ctn 01: SUDU1847236 / 09-12-2019 10:04 " + 
-      "Ctn 11: SUDU1847236 / 09-12-2019 20:04 " +
-      "Ctn 12: SUDU1847236 / 09-12-2019 23:04 " +
-      "Ctn 13: SUDU1847236 / 09-12-2019 10:04 " +
-      "Ctn 01: SUDU1847236 / 09-12-2019 10:04 " +
-      "Ctn 11: SUDU1847236 / 09-12-2019 20:04 " +
-      "Ctn 12: SUDU1847236 / 09-12-2019 23:04 " +
-      "Ctn 13: SUDU1847236 / 09-12-2019 10:04 " +
-      "Ctn 01: SUDU1847236 / 09-12-2019 10:04 " +
-      "Ctn 11: SUDU1847236 / 09-12-2019 20:04 " +
-      "Ctn 12: SUDU1847236 / 09-12-2019 23:04 " +
-      "Ctn 13: SUDU1847236 / 09-12-2019 10:04 " +
-      "Ctn 01: SUDU1847236 / 09-12-2019 10:04 " + 
-      "Ctn 11: SUDU1847236 / 09-12-2019 20:04 " +
-      "Ctn 12: SUDU1847236 / 09-12-2019 23:04 " +
-      "Ctn 13: SUDU1847236 / 09-12-2019 10:04 " +
-      "Ctn 14: SUDU1847236 / 09-12-2019 10:04 ",
-      numbertrucks : "16",
-      iconStage : "fa fa-home",
-      nombreStage : "Ingreso Contrans",
-      iconCarrito : "fa fa-truck"
-    },
-    {
-      msjcont : "Ctn 01: SUDU1847236 / 09-12-2019 10:04 " + 
-      "Ctn 11: SUDU1847236 / 09-12-2019 20:04 ",
-      numbertrucks : "2",
-      iconStage : "fa fa-check-square",
-      nombreStage : "Permiso Salida",
-      iconCarrito : "fa fa-truck"
-    },
-    {
-      msjcont : "Ctn 01: SUDU1847236 / 09-12-2019 10:04 " + 
-      "Ctn 11: SUDU1847236 / 09-12-2019 20:04 " +
-      "Ctn 12: SUDU1847236 / 09-12-2019 23:04 ",
-      numbertrucks : "3",
-      iconStage : "fa fa-clock-o",
-      nombreStage : "Cita de Salida",
-      iconCarrito : "fa fa-truck"
-    },
-    {
-      msjcont : "",
-      numbertrucks : "",
-      iconStage : "fa fa-bus",
-      nombreStage : "Ingreso Transporte",
-      iconCarrito : "fa fa-truck vacio"
-    }
-  ]
+  }
 
+  public generarTimeline() {
+    console.log(this.IDUserObj,this.IDRolObj,this.ContenedorObj); //    <------------
+    this.reportService.getretiroestado(this.IDUserObj,this.IDRolObj,this.ContenedorObj).subscribe(
+     data => {
+     this.ContransList = data.Contrans;
+     this.TMList = data.TM;
+     });
+  }
 
-
+  public actualizarTimeline() {
+    let obj = document.getElementById("ContainerInput") as object;
+    this.ContenedorObj = obj["value"];
+    // ContenedorObj = (document.getElementById("ContainerInput") as HTMLElement).valu;
+    this.generarTimeline();
+  }
   
 }
 

@@ -1,5 +1,10 @@
 <div class="wrapper wrapper-content">
   <br>
+    <div class="input-tracking">
+      <label>Contenedor :</label>
+      <input id="ContainerInput" class="form-control"/>
+      <button class="btn btn-primary" (click)="actualizarTimeline()"><i class="fa fa-search"></i>&nbsp;&nbsp;Buscar</button>
+    </div>
   <br>
   <div id="autoscroll">
     <div id="Timeline">
@@ -9,7 +14,7 @@
             <i [ngClass]="item.iconCarrito"></i><label>{{item.numbertrucks}}</label>
           </div>
           <div class="medio">
-            <div class="iconostage"><i class="fa fa-circle-o"></i></div>
+            <div class="iconostage"><i class="fa fa-circle"></i></div>
             <div class="LineaContainer"></div>
           </div>
           <div class="estado">
