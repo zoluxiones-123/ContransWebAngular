@@ -129,8 +129,9 @@ div.estado label {
 :host >>> .tooltip-inner {
   background-color: #000;
   color: #fff;
-  font-size: 9px;
-  position: relative;
+  font-size: 8.5px;
+  font-family: monospace;
+  /* display: inline-flex; */
   left: 60px;
 }
 
