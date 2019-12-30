@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ReportService } from '../../../services/report.service';
 import { AnimationGroupPlayer } from '@angular/animations/src/players/animation_group_player';
-import { Input } from '@angular/compiler/src/core';
 
 
 
@@ -14,13 +12,11 @@ import { Input } from '@angular/compiler/src/core';
 })
 export class timelinecomponent { 
 
-  Respuesta:any;
   ContransList : Array<any>;
   TMList : Array<any>;
   IDUserObj; 
   IDRolObj; 
   ContenedorObj;  
-  contenedorFormControl = new FormControl('');
 
   constructor(private reportService: ReportService) { 
   }
@@ -37,7 +33,6 @@ export class timelinecomponent {
   }
 
   public generarTimeline() {
-    console.log(this.IDUserObj,this.IDRolObj,this.ContenedorObj); //    <------------
     this.reportService.getretiroestado(this.IDUserObj,this.IDRolObj,this.ContenedorObj).subscribe(
      data => {
      this.ContransList = data.Contrans;
@@ -48,7 +43,6 @@ export class timelinecomponent {
   public actualizarTimeline() {
     let obj = document.getElementById("ContainerInput") as object;
     this.ContenedorObj = obj["value"];
-    // ContenedorObj = (document.getElementById("ContainerInput") as HTMLElement).valu;
     this.generarTimeline();
   }
   
