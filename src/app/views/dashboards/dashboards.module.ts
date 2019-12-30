@@ -10,6 +10,8 @@ import {Dashboard2Component} from "./dashboard2.component";
 // import {Dashboard41Component} from "./dashboard41.component";
 import {Dashboard5Component} from "./dashboard5.component";
 import {ConsultaFacturaComponent} from "./consultafactura.component";
+import {ConsultacontdlComponent} from "./consultacontdl.component";
+
 
 // Chart.js Angular 2 Directive by Valor Software (npm)
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -29,9 +31,9 @@ defineLocale('es', esLocale);
 
 
 @NgModule({
-  declarations: [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent],
+  declarations: [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent,ConsultacontdlComponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, TooltipModule.forRoot()],
-  exports     : [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent],
+  exports     : [Dashboard1Component,Dashboard2Component,Dashboard5Component,ConsultaFacturaComponent,ConsultacontdlComponent],
 })
 
 export class DashboardsModule {}

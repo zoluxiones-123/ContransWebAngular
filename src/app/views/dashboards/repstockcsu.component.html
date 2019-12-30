@@ -1,0 +1,93 @@
+<section id="report">
+              
+<div class="form-group row">
+  <label class="col-sm-4 col-form-label"></label>
+ <div class="col-sm-8">
+  <label>Registro DA : </label>
+  
+         <mat-form-field>        
+                 <input type="text" placeholder=" Digite el Registro" matInput [formControl]="myRegistro" [matAutocomplete]="autox">
+                 <mat-autocomplete id="ListaDA" autoActiveFirstOption (optionSelected) = "ChangingRegistro($event)" #autox="matAutocomplete"  >
+                   <mat-option *ngFor="let reg of filteredReg | async" [value]="reg">
+                     {{reg}}
+                   </mat-option>
+                 </mat-autocomplete>
+          </mat-form-field>
+  </div>
+</div>      
+<div  class="row">
+          <div class="col-lg-12">
+              <div class="ibox ">           
+              <div class="ibox-content">
+                  <div class="row">                           
+                      <div class="col-lg-10">
+                          <td style = "width: 700px; height : 50%" > 
+                          <canvas id="barChart2"  ></canvas>  </td>
+                      </div>                           
+                  </div>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="form-group row">
+  <label class="col-sm-4 col-form-label"></label>
+ <div class="col-sm-8">
+  <label>Registro DS : </label>  
+         <mat-form-field>        
+                 <input type="text" placeholder=" Digite el Registro" matInput [formControl]="myRegistroDS" [matAutocomplete]="auto">
+                 <mat-autocomplete id="ListaDS" autoActiveFirstOption (optionSelected) = "ChangingRegistroDS($event)" #auto="matAutocomplete"  >
+                   <mat-option *ngFor="let regds of filteredRegDS | async" [value]="regds">
+                     {{regds}}
+                   </mat-option>
+                 </mat-autocomplete>
+          </mat-form-field>
+  </div>
+</div>        
+<div  class="row">
+  <div class="col-lg-12">
+      <div class="ibox ">           
+      <div class="ibox-content">
+          <div class="row">                           
+              <div class="col-lg-10">
+                  <td style = "width: 700px; height : 50%" > 
+                  <canvas id="barChartDS"  ></canvas>  </td>
+              </div>                           
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="form-group row">
+  <label class="col-sm-4 col-form-label"></label>
+ <div class="col-sm-8">
+  <label>Registro DT : </label>  
+         <mat-form-field>        
+                 <input type="text" placeholder=" Digite el Registro" matInput [formControl]="myRegistroDT" [matAutocomplete]="autoDT">
+                 <mat-autocomplete id="ListaDT" autoActiveFirstOption (optionSelected) = "ChangingRegistroDT($event)" #autoDT="matAutocomplete"  >
+                   <mat-option *ngFor="let regdt of filteredRegDT | async" [value]="regdt">
+                     {{regdt}}
+                   </mat-option>
+                 </mat-autocomplete>
+          </mat-form-field>
+  </div>
+</div>  
+<div  class="row">
+  <div class="col-lg-12">
+      <div class="ibox ">           
+      <div class="ibox-content">
+          <div class="row">                           
+              <div class="col-lg-10">
+                  <td style = "width: 700px; height : 50%" > 
+                  <canvas id="barChartDT"  ></canvas>  </td>
+              </div>                           
+          </div>
+        </div>
+    </div>
+</div>
+</div>      
+
+
+
+    </section>
+

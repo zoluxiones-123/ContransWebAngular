@@ -25,7 +25,6 @@ import { Router } from '@angular/router';
 
     minDate: Date;
     maxDate: Date;
-
     
     constructor(private reportService: ReportService, private router: Router) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);

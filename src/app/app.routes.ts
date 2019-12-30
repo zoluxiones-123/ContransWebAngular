@@ -14,6 +14,9 @@ import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-da
 
 import {RepstockComponent } from "./views/dashboards/repstock.component";
 import {RepfillrateComponent} from  "./views/dashboards/repfillrate.component";
+import {RepstockcsuComponent} from  "./views/dashboards/repstockcsu.component";
+
+import {ConsultacontdlComponent} from  "./views/dashboards/consultacontdl.component";
 
 
 import {StarterViewComponent} from "./views/appviews/starterview.component";
@@ -41,7 +44,10 @@ export const ROUTES:Routes = [
       {path: 'repstock', component: RepstockComponent},
       {path: 'repfillrate', component: RepfillrateComponent},
       {path: 'consultafactura', component: ConsultaFacturaComponent},
-      {path: 'suscripcion', component: SuscripComponent}
+      {path: 'suscripcion', component: SuscripComponent},
+      {path: 'repstockcsu', component: RepstockcsuComponent},
+      {path: 'consultacontdl', component: ConsultacontdlComponent}
+
       
       
 
