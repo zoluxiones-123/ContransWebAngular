@@ -11,6 +11,15 @@ import { TermCond } from "app/models/termcond";
 import { UsuarioRQT } from "app/models/UsuarioRQT";
 import { actContraseniaRQT} from "../models/user_actContraseniaRQT";
 import { actContraseniaRPT} from "../models/user_actContraseniaRPT";
+
+import { RepStockCSURQT, RepStockCSURQTDet} from "../models/rep_stockCsuRqt";
+import { RegistroStockCSU, RegistroStockCSUDet} from "../models/reg_stockcsu";
+
+
+import { RepDiasLibresRQT} from "../models/rep_diaslibresRQT"
+import { RepDiasLibresRPT} from "../models/rep_diaslibresRPT"
+
+
 import { Suscripcion } from "app/models/user_suscripcion";
 import { Notificaciones} from "../models/notificacion";
 
@@ -74,6 +83,35 @@ export class AuthService {
     return this.http
       .post<actContraseniaRPT>(
         url_api, reqactContra, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getRegStockCSU(reqstockcsu:RepStockCSURQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarStockCSReg`;    
+    return this.http
+      .post<RegistroStockCSU>(
+        url_api, reqstockcsu, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getDiasLibres(reqdiaslibres:RepDiasLibresRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/diaslibresrpt`;    
+    return this.http
+      .post<RepDiasLibresRPT>(
+        url_api, reqdiaslibres, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+  
+  getRegStockCSUDet(reqstockcsudet:RepStockCSURQTDet): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarStockCSRegDetalle`;    
+    return this.http
+      .post<RegistroStockCSUDet>(
+        url_api, reqstockcsudet, { headers: this.headers })
       .pipe(map(data => data));
   }
 

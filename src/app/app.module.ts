@@ -27,6 +27,8 @@ import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { RepstockcsuComponent } from './views/dashboards/repstockcsu.component';
+
 
 
 @NgModule({
@@ -34,7 +36,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     AppComponent,
     SuscripComponent,
 
-    ContraseniaComponent
+    ContraseniaComponent,
+
+    RepstockcsuComponent
+
    
    
   ],
