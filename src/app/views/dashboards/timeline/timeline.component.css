@@ -168,3 +168,32 @@ div.input-tracking button{
   width: fit-content !important;
 }
 
+div.leyendaframe {
+  margin-top: 20px;
+  
+}
+
+div.leyendaframe div {
+  display: flex;
+}
+
+div.leyendaframe div * {
+  display: inline-flex;
+}
+
+div.leyendaContrans {
+  height: 15px;
+  width: 15px;
+  border: 0.5px solid black;
+  background-color: rgb(0, 38, 255);
+  margin-right: 5px;
+}
+
+div.leyendaTM {
+  height: 15px;
+  width: 15px;
+  border: 0.5px solid black;
+  background-color: rgb(0, 217, 255);
+  margin-right: 5px;
+}
+
