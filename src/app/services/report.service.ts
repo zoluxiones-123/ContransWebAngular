@@ -18,6 +18,9 @@ import { RespSolicitud } from '../models/resp_solicinsc';
 import { Entidades } from '../models/entidad';
 import { entidad } from '../models/entidad';
 import { entid } from '../models/entidad';
+import { ArchivoDescarga } from '../models/Archivo';
+import { ResourceLoader } from "@angular/compiler";
+import { HttpResponse } from "selenium-webdriver/http";
 
 
 @Injectable({
@@ -123,4 +126,20 @@ export class ReportService {
     return this.http.get<Array<ListaUnidadNegocio>>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
+
+  getArchivoByte(paramUri:string, paramNombre:string, paramTipoArchivo:string) : Observable<any>{
+    const url_api =`/ContransAPI/api/dercargarbase64`;
+
+    let objArchivo : ArchivoDescarga =  {
+      FilePath : paramUri.replace(/\\\\/g, "\\"),
+      FileName : paramNombre,
+      DocumentType : paramTipoArchivo
+    };
+
+    let resul = this.http.post<string>(
+        url_api, objArchivo, { headers: this.headers}).pipe(map(data => data));
+
+    return resul; 
+  }
+
 }

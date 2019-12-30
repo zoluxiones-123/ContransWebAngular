@@ -33,7 +33,7 @@ import { Router } from '@angular/router';
 
     setearFechasLimite(){
       let date = new Date();
-      this.minDate = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+      this.minDate = new Date(date.getFullYear(), date.getMonth() - 5, 1);
       this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
     }
     
@@ -59,7 +59,7 @@ import { Router } from '@angular/router';
           previous: "Anterior"
         },
         buttons : {
-          colvis : "Mostrar/Ocultar Columnas",
+          colvis : "Columnas",
           excel : "Exportar a Excel"
         },
         aria :
@@ -82,12 +82,7 @@ import { Router } from '@angular/router';
       this.SetGrillaVisibility(false);
       this.SetClienteInput();
       this.setearFechasLimite();
-    }
-    
-
-    public Redirrecionar(param:string){
-      window.open("http://" + param,"_blank");
-    }
+    }        
 
     public CargarGrilla(form: NgForm) {
 
@@ -210,4 +205,36 @@ import { Router } from '@angular/router';
       }
     }
 
+   public RedirrecionarPDF(paramUri:string, paramNombre:string){
+
+    this.reportService.getArchivoByte(paramUri,paramNombre,"pdf").subscribe(
+      data => {
+        
+        const linkSource = 'data:application/pdf;base64,' + data;
+        const downloadLink = document.createElement("a");
+        const fileName = paramNombre + ".pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+
+      }, (error)=> console.log("Salio error en la descarga: ", error));
   }
+
+  public RedirrecionarXML(paramUri:string, paramNombre:string){
+
+    this.reportService.getArchivoByte(paramUri,paramNombre,"xml").subscribe(
+      data => {
+        const linkSource = 'data:text/xml;base64,' + data;
+        const downloadLink = document.createElement("a");
+        const fileName = paramNombre + ".xml";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+      }, (error)=> console.log("Salio error en la descarga: ", error));
+  }
+
+
+  
+}
