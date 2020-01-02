@@ -1,5 +1,5 @@
 import { Chart } from 'chart.js'
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef  } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { RepOcupabilidad } from '../../models/rep_ocupabilidad';
 import { RepStockImpRQT } from '../../models/rep_stockimpRQT';
@@ -20,7 +20,7 @@ import { SuscripComponent } from '../appviews/suscrip.component';
  
 })
 export class RepfillrateComponent implements OnInit {
-  constructor(private reportService: ReportService, private dialog : MatDialog, private router: Router, private location: Location) { }
+  constructor(private reportService: ReportService, private elementRef: ElementRef, private dialog : MatDialog, private router: Router, private location: Location) { }
   
   public isError = false;
   public repOcupabilidad :RepOcupabilidad = null;
@@ -77,7 +77,7 @@ export class RepfillrateComponent implements OnInit {
     UniNeg : ""
   };
   
-  LineChart = [];
+  LineChart : Chart;
   BarChart = [];
   EjeX = [];
   EjeOcup = [];
@@ -208,15 +208,19 @@ export class RepfillrateComponent implements OnInit {
        
         //let listaeri = JSON.parse(localStorage.getItem("ListaEri"));
         let listaeri = JSON.parse(JSON.stringify(this.repEri.Data));
-      
-        for (var i = 1; i <= listaeri.length; i++) {
-          let last = listaeri[listaeri.length-i];
-          this.XLabelsE.push(last.Fecha.toString());   
-          this.YLabelsE.push(last.Valor.toString());          
-        } 
-                
+
+        if (listaeri != null)
+        {
+         for (var i = 1; i <= listaeri.length; i++) {
+           let last = listaeri[listaeri.length-i];
+           this.XLabelsE.push(last.Fecha.toString());   
+           this.YLabelsE.push(last.Valor.toString());          
+           }
+           
         this.fineri = true;
     
+        }         
+        
         if (this.finocup == true && this.fineri == true && this.finfill == true)
         { let xvar = this.EjeX;  
           let ocup = this.EjeOcup;
@@ -227,6 +231,7 @@ export class RepfillrateComponent implements OnInit {
           console.log(ocup); 
           console.log(frate);
           console.log(eri);
+          console.log("x RepEri");
 
           this.cargarGraficos() };
         
@@ -315,6 +320,9 @@ export class RepfillrateComponent implements OnInit {
 
         let listafillrate = JSON.parse(JSON.stringify(this.repFillRate.Data));
     
+        if (listafillrate != null)
+        {
+
           for (var i = 1; i <= listafillrate.length; i++) {
             let last = listafillrate[listafillrate.length-i];
             //this.XLabels.push(last.Fecha.toString());   
@@ -322,6 +330,8 @@ export class RepfillrateComponent implements OnInit {
           }
 
           this.finfill = true;
+        }
+
 
           if (this.finocup == true && this.fineri == true && this.finfill == true)
           { let xvar = this.EjeX;  
@@ -333,6 +343,7 @@ export class RepfillrateComponent implements OnInit {
             console.log(ocup); 
             console.log(frate);
             console.log(eri);
+            console.log("x RepFillRate");
             
             this.cargarGraficos() };
         
@@ -415,18 +426,23 @@ export class RepfillrateComponent implements OnInit {
           //let listaocup = JSON.parse(localStorage.getItem("ListaOcup"));
           let listaocup = JSON.parse(JSON.stringify(this.repOcupabilidad.Data));
     
+          if (listaocup != null)
+          {
+
         
           for (var i = 1; i <= listaocup.length; i++) {
             let last = listaocup[listaocup.length-i];
             this.EjeX.push(last.Fecha.toString());   
             this.EjeOcup.push(last.Valor.toString());    
-          }
+             }
 
           this.finocup = true;
+          }
 
           if (this.finocup == true && this.fineri == true && this.finfill == true)
           { 
         
+            console.log("x RepOcupabilidad")
             this.cargarGraficos() };
         
       
@@ -446,7 +462,22 @@ export class RepfillrateComponent implements OnInit {
     }
 
    cargarGraficos():void{
-    this.LineChart = new Chart('lineChart',{
+
+    console.log(this.EjeX);
+    console.log(this.EjeOcup);
+    console.log(this.YLabelsF);
+    console.log(this.YLabelsE);
+    
+    if (this.LineChart != null)
+    { this.LineChart.destroy();}
+
+    // this.LineChart = new Chart(ctx,{   
+      
+    let htmlRef = this.elementRef.nativeElement.querySelector(`#lineChart`);
+    // this.myChart = new Chart(htmlRef, {
+    //this.LineChart = new Chart('lineChart',{    
+     // this.LineChart = new Chart('lineChart',{    
+    this.LineChart = new Chart(htmlRef, {
       type: 'line',
       data: {
         labels: this.EjeX,      

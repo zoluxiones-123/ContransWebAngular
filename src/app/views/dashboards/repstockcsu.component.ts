@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { SolicitudInscrip } from '../../models/solicinsc';
 import { RespSolicitud } from '../../models/resp_solicinsc';
+import { DataSetItem } from '../../models/datasetitem';
+
 import { ReportService } from '../../services/report.service';
 import { Observable } from "rxjs/internal/Observable";
 import { Router } from '@angular/router';
@@ -47,6 +49,10 @@ export class RepstockcsuComponent implements OnInit {
   
   registrosDT: string[] = [];
   filteredRegDT: Observable<string[]>;
+
+  priregDA: string;
+  priregDS: string;
+  priregDT: string;
 
 
   Fechas: Array<string>;
@@ -103,7 +109,8 @@ export class RepstockcsuComponent implements OnInit {
     this.cargarRegistrosDS();       
     this.cargarRegistrosDA();     
     this.cargarRegistrosDT(); 
-  }
+
+    }
 
   private reqStockCsu: RepStockCSURQT = {
     IDUser: 10,
@@ -171,6 +178,9 @@ export class RepstockcsuComponent implements OnInit {
   XLabels = [];
   YLabels = [];
   FechaIngreso = ['01/12/2019','05/12/2019','15/12/2019','25/01/2020'];
+  dsitems= [];
+  dsitemsDS= [];
+  dsitemsDT= [];
 
   chartList = [5, 6, 7, 8];
   
@@ -207,12 +217,15 @@ export class RepstockcsuComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+
+    
     
     this.filteredRegDT = this.myRegistroDT.valueChanges.pipe(
         startWith(''),
         map(value => this._filterDT(value))
       );
-    
+
+      
 
   }
 
@@ -238,6 +251,16 @@ export class RepstockcsuComponent implements OnInit {
      for (var i = 0; i <= listaregistrosDT.length - 1; i++) {
        let regi = listaregistrosDT[i];
        this.registrosDT.push(regi.Registro.toString());   
+
+       if (i == 0)
+       { this.priregDT = regi.Registro.toString();
+                     
+         this.reqStockCsuDet.Almacen = "DT";  
+         this.reqStockCsuDet.Registro = this.priregDT;
+         this.cargarGraficosCsu("DT");  
+         this.myRegistroDT.setValue(this.priregDT);
+       
+       }
           
      }
 
@@ -284,7 +307,19 @@ export class RepstockcsuComponent implements OnInit {
      for (var i = 0; i <= listaregistrosDS.length - 1; i++) {
        let regi = listaregistrosDS[i];
        this.registrosDS.push(regi.Registro.toString());   
-          
+       
+       if (i == 0)
+       { this.priregDS = regi.Registro.toString();
+                     
+         this.reqStockCsuDet.Almacen = "DS";  
+         this.reqStockCsuDet.Registro = this.priregDS;
+         this.cargarGraficosCsu("DS");  
+         this.myRegistroDS.setValue(this.priregDS);
+       
+       }
+
+
+
      }
 
     /* this.registrosDS.push('0001');   
@@ -327,6 +362,17 @@ export class RepstockcsuComponent implements OnInit {
       
             for (var i = 0; i <= listaregistros.length - 1; i++) {
               let regi = listaregistros[i];
+
+              if (i == 0)
+              { this.priregDA = regi.Registro.toString();
+                            
+                this.reqStockCsuDet.Almacen = "DA";  
+                this.reqStockCsuDet.Registro = this.priregDA;
+                this.cargarGraficosCsu("DA");  
+                this.myRegistro.setValue(this.priregDA);
+              
+              }
+
               this.registros.push(regi.Registro.toString());   
                  
             } 
@@ -435,6 +481,11 @@ export class RepstockcsuComponent implements OnInit {
           this.CantidadDT = [];
           this.BGColorDT = [];
           this.BDColorDT = [];
+
+          this.dsitems = [];
+          this.dsitemsDS = [];
+          this.dsitemsDT = [];
+          
       
 
           this.rgb = 88;
@@ -468,6 +519,8 @@ export class RepstockcsuComponent implements OnInit {
             this.DiasAlmacen.push(reg.DiasAlma.toString());
             this.Descripcion.push(reg.Decripcion.toString()); 
             this.Cantidad.push(reg.Cantidad.toString());     
+          
+
             }
 
             if (Almacen == "DS")
@@ -486,42 +539,75 @@ export class RepstockcsuComponent implements OnInit {
             this.CantidadDT.push(reg.Cantidad.toString());      
             }
 
-            let rgbc = this.rgb;
-            rgbc = rgbc + (100 * i);
+            //let rgbc = this.rgb;
+            //rgbc = rgbc + (300 * i);
+            
+            let rgbc = Math.floor(Math.random() * 555) + 50;
  
             this.rgb = rgbc;
             
-            this.bgrColor = 'rgba(51, 255,' + this.rgb.toString() + ',0.75)';
+            let rgbr = Math.floor(Math.random() * 155) + 50;
+            
+            //this.bgrColor = 'rgba(51, 255,' + this.rgb.toString() + ',0.75)';
+
+            this.bgrColor = 'rgba(51, ' + rgbr.toString() + ', '  + this.rgb.toString() + ',0.75)';
+            
+
             this.bdrColor = 'rgba(51, 255,' + this.rgb.toString() + ', 1)';
+
+            // 5 -> 20
             
             if (Almacen == "DA")
             {
             this.BGColor.push(this.bgrColor);
-            this.BDColor.push(this.bdrColor);   
+            this.BDColor.push(this.bdrColor); 
+            
+            //data: [this.YLabels[0].toString()]
+            
+            let dtitem = new DataSetItem(
+                         reg.Decripcion.toString(), this.bgrColor,this.bdrColor, [reg.Cantidad.toString()]        
+                        )
+            
+            this.dsitems.push(dtitem);                                                                              
+            
+
             }
 
             if (Almacen == "DS")
             {
               this.BGColorDS.push(this.bgrColor);
               this.BDColorDS.push(this.bdrColor);   
+
+              let dtitemds = new DataSetItem(
+                reg.Decripcion.toString(), this.bgrColor,this.bdrColor, [reg.Cantidad.toString()]        
+               )
+   
+              this.dsitemsDS.push(dtitemds);              
+
             }
 
             if (Almacen == "DT")
             {
               this.BGColorDT.push(this.bgrColor);
-              this.BDColorDT.push(this.bdrColor);   
+              this.BDColorDT.push(this.bdrColor);  
+              
+              let dtitemdt = new DataSetItem(
+                reg.Decripcion.toString(), this.bgrColor,this.bdrColor, [reg.Cantidad.toString()]        
+               )
+   
+              this.dsitemsDT.push(dtitemdt);            
             }
          
           }
 
           if (Almacen == "DA")
-          {this.cargarGraficosDA();                    }
+          {this.cargarGraficosDAF();                    }
 
           if (Almacen == "DS")
-          {this.cargarGraficosDS();                    }
+          {this.cargarGraficosDSF();                    }
 
           if (Almacen == "DT")
-          {this.cargarGraficosDT();                    }
+          {this.cargarGraficosDTF();                    }
           
           
 
@@ -768,6 +854,8 @@ export class RepstockcsuComponent implements OnInit {
 
            }
           }
+
+
         }      
       }
     );
@@ -869,6 +957,9 @@ export class RepstockcsuComponent implements OnInit {
 
            }
           }
+
+
+
         }      
       }
     );
@@ -978,6 +1069,328 @@ export class RepstockcsuComponent implements OnInit {
 
   }
 
+  cargarGraficosDAF():void{
+
+    
+    if (this.BarChartCsu != null)
+    { this.BarChartCsu.destroy();}
+
+    this.BarChartCsu = new Chart('barChart2', {
+      responsive : true,
+      type: 'bar',
+      data: {
+          //labels: this.XLabels,
+          labels: ['Articulos'],       
+          datasets: this.dsitems
+          
+          //datasets: [{
+           //   label: 'Número de Contenedores',
+           //   data: this.YLabels,
+            //  backgroundColor: [                 
+              //    'rgba(255, 122, 51, 0.68)',
+              //    'rgba(51, 255, 243, 0.65)',
+              //    'rgba(51, 255, 88, 0.75)',
+              //    'rgba(51, 82, 255, 0.66)'
+                  
+              //],
+              //borderColor: [
+              //  'rgba(255, 122, 51, 1)',
+              //  'rgba(51, 255, 243, 1)',
+              //  'rgba(51, 255, 88, 1)',
+              //  'rgba(51, 82, 255, 1)'             
+              //],
+              //borderWidth: 1
+          //}]
+      },
+    options: {       
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: "#000080",
+        }
+      },
+        title: {
+          text : "Carga Stock(DA)",
+          display : true
+        },
+        scales: {
+            xAxes:[{
+              position : 'bottom',
+              scaleLabel: {
+                display: true,
+                labelString: 'Articulos'
+              },      
+              barPercentage: 0.1,
+              gridLines: {
+              display:false
+              },
+              ticks: {
+                display: false
+            }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Cantidad'
+                }, 
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          },
+          tooltips: {
+            //  mode: 'index',
+             // intersect: true,
+              callbacks: {
+               title: (tooltipItem, data) => {
+                  // console.log("tooltipitem ", tooltipItem);
+                  // console.log("data ", data);
+                  // console.log("tooltipsLabel ", this.tooltipsLabel);
+                  // console.log(this.tooltipsLabel[tooltipItem[0].index].toString());
+    
+                  //return "Fecha Ingreso: " + this.tooltipsLabel[tooltipItem[0].index].toString() + " \n" + 
+                  //"Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
+                  
+    
+                 return "Fecha Ingreso: " + this.Fechas[tooltipItem[0].index].toString() + " \n" + 
+                 "Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
+                  
+                  
+                },
+                label: function(tooltipItem, data) {
+                  // swal(tooltipItem.datasetIndex.toString());
+                  //swal(this.FechaIngreso[tooltipItem.datasetIndex].toString());
+                   //var successCount = data.labels[tooltipItem.datasetIndex].toString();
+                  // var failCount = data.datasets[tooltipItem.datasetIndex].data[1];
+                  // var failCount = data.datasets[1].data[tooltipItem.index];
+                  return "Cantidad: " + tooltipItem.yLabel + ' Unidades';           
+                }
+    
+               }
+              }
+
+
+
+      }
+  });
+}
+
+  cargarGraficosDSF():void{
+
+    if (this.BarChartDS != null)
+    { this.BarChartDS.destroy();}
+
+  this.BarChartDS = new Chart('barChartDS', {
+    responsive : true,
+    type: 'bar',
+    data: {
+        //labels: this.XLabels,
+        labels: ['Articulos'],       
+        datasets: this.dsitemsDS
+        
+        //datasets: [{
+         //   label: 'Número de Contenedores',
+         //   data: this.YLabels,
+          //  backgroundColor: [                 
+            //    'rgba(255, 122, 51, 0.68)',
+            //    'rgba(51, 255, 243, 0.65)',
+            //    'rgba(51, 255, 88, 0.75)',
+            //    'rgba(51, 82, 255, 0.66)'
+                
+            //],
+            //borderColor: [
+            //  'rgba(255, 122, 51, 1)',
+            //  'rgba(51, 255, 243, 1)',
+            //  'rgba(51, 255, 88, 1)',
+            //  'rgba(51, 82, 255, 1)'             
+            //],
+            //borderWidth: 1
+        //}]
+    },
+  options: {       
+    legend: {
+      display: true,
+      position: 'right',
+      labels: {
+        fontColor: "#000080",
+      }
+    },
+      title: {
+        text : "Carga Stock(DS)",
+        display : true
+      },
+      scales: {
+          xAxes:[{
+            position : 'bottom',
+            scaleLabel: {
+              display: true,
+              labelString: 'Articulos'
+            },      
+            barPercentage: 0.1,
+            gridLines: {
+            display:false
+            },
+            ticks: {
+              display: false
+          }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Cantidad'
+              }, 
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        tooltips: {
+          //  mode: 'index',
+           // intersect: true,
+            callbacks: {
+             title: (tooltipItem, data) => {
+                // console.log("tooltipitem ", tooltipItem);
+                // console.log("data ", data);
+                // console.log("tooltipsLabel ", this.tooltipsLabel);
+                // console.log(this.tooltipsLabel[tooltipItem[0].index].toString());
+  
+                //return "Fecha Ingreso: " + this.tooltipsLabel[tooltipItem[0].index].toString() + " \n" + 
+                //"Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
+                
+  
+               return "Fecha Ingreso: " + this.FechasDS[tooltipItem[0].index].toString() + " \n" + 
+               "Dias de Almacen: " + this.DiasAlmacenDS[tooltipItem[0].index].toString();
+                
+                
+              },
+              label: function(tooltipItem, data) {
+                // swal(tooltipItem.datasetIndex.toString());
+                //swal(this.FechaIngreso[tooltipItem.datasetIndex].toString());
+                 //var successCount = data.labels[tooltipItem.datasetIndex].toString();
+                // var failCount = data.datasets[tooltipItem.datasetIndex].data[1];
+                // var failCount = data.datasets[1].data[tooltipItem.index];
+                return "Cantidad: " + tooltipItem.yLabel + ' Unidades';           
+              }
+  
+             }
+            }
+  
+  
+
+
+
+    }
+});
+}
+
+cargarGraficosDTF():void{
+
+  if (this.BarChartDT != null)
+  { this.BarChartDT.destroy();}
+
+this.BarChartDT = new Chart('barChartDT', {
+  responsive : true,
+  type: 'bar',
+  data: {
+      //labels: this.XLabels,
+      labels: ['Articulos'],       
+      datasets: this.dsitemsDT
+      
+      //datasets: [{
+       //   label: 'Número de Contenedores',
+       //   data: this.YLabels,
+        //  backgroundColor: [                 
+          //    'rgba(255, 122, 51, 0.68)',
+          //    'rgba(51, 255, 243, 0.65)',
+          //    'rgba(51, 255, 88, 0.75)',
+          //    'rgba(51, 82, 255, 0.66)'
+              
+          //],
+          //borderColor: [
+          //  'rgba(255, 122, 51, 1)',
+          //  'rgba(51, 255, 243, 1)',
+          //  'rgba(51, 255, 88, 1)',
+          //  'rgba(51, 82, 255, 1)'             
+          //],
+          //borderWidth: 1
+      //}]
+  },
+options: {       
+  legend: {
+    display: true,
+    position: 'right',
+    labels: {
+      fontColor: "#000080",
+    }
+  },
+    title: {
+      text : "Carga Stock(DT)",
+      display : true
+    },
+    scales: {
+        xAxes:[{
+          position : 'bottom',
+          scaleLabel: {
+            display: true,
+            labelString: 'Articulos'
+          },      
+          barPercentage: 0.1,
+          gridLines: {
+          display:false
+          },
+          ticks: {
+            display: false
+        }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Cantidad'
+            }, 
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      },
+      tooltips: {
+        //  mode: 'index',
+         // intersect: true,
+          callbacks: {
+           title: (tooltipItem, data) => {
+              // console.log("tooltipitem ", tooltipItem);
+              // console.log("data ", data);
+              // console.log("tooltipsLabel ", this.tooltipsLabel);
+              // console.log(this.tooltipsLabel[tooltipItem[0].index].toString());
+
+              //return "Fecha Ingreso: " + this.tooltipsLabel[tooltipItem[0].index].toString() + " \n" + 
+              //"Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
+              
+
+             return "Fecha Ingreso: " + this.FechasDT[tooltipItem[0].index].toString() + " \n" + 
+             "Dias de Almacen: " + this.DiasAlmacenDT[tooltipItem[0].index].toString();
+              
+              
+            },
+            label: function(tooltipItem, data) {
+              // swal(tooltipItem.datasetIndex.toString());
+              //swal(this.FechaIngreso[tooltipItem.datasetIndex].toString());
+               //var successCount = data.labels[tooltipItem.datasetIndex].toString();
+              // var failCount = data.datasets[tooltipItem.datasetIndex].data[1];
+              // var failCount = data.datasets[1].data[tooltipItem.index];
+              return "Cantidad: " + tooltipItem.yLabel + ' Unidades';           
+            }
+
+           }
+          }
+
+
+
+
+
+  }
+});
+}
   
   onIsError(): void {
     this.isError = true;
