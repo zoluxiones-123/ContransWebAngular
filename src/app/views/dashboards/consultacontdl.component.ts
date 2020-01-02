@@ -33,7 +33,6 @@ export class ConsultacontdlComponent implements OnDestroy, OnInit {
   minDate: Date;
   maxDate: Date;
 
-
   constructor(private authservice: AuthService, private router: Router) { }
 
   
