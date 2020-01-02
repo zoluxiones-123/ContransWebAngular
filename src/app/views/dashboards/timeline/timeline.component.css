@@ -52,6 +52,15 @@ div#Timeline div#IntegralPart div.Container div.medio div.LineaContainer {
   top: 50%;
 }
 
+div#Timeline div#ContransPart div.Container div.medio i {
+  color: rgb(0, 38, 255);
+}
+
+div#Timeline div#IntegralPart div.Container div.medio i {
+  color: rgb(0, 217, 255);
+}
+
+
 div.Container div.medio {
   z-index: 0;
 }
@@ -68,7 +77,6 @@ div.Container div.medio div.iconostage {
 div.Container div.medio i { /*<----- el icono */
   position: absolute;
   zoom: 150%;
-  color: #000;
 }
 
 div.Container div.carrito {
@@ -131,13 +139,18 @@ div.estado label {
   color: #fff;
   font-size: 8.5px;
   font-family: monospace;
-  /* display: inline-flex; */
-  left: 60px;
+  left: -60px;
+  bottom: 5px;
+  width: 200px;
+  position: absolute;
 }
 
 :host >>> .tooltip.top .tooltip-arrow:before,
 :host >>> .tooltip.top .tooltip-arrow {
   border-top-color: #000;
+  position: absolute;
+  left: -60px;
+  bottom: 0px;
 }
 
 i.vacio {
