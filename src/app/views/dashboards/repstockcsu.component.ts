@@ -105,10 +105,7 @@ export class RepstockcsuComponent implements OnInit {
     
     this.FechasDT = [];
     this.DiasAlmacenDT = [];
-
-    this.cargarRegistrosDS();       
-    this.cargarRegistrosDA();     
-    this.cargarRegistrosDT(); 
+   
 
     }
 
@@ -194,15 +191,20 @@ export class RepstockcsuComponent implements OnInit {
     this.reqStockCsu.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.reqStockCsu.IDRol = Number(localStorage.getItem("RolEmpUsuaCodigoDefault").toString());
     this.reqStockCsu.Almacen = "DA";
+ 
+    this.cargarRegistrosDA();   
 
     this.reqStockCsuDS.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.reqStockCsuDS.IDRol = Number(localStorage.getItem("RolEmpUsuaCodigoDefault").toString());
     this.reqStockCsuDS.Almacen = "DS";
 
+    this.cargarRegistrosDS(); 
     
     this.reqStockCsuDT.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.reqStockCsuDT.IDRol = Number(localStorage.getItem("RolEmpUsuaCodigoDefault").toString());
     this.reqStockCsuDT.Almacen = "DT";
+    
+    this.cargarRegistrosDT(); 
     
     this.reqStockCsuDet.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.reqStockCsuDet.IDRol = Number(localStorage.getItem("RolEmpUsuaCodigoDefault").toString());
@@ -217,9 +219,7 @@ export class RepstockcsuComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
-
-    
-    
+      
     this.filteredRegDT = this.myRegistroDT.valueChanges.pipe(
         startWith(''),
         map(value => this._filterDT(value))
