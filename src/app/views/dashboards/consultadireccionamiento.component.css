@@ -1,0 +1,27 @@
+
+
+::ng-deep .bs-datepicker-container {
+  background-color: white !important;
+  /*z-index: 9999; */
+  position: relative;
+  left: +0%;
+}
+
+::ng-deep .bs-datepicker {
+    /* background-color: black !important; */
+   z-index: 9999;
+   position: relative;
+   left: +25%;
+ }
+ 
+
+ @media (max-width: 800px) {
+
+ ::ng-deep .bs-datepicker {
+     /* background-color: black !important; */
+    z-index: 9999;
+    position: relative;
+    left: +0%;
+ }
+
+}

@@ -5,7 +5,7 @@ import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../models/Factura';
-
+import { DireccRQT, DireccRPT } from '../models/Direcc';
 
 import { RepStockImpRQT } from "../models/rep_stockimpRQT";
 import { RepStockImpRPT } from "../models/rep_stockimpRPT";
@@ -118,6 +118,13 @@ export class ReportService {
     const url_api =`/ContransAPI/api/facturarpt`;    
     return this.http.post<FacturasRPT>(
       url_api, objFacturas, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  getDirecc(objDirecc : DireccRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/facturarpt`;    
+    return this.http.post<DireccRPT>(
+      url_api, objDirecc, { headers: this.headers }).pipe(map(data => data));
   }
 
   getunidadnegociolist() : Observable<any>

@@ -1,5 +1,6 @@
 import {Routes} from "@angular/router";
 import {ConsultaFacturaComponent} from "./views/dashboards/consultafactura.component";
+import {consultadireccionamientocomponent} from "./views/dashboards/consultadireccionamiento.component";
 import { timelinecomponent } from "./views/dashboards/timeline/timeline.component";
 
 // Forms: Entrada de Datos / Mantenimientos
@@ -36,8 +37,8 @@ export const ROUTES:Routes = [
       {path: 'suscripcion', component: SuscripComponent},
       {path: 'repstockcsu', component: RepstockcsuComponent},
       {path: 'tracking', component: timelinecomponent},
-      {path: 'consultacontdl', component: ConsultacontdlComponent}
-
+      {path: 'consultacontdl', component: ConsultacontdlComponent},
+      {path: 'consultadireccionamiento', component: consultadireccionamientocomponent}
     ]
   },
   // App views

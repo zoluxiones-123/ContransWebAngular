@@ -4,6 +4,8 @@ import {BrowserModule} from "@angular/platform-browser";
 import { DataTablesModule } from 'angular-datatables';
 import {ConsultaFacturaComponent} from "./consultafactura.component";
 import {ConsultacontdlComponent} from "./consultacontdl.component";
+import {consultadireccionamientocomponent} from "./consultadireccionamiento.component";
+
 
 
 // Chart.js Angular 2 Directive by Valor Software (npm)
@@ -25,7 +27,7 @@ defineLocale('es', esLocale);
 
 
 @NgModule({
-  declarations: [ConsultaFacturaComponent, timelinecomponent,ConsultacontdlComponent],
+  declarations: [ConsultaFacturaComponent, timelinecomponent,ConsultacontdlComponent, consultadireccionamientocomponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, TooltipModule.forRoot()],
   exports     : [ConsultaFacturaComponent,ConsultacontdlComponent],
 })
