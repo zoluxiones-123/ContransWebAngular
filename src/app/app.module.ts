@@ -28,6 +28,13 @@ import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RepstockcsuComponent } from './views/dashboards/repstockcsu.component';
+import { FileuploadComponent } from './views/dashboards/fileupload.component';
+import { RepstockcliComponent } from './views/dashboards/repstockcli.component';
+import { RepestadiaComponent } from './views/dashboards/repestadia.component';
+import { RepabandonoComponent } from './views/dashboards/repabandono.component';
+import { RepstockDAComponent } from './views/dashboards/repstock-da.component';
+import { RepstockDSComponent } from './views/dashboards/repstock-ds.component';
+import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
 
 
 
@@ -38,7 +45,21 @@ import { RepstockcsuComponent } from './views/dashboards/repstockcsu.component';
 
     ContraseniaComponent,
 
-    RepstockcsuComponent
+    RepstockcsuComponent,
+
+    FileuploadComponent,
+
+    RepstockcliComponent,
+
+    RepestadiaComponent,
+
+    RepabandonoComponent,
+
+    RepstockDAComponent,
+
+    RepstockDSComponent,
+
+    RepstockDTComponent
 
    
    

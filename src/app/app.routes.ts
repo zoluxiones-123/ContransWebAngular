@@ -13,6 +13,19 @@ import {RepstockcsuComponent} from  "./views/dashboards/repstockcsu.component";
 
 import {ConsultacontdlComponent} from  "./views/dashboards/consultacontdl.component";
 
+import {FileuploadComponent} from  "./views/dashboards/fileupload.component";
+
+import {RepstockcliComponent} from  "./views/dashboards/repstockcli.component";
+import {RepestadiaComponent} from  "./views/dashboards/repestadia.component";
+import {RepabandonoComponent} from  "./views/dashboards/repabandono.component";
+import {RepstockDAComponent} from  "./views/dashboards/repstock-da.component";
+
+import {RepstockDSComponent} from  "./views/dashboards/repstock-ds.component";
+
+
+import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
+
+
 
 import {StarterViewComponent} from "./views/appviews/starterview.component";
 import {LoginComponent} from "./views/appviews/login.component";

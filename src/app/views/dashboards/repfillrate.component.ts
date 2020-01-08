@@ -13,6 +13,7 @@ import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { SuscripComponent } from '../appviews/suscrip.component';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-repfillrate',
@@ -111,8 +112,8 @@ export class RepfillrateComponent implements OnInit {
     this.finfill = false;
 
     this.generaRepEri();
-    this.generaRepFillRate();
-    this.generaRepOcu();
+    //this.generaRepFillRate();
+    //this.generaRepOcu();
 
 
     }
@@ -217,11 +218,14 @@ export class RepfillrateComponent implements OnInit {
            this.YLabelsE.push(last.Valor.toString());          
            }
            
+        //swal("CargoListEri");
         this.fineri = true;
+        this.generaRepFillRate();
+        //this.generaRepOcu();
     
         }         
         
-        if (this.finocup == true && this.fineri == true && this.finfill == true)
+       /* if (this.finocup == true && this.fineri == true && this.finfill == true)
         { let xvar = this.EjeX;  
           let ocup = this.EjeOcup;
           let frate = this.YLabelsF;
@@ -233,7 +237,9 @@ export class RepfillrateComponent implements OnInit {
           console.log(eri);
           console.log("x RepEri");
 
-          this.cargarGraficos() };
+         
+          this.cargarGraficos() 
+        };*/
         
       }
       else{
@@ -330,10 +336,13 @@ export class RepfillrateComponent implements OnInit {
           }
 
           this.finfill = true;
+          //swal("CargoListFillRate");
+          this.generaRepOcu();
+          
         }
 
 
-          if (this.finocup == true && this.fineri == true && this.finfill == true)
+        /*  if (this.finocup == true && this.fineri == true && this.finfill == true)
           { let xvar = this.EjeX;  
             let ocup = this.EjeOcup;
             let frate = this.YLabelsF;
@@ -345,7 +354,9 @@ export class RepfillrateComponent implements OnInit {
             console.log(eri);
             console.log("x RepFillRate");
             
-            this.cargarGraficos() };
+            
+            //swal("CargarGraficos");
+            this.cargarGraficos() };*/
         
   
       }
@@ -436,6 +447,7 @@ export class RepfillrateComponent implements OnInit {
             this.EjeOcup.push(last.Valor.toString());    
              }
 
+         // swal("CargoListOcup");
           this.finocup = true;
           }
 
@@ -443,6 +455,8 @@ export class RepfillrateComponent implements OnInit {
           { 
         
             console.log("x RepOcupabilidad")
+            
+            //swal("CargarGraficos");
             this.cargarGraficos() };
         
       
@@ -502,7 +516,6 @@ export class RepfillrateComponent implements OnInit {
           label: '% Eri',
           data: this.YLabelsE,
           fill: false,
-          lineTension: 0.2,
           borderColor: "green",
           borderWidth: 1
 				

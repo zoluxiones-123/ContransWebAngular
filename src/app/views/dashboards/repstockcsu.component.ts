@@ -32,6 +32,8 @@ import { stringify } from 'querystring';
   templateUrl: './repstockcsu.component.html',
   styleUrls: ['./repstockcsu.component.css']
 })
+
+
 export class RepstockcsuComponent implements OnInit {
 
   myRegistro = new FormControl();
