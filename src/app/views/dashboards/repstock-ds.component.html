@@ -1,0 +1,30 @@
+<section id="report">
+<div class="form-group row">
+  <label class="col-sm-4 col-form-label"></label>
+ <div class="col-sm-8">
+  <label>Registro DS : </label>  
+         <mat-form-field>        
+                 <input type="text" placeholder=" Digite el Registro" matInput [formControl]="myRegistroDS" [matAutocomplete]="auto">
+                 <mat-autocomplete id="ListaDS" autoActiveFirstOption (optionSelected) = "ChangingRegistroDS($event)" #auto="matAutocomplete"  >
+                   <mat-option *ngFor="let regds of filteredRegDS | async" [value]="regds">
+                     {{regds}}
+                   </mat-option>
+                 </mat-autocomplete>
+          </mat-form-field>
+  </div>
+</div>        
+<div  class="row">
+  <div class="col-lg-12">
+      <div class="ibox ">           
+      <div class="ibox-content">
+          <div class="row">                           
+              <div class="col-lg-10">
+                  <td style = "width: 900px; height : 50%" > 
+                  <canvas id="barChartDS"  ></canvas>  </td>
+              </div>                           
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
