@@ -1,5 +1,5 @@
 import { Chart } from 'chart.js'
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ReportService } from '../../services/report.service'
 import { RepStockImpRPT } from '../../models/rep_stockimpRPT'
 import { RepStockImpRQT } from '../../models/rep_stockimpRQT'
@@ -17,8 +17,9 @@ import { DataSetItem } from '../../models/datasetitem';
 
 
 export class RepestadiaComponent implements OnInit {
+  
 
-  constructor(private reportService: ReportService, private router: Router, private location: Location) { 
+  constructor(private reportService: ReportService, private router: Router, private location: Location, private elementRef : ElementRef) { 
   }
 
   public isError = false;
@@ -164,7 +165,10 @@ export class RepestadiaComponent implements OnInit {
     if (this.BarChart2 != null)
     { this.BarChart2.destroy();}
 
-    this.BarChart2 = new Chart('barChartEstadia', {
+    let htmlRefEstadia = this.elementRef.nativeElement.querySelector(`#barChartEstadia`);
+
+   // this.BarChart2 = new Chart('barChartEstadia', {
+    this.BarChart2 = new Chart(htmlRefEstadia, {
       responsive : true,
       type: 'bar',
       data: {
