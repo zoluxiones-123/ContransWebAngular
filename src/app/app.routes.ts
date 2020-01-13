@@ -25,6 +25,8 @@ import {RepstockDSComponent} from  "./views/dashboards/repstock-ds.component";
 
 import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
 
+import {DashboardGlobalComponent} from "./views/dashboards/dashboardglobal.component"
+
 
 
 import {StarterViewComponent} from "./views/appviews/starterview.component";
@@ -51,7 +53,8 @@ export const ROUTES:Routes = [
       {path: 'repstockcsu', component: RepstockcsuComponent},
       {path: 'tracking', component: timelinecomponent},
       {path: 'consultacontdl', component: ConsultacontdlComponent},
-      {path: 'consultadireccionamiento', component: consultadireccionamientocomponent}
+      {path: 'consultadireccionamiento', component: consultadireccionamientocomponent},
+      {path: 'dashboardglobal', component : DashboardGlobalComponent}
     ]
   },
   // App views
@@ -68,6 +71,7 @@ export const ROUTES:Routes = [
       {path: 'starterview', component: StarterViewComponent}
     ]
   },
+
   {
     path: '', component: BlankLayoutComponent,
     children: [
@@ -76,5 +80,8 @@ export const ROUTES:Routes = [
   },
 
   // Handle all other routes
-  {path: '**',  redirectTo: 'login'}
+  {
+    path: '**',  
+    redirectTo: 'login'
+  }
 ];

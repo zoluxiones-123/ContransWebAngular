@@ -12,4 +12,5 @@ export interface UserInterfaceRPT {
     Token?: string;
     listRol: any;
     UsuaInicial?: string;
+    TiempoEspera?: string;
   }

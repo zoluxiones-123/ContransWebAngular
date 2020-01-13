@@ -14,24 +14,26 @@ declare var jQuery:any;
 
 export class NavigationComponent {
 
-  public usuarionombre:string;
-  public rolactual:string;
-  public entinombre:string;
-  public listarol:any;
-  public NombreIniciales: string;
-
+  public usuarionombre : string;
+  public rolactual : string;
+  public entinombre : string;
+  public listarol : any;
+  public NombreIniciales : string;
+  public prueba : boolean;
 
   constructor(private router: Router) {
 
-
+    this.prueba = true;
   }
 
   ngOnInit() {
+
     this.usuarionombre = localStorage.getItem("NombreUsuario");
     this.listarol = JSON.parse(localStorage.getItem("ListaRol"));
     this.rolactual =  this.ObtenerRolActual(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.entinombre = localStorage.getItem("EntiNombre");
     this.NombreIniciales = localStorage.getItem("NombreIniciales");
+
   }
 
   ObtenerRolActual (rolxdefecto:string)
@@ -80,7 +82,6 @@ export class NavigationComponent {
         localStorage.setItem("RolEmpUsuaCodigoDefault", item.RolCodigo);
         location.reload();
         swal({text :"Se ha cambiado de rol correctamente", icon:"success"});
-
       }
     });
   }

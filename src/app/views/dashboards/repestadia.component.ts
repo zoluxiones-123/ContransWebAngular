@@ -63,7 +63,7 @@ export class RepestadiaComponent implements OnInit {
   title = 'Angular 8 with Chart Js';
   LineChart = [];
   BarChart = [];
-  BarChart2 = [];
+  BarChart2 : Chart;
   BarChartH = [];
   XLabels = [];
   YLabels = [];
@@ -161,7 +161,10 @@ export class RepestadiaComponent implements OnInit {
 
   cargarGraficoEstadia():void{
 
-    this.BarChart2 = new Chart('barChart2', {
+    if (this.BarChart2 != null)
+    { this.BarChart2.destroy();}
+
+    this.BarChart2 = new Chart('barChartEstadia', {
       responsive : true,
       type: 'bar',
       data: {

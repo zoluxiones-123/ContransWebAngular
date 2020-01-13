@@ -1,0 +1,20 @@
+
+div.dprin {
+    display: inline-block;
+    /* overflow-y: hidden;
+    overflow-x: auto; */
+}
+
+div.dcomp{
+    float: left;
+    width: 49%;
+    margin: 4px;
+}
+
+.graficoglobal {
+    width: 400px;
+}
+
+.close-link {
+    display: flex;
+}

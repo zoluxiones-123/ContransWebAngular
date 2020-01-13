@@ -13,8 +13,6 @@ import { SuscripComponent } from '../appviews/suscrip.component';
 import { ContraseniaComponent } from '../appviews/contrasenia.component';
 import {SwAlert} from 'app/models/swalert';
 import { NgxSpinnerService } from "ngx-spinner";
-
-
 import swal from 'sweetalert';
 import 'sweetalert2';
 import Swal from 'sweetalert2';
@@ -122,6 +120,7 @@ export class LoginComponent {
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
             localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
             localStorage.setItem("NombreIniciales", this.UserRPT.UsuaInicial);
+            localStorage.setItem("tiemposesion", this.UserRPT.TiempoEspera)
 
             if(!this.UserRPT.UsuaAceptUso)
             {
