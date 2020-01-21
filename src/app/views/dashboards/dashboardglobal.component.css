@@ -1,20 +1,50 @@
-
+/* 
 div.dprin {
     display: inline-block;
-    /* overflow-y: hidden;
-    overflow-x: auto; */
+    grid-gap: 0px 0px;
 }
 
-div.dcomp{
+div.dcomp {
+    justify-content: space-evenly;
     float: left;
     width: 49%;
     margin: 4px;
+    -webkit-box-pack: start;
+} */
+
+div.dprin {
+    display: inline-block;
 }
+
+div.dcomp {
+    
+    float: left;
+    /* clear: left; */
+    width: 49%;
+    height: max-content !important;
+    padding-right: 4px;
+    /* margin: 4px; */
+}
+
+@media (max-width: 1000px) {
+    div.dprin {
+        display: block;
+    }
+
+    div.dcomp {
+        float: none;
+        width: 100%;
+    }
+}
+
 
 .graficoglobal {
     width: 400px;
 }
 
-.close-link {
-    display: flex;
+span.configtext{
+    font-size: 0.8em !important;
+    
 }
+
+

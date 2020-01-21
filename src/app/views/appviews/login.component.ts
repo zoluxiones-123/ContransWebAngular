@@ -158,7 +158,7 @@ export class LoginComponent {
                 this.onIsError();           
                 console.log("Error");}
               );
-            this.router.navigate(['starterview']);
+            this.router.navigate(['/dashboards/dashboardglobal']);
           }
           else{
             localStorage.removeItem('NombreUsuario');   

@@ -22,6 +22,13 @@ import { BsDatepickerModule, TooltipModule } from "ngx-bootstrap";
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { timelinecomponent } from "./timeline/timeline.component";
+import { RepstockDAComponent } from "./repstock-da.component";
+import { RepstockcliComponent } from "./repstockcli.component";
+import { RepestadiaComponent } from "./repestadia.component";
+import { RepabandonoComponent } from "./repabandono.component";
+import { RepfillrateComponent } from "./repfillrate.component";
+import { RepstockDSComponent } from "./repstock-ds.component";
+import { RepstockDTComponent } from "./repstock-dt.component";
 defineLocale('es', esLocale);
 
 
@@ -30,6 +37,7 @@ defineLocale('es', esLocale);
   declarations: [ConsultaFacturaComponent, timelinecomponent,ConsultacontdlComponent, consultadireccionamientocomponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, TooltipModule.forRoot()],
   exports     : [ConsultaFacturaComponent,ConsultacontdlComponent],
+  entryComponents : [RepstockcliComponent,RepestadiaComponent,RepabandonoComponent,RepfillrateComponent,RepstockDAComponent,RepstockDSComponent,RepstockDTComponent]
 })
 
 export class DashboardsModule {}

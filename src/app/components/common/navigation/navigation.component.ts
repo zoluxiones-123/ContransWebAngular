@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import 'jquery-slimscroll';
 import { stringify } from 'querystring';
 import { switchAll } from 'rxjs/operators';
 import swal from 'sweetalert';
+import { ReportService } from '../../../services/report.service';
+import { MenuPaginaRPS } from 'app/models/PaginasMenu';
+
 
 declare var jQuery:any;
 
@@ -20,10 +23,13 @@ export class NavigationComponent {
   public listarol : any;
   public NombreIniciales : string;
   public prueba : boolean;
+  public MenuRST : any;
+  public IDUserObj : string;
+  public MenuRST2 : any;
+  public rolcodigo : string;
 
-  constructor(private router: Router) {
 
-    this.prueba = true;
+  constructor(private router: Router, private reportService: ReportService) {
   }
 
   ngOnInit() {
@@ -33,6 +39,9 @@ export class NavigationComponent {
     this.rolactual =  this.ObtenerRolActual(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.entinombre = localStorage.getItem("EntiNombre");
     this.NombreIniciales = localStorage.getItem("NombreIniciales");
+    this.IDUserObj = localStorage.getItem("Usuario").toString();
+    this.rolcodigo =  localStorage.getItem("RolEmpUsuaCodigoDefault").toString();
+    this.MenuRST = JSON.parse(localStorage.getItem("Menu"));
 
   }
 
@@ -51,6 +60,7 @@ export class NavigationComponent {
 
 
   ngAfterViewInit() {
+
     jQuery('#side-menu').metisMenu();
 
     if (jQuery("body").hasClass('fixed-sidebar')) {
@@ -58,6 +68,9 @@ export class NavigationComponent {
         height: '100%'
       })
     }
+
+    
+
   }
 
   activeRoute(routename: string): boolean{

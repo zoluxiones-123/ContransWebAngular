@@ -1,78 +1,40 @@
-<div class="dprin">
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repstockcli </h5>
-        <iboxtools></iboxtools>
-      </div>
-      <div class="ibox-content">
-        <app-repstockcli class="graficoglobal"></app-repstockcli>
-      </div>
-    </div>
-  </div>
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repestadia </h5>
-        <iboxtools></iboxtools>
-      </div>
-      <div class="ibox-content">
-        <app-repestadia class="graficoglobal"></app-repestadia>
+<div *ngIf="EsCargado">
+  <div class="dprin">
+    <div  *ngFor="let item of graphs" class="dcomp">
+      <div [id]=item.Nombre *ngIf="item.Visible" class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5> {{item.Titulo}} </h5>
+          <iboxtools></iboxtools>
+        </div>
+        <div class="ibox-content">
+          <ng-container [ngComponentOutlet]=item.component></ng-container>
+        </div>
       </div>
     </div>
   </div>
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repabandono </h5>
-        <iboxtools></iboxtools>
+  <div class="theme-config">
+    <div class="theme-config-box">
+      <div class="spin-icon" (click)="abrirMenu()">
+        <i class="fa fa-cogs fa-spin"></i>
       </div>
-      <div class="ibox-content">
-        <app-repabandono class="graficoglobal"></app-repabandono>
-      </div>
-    </div>
-  </div>
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repfillrate </h5>
-        <iboxtools></iboxtools>
-      </div>
-      <div class="ibox-content">
-        <app-repfillrate class="graficoglobal"></app-repfillrate>
-      </div>
-    </div>
-  </div>
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repstock-da </h5>
-        <iboxtools></iboxtools>
-      </div>
-      <div class="ibox-content">
-        <app-repstock-da class="graficoglobal"></app-repstock-da>
-      </div>
-    </div>
-  </div>
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repstock-ds </h5>
-        <iboxtools></iboxtools>
-      </div>
-      <div class="ibox-content">
-        <app-repstock-ds class="graficoglobal"></app-repstock-ds>
-      </div>
-    </div>
-  </div>
-  <div class="dcomp" ngDraggable [gridSize]="20">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>repstock-dt </h5>
-        <iboxtools></iboxtools>
-      </div>
-      <div class="ibox-content">
-        <app-repstock-dt class="graficoglobal"></app-repstock-dt>
+      <div class="skin-settings">
+        <div class="title">Configuración <br>
+          <small style="text-transform: none;font-weight: 400">
+            Presionar el boton para poder Ocultar/Mostrar los graficos.
+          </small>
+        </div>
+        <div class="setings-item" *ngFor="let item of graphs">
+          <ng-container *ngIf= "item.Visible">        
+            <div id="botonConfig" class="btn btn-info btn-block" (click)="Ocultar(item.Nombre)">
+              <span class="configtext"> {{item.Titulo}}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf= "!item.Visible">
+            <div id="botonConfig" class="btn btn-danger btn-block" (click)="Ocultar(item.Nombre)">
+              <span class="configtext"> {{item.Titulo}}</span>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
@@ -99,3 +61,4 @@
       [gridSize]="20" [preventDefaultEvent]="true">HOLI 5</div>
   </div>
 </div> -->
+

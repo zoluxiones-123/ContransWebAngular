@@ -20,23 +20,17 @@
          <img class="img-circle" style="height: 48px; width: 48 px;" src="assets/images/RosaNautica2.png">
         </div>
       </li>
-      <li [ngClass]="{active: activeRoute('starter')}">
-        <a [routerLink]="['/starterview']"><i class="fa fa-th-large"></i> <span class="nav-label">Menu principal</span></a>
-      </li>
-      <li [ngClass]="{active: activeRoute('dashboards')}">
-        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span> </a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('dashboards')}">
-          <li [ngClass]="{active: activeRoute('repstock')}"><a (click)="SetStarter()" [routerLink]="['/dashboards/repstock']">Reporte Stock</a></li>
-          <li [ngClass]="{active: activeRoute('repfillrate')}"><a [routerLink]="['/dashboards/repfillrate']">Reporte FillRate</a></li>
-          <li [ngClass]="{active: activeRoute('consultafactura')}"><a [routerLink]="['/dashboards/consultafactura']">Consulta Facturas</a></li>
-          <li [ngClass]="{active: activeRoute('repstockcsu')}"><a [routerLink]="['/dashboards/repstockcsu']">Reporte Stock CSU</a></li>
-          <li [ngClass]="{active: activeRoute('consultacontdl')}"><a [routerLink]="['/dashboards/consultacontdl']">Reporte Dias Libres</a></li>         
-          <li [ngClass]="{active: activeRoute('tracking')}"><a [routerLink]="['/dashboards/tracking']">Tracking de Contenedores</a></li>
-          <li [ngClass]="{active: activeRoute('consultadireccionamiento')}"><a [routerLink]="['/dashboards/consultadireccionamiento']">Consulta de Direccionamiento</a></li>
-          <li [ngClass]="{active: activeRoute('dashboardglobal')}"><a [routerLink]="['/dashboards/dashboardglobal']">Dashboard Global</a></li>
-        </ul>
+      <li *ngFor="let item of this.MenuRST">
+        <ng-container *ngIf= "!(item.ArrayPag.length > 0)">
+          <a [routerLink]="[item.Ruta]"><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span></a>
+        </ng-container >
+        <ng-container *ngIf= "(item.ArrayPag.length > 0)">        
+          <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span class="fa arrow"></span></a>
+          <ul *ngFor="let item2 of item.ArrayPag" class="nav nav-second-level collapse">
+            <li><a [routerLink]="[item2.Ruta]">{{item2.Nombre}}</a></li>
+          </ul>
+        </ng-container>
       </li>
     </ul>
-
   </div>
 </nav>

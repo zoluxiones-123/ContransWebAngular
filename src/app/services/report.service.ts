@@ -21,6 +21,8 @@ import { entid } from '../models/entidad';
 import { ArchivoDescarga } from '../models/Archivo';
 import { ResourceLoader } from "@angular/compiler";
 import { HttpResponse } from "selenium-webdriver/http";
+import { MenuPaginaRPS } from "app/models/PaginasMenu";
+
 
 
 @Injectable({
@@ -161,5 +163,32 @@ export class ReportService {
     return this.http.post(
       url_api, objRequesta, { headers: this.headers }).pipe(map(data => data));
   }
+
+  getMenu(paramIDUSer:string, paramIDRol:string) : Observable<any>{
+    const url_api =`/ContransAPI/api/menu`; 
+    let objRequesta = {
+      CodUsuario : paramIDUSer,
+      CodRol : paramIDRol
+    }
+
+    return this.http.post<MenuPaginaRPS>(url_api, objRequesta, {headers: this.headers}).pipe(map(data=>data));
+  }
+
+  getGraficos(paramIDUSer:string, paramIDRol:string) : Observable<any>{
+    const url_api =`/ContransAPI/api/dashboardsusuario`; 
+    let objRequesta = {
+      CodUsuario : paramIDUSer,
+      CodRol : paramIDRol
+    }
+
+    return this.http.post<any>(url_api, objRequesta, {headers: this.headers}).pipe(map(data=>data));
+  }
+
+  setGraficos(DatosGrafico :any) : Observable<any>{
+    const url_api =`/ContransAPI/api/dashboardsactualizar`; 
+    return this.http.post<any>(url_api, DatosGrafico, {headers: this.headers}).pipe(map(data=>data));
+  }
+
+
 
 }
