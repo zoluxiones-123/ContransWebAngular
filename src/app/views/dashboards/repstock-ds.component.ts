@@ -278,4 +278,13 @@ export class RepstockDSComponent implements OnInit {
       this.isError = false;
     }, 4000);
   }
+
+  public ChangingRegistroDS(param : any)
+  {
+   this.reqStockCsuDet.Almacen = "DS";  
+   this.reqStockCsuDet.Registro = param.option.value.toString();
+   this.cargarGraficosCsu("DS");      
+  }
+
 }
+
