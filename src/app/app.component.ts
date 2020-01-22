@@ -12,18 +12,22 @@ import { Router } from '@angular/router';
 export class AppComponent {
   userActivity;
   userInactive: Subject<any> = new Subject();
+  tiempoSesion : number = 300000;
 
   constructor (private router: Router) {
     this.setTimeout();
     this.userInactive.subscribe(() => {
       this.logout();
-    });  
+    });
+    if(localStorage.getItem("tiemposesion") != null){
+      this.tiempoSesion = Number.parseInt(localStorage.getItem("tiemposesion"));
+    }
   }
 
 
   logout() {
-    // localStorage.setItem("Usuario",null);
-    // this.router.navigate(['/login']);
+    localStorage.removeItem("Usuario");
+    this.router.navigate(['/login']);
   }
 
   setTimeout() {
@@ -33,7 +37,7 @@ export class AppComponent {
         this.userInactive.next(undefined);
         console.log('logged out');
       }
-    }, 5000);
+    }, this.tiempoSesion);
   }
 
   @HostListener('window:mousemove') refreshUserState() {

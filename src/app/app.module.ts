@@ -6,6 +6,7 @@ import { RouterModule } from "@angular/router";
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { ROUTES } from "./app.routes";
 import { AppComponent } from './app.component';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 // App views
 import { DashboardsModule } from "./views/dashboards/dashboards.module";
@@ -40,8 +41,10 @@ import { RepabandonoComponent } from './views/dashboards/repabandono.component';
 import {RepstockDAComponent} from "./views/dashboards/repstock-da.component";
 import { RepstockDSComponent } from './views/dashboards/repstock-ds.component';
 import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
-import { RepstockfinalComponent } from './views/dashboards/repstockfinal.component';
-import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
+import { DashboardGlobalComponent } from './views/dashboards/dashboardglobal.component';
+import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module';
+
+
 
 
 
@@ -49,19 +52,12 @@ import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
   declarations: [
     AppComponent,
     SuscripComponent,
-
     ContraseniaComponent,
-
     RepstockcsuComponent,
-
     FileuploadComponent,
-
     RepstockcliComponent,
-
     RepestadiaComponent,
-
     RepabandonoComponent,
-
     RepstockDSComponent,
 
     RepstockDTComponent,
@@ -69,15 +65,13 @@ import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
     RepstockfinalComponent,
 
     RepstockDAComponent,
-
     RegdireccComponent,
 
-    RepstockexpComponent
+    RepstockexpComponent,
+
+    DashboardGlobalComponent   
 
 
-  
-
-   
    
   ],
   imports: [
@@ -98,8 +92,9 @@ import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
     NgxMatSelectSearchModule,
     ModalModule.forRoot(),
     MatDialogModule,
-    BsDatepickerModule.forRoot()
-   
+    BsDatepickerModule.forRoot(),
+    AngularDraggableModule,
+    IboxtoolsModule
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
