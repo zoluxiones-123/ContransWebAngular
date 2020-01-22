@@ -28,7 +28,6 @@
           <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span class="fa arrow"></span></a>
           <ul *ngFor="let item2 of item.ArrayPag" class="nav nav-second-level collapse">
             <li><a [routerLink]="[item2.Ruta]">{{item2.Nombre}}</a></li>
-          <li [ngClass]="{active: activeRoute('repstockexpo')}"><a [routerLink]="['/dashboards/repstockexpo']">Reporte Stock Expo</a></li>
           </ul>
         </ng-container>
       </li>
