@@ -27,7 +27,7 @@ export class BasicLayoutComponent {
   }
 
   CargarDatosIniciales() {
-    this.reportService.getMenu(localStorage.getItem("Usuario").toString(),localStorage.getItem("RolEmpUsuaCodigoDefault").toString()).subscribe(data=>{
+    this.reportService.getMenu(localStorage.getItem("Usuario"),localStorage.getItem("RolEmpUsuaCodigoDefault")).subscribe(data=>{
       localStorage.setItem("Menu",JSON.stringify(data));
     });
 
