@@ -68,13 +68,6 @@ export class RepstockComponent implements OnInit  {
     if (localStorage.getItem("Usuario") == null)
     {  this.router.navigate(['/login']);}
 
-
-    if (localStorage.getItem("EsStarter").toString() == "1")
-    {
-      this.alto = "420px";
-    }
-    else
-    { this.alto = "515px";}
     
     this.esAgenteAduanas = localStorage.getItem("RolEmpUsuaCodigoDefault") != "2";
 
