@@ -10,6 +10,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { RegdireccComponent } from 'app/views/dashboards/regdirecc.component';
+import { RepDireccionamientoRPT } from '../../models/rep_direccionamientoRPT'
+import { RepDireccionamientoRQT } from '../../models/rep_direccionamientoRQT'
+import { AuthService } from 'app/services/auth.service';
+
 
 
 
@@ -28,8 +34,13 @@ import { Router } from '@angular/router';
 
     minDate: Date;
     maxDate: Date;
+
     
-    constructor(private reportService: ReportService, private router: Router) { 
+  public objrepdirecRPT: RepDireccionamientoRPT;
+
+    
+    constructor(private reportService: ReportService, private authService: AuthService, private router: Router, private dialog : MatDialog,
+      private dialogc : MatDialog) { 
       this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
 
      }
@@ -73,8 +84,7 @@ import { Router } from '@angular/router';
       }
     };
 
-    public objDireccRQT : DireccRQT;
-
+    public objDireccRQT : RepDireccionamientoRQT;
     public objDireccRPT: Array<DireccRPT>;
     
     public ngOnInit():any {      
@@ -95,12 +105,15 @@ import { Router } from '@angular/router';
       }
 
       this.objDireccRQT = {
-        IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
+        IDUser : Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
-        Desde : form.value.txtbox_Desde,
-        Hasta : form.value.txtbox_Hasta,
+        FechaDesde : form.value.txtbox_Desde,
+        FechaHasta : form.value.txtbox_Hasta,
         Nave : form.value.txtbox_Registro,
-        BL : form.value.txtbox_Cliente
+        BlNbr : form.value.txtbox_Cliente,        
+        Revisado: true
+
+
       };
 
       if(this.ValidarInput(this.objDireccRQT))
@@ -112,10 +125,9 @@ import { Router } from '@angular/router';
         return;
       }
 
-
-      let res = this.reportService.getDirecc(this.objDireccRQT);
-      
-      
+      //let res = this.reportService.getDirecc(this.objDireccRQT);
+      let res = this.authService.getDireccionamiento(this.objDireccRQT);
+                
       res.subscribe( 
         data => { 
           this.objDireccRPT = data.Data;
@@ -144,17 +156,37 @@ import { Router } from '@angular/router';
       this.dtTrigger.unsubscribe();
     }
 
-    public ValidarInput(param : DireccRQT) : boolean {
+    
+  NuevoDireccionamiento(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    //dialogConfig.width = "40%";
+    dialogConfig.height = "700px";
+    dialogConfig.width = "700px";
+    this.dialog.open(RegdireccComponent, dialogConfig);      
+  }
 
-      this.objDireccRQT.Desde = this.objDireccRQT.Desde.toLocaleDateString();
-      this.objDireccRQT.Hasta = this.objDireccRQT.Hasta.toLocaleDateString();
+
+    public ValidarInput(param : RepDireccionamientoRQT) : boolean {
+
+     // this.objDireccRQT.FechaDesde = this.objDireccRQT.FechaDesde.toLocaleDateString();
+     // this.objDireccRQT.FechaHasta = this.objDireccRQT.FechaHasta.toLocaleDateString();
+
+     if(this.NullEmpty(param.FechaDesde)) {
+      this.objDireccRQT.FechaDesde = "";
+    }
+    
+    if(this.NullEmpty(param.FechaHasta)) {
+      this.objDireccRQT.FechaHasta = "";
+    }
 
       if(this.NullEmpty(param.Nave)) {
-        this.objDireccRQT.Nave = " ";
+        this.objDireccRQT.Nave = "";
       }
 
-      if(this.NullEmpty(param.BL)) {
-        this.objDireccRQT.BL = " ";
+      if(this.NullEmpty(param.BlNbr)) {
+        this.objDireccRQT.BlNbr = "";
       }
 
       return false;

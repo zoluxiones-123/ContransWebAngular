@@ -17,12 +17,16 @@ import { topnavigationlayout } from './components/common/layouts/topnavigationla
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 
 import { SuscripComponent } from './views/appviews/suscrip.component';
+import { RegdireccComponent } from './views/dashboards/regdirecc.component';
+
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatSelectModule, MatAutocompleteModule, MatInputModule, MatDialogModule} from '@angular/material';
+import { MatSelectModule, MatAutocompleteModule, MatListModule, MatInputModule, MatDialogModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -32,9 +36,12 @@ import { FileuploadComponent } from './views/dashboards/fileupload.component';
 import { RepstockcliComponent } from './views/dashboards/repstockcli.component';
 import { RepestadiaComponent } from './views/dashboards/repestadia.component';
 import { RepabandonoComponent } from './views/dashboards/repabandono.component';
-import { RepstockDAComponent } from './views/dashboards/repstock-da.component';
+
+import {RepstockDAComponent} from "./views/dashboards/repstock-da.component";
 import { RepstockDSComponent } from './views/dashboards/repstock-ds.component';
 import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
+import { RepstockfinalComponent } from './views/dashboards/repstockfinal.component';
+import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
 
 
 
@@ -55,11 +62,20 @@ import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
 
     RepabandonoComponent,
 
-    RepstockDAComponent,
-
     RepstockDSComponent,
 
-    RepstockDTComponent
+    RepstockDTComponent,
+
+    RepstockfinalComponent,
+
+    RepstockDAComponent,
+
+    RegdireccComponent,
+
+    RepstockexpComponent
+
+
+  
 
    
    
@@ -77,6 +93,7 @@ import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MatListModule,
     MatInputModule,
     NgxMatSelectSearchModule,
     ModalModule.forRoot(),
@@ -86,7 +103,7 @@ import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent, ContraseniaComponent]
+  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent]
   
   
 })

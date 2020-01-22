@@ -1,0 +1,180 @@
+
+
+<form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="RegistrarDireccion(formFact)">
+
+  <div class="col-lg-10" style="width: 100%; align-content: center;display: inline-flex;" >
+          <div class="stat-percent font-bold text-danger">
+          <img alt="image" class="img-container" src="assets/images/LogoContransE.png">
+          </div>
+          <h3 class="font-bold text-navy">Registrar Direccionamiento</h3>
+  </div>
+  <div class="row">
+      <div class="col-lg-20">
+          <div class="ibox">
+              
+              <div class="ibox-content"> 
+                  
+   <div class="form-group row">
+       <label class="col-sm-4 col-form-label"><br/>Nave(Arriba a Callao)</label>
+      <div class="col-sm-8">
+              <mat-form-field>
+                      <input type="text" placeholder="Digite la Empresa" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                      <mat-autocomplete autoActiveFirstOption (optionSelected) = "ChangingValue($event)" #auto="matAutocomplete" >
+                        <mat-option *ngFor="let enti of filteredEntidad | async" [value]="enti.Entidad + ',' + enti.Nombre">
+                          {{enti.Nombre}}
+                        </mat-option>
+                      </mat-autocomplete>
+               </mat-form-field>
+       </div>
+     </div>      
+         <div class="form-group row"><label class="col-sm-4 col-form-label">Fecha Aprox. Llegada:</label>
+           <div class="col-sm-4">
+               <div class="form-group"  placement="top">
+                  <input type="text" name="txtbox_fechall" placeholder="Fecha Aprox Llegada" class="form-control" 
+                  autocomplete="off" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue', adaptivePosition: true}"[ngModel] required>
+              </div>
+           </div>
+          </div>
+                                  
+                  <div class="form-group row"><label class="col-sm-4 col-form-label">N° MBL:</label>
+                          <div class="col-sm-4"><input type="text" maxlength="50"
+                           name="txtbox_BL" class="form-control" [ngModel] >                                                 
+                          </div>
+                      </div>
+                      <div class="form-group row"><label class="col-sm-4 col-form-label">N° HBL:</label>
+                          <div class="col-sm-4"><input type="text" maxlength="50"  
+                            name="txtbox_HBL" class="form-control" [ngModel]></div>
+                      </div>  
+
+
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"><br/>AG. Carga:</label>
+                       <div class="col-sm-8">
+                               <mat-form-field>
+                                       <input type="text" placeholder="Digite la Agencia de Carga" matInput [formControl]="myControlE" [matAutocomplete]="autoAg">
+                                       <mat-autocomplete autoActiveFirstOption (optionSelected) = "ChangingValueE($event)" #autoAg="matAutocomplete" >
+                                         <mat-option *ngFor="let emp of filteredEmp | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                                           {{emp.Nombre}}
+                                         </mat-option>
+                                       </mat-autocomplete>
+                                </mat-form-field>
+                        </div>
+                      </div>        
+                   
+                     
+                      
+
+                      <div class="form-group row">
+                                                                       
+                        <table style="width:600px;" class="table table-hover no-margins">                      
+                          <tbody>
+                          <tr>                               
+                              <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;" >
+                                <label><input type="checkbox" (change)="CheckedSADA($event)" > Despacho Anticipado (SADA)</label>                          
+                              </td>
+                              <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;" >                            
+                                <label><input type="checkbox" (change)="CheckedIMO($event)" > IMO</label>                             
+                              </td>                           
+                          </tr>
+                          <tr>                               
+                            <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;" >                            
+                              
+                              <label><input type="checkbox" (change)="CheckedSobre($event)"> Carga sobredimensionada / CSU / CRO</label>  
+                                             
+                            </td>
+                            
+                            <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;" >                            
+
+                              <label><input type="checkbox" (change)="CheckedIQBF($event)"> IQBF</label>                           
+                            </td>
+                          </tr>
+                          <tr>                               
+                            <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;" >                            
+                              <label><input type="checkbox" (change)="Checked($event)" > Carga Valorizada</label>                           
+                            </td>
+                            <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;" >                            
+                            
+                              <select style="width:100%;" disabled = "true" [formControl]="mySelect" name="listProductos"  class="form-control" (change)="ChangingValueP($event)">
+                                <option [value]="" selected hidden>--Seleccione--</option>
+                                <option *ngFor="let item of this.ListaProductos" [value]="item.Entidad">{{item.Nombre}}</option>
+                              </select>
+                              
+                            </td>
+                              </tr>                                                                                                       
+                          </tbody>
+                      </table>
+                                 
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label">Observación</label>
+                  <div class="col-sm-8">
+                    <textarea type="text" name="txtarea_Obs"  class="form-control" [ngModel]>
+                    </textarea>                          
+                  </div>                                                      
+                </div>                             
+            
+        
+         <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Archivo #1:</label>
+          <div class="col-md-6 offset-md-3">     
+            <div class="form-group">        
+              <input type="file" [accept]="[
+              '.jpg',
+              '.jpeg',
+              '.pdf',
+              '.png']"  (change)="changeListener($event)">  
+              <button (click) = "AgregarArchivo(this.filename1)" >Agregar</button>
+             </div>    
+                                                   
+          </div>
+
+           
+        </div>
+
+       
+
+       
+
+          <div class="form-group row">  
+           
+            <div class="col-sm-8">
+            <mat-selection-list  #list>
+              <mat-list-option  *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)" [value]="item.name"  >
+                <label style="color:blue;" >  Archivo: {{item.name}} Tamaño: {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
+                </label>
+                </mat-list-option>
+            </mat-selection-list>
+            </div>
+             
+            <div class="col-sm-4"><button (click) = "EliminarSelect()" class="btn btn-w-m btn-default">Eliminar</button></div>                    
+           
+            
+           
+         </div>
+         <div class="form-group row">             
+          <div class="col-sm-12">
+           <label style="color:blue; font-style: normal;size: initial; " > Total: {{(this.TotalMB) | number: '1.1-2' }} MB </label>
+          </div>
+        </div>
+
+         <div class="form-group row">          
+          <div *ngIf= "this.EsMayor5" >
+            <label style="color: red;" class="col-sm-12">No se puede cargar mas de 5MB como conjunto de Archivos</label>                             
+           </div>          
+        </div>
+    
+
+                      <div class="form-group row">
+                      <div class="col-sm-4"><button type="submit" (click) = "Grabar()" class="btn btn-w-m btn-primary">Grabar</button></div>
+
+                      <div class="col-sm-2"></div>        
+                      <div class="col-sm-4"><button (click) = "onClose()" class="btn btn-w-m btn-default">Cancelar</button></div>                    
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </form>
+  
+  

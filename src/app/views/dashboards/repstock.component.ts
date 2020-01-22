@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
   templateUrl: './repstock.component.html'
 
 })
+
 export class RepstockComponent implements OnInit  {
   constructor(private reportService: ReportService, private router: Router, private location: Location) { }
   

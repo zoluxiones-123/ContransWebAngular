@@ -24,6 +24,10 @@ import {RepstockDSComponent} from  "./views/dashboards/repstock-ds.component";
 
 
 import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
+import {RepstockexpComponent} from  "./views/dashboards/repstockexp.component";
+
+import {RepstockfinalComponent} from  "./views/dashboards/repstockfinal.component";
+
 
 
 
@@ -51,7 +55,11 @@ export const ROUTES:Routes = [
       {path: 'repstockcsu', component: RepstockcsuComponent},
       {path: 'tracking', component: timelinecomponent},
       {path: 'consultacontdl', component: ConsultacontdlComponent},
-      {path: 'consultadireccionamiento', component: consultadireccionamientocomponent}
+      {path: 'consultadireccionamiento', component: consultadireccionamientocomponent},
+      {path: 'repstockexpo', component: RepstockexpComponent }
+     // {path: 'repstockfinal', component: RepstockfinalComponent }
+
+
     ]
   },
   // App views

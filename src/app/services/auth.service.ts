@@ -20,6 +20,9 @@ import { RepDiasLibresRQT} from "../models/rep_diaslibresRQT"
 import { RepDiasLibresRPT} from "../models/rep_diaslibresRPT"
 
 
+import { RepDireccionamientoRQT} from "../models/rep_direccionamientoRQT"
+import { RepDireccionamientoRPT} from "../models/rep_direccionamientoRPT"
+
 import { Suscripcion } from "app/models/user_suscripcion";
 import { Notificaciones} from "../models/notificacion";
 
@@ -103,6 +106,16 @@ export class AuthService {
     return this.http
       .post<RepDiasLibresRPT>(
         url_api, reqdiaslibres, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getDireccionamiento(reqdirecc:RepDireccionamientoRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultardireccionamiento`;    
+    return this.http
+      .post<RepDireccionamientoRPT>(
+        url_api, reqdirecc, { headers: this.headers })
       .pipe(map(data => data));
   }
   

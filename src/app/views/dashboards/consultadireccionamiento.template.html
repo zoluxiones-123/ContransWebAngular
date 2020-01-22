@@ -32,11 +32,15 @@
             </div>
             <div class="row">
               <!-- <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary" >Ingresar</button></div> -->
-              <div class="col-sm-4"><button type="button" (click)="CargarGrilla(formFact)"
+              <div class="col-sm-3"><button type="button" (click)="CargarGrilla(formFact)"
                   class="btn btn-w-m btn-primary" >Buscar</button></div>
 
-              <div class="col-sm-4"><button type="reset" (click)="SiTieneData(false)"
+              <div class="col-sm-3"><button type="reset" (click)="SiTieneData(false)"
                   class="btn btn-w-m btn-default">Limpiar</button></div>
+
+              <div class="col-sm-3"><button type="button" (click)="NuevoDireccionamiento()"
+                    class="btn btn-w-m btn-primary" >Agregar Direccionamiento</button></div>
+
             </div>
           </form>
           <div class="row">
@@ -52,8 +56,7 @@
                     <th>SADA</th>
                     <th>IMO </th>
                     <th>IQBF</th>
-                    <th>SOBREDIM </th>
-                    <th>CantDoc</th>
+                    <th>SOBREDIM </th>                    
                     <th>Agente Carga</th>
                     <th>Usuario</th>
                     <th>Agencia</th>
@@ -65,23 +68,48 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.objDireccRPT">
-                    <td>{{item.NroRegistro}} 	</td>
-                    <td>{{item.FechaAproxLlegada}} </td>
+                    <td>{{item.ID}} 	</td>
+                    <td>{{item.FAproxLlegada}} </td>
                     <td>{{item.Nave}}</td>
-                    <td>{{item.MBL}}</td>
-                    <td>{{item.HBL}}</td>
-                    <td>{{item.SADA}}</td>
-                    <td>{{item.IMO}} </td>
-                    <td>{{item.IQBF}}</td>
-                    <td>{{item.SOBREDIM}}</td>
-                    <td>{{item.CantDoc}}</td>
-                    <td>{{item.Agente}}</td>
+                    <td>{{item.Bl}}</td>
+                    <td>{{item.BlHijo}}</td>
+                    <td>
+                      <div *ngIf = "item.SADA" class="stat-percent font-bold text-danger">
+                        <img alt="image" class="img-container" src="assets/images/accept.png">
+                      </div>   
+                      <div style = "display : none" > {{item.SADA | json}} </div>
+                    </td>    
+
+                    <td>
+                      <div *ngIf = "item.IMO" class="stat-percent font-bold text-danger">
+                        <img alt="image" class="img-container" src="assets/images/accept.png">
+                      </div>         
+                      <div style = "display : none" > {{item.IMO | json}} </div>      
+                    </td>   
+
+                    <td>
+                      <div *ngIf = "item.IQBF" class="stat-percent font-bold text-danger">
+                        <img alt="image" class="img-container" src="assets/images/accept.png">
+                      </div>  
+                      <div style = "display : none" > {{item.IQBF | json}} </div>   
+                    </td>   
+
+                    <td>
+                      <div *ngIf = "item.Sobredimensionada" class="stat-percent font-bold text-danger">
+                        <img alt="image" class="img-container" src="assets/images/accept.png">
+                      </div>
+                      <div style = "display : none" > {{item.Sobredimensionada | json}} </div>   
+                                                                                      
+                    </td>   
+               
+                    <td>{{item.AgCarga}}</td>
                     <td>{{item.Usuario}}</td>
                     <td>{{item.Agencia}}</td>
                     <td>{{item.Correo}}</td>
                     <td>{{item.Telefono}}</td>
-                    <td>{{item.Observacion}}</td>
-                    <td>{{item.FechaCreacion}}</td>
+                    <td>{{item.Observaciones}}</td>
+                    <td>{{item.Fechacreacion}}</td>
+
                   </tr>
                 </tbody>
               </table>

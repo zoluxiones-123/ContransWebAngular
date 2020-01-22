@@ -6,9 +6,21 @@ import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../models/Factura';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
+import { Base64RPT,Base64RQT } from '../models/Base64';
+
+import { ZipRPT,ZipRQT } from '../models/ConvertirZip';
+
 
 import { RepStockImpRQT } from "../models/rep_stockimpRQT";
 import { RepStockImpRPT } from "../models/rep_stockimpRPT";
+
+import { RepStockExpRQT } from "../models/rep_stockexpRQT";
+import { RepStockExpRPT } from "../models/rep_stockexpRPT";
+
+
+import { GrabarDireccRQT,GrabarDireccRPT } from '../models/GrabarDirecc';
+
+
 import { RepEriRPT } from "../models/rep_eriRPT";
 import { RepEriRQT } from "../models/rep_eriRQT";
 import { RepOcupabilidad } from "../models/rep_ocupabilidad";
@@ -43,6 +55,16 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  
+  getStockExp(repstockrqt: RepStockExpRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockexp`;    
+    return this.http
+      .post<RepStockExpRPT>(
+        url_api, repstockrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+  
   SolicitudInsc(solicitudInsc: SolicitudInscrip ): Observable<any> 
   {
     const url_api =`/ContransAPI/api/solicitodregistro`;    
@@ -50,6 +72,33 @@ export class ReportService {
       .post<RespSolicitud>(
         url_api, solicitudInsc, { headers: this.headers })
       .pipe(map(data => data));
+  }
+
+  RegDireccionamiento(reqgrabarDirecc: GrabarDireccRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/generardireccionamiento`;    
+    return this.http
+      .post<GrabarDireccRPT>(
+        url_api, reqgrabarDirecc, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  ConvertirZip(reqZip: ZipRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/convertirzip`;    
+    return this.http
+      .post<ZipRPT>(
+        url_api, reqZip, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  RegistrarBase64(reqgrabarBase64: Base64RQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/guardarbase64`;    
+    return this.http
+      .post<Base64RPT>(
+        url_api, reqgrabarBase64, { headers: this.headers })
+      .pipe(map(data => data));      
   }
 
   getOcupabilidad(repstockrqt: RepStockImpRQT ): Observable<any> 
@@ -64,6 +113,25 @@ export class ReportService {
   getListaEntidades(): Observable<any> 
   {
     const url_api =`/ContransAPI/api/entidadlist`;    
+    return this.http
+      .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getListaNaves(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/navelist`;    
+    return this.http
+      .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getListaProductos(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/productoslist`;    
     return this.http
       .post<Entidades>(
         url_api, { headers: this.headers })

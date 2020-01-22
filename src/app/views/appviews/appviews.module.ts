@@ -13,9 +13,13 @@ import { AuthService } from "app/services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
 import { RepfillrateComponent } from "../dashboards/repfillrate.component";
 import { RepstockComponent } from "../dashboards/repstock.component";
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
 
+import { MatSelectModule, MatAutocompleteModule, MatInputModule, MatDialogModule} from '@angular/material';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 
 @NgModule({

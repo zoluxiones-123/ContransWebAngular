@@ -22,8 +22,8 @@ export class AppComponent {
 
 
   logout() {
-    localStorage.setItem("Usuario",null);
-    this.router.navigate(['/login']);
+    // localStorage.setItem("Usuario",null);
+    // this.router.navigate(['/login']);
   }
 
   setTimeout() {

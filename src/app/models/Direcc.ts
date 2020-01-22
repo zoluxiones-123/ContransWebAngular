@@ -8,21 +8,25 @@ export class DireccRQT {
 }
 
 export class DireccRPT {
-    NroRegistro : string;
-    FechaAproxLlegada : string;
+    ID : number;   
+    FAproxLlegada : string;
     Nave : string;
-    MBL : string;
-    HBL : string;
-    SADA : string;
-    IMO : string;
-    IQBF : string;
-    SOBREDIM : string;
-    CantDoc : string;
-    Agente : string;
+    Bl : string;
+    BlHijo : string;
+    Observaciones: string;
+    SADA : boolean;
+    IMO : boolean;     
+    AgCarga: string;
     Usuario : string;
-    Agencia : string;
-    Correo : string;
+    Correo : string;    
     Telefono : string;
-    Observacion : string;
-    FechaCreacion : string;
+    Fechacreacion : string;
+    Agencia : string;
+    CAVA: boolean;
+    IQBF : boolean;
+    Sobredimensionada: boolean;    
+    Producto: string;
+    Carpeta: string;
+
+
 }
