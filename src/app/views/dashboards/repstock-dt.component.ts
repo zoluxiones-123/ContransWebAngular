@@ -423,7 +423,7 @@ export class RepstockDTComponent implements OnInit {
        },       
       legend: {
         display: true,
-        position: 'right',
+        position: 'bottom',
         labels: {
           fontColor: "#000080",
         }
@@ -564,7 +564,7 @@ this.BarChartDT = new Chart('barChartDT', {
 options: {       
   legend: {
     display: true,
-    position: 'right',
+    position: 'bottom',
     labels: {
       fontColor: "#000080",
     }
@@ -616,9 +616,6 @@ options: {
 
            }
           }
-
-
-
 
 
   }
