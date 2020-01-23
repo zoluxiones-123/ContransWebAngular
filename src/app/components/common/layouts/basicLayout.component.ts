@@ -15,7 +15,6 @@ declare var jQuery:any;
 export class BasicLayoutComponent {
 
   constructor(private reportService: ReportService) {
-    this.CargarDatosIniciales();
   }
 
   public ngOnInit():any {
@@ -26,14 +25,6 @@ export class BasicLayoutComponent {
     detectBody();
   }
 
-  CargarDatosIniciales() {
-    this.reportService.getMenu(localStorage.getItem("Usuario"),localStorage.getItem("RolEmpUsuaCodigoDefault")).subscribe(data=>{
-      localStorage.setItem("Menu",JSON.stringify(data));
-    });
-
-    this.reportService.getGraficos(localStorage.getItem("Usuario").toString(),localStorage.getItem("RolEmpUsuaCodigoDefault").toString()).subscribe(data=>{
-      localStorage.setItem("Graficos",JSON.stringify(data.Data));
-    });
-  }
+  
 
 }

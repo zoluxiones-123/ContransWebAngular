@@ -17,6 +17,7 @@ import swal from 'sweetalert';
 import 'sweetalert2';
 import Swal from 'sweetalert2';
 import { Notificaciones } from 'app/models/notificacion';
+import { ReportService } from 'app/services/report.service';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class LoginComponent {
 
 
   constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog,
-  private dialogc : MatDialog, private router: Router, private location: Location, private spinner: NgxSpinnerService) 
+  private dialogc : MatDialog, private router: Router, private location: Location, private spinner: NgxSpinnerService, private reportService : ReportService) 
   { }
   
   public user: UserInterfaceRQT = {
@@ -108,11 +109,10 @@ export class LoginComponent {
       this.login.Password = this.user.Password;
       this.login.Ip =  localStorage.getItem("DireccionIP")
        
-      this.authService.loginusuario(this.login).subscribe(
-        data => {
+      this.authService.loginusuario(this.login).subscribe(data => {
           this.UserRPT = data;   
           
-          if (this.UserRPT.IDMsj == 0) { 
+          if (this.UserRPT.IDMsj == 0) {
             localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
             localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);
             localStorage.setItem("RolEmpUsuaCodigoDefault", this.UserRPT.RolEmpUsuaCodigoDefault.toString());
@@ -120,7 +120,9 @@ export class LoginComponent {
             localStorage.setItem("ListaRol",JSON.stringify(this.UserRPT.listRol));
             localStorage.setItem("EntiCodigo", this.UserRPT.EntiCodigo);
             localStorage.setItem("NombreIniciales", this.UserRPT.UsuaInicial);
-            localStorage.setItem("tiemposesion", this.UserRPT.TiempoEspera)
+            localStorage.setItem("tiemposesion", this.UserRPT.TiempoEspera);
+            localStorage.setItem("Menu",JSON.stringify(this.UserRPT.Menu));
+            localStorage.setItem("Graficos",JSON.stringify(this.UserRPT.Dashboards.Data));
 
             if(!this.UserRPT.UsuaAceptUso)
             {
@@ -169,7 +171,8 @@ export class LoginComponent {
         },  
         error => {
           this.onIsError();           
-          console.log("Error");}
+          console.log("Error");
+        }
       );
     } else {
       this.onIsError();

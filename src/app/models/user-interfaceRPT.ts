@@ -13,4 +13,6 @@ export interface UserInterfaceRPT {
     listRol: any;
     UsuaInicial?: string;
     TiempoEspera?: string;
+    Menu : any;
+    Dashboards : any;
   }

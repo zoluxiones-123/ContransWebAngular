@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import 'jquery-slimscroll';
 import { stringify } from 'querystring';
-import { switchAll } from 'rxjs/operators';
+import { switchAll, windowWhen } from 'rxjs/operators';
 import swal from 'sweetalert';
 import { ReportService } from '../../../services/report.service';
 import { MenuPaginaRPS } from 'app/models/PaginasMenu';
@@ -25,7 +25,6 @@ export class NavigationComponent {
   public prueba : boolean;
   public MenuRST : any;
   public IDUserObj : string;
-  public MenuRST2 : any;
   public rolcodigo : string;
 
 
@@ -95,7 +94,16 @@ export class NavigationComponent {
         localStorage.setItem("RolEmpUsuaCodigoDefault", item.RolCodigo);
         location.reload();
         swal({text :"Se ha cambiado de rol correctamente", icon:"success"});
+
       }
+    });
+    this.ActualizarMenu(item.RolCodigo);
+
+  }
+
+  ActualizarMenu(RolCodigo: any) {
+    this.reportService.getMenu(localStorage.getItem("Usuario"), RolCodigo).toPromise().then(data=>{
+      localStorage.setItem("Menu",JSON.stringify(data));
     });
   }
 
