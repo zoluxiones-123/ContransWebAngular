@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import 'jquery-slimscroll';
 import { stringify } from 'querystring';
-import { switchAll, windowWhen } from 'rxjs/operators';
+import { switchAll } from 'rxjs/operators';
 import swal from 'sweetalert';
 import { ReportService } from '../../../services/report.service';
 import { MenuPaginaRPS } from 'app/models/PaginasMenu';
