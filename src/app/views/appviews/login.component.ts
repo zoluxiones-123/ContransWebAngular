@@ -1,9 +1,11 @@
-import { Component, TemplateRef} from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, TemplateRef} from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { UserInterfaceRQT } from 'app/models/user-interfaceRQT';
 import { UserInterfaceRPT } from 'app/models/user-interfaceRPT';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { LoginRQT } from 'app/models/user-LoginRQT';
@@ -17,18 +19,30 @@ import swal from 'sweetalert';
 import 'sweetalert2';
 import Swal from 'sweetalert2';
 import { Notificaciones } from 'app/models/notificacion';
+import { actContraseniaRQT} from 'app/models/user_actContraseniaRQT';
+import { actContraseniaRPT} from 'app/models/user_actContraseniaRPT';
 
 
 @Component({
   selector: 'login',
   templateUrl: 'login.template.html'
 })
-export class LoginComponent { 
+export class LoginComponent implements AfterViewInit {
+
+  @ViewChild("contraseniamodal") contraseniamodal: TemplateRef<any>; 
+
+  ngAfterViewInit() {
+   // let elementRef = this.contraseniamodal.elementRef;
+    this.contraseniamod = this.contraseniamodal.elementRef;
+    // outputs `template bindings={}`
+    //console.log(elementRef.nativeElement.textContent);
+  }
 
   modalRef: BsModalRef;
   tycObj:any;
   notify:any;
   public lista : number;
+  public contraseniamod : any;
 
   RecObj : LoginRQT = {
     User: '',
@@ -41,14 +55,32 @@ export class LoginComponent {
 
 
   constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog,
-  private dialogc : MatDialog, private router: Router, private location: Location, private spinner: NgxSpinnerService) 
+  private dialogc : MatDialog, private router: Router, private location: Location, private spinner: NgxSpinnerService,
+  private formBuilder: FormBuilder) 
   { }
   
+  private actContra: actContraseniaRQT = {
+    IDUser: 0,
+    OldPass: '',
+    NewPass: ''
+  };
+  public isError = false;
+  public errorgen = true;
+  public errormsj = ''; 
+
+  private respactContra: actContraseniaRPT = {
+    Cod : -1,
+    Msj: ''
+  };
+  
+  contraseniaForm: FormGroup;
+  submitted = false;
+
   public user: UserInterfaceRQT = {
     Usuario: '',
     Password: ''
   };
-  public isError = false;
+
   public UserRPT :UserInterfaceRPT = null;
   public LNotif : Notificaciones;
   public notific: any;
@@ -75,6 +107,13 @@ export class LoginComponent {
   notificaciones = [];
 
   ngOnInit() {
+
+    this.contraseniaForm = this.formBuilder.group({
+          contraAct: ['', Validators.required],
+          contraNueva: ['', Validators.required],
+          confContra: ['', [Validators.required, Validators.minLength(8)]]
+           }); 
+          
       localStorage.removeItem('NombreUsuario');   
       localStorage.removeItem('DireccionIP');               
       this.authService.getIp(); 
@@ -92,13 +131,68 @@ export class LoginComponent {
 
   onCambioContrasenia()
   {
-    const dialogConfigC = new MatDialogConfig();
-    dialogConfigC.disableClose = true;
-    dialogConfigC.autoFocus = true;
-    dialogConfigC.width = "40%";
-    this.dialogc.open(ContraseniaComponent, dialogConfigC);      
+    //const dialogConfigC = new MatDialogConfig();
+    //dialogConfigC.disableClose = true;
+    //dialogConfigC.autoFocus = true;
+    //dialogConfigC.width = "40%";
+    //this.dialogc.open(ContraseniaComponent, dialogConfigC);    
+
+    this.openModal(this.contraseniamod);
+
 
   }
+
+  CambiarContrasenia() {
+    this.submitted = true;
+
+    let contraseniaact = this.contraseniaForm.controls['contraAct'].value.toString();
+    let contrasenian = this.contraseniaForm.controls['contraNueva'].value.toString();
+    // stop here if form is invalid
+    if (this.contraseniaForm.invalid) {
+        return;
+    }
+
+    this.actContra.IDUser = Number(localStorage.getItem("Usuario").toString());   
+    this.actContra.OldPass = this.contraseniaForm.controls['contraAct'].value.toString();
+    this.actContra.NewPass = this.contraseniaForm.controls['contraNueva'].value.toString();
+
+    if (this.contraseniaForm.controls['contraNueva'].value.toString() != this.contraseniaForm.controls['confContra'].value.toString())
+    {
+      this.errorgen = true;
+      this.errormsj = "La nueva contraseña y su confirmación debe ser la misma";
+      return;
+    }
+
+    this.authService
+        //.loginuser(this.user.Usuario, this.user.Password)
+        .actContrasenia(this.actContra)
+        .subscribe(
+        data => {
+          
+          this.respactContra = data;
+
+          if (this.respactContra.Cod == 0)
+          { 
+            swal({text :"Se ha cambiado la contraseña correctamente", icon:"success"});
+            //this.dialogRef.close(); aca va el spinner creo
+            this.modalRef.hide();
+            //this.router.navigate(['home']);
+          }
+          else{
+            this.errorgen = true;
+            this.errormsj = this.respactContra.Msj;
+
+           
+          }
+
+        },  
+        error => {
+          this.onIsError();           
+          console.log("Error");}
+        );
+   
+}
+
 
 
   onLogin(form: NgForm) {
@@ -194,6 +288,7 @@ export class LoginComponent {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+
   }
 
   onRecoverPass(form: NgForm){

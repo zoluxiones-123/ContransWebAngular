@@ -42,6 +42,8 @@ import {RepstockDAComponent} from "./views/dashboards/repstock-da.component";
 import { RepstockDSComponent } from './views/dashboards/repstock-ds.component';
 import { RepstockDTComponent } from './views/dashboards/repstock-dt.component';
 import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
+
+
 import { DashboardGlobalComponent } from './views/dashboards/dashboardglobal.component';
 import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module';
 

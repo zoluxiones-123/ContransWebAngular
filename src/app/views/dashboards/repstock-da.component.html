@@ -1,7 +1,5 @@
 <section id="report">
-  <div class="form-group row">
-    <label class="col-sm-4 col-form-label"></label>
-    <div class="col-sm-8">
+    <div class="row">
       <label>Registro DA : </label>
       <mat-form-field>
         <input type="text" placeholder=" Digite el Registro" matInput [formControl]="myRegistro"
@@ -14,13 +12,9 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-  </div>
-  <div class="ibox-content">
-    <div class="row">
-      <div class="col-lg-10">
-        <td style="width: 900px; height : 50%">
-          <canvas id="barChartDA"></canvas> </td>
+  <div class="row">
+      <div>
+          <canvas id="barChartDA"></canvas> 
       </div>
-    </div>
   </div>
 </section>

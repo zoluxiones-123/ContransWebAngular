@@ -15,11 +15,10 @@ import { DataSetItem } from '../../models/datasetitem';
   styleUrls: ['./repestadia.component.css']
 })
 
-
 export class RepestadiaComponent implements OnInit {
-  
 
-  constructor(private reportService: ReportService, private router: Router, private location: Location, private elementRef : ElementRef) { 
+  constructor(private reportService: ReportService, private router: Router, private location: Location,   
+    private elementRef : ElementRef) { 
   }
 
   public isError = false;
@@ -161,6 +160,7 @@ export class RepestadiaComponent implements OnInit {
   }
 
   cargarGraficoEstadia():void{
+
 
     if (this.BarChart2 != null)
     { this.BarChart2.destroy();}

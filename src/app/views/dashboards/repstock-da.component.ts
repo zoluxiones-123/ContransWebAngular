@@ -203,7 +203,7 @@ export class RepstockDAComponent implements OnInit {
       options: {
         legend: {
           display: true,
-          position: 'right',
+          position: 'bottom',
           labels: {
             fontColor: "#000080",
           }
