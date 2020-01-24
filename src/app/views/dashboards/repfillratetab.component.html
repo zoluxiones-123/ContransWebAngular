@@ -1,0 +1,98 @@
+<section id="report">   
+
+  <div *ngIf = "this.seVisualizaFillRate" class="row">
+    <div class="col-lg-3">
+        <div class="ibox ">
+            <div class="ibox-title">                             
+                <h5 class="font-bold text-navy">% Ocupabilidad {{this.mes}} {{this.anio}}</h5>                         
+            </div>
+        <div class="ibox-content">                     
+                  <h3 class="font-bold text-danger">{{this.valor}}%</h3>
+                  <div class="stat-percent font-bold text-danger">
+                          <img alt="image" class="img-container" src="assets/images/FillRate.png">
+                  </div>
+                  <h4 class="font-bold text-navy">Cantidades Posicionadas</h4> 
+                  
+                  <h3 class="no-margins font-bold">{{this.cantPos}}</h3>
+                  <div class="stat-percent font-bold text-danger"></div>
+                  
+                  <div class="stat-percent font-bold text-danger"></div>
+                  <h5 class="float-left font-bold text-navy">{{this.uninegoo}}</h5>                                       
+        </div>                 
+      </div>         
+  </div>
+  
+  <div class="col-lg-3">
+          <div class="ibox ">
+              <div class="ibox-title">                             
+                  <h5 class="font-bold text-navy">Fill Rate {{this.mesf}} {{this.aniof}}</h5>                           
+              </div>
+          <div class="ibox-content">                     
+                    <h3 class="font-bold text-danger">{{this.valorf}}%</h3>                  
+         
+                    <div class="stat-percent font-bold text-danger">
+                            <img alt="image" class="img-container" src="assets/images/FillRate.png">
+                    </div>
+                    <h4 class="font-bold text-navy">Unidades Solicitadas</h4>                   
+                    <h3 class="no-margins font-bold">{{this.unidSol}}</h3>
+                    <div class="stat-percent font-bold text-danger"></div>
+                    <h4 class="font-bold text-navy">Pedidos Solicitados</h4>                    
+                    <h3 class="no-margins font-bold">{{this.pedSol}}</h3>
+                    <div class="stat-percent font-bold text-danger"></div>
+                    <h5 class="float-left font-bold text-navy">{{this.uninegof}}</h5>                                       
+          </div>      
+        </div>         
+    </div>
+              <div class="col-lg-6">
+                  <div class="ibox ">
+                      <div class="ibox-title">
+                          <h5 class="font-bold text-navy">ERI por SKU {{this.valore}}% - {{this.uninego}}</h5>                    
+                      </div>
+                      <div class="ibox-content table-responsive">
+                          <table class="table table-hover no-margins">
+                              <thead>
+                              <tr>                              
+                                  <th>Estado</th>
+                                  <th>{{this.diae}} {{this.mese}}</th>
+                                  <th>Total General</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                     
+                                  <td class="text-navy">Sin Diferencia</td>
+                                  <td class="text-navy"> {{this.sindif}}</td>
+                                  <td class="text-navy"> {{this.sindifg}} </td>
+                              </tr>
+                              <tr>                               
+                                  <td class="text-navy">Sobrante</td>
+                                  <td class="text-navy"> {{this.sob}}</td>
+                                  <td class="text-navy"> {{this.sobg}} </td>
+                              </tr>
+                              <tr>                               
+                                      <td class="text-navy">Faltante</td>
+                                      <td class="text-navy"> {{this.falt}}</td>
+                                      <td class="text-navy"> {{this.faltg}} </td>
+                                  </tr>
+                              <tr>
+                                
+                                  <td class="font-bold">Total General</td>
+                                  <td class="font-bold">{{this.totfech}}</td>
+                                  <td class="font-bold text-navy"> {{this.totg}} </td>
+                              </tr>
+                                                                                                             
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+         
+  
+  </div>
+  
+  
+        
+  
+  
+  </section>
+  

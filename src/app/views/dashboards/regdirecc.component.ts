@@ -391,6 +391,8 @@ export class RegdireccComponent implements OnInit {
       var newstr = oldstr.toString().replace("data:text/plain;base64,","");
       this.reqBase64.Base64 = newstr;
 
+
+
       
       this.fileitem = new Base64RQT("", this.reqBase64.Base64 ,  this.reqBase64.NombreArc,  this.reqBase64.TipoArc);
 
@@ -1430,6 +1432,17 @@ export class RegdireccComponent implements OnInit {
       
     let reqBas64 = this.fileitems[i];
     reqBas64.Carpeta = carpeta;
+
+    
+    let oldstr = reqBas64.Base64;
+    let ind = oldstr.indexOf(",");
+    let repstr = oldstr.substr(0,ind + 1);
+    var newstr = oldstr.toString().replace(repstr,"");
+
+    reqBas64.Base64 = newstr;
+    
+    console.log(reqBas64.Carpeta);    
+    console.log(reqBas64.Base64);
       
     this.reportService
      //.loginuser(this.user.Usuario, this.user.Password)
@@ -1472,7 +1485,7 @@ export class RegdireccComponent implements OnInit {
 
      }
      this.ConvertirZip(carpeta);
-      //this.onClose();     
+    //  this.onClose();     
     }
 
     

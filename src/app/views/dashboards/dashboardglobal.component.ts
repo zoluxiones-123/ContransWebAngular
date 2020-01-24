@@ -14,6 +14,9 @@ import { RepstockDTComponent } from './repstock-dt.component';
 import { element } from 'protractor';
 import { elementEnd } from '@angular/core/src/render3/instructions';
 import { ReportService } from '../../services/report.service';
+import { RepfillratetabComponent } from './repfillratetab.component';
+import { RepfillrategrafComponent  } from './repfillrategraf.component';
+
 
 declare var jQuery : any;
 declare var $ : any;
@@ -53,7 +56,7 @@ export class DashboardGlobalComponent {
           break;
         }
         case "repfillrate" : {
-          element.component = RepfillrateComponent;
+          element.component = RepfillrategrafComponent;
           break;
         }
         case "repstock-da" : {
@@ -68,6 +71,11 @@ export class DashboardGlobalComponent {
           element.component = RepstockDTComponent;
           break;
         }
+        case "repfillratetab" : {
+          element.component = RepfillratetabComponent;
+          break;
+        }
+        
         default : {
           console.log("No se encontro grafico para ", element.name);
           break;

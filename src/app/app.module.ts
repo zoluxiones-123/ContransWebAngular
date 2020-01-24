@@ -46,6 +46,9 @@ import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
 
 import { DashboardGlobalComponent } from './views/dashboards/dashboardglobal.component';
 import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module';
+import { RepfillratetabComponent } from './views/dashboards/repfillratetab.component';
+import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.component';
+
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -64,7 +67,9 @@ import { DragulaModule } from 'ng2-dragula';
     RepstockDAComponent,
     RegdireccComponent,
     RepstockexpComponent,
-    DashboardGlobalComponent   
+    DashboardGlobalComponent,
+    RepfillratetabComponent,
+    RepfillrategrafComponent   
   ],
   imports: [
     BrowserModule,
