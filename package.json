@@ -43,6 +43,7 @@
     "jvectormap": "1.2.2",
     "metismenu": "^2.5.0",
     "ng2-charts": "^1.5.0",
+    "ng2-dragula": "^2.1.1",
     "ngx-bootstrap": "^3.0.1",
     "ngx-mat-select-search": "^1.5.1",
     "ngx-spinner": "^7.2.0",

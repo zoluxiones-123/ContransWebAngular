@@ -1,6 +1,6 @@
 <div *ngIf="EsCargado">
   <div class="dprin">
-    <div  *ngFor="let item of graphs" class="dcomp">
+    <div *ngFor="let item of graphs" dragula="VAMPIRES" class="dcomp">
       <div [id]=item.Nombre *ngIf="item.Visible" class="ibox float-e-margins">
         <div class="ibox-title">
           <h5> {{item.Titulo}} </h5>

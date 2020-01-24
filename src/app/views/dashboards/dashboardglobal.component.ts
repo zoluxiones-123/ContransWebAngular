@@ -15,6 +15,8 @@ import { element } from 'protractor';
 import { elementEnd } from '@angular/core/src/render3/instructions';
 import { ReportService } from '../../services/report.service';
 
+declare var jQuery : any;
+declare var $ : any;
 
 
 @Component({
@@ -25,6 +27,7 @@ import { ReportService } from '../../services/report.service';
 
 
 export class DashboardGlobalComponent {
+
 
   graphs : any;
   EsCargado = false;
@@ -76,8 +79,9 @@ export class DashboardGlobalComponent {
   ngOnInit() {
     this.EsCargado = true;
 
-  }
+    
 
+  }
 
   abrirMenu () {
     let elemns = document.getElementsByClassName("theme-config-box")[0];
@@ -99,11 +103,11 @@ export class DashboardGlobalComponent {
       if(item.Nombre == element.Nombre){
         item.Visible = element.Visible;
       }
-
     });
+
     localStorage.setItem("Graficos",JSON.stringify(this.graphs));
 
-    let enviarelement :any = {
+    let enviarelement : any = {
       CodUsuario : localStorage.getItem("Usuario").toString(),
       CodRol : localStorage.getItem("RolEmpUsuaCodigoDefault").toString(),
       DashboardsCodigo : element.Codigo,
@@ -116,6 +120,7 @@ export class DashboardGlobalComponent {
       }
     })
 
+    
   }
 
 }

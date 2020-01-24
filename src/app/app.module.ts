@@ -47,9 +47,7 @@ import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
 import { DashboardGlobalComponent } from './views/dashboards/dashboardglobal.component';
 import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module';
 
-
-
-
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -88,7 +86,8 @@ import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module'
     MatDialogModule,
     BsDatepickerModule.forRoot(),
     AngularDraggableModule,
-    IboxtoolsModule
+    IboxtoolsModule,
+    DragulaModule.forRoot()
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
