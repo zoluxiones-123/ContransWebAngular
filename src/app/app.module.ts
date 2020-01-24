@@ -46,6 +46,9 @@ import { RepstockexpComponent } from './views/dashboards/repstockexp.component';
 
 import { DashboardGlobalComponent } from './views/dashboards/dashboardglobal.component';
 import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module';
+import { RepfillratetabComponent } from './views/dashboards/repfillratetab.component';
+import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.component';
+
 
 
 
@@ -66,7 +69,9 @@ import { IboxtoolsModule } from './components/common/iboxtools/iboxtools.module'
     RepstockDAComponent,
     RegdireccComponent,
     RepstockexpComponent,
-    DashboardGlobalComponent   
+    DashboardGlobalComponent,
+    RepfillratetabComponent,
+    RepfillrategrafComponent   
   ],
   imports: [
     BrowserModule,

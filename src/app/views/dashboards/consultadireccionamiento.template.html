@@ -48,6 +48,7 @@
               <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
                 <thead>
                   <tr>
+                    <th>ZIP</th>
                     <th>N° Registro	</th>
                     <th>Fecha Aprox. Llegada</th>
                     <th>Nave</th>
@@ -68,6 +69,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.objDireccRPT">
+                    <td><a (click)="RedirrecionarZip(item.Carpeta, item.ID)"><img src="assets/images/zip.png"></a></td>                   
                     <td>{{item.ID}} 	</td>
                     <td>{{item.FAproxLlegada}} </td>
                     <td>{{item.Nave}}</td>

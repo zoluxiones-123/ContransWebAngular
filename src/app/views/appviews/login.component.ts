@@ -132,13 +132,13 @@ export class LoginComponent implements AfterViewInit {
 
   onCambioContrasenia()
   {
-    //const dialogConfigC = new MatDialogConfig();
-    //dialogConfigC.disableClose = true;
-    //dialogConfigC.autoFocus = true;
-    //dialogConfigC.width = "40%";
-    //this.dialogc.open(ContraseniaComponent, dialogConfigC);    
+    const dialogConfigC = new MatDialogConfig();
+    dialogConfigC.disableClose = true;
+    dialogConfigC.autoFocus = true;
+    dialogConfigC.width = "40%";
+    this.dialogc.open(ContraseniaComponent, dialogConfigC);    
 
-    this.openModal(this.contraseniamod);
+    //this.openModal(this.contraseniamod);
 
 
   }

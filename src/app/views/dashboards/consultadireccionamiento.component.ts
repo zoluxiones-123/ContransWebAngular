@@ -231,14 +231,14 @@ import { AuthService } from 'app/services/auth.service';
       }
     }
 
-   public RedirrecionarPDF(paramUri:string, paramNombre:string){
+   public RedirrecionarZip(paramUri:string, paramNombre:string){
 
-    this.reportService.getArchivoByte(paramUri,paramNombre,"pdf").subscribe(
+    this.reportService.getArchivoByte(paramUri + ".zip",paramNombre,"zip").subscribe(
       data => {
         
-        const linkSource = 'data:application/pdf;base64,' + data;
+        const linkSource = 'data:application/zip;base64,' + data;
         const downloadLink = document.createElement("a");
-        const fileName = paramNombre + ".pdf";
+        const fileName = paramNombre + ".zip";
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
