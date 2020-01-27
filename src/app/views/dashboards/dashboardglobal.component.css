@@ -6,8 +6,9 @@ div.dprin {
 div.dcomp {
   display: inline-flex;
   width: 49%;
-  height: fit-content;
-  margin: 2px;
+  /* height: fit-content; */
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 div.dcomp * {

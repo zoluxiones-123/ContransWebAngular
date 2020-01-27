@@ -33,7 +33,7 @@ export class DashboardGlobalComponent {
 
 
   graphs : any;
-  EsCargado = false;
+  EsCargado = true;
 
   constructor (private reportService: ReportService) {
     this.cargarGraficos();
@@ -85,7 +85,7 @@ export class DashboardGlobalComponent {
   }
 
   ngOnInit() {
-    this.EsCargado = true;
+
   }
 
   abrirMenu () {
