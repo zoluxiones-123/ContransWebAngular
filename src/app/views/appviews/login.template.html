@@ -49,61 +49,6 @@
       </div>
     </ng-template>
 
-    <ng-template #contraseniamodal>
-      <div class="ibox-title">
-        <h5 class="font-bold text-navy">Cambiar Contraseña</h5>           
-      </div>
-      <div class="ibox-content col-lg-20">
-        <form [formGroup]="contraseniaForm" (ngSubmit)="CambiarContrasenia()">               
-            <div class="form-group row">
-                <label class="col-lg-6 col-form-label">Contraseña Actual</label>
-                <div class="col-lg-8"><input type="password" formControlName="contraAct" placeholder="Contraseña" 
-                     class="form-control">                    
-                    <div *ngIf="submitted && this.contraseniaForm.controls['contraAct'].errors" class="invalid-feedback">
-                            <div *ngIf="this.contraseniaForm.controls['contraAct'].errors.required">Contraseña Actual Requerida</div>                                                 
-                    </div>        
-                </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="col-lg-6 col-form-label">Contraseña Nueva</label>
-              <div class="col-lg-8">
-                <input type="password" formControlName="contraNueva" placeholder="Nueva Contraseña" class="form-control">
-                  <div *ngIf="submitted && this.contraseniaForm.controls['contraNueva'].errors" class="invalid-feedback">
-                    <div *ngIf="this.contraseniaForm.controls['contraNueva'].errors.required">Contraseña Nueva Requerida</div>                                          
-                  </div>                    
-                </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="col-lg-8 col-form-label">Confirmación Contraseña</label>
-              <div class="col-lg-8">
-                <input type="password" required pattern = "^(?=.*[@$!%*#?&])[A-Z]([a-zA-Z0-9@$!%*#?&]){8,}$" formControlName="confContra" placeholder="Conf. Contraseña" class="form-control">
-                <div class="col-lg-10" *ngIf="submitted && this.contraseniaForm.controls['confContra'].errors" class="invalid-feedback">
-                  <div *ngIf="this.contraseniaForm.controls['confContra'].errors.required">Conf. Contraseña Requerida</div>                      
-                  <div class="col-lg-2" *ngIf="this.contraseniaForm.controls['confContra'].errors.pattern" class="stat-percent font-bold text-danger" >
-                    Para la nueva y confirmación de contraseña, el formato es el sgte: El 1er caracter letra Mayus, al menos una letra, un número, un caracter especial y
-                    debe ser mínimo de 8 caracteres.</div>                                          
-                </div>                    
-              </div>
-          </div>               
-         
-          <div class="form-group row">
-              <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary">Aceptar</button></div>
-              <div class="col-sm-2"></div>   
-                                          
-          </div>
-          <div class="form-group row">                    
-                <div *ngIf="this.errorgen" class="font-bold text-danger"> {{this.errormsj}} </div>                                   
-            </div>
-        </form>
-      </div>
-
-
-
-    </ng-template>
-
-
   </div>
 </div>
 <ngx-spinner

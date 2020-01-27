@@ -19,8 +19,8 @@ import swal from 'sweetalert';
 
 @Component({
   selector: 'app-suscrip',
-  templateUrl: './suscrip.component.html'
-  //styleUrls: ['./suscrip.component.css']
+  templateUrl: './suscrip.component.html',
+  styleUrls: ['./suscrip.component.css']
 })
 
 export class SuscripComponent implements OnInit {
