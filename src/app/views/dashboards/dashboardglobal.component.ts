@@ -86,9 +86,6 @@ export class DashboardGlobalComponent {
 
   ngOnInit() {
     this.EsCargado = true;
-
-    
-
   }
 
   abrirMenu () {
@@ -128,7 +125,6 @@ export class DashboardGlobalComponent {
       }
     })
 
-    
   }
 
 }

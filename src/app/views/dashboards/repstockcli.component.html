@@ -1,11 +1,13 @@
 <section id="report">
-  <div style="height: 340px;" *ngIf="this.esAgenteAduanas">
-      <ul class="stat-list">
-        <li>
-          <h1 class="no-margins">{{this.stocktotal}}</h1>
-          <small>Contenedores</small>
-        </li>
-      </ul>
-      <canvas id="barChart"></canvas>
+  <div *ngIf="this.esAgenteAduanas">
+    <!-- <ul class="stat-list">
+        <li> -->
+    <div class="descripcion">
+      <h1>{{this.stocktotal}}</h1>
+      <small>Contenedores</small>
     </div>
+    <!-- </li>
+      </ul> -->
+    <canvas id="barChart"></canvas>
+  </div>
 </section>

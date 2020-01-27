@@ -12,7 +12,11 @@ declare var jQuery:any;
 export class TopNavbarComponent {
 
   toggleNavigation(): void {
+    // jQuery("#side-menu").hide();
+
     jQuery("body").toggleClass("mini-navbar fixed-sidebar");
+    // jQuery("body").toggleClass("mini-navbar fixed-sidebar");
+
     smoothlyMenu();
   }
 

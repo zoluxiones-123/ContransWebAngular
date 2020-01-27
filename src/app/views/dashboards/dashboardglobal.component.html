@@ -1,15 +1,28 @@
 <div *ngIf="EsCargado">
-  <div class="dprin">
-    <div *ngFor="let item of graphs" dragula="VAMPIRES" class="dcomp">
-      <div [id]=item.Nombre *ngIf="item.Visible" class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5> {{item.Titulo}} </h5>
-          <iboxtools></iboxtools>
+  <div class="dprin" dragula="asdf">
+    <div *ngFor="let item of graphs; let ind = index" class="dcomp" >
+      <ng-container *ngIf="ind % 2 == 0">
+        <div [id]=item.Nombre *ngIf="item.Visible"  class="ibox">
+          <div class="ibox-title">
+            <h5> {{item.Titulo}} </h5>
+          </div>
+          <div class="ibox-content">
+            <ng-container [ngComponentOutlet]=item.component></ng-container>
+          </div>
         </div>
-        <div class="ibox-content">
-          <ng-container [ngComponentOutlet]=item.component></ng-container>
+        <!-- <div style="width: 100%; height: 100px; border: 0.7px solid black; background-color: blue;" class="dcont" ></div> -->
+      </ng-container>
+      <ng-container *ngIf="ind % 2 != 0">
+        <div [id]=item.Nombre *ngIf="item.Visible" class="ibox">
+          <div class="ibox-title">
+            <h5> {{item.Titulo}} </h5>
+          </div>
+          <div class="ibox-content">
+            <ng-container [ngComponentOutlet]=item.component></ng-container>
+          </div>
         </div>
-      </div>
+        <!-- <div style="width: 100%; height: 100px; border: 0.7px solid black; background-color: red;" class="dcont" ></div> -->
+      </ng-container>
     </div>
   </div>
   <div class="theme-config">
@@ -24,12 +37,12 @@
           </small>
         </div>
         <div class="setings-item" *ngFor="let item of graphs">
-          <ng-container *ngIf= "item.Visible">        
+          <ng-container *ngIf="item.Visible">
             <div id="botonConfig" class="btn btn-info btn-block" (click)="Ocultar(item.Nombre)">
               <span class="configtext"> {{item.Titulo}}</span>
             </div>
           </ng-container>
-          <ng-container *ngIf= "!item.Visible">
+          <ng-container *ngIf="!item.Visible">
             <div id="botonConfig" class="btn btn-danger btn-block" (click)="Ocultar(item.Nombre)">
               <span class="configtext"> {{item.Titulo}}</span>
             </div>
@@ -61,4 +74,3 @@
       [gridSize]="20" [preventDefaultEvent]="true">HOLI 5</div>
   </div>
 </div> -->
-

@@ -1,30 +1,17 @@
-/* 
-div.dprin {
-    display: inline-block;
-    grid-gap: 0px 0px;
-}
-
-div.dcomp {
-    justify-content: space-evenly;
-    float: left;
-    width: 49%;
-    margin: 4px;
-    -webkit-box-pack: start;
-} */
 
 div.dprin {
-  display: inline-block;
   width: 100%;
 }
 
 div.dcomp {
-
-  float: left;
-  /* clear: left; */
+  display: inline-flex;
   width: 49%;
-  height: max-content !important;
-  padding-right: 4px;
-  /* margin: 4px; */
+  height: fit-content;
+  margin: 2px;
+}
+
+div.dcomp * {
+  width: 100%;
 }
 
 @media (max-width: 1000px) {
@@ -48,19 +35,3 @@ span.configtext {
 
 }
 
-#sortable {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 450px;
-}
-
-#sortable li {
-  margin: 3px 3px 3px 0;
-  padding: 1px;
-  float: left;
-  width: 100px;
-  height: 90px;
-  font-size: 4em;
-  text-align: center;
-}

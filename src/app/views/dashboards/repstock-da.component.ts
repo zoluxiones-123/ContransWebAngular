@@ -193,7 +193,7 @@ export class RepstockDAComponent implements OnInit {
       this.BarChartCsu.destroy();
     }
     this.BarChartCsu = new Chart('barChartDA', {
-      responsive: true,
+      responsive: false,
       type: 'bar',
       data: {
         //labels: this.XLabels,

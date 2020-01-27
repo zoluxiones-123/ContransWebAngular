@@ -5,27 +5,31 @@
         <div class="profile-element" dropdown>
           <img alt="image" class="img-container" src="assets/images/LogoContrans.png">
           <a dropdownToggle>
-            <div class="rounded" style="background-color: darkgrey;border-radius: 100%;text-align: -webkit-center;height: 50px;width: 50px;border: 2px solid #353535;vertical-align: -webkit-baseline-middle;margin-top: 14px;">
-              <h1 class="rounded-circle" style="height: auto;display: inline-block; margin: 0px;margin-top: 10px;font-weight: normal;color: #ffffff; font-size: x-large;">{{this.NombreIniciales}}</h1>
+            <div class="rounded"
+              style="background-color: darkgrey;border-radius: 100%;text-align: -webkit-center;height: 50px;width: 50px;border: 2px solid #353535;vertical-align: -webkit-baseline-middle;margin-top: 14px;">
+              <h1 class="rounded-circle"
+                style="height: auto;display: inline-block; margin: 0px;margin-top: 10px;font-weight: normal;color: #ffffff; font-size: x-large;">
+                {{this.NombreIniciales}}</h1>
             </div>
             <span class="block m-t-xs"> <strong class="font-bold">{{this.usuarionombre}}</strong> </span>
             <span class="block m-t-xs">{{this.entinombre}} </span>
             <span class="text-muted text-xs block">{{this.rolactual}} <b class="caret"></b> </span>
           </a>
-          <ul class="animated fadeInRight dropdown-menu" >
+          <ul class="animated fadeInRight dropdown-menu">
             <li *ngFor="let item of this.listarol" (click)="CambioRol(item)"><a>{{item.RolDesc}}</a></li>
           </ul>
         </div>
         <div class="logo-element">
-         <img class="img-circle" style="height: 48px; width: 48 px;" src="assets/images/RosaNautica2.png">
+          <img class="img-circle" style="height: 48px; width: 48 px;" src="assets/images/RosaNautica2.png">
         </div>
       </li>
       <li *ngFor="let item of this.MenuRST">
-        <ng-container *ngIf= "!(item.ArrayPag.length > 0)">
+        <ng-container *ngIf="!(item.ArrayPag.length > 0)">
           <a [routerLink]="[item.Ruta]"><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span></a>
-        </ng-container >
-        <ng-container *ngIf= "(item.ArrayPag.length > 0)">        
-          <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span class="fa arrow"></span></a>
+        </ng-container>
+        <ng-container *ngIf="(item.ArrayPag.length > 0)">
+          <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span
+              class="fa arrow"></span></a>
           <ul *ngFor="let item2 of item.ArrayPag" class="nav nav-second-level collapse">
             <li><a [routerLink]="[item2.Ruta]">{{item2.Nombre}}</a></li>
           </ul>

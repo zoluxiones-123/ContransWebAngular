@@ -1,5 +1,21 @@
-.ColEstadia {
-    justify-content: stretch;
+.descripcion li {
     display: inline-block;
-    
-    }
+    /* margin: 2px; */
+    height: 0.15vh;
+}
+
+
+.descripcion * * {
+    display: block;
+    justify-content: space-evenly;
+    text-align: justify;
+}
+
+div span{
+    display: inline-block;
+}
+
+.labelsgraph * {
+    display: inline-block;
+    /* zoom: 85%; */
+}

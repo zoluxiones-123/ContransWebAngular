@@ -37,22 +37,28 @@ export function correctHeight() {
 }
 
 export function detectBody() {
-  if (jQuery(document).width() < 769) {
-    jQuery('body').addClass('body-small')
-  } else {
-    jQuery('body').removeClass('body-small')
-  }
+  // jQuery('body').removeClass('body-small');
+  jQuery('body').addClass('body-small')
+
+
+  // if (jQuery(document).width() < 769) {
+  //   jQuery('body').addClass('body-small')
+
+  // } else {
+  //   jQuery('body').addClass('body-small')
+
+  // }
 }
 
 export function smoothlyMenu() {
   if (!jQuery('body').hasClass('mini-navbar') || jQuery('body').hasClass('body-small')) {
     // Hide menu in order to smoothly turn on when maximize menu
-    jQuery('#side-menu').hide();
+    // jQuery('#side-menu').hide();
     // For smoothly turn on menu
-    setTimeout(
-      function () {
-        jQuery('#side-menu').fadeIn(400);
-      }, 200);
+    // setTimeout(
+    //   function () {
+    //     jQuery('#side-menu').fadeIn(400);
+    //   }, 200);
   } else if (jQuery('body').hasClass('fixed-sidebar')) {
     jQuery('#side-menu').hide();
     setTimeout(
