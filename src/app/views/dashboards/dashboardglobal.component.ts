@@ -20,6 +20,8 @@ import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { ContraseniaComponent } from '../appviews/contrasenia.component';
+import { RepstockexpestComponent } from './repstockexpest.component';
+import { RepstockexpocliComponent } from './repstockexpocli.component';
 declare var jQuery : any;
 declare var $ : any;
 
@@ -102,6 +104,14 @@ export class DashboardGlobalComponent {
           element.component = RepfillratetabComponent;
           break;
         }
+        case "RepstockexpestComponent" : {
+          element.component = RepstockexpestComponent;
+          break;
+        }
+        case "RepstockexpocliComponent" : {
+          element.component = RepstockexpocliComponent;
+          break;
+        }
         
         default : {
           console.log("No se encontro grafico para ", element.name);
@@ -137,7 +147,7 @@ export class DashboardGlobalComponent {
       }
     });
 
-    localStorage.setItem("Graficos",JSON.stringify(this.graphs));
+    localStorage.setItem("Grafico",JSON.stringify(this.graphs));
 
     let enviarelement : any = {
       CodUsuario : localStorage.getItem("Usuario").toString(),

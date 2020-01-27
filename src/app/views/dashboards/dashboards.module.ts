@@ -32,6 +32,8 @@ import { RepstockDSComponent } from "./repstock-ds.component";
 import { RepstockDTComponent } from "./repstock-dt.component";
 import { RepfillratetabComponent } from "./repfillratetab.component";
 import { RepfillrategrafComponent } from "./repfillrategraf.component";
+import { RepstockexpocliComponent } from "./repstockexpocli.component";
+import { RepstockexpestComponent } from "./repstockexpest.component";
 
 defineLocale('es', esLocale);
 
@@ -43,7 +45,7 @@ defineLocale('es', esLocale);
     DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, 
     TooltipModule.forRoot()],
   exports     : [ConsultaFacturaComponent,ConsultacontdlComponent],
-  entryComponents : [RepstockcliComponent,RepestadiaComponent,RepabandonoComponent,RepfillrateComponent,RepstockDAComponent,RepstockDSComponent,RepstockDTComponent,RepfillratetabComponent, RepfillrategrafComponent ]
+  entryComponents : [RepstockcliComponent,RepestadiaComponent,RepabandonoComponent,RepfillrateComponent,RepstockDAComponent,RepstockDSComponent,RepstockDTComponent,RepfillratetabComponent, RepfillrategrafComponent, RepstockexpocliComponent, RepstockexpestComponent]
  
 })
 
