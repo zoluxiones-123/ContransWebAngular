@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, TemplateRef} from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ElementRef, AfterViewInit, TemplateRef} from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { UserInterfaceRQT } from 'app/models/user-interfaceRQT';
 import { UserInterfaceRPT } from 'app/models/user-interfaceRPT';
@@ -32,11 +32,18 @@ export class LoginComponent implements AfterViewInit {
 
   @ViewChild("contraseniamodal") contraseniamodal: TemplateRef<any>; 
 
+  @ViewChild('contraseniamodal', { read: TemplateRef }) _template: TemplateRef<any>;
+  @ViewChild('vc', {read: ViewContainerRef}) vc: ViewContainerRef;
+
   ngAfterViewInit() {
    // let elementRef = this.contraseniamodal.elementRef;
-    this.contraseniamod = this.contraseniamodal.elementRef;
+    //this.contraseniamod = this.contraseniamodal.createEmbeddedView;
     // outputs `template bindings={}`
     //console.log(elementRef.nativeElement.textContent);
+
+    this.contraseniamod = this._template.createEmbeddedView({fromContext: 'John'});
+    //this.vc.insert(view);
+
   }
 
   modalRef: BsModalRef;
@@ -136,7 +143,12 @@ export class LoginComponent implements AfterViewInit {
     dialogConfigC.disableClose = true;
     dialogConfigC.autoFocus = true;
     dialogConfigC.width = "40%";
-    this.dialogc.open(ContraseniaComponent, dialogConfigC);    
+    
+    localStorage.setItem("CambiaContrasenia","1");
+    this.dialogc.open(ContraseniaComponent, dialogConfigC);
+    
+    //var contraseniamod = jQuery('#contraseniamodal');
+
     // this.openModal(this.contraseniamod);
   }
 
@@ -168,6 +180,7 @@ export class LoginComponent implements AfterViewInit {
           if (this.respactContra.Cod == 0)
           { 
             swal({text :"Se ha cambiado la contraseña correctamente", icon:"success"});
+            localStorage.setItem("CambiaContrasenia","0");
             this.modalRef.hide();
           }
           else{
@@ -214,6 +227,8 @@ export class LoginComponent implements AfterViewInit {
               });
               return;
             }
+                        
+            localStorage.setItem("CambiaContrasenia","0");    
 
             if (this.UserRPT.DiaCaducacion <= 0)
             {
