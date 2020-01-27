@@ -7,16 +7,13 @@ declare var jQuery:any;
 
 @Component({
   selector: 'topnavbar',
-  templateUrl: 'topnavbar.template.html'
+  templateUrl: 'topnavbar.template.html',
+  styleUrls: ['topnavbar.component.css']
 })
 export class TopNavbarComponent {
 
   toggleNavigation(): void {
-    // jQuery("#side-menu").hide();
-
     jQuery("body").toggleClass("mini-navbar fixed-sidebar");
-    // jQuery("body").toggleClass("mini-navbar fixed-sidebar");
-
     smoothlyMenu();
   }
 
@@ -24,8 +21,7 @@ export class TopNavbarComponent {
 
   }
   
-  LogOut(){
-    
+  LogOut(){    
     localStorage.removeItem("NombreUsuario");   
     localStorage.removeItem("DireccionIP");              
     localStorage.removeItem("Usuario");
@@ -35,16 +31,14 @@ export class TopNavbarComponent {
     localStorage.removeItem("ListaRol");
     localStorage.removeItem("EntiCodigo");    
     localStorage.removeItem("EsStarter");
-    localStorage.removeItem("CambiaContrasenia");
-    
-
+    localStorage.removeItem("CambiaContrasenia");    
   }
 
   popupActualizarDatos(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "40%";
+    // dialogConfig.width = "40%";
     this.dialog.open(ActualizarDatosUsuarioComponent, dialogConfig); 
 
     return false;
