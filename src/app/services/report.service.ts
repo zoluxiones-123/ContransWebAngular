@@ -257,6 +257,11 @@ export class ReportService {
     return this.http.post<any>(url_api, DatosGrafico, {headers: this.headers}).pipe(map(data=>data));
   }
 
+  setOrdenGraficos (DatosOrdenGrafico : any) : Observable<any> {
+    const url_api = `/ContransAPI/api/dashboardsorden`;
+    return this.http.post<any>(url_api, DatosOrdenGrafico, {headers: this.headers}).pipe(map(data=>data));
+  }
+
 
 
 }

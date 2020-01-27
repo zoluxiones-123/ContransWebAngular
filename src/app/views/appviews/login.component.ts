@@ -26,7 +26,8 @@ import { actContraseniaRPT} from 'app/models/user_actContraseniaRPT';
 
 @Component({
   selector: 'login',
-  templateUrl: 'login.template.html'
+  templateUrl: 'login.template.html',
+  styleUrls: ['login.component.css']
 })
 export class LoginComponent implements AfterViewInit {
 
@@ -133,7 +134,7 @@ export class LoginComponent implements AfterViewInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "40%";
+    // dialogConfig.width = "40%";
     this.dialog.open(SuscripComponent, dialogConfig);      
   }
 
@@ -142,10 +143,11 @@ export class LoginComponent implements AfterViewInit {
     const dialogConfigC = new MatDialogConfig();
     dialogConfigC.disableClose = true;
     dialogConfigC.autoFocus = true;
-    dialogConfigC.width = "40%";
+    dialogConfigC.panelClass = "dialogContrans";
+    // dialogConfigC.width = "40%";
     
     localStorage.setItem("CambiaContrasenia","1");
-    this.dialogc.open(ContraseniaComponent, dialogConfigC);
+    // this.dialogc.open(ContraseniaComponent, dialogConfigC);
     
     //var contraseniamod = jQuery('#contraseniamodal');
 
