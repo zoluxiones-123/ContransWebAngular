@@ -31,6 +31,8 @@ export class TopNavbarComponent {
     localStorage.removeItem("ListaRol");
     localStorage.removeItem("EntiCodigo");    
     localStorage.removeItem("EsStarter");
+    localStorage.removeItem("CambiaContrasenia");
+    
 
   }
 

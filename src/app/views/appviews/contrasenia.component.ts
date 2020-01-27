@@ -77,6 +77,7 @@ export class ContraseniaComponent implements OnInit {
           if (this.respactContra.Cod == 0)
           { 
             swal({text :"Se ha cambiado la contraseña correctamente", icon:"success"});
+            localStorage.setItem("CambiaContrasenia","0");
             this.dialogRef.close();
             //this.router.navigate(['home']);
           }

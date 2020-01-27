@@ -17,8 +17,8 @@ import { ReportService } from '../../services/report.service';
 import { RepfillratetabComponent } from './repfillratetab.component';
 import { RepfillrategrafComponent  } from './repfillrategraf.component';
 
-
-
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { ContraseniaComponent } from '../appviews/contrasenia.component';
 
 @Component({
   selector: 'dashboardglobal',
@@ -32,8 +32,32 @@ export class DashboardGlobalComponent {
   graphs : any;
   EsCargado = false;
 
-  constructor (private reportService: ReportService) {
-    this.cargarGraficos();
+  constructor (private reportService: ReportService, private dialog : MatDialog,
+    private dialogc : MatDialog) {
+
+   
+      this.cargarGraficos();
+      if(localStorage.getItem("CambiaContrasenia") == "1"){
+        this.onCambioContrasenia();
+      }
+
+   
+  }
+
+  
+  onCambioContrasenia()
+  {
+    const dialogConfigC = new MatDialogConfig();
+    dialogConfigC.disableClose = true;
+    dialogConfigC.autoFocus = true;
+    dialogConfigC.width = "40%";
+    
+    localStorage.setItem("CambiaContrasenia","1");
+    this.dialogc.open(ContraseniaComponent, dialogConfigC);
+
+
+    //this.openModal(this.contraseniamod);
+
   }
 
   cargarGraficos() {
