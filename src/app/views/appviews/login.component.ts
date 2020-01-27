@@ -146,13 +146,10 @@ export class LoginComponent implements AfterViewInit {
     
     localStorage.setItem("CambiaContrasenia","1");
     this.dialogc.open(ContraseniaComponent, dialogConfigC);
-
     
     //var contraseniamod = jQuery('#contraseniamodal');
 
-    //this.openModal(this.contraseniamod);
-
-
+    // this.openModal(this.contraseniamod);
   }
 
   CambiarContrasenia() {
@@ -161,9 +158,7 @@ export class LoginComponent implements AfterViewInit {
     let contraseniaact = this.contraseniaForm.controls['contraAct'].value.toString();
     let contrasenian = this.contraseniaForm.controls['contraNueva'].value.toString();
     // stop here if form is invalid
-    if (this.contraseniaForm.invalid) {
-        return;
-    }
+    if (this.contraseniaForm.invalid) { return; }
 
     this.actContra.IDUser = Number(localStorage.getItem("Usuario").toString());   
     this.actContra.OldPass = this.contraseniaForm.controls['contraAct'].value.toString();
@@ -180,25 +175,18 @@ export class LoginComponent implements AfterViewInit {
         //.loginuser(this.user.Usuario, this.user.Password)
         .actContrasenia(this.actContra)
         .subscribe(
-        data => {
-          
+        data => {          
           this.respactContra = data;
-
           if (this.respactContra.Cod == 0)
           { 
             swal({text :"Se ha cambiado la contraseña correctamente", icon:"success"});
             localStorage.setItem("CambiaContrasenia","0");
-            //this.dialogRef.close(); aca va el spinner creo
             this.modalRef.hide();
-            //this.router.navigate(['home']);
           }
           else{
             this.errorgen = true;
-            this.errormsj = this.respactContra.Msj;
-
-           
+            this.errormsj = this.respactContra.Msj;           
           }
-
         },  
         error => {
           this.onIsError();           
@@ -210,8 +198,8 @@ export class LoginComponent implements AfterViewInit {
 
 
   onLogin(form: NgForm) {
-    if (form.valid) {
 
+    if (form.valid) {
       this.login.User = this.user.Usuario;
       this.login.Password = this.user.Password;
       this.login.Ip =  localStorage.getItem("DireccionIP")

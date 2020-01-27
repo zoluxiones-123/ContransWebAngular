@@ -50,9 +50,7 @@ import { RepfillratetabComponent } from './views/dashboards/repfillratetab.compo
 import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.component';
 
 
-
-
-
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -93,7 +91,8 @@ import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.com
     MatDialogModule,
     BsDatepickerModule.forRoot(),
     AngularDraggableModule,
-    IboxtoolsModule
+    IboxtoolsModule,
+    DragulaModule.forRoot()
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
