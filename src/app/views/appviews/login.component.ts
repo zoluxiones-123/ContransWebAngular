@@ -283,7 +283,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   onRecoverPass(form: NgForm){
-    if( this.NullEmpty(this.RecObj) || this.NullEmpty(this.RecObj.TipEnvio) ){
+    if( this.NullEmpty(this.RecObj) || this.NullEmpty(this.RecObj.TipEnvio) || this.NullEmpty(form.value.Usuario)){
       swal({ icon: "warning", text: "Algunos campos estan vacios"});
       return;
     }
