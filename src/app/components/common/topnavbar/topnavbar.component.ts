@@ -44,7 +44,7 @@ export class TopNavbarComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "40%";
+    //dialogConfig.width = "40%";
     this.dialog.open(ActualizarDatosUsuarioComponent, dialogConfig); 
 
     return false;

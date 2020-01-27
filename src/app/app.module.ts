@@ -51,6 +51,8 @@ import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.com
 
 
 import { DragulaModule } from 'ng2-dragula';
+import { RepstockexpocliComponent } from './views/dashboards/repstockexpocli.component';
+import { RepstockexpestComponent } from './views/dashboards/repstockexpest.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { DragulaModule } from 'ng2-dragula';
     RepstockexpComponent,
     DashboardGlobalComponent,
     RepfillratetabComponent,
-    RepfillrategrafComponent   
+    RepfillrategrafComponent,
+    RepstockexpocliComponent,
+    RepstockexpestComponent   
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,7 @@
         <div class="ibox-title">
             <h5 class="font-bold text-navy">Cambiar Contraseña</h5>           
         </div>
-        <div class="ibox-content">
+        <div class="ibox-content cuerpo-con-overflow" >    
             <form [formGroup]="contraseniaForm" (ngSubmit)="CambiarContrasenia()">               
                 <div class="form-group row"><label class="col-lg-6 col-form-label">Contraseña Actual</label>
                     <div class="col-lg-8"><input type="password" formControlName="contraAct" placeholder="Contraseña" 

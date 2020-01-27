@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, ElementRef, AfterViewInit, TemplateRef} from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ElementRef, OnInit, TemplateRef} from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { UserInterfaceRQT } from 'app/models/user-interfaceRQT';
 import { UserInterfaceRPT } from 'app/models/user-interfaceRPT';
@@ -28,23 +28,7 @@ import { actContraseniaRPT} from 'app/models/user_actContraseniaRPT';
   selector: 'login',
   templateUrl: 'login.template.html'
 })
-export class LoginComponent implements AfterViewInit {
-
-  @ViewChild("contraseniamodal") contraseniamodal: TemplateRef<any>; 
-
-  @ViewChild('contraseniamodal', { read: TemplateRef }) _template: TemplateRef<any>;
-  @ViewChild('vc', {read: ViewContainerRef}) vc: ViewContainerRef;
-
-  ngAfterViewInit() {
-   // let elementRef = this.contraseniamodal.elementRef;
-    //this.contraseniamod = this.contraseniamodal.createEmbeddedView;
-    // outputs `template bindings={}`
-    //console.log(elementRef.nativeElement.textContent);
-
-    this.contraseniamod = this._template.createEmbeddedView({fromContext: 'John'});
-    //this.vc.insert(view);
-
-  }
+export class LoginComponent implements OnInit {
 
   modalRef: BsModalRef;
   tycObj:any;
@@ -60,7 +44,6 @@ export class LoginComponent implements AfterViewInit {
     App: '',
     TipEnvio: ''
   }
-
 
   constructor(private authService: AuthService, private modalService: BsModalService, private dialog : MatDialog,
   private dialogc : MatDialog, private router: Router, private location: Location, private spinner: NgxSpinnerService, private reportService : ReportService, 
@@ -133,7 +116,7 @@ export class LoginComponent implements AfterViewInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "40%";
+    //dialogConfig.width = "40%";
     this.dialog.open(SuscripComponent, dialogConfig);      
   }
 
@@ -142,7 +125,7 @@ export class LoginComponent implements AfterViewInit {
     const dialogConfigC = new MatDialogConfig();
     dialogConfigC.disableClose = true;
     dialogConfigC.autoFocus = true;
-    dialogConfigC.width = "40%";
+   // dialogConfigC.width = "40%";
     
     localStorage.setItem("CambiaContrasenia","1");
     this.dialogc.open(ContraseniaComponent, dialogConfigC);
