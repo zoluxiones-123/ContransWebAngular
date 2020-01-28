@@ -1,7 +1,7 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" style="z-index: 1 !important;" role="navigation">
   <div class="sidebar-collapse">
     <ul class="nav metismenu" id="side-menu">
-      <li class="nav-header">
+      <li class="nav-header" style="z-index: 1 !important;">
         <div class="profile-element" dropdown>
           <img alt="image" class="img-container" src="assets/images/LogoContrans.png">
           <a dropdownToggle>
@@ -23,13 +23,13 @@
           <img class="img-circle" style="height: 48px; width: 48 px;" src="assets/images/RosaNautica2.png">
         </div>
       </li>
-      <li *ngFor="let item of this.MenuRST">
+      <li class="nav-label" *ngFor="let item of this.MenuRST">
         <ng-container *ngIf="!(item.ArrayPag.length > 0)">
-          <a [routerLink]="[item.Ruta]"><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span></a>
+          <a [routerLink]="[item.Ruta]"><i [ngClass]="item.Icono"></i><span
+              class="nav-second-level">{{item.Nombre}}</span></a>
         </ng-container>
         <ng-container *ngIf="(item.ArrayPag.length > 0)">
-          <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span
-              class="fa arrow"></span></a>
+          <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span class="fa arrow"></span></a>
           <ul *ngFor="let item2 of item.ArrayPag" class="nav nav-second-level collapse">
             <li><a [routerLink]="[item2.Ruta]">{{item2.Nombre}}</a></li>
           </ul>
