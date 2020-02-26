@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js'
 import { ReportService } from '../../services/report.service'
 import { RepStockExpRPT } from '../../models/rep_stockexpRPT'
@@ -8,6 +8,10 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataSetItem } from '../../models/datasetitem';
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { DetrepstockComponent  } from 'app/views/dashboards/detrepstock.component';
+import { ChartsModule } from 'ng2-charts';
+
 
 
 @Component({
@@ -16,8 +20,12 @@ import { DataSetItem } from '../../models/datasetitem';
 })
 
 export class RepstockexpComponent implements OnInit  {
-  constructor(private reportService: ReportService, private router: Router, private location: Location) { }
-  
+  constructor (private reportService: ReportService,  private elementRef: ElementRef, 
+    private dialog : MatDialog,
+    private router: Router, private location: Location)
+    {}
+
+
   public isError = false;
   public repStockExpRPT :RepStockExpRPT = null;
   public stocktotal : string;
@@ -56,9 +64,9 @@ export class RepstockexpComponent implements OnInit  {
 
   title = 'Angular 8 with Chart Js';
   LineChart = [];
-  BarChart = [];
+  BarChart : Chart;
   BarChart2 = [];
-  BarChartH = [];
+  BarChartH : Chart;
   XLabels = [];
   YLabels = [];
   YStCT = [];
@@ -168,6 +176,44 @@ export class RepstockexpComponent implements OnInit  {
   
    //this.router.navigate(['home']);    
 
+  }
+
+  VerDetalle(evt:any){
+    //var data = this.BarChart.getElementsAtEvent(evt);
+    var data = this.BarChart.getElementAtEvent(evt);   
+    
+    if (data.length > 0)  
+     {console.log(data[0]._model);
+    
+     let valor = this.BarChart.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+
+     let tipo = this.BarChart.data.labels[data[0]._index];
+
+     localStorage.setItem("EsTotalG","0");
+
+     this.DetalleRepExpo();
+
+     }
+     else
+     {
+      localStorage.setItem("EsTotalG","1");
+
+      this.DetalleRepExpo();
+
+     }
+    }
+
+  DetalleRepExpo(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    //dialogConfig.width = "40%";
+    dialogConfig.height = "600px";
+    dialogConfig.width = "800px";
+
+    this.dialog.open(DetrepstockComponent, dialogConfig);   
+
+        
   }
 
 

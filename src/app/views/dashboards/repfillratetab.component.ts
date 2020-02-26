@@ -454,10 +454,11 @@ export class RepfillratetabComponent implements OnInit {
           if (this.finocup == true && this.fineri == true && this.finfill == true)
           { 
         
-            console.log("x RepOcupabilidad")
+            console.log("x RepOcupabilidad");
             
             //swal("CargarGraficos");
-            this.cargarGraficos() };
+            //this.cargarGraficos()
+           };
         
       
         }

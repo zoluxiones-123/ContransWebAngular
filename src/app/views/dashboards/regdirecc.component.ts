@@ -57,6 +57,7 @@ export class RegdireccComponent implements OnInit {
     CAVA: boolean = false;
     IQBF: boolean = false;
     Sobredimensionada : boolean = false;    
+    Finalizo : boolean = false;
     public SiCargoData = true;
     public TieneData = false;
     public EsMayor5 = false;
@@ -1218,6 +1219,8 @@ export class RegdireccComponent implements OnInit {
     this.regDirecc.Carpeta = "Carpeta";
     
     this.registrarDireccionamiento();
+
+  
      
   //  } 
         
@@ -1434,6 +1437,13 @@ export class RegdireccComponent implements OnInit {
     reqBas64.Carpeta = carpeta;
 
     
+    if (i == this.fileitems.length - 1)
+    {
+      var ultarch = reqBas64.NombreArc + "." + reqBas64.TipoArc;
+    }
+
+
+    
     let oldstr = reqBas64.Base64;
     let ind = oldstr.indexOf(",");
     let repstr = oldstr.substr(0,ind + 1);
@@ -1459,9 +1469,16 @@ export class RegdireccComponent implements OnInit {
            {
              
             console.log("Archivo guardado correctamente");
+
+            if (ultarch.toString() == data.toString())
+            {
+               this.ConvertirZip(carpeta);
+            
+            }
+
+          
          
-             //this.dialogRef.close();
-             //return 1;
+           
            }
            else
            { 
@@ -1478,14 +1495,19 @@ export class RegdireccComponent implements OnInit {
      error => {
        this.onIsError();           
        console.log("Error");}
-     );
+     )
+     ;
     
-  //  if (i == this.fileitems.length - 1)
-   // { this.onClose();     }
+    //if (i == this.fileitems.length - 1)
+    //{ this.ConvertirZip(carpeta);
+    //  this.onClose();     }
 
      }
-     this.ConvertirZip(carpeta);
-    //  this.onClose();     
+
+    // this.Finalizo = true;
+
+    // this.ConvertirZip(carpeta);
+      this.onClose();     
     }
 
     
@@ -1532,7 +1554,7 @@ ConvertirZip(carpeta:string):void
    // { this.onClose();     }
 
      
-      this.onClose();     
+     // this.onClose();     
     }
 
   registrarDireccionamiento():void{
@@ -1556,7 +1578,20 @@ ConvertirZip(carpeta:string):void
 
            this.reqBase64.Carpeta = this.CarpetaFinal;
            this.registrarBase64(this.CarpetaFinal);
+
+           //if (this.Finalizo == true)
+          // {       
+           //    this.ConvertirZip(this.CarpetaFinal);
+          // }
+
+          // if (this.CarpetaFinal != null)
+          // {       
+          //   this.ConvertirZip(this.CarpetaFinal);
+          // }
           
+
+
+
             //this.dialogRef.close();
             //return 1;
           }

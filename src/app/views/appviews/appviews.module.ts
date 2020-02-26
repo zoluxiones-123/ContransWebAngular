@@ -14,6 +14,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { RepfillrateComponent } from "../dashboards/repfillrate.component";
 import { RepstockComponent } from "../dashboards/repstock.component";
 
+import {DataTablesModule } from 'angular-datatables';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -39,6 +41,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DataTablesModule,
     NgxSpinnerModule
   ],
   exports: [

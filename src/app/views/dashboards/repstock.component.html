@@ -1,5 +1,5 @@
 <section id="report">
-    <div  *ngIf = "this.esAgenteAduanas" class="row">   
+    <div *ngIf = "this.esAgenteAduanas"    class="row">   
         <div class="ibox ">           
         <div class="ibox-content">
             <div class="row">  
@@ -13,15 +13,146 @@
                                         <h1 class="no-margins">{{this.stocktotal}}</h1>
                                         <small>Contenedores</small>
                                      </div>
+                                    <div class="ibox-content">                                   
+                                      <button type="button"   (click)="VerDetalleGeneral()"
+                                      class="btn btn-w-m btn-primary" >Visualizar Detalle Total</button>     
+                                    </div>
+                                     
                                 </div>
                             </li>                                                           
                             </ul>
                         </div>          
             <div class="col-lg-10">
-                <canvas id="barChart"  ></canvas> 
-            </div>                           
-        </div>
+               <canvas id="barChart"  (dblclick)="ClickDerecho()" (click)="VerDetalle($event)" >  </canvas>                             
+            </div>  
+            
+           
+          </div>
+
+          <div *ngIf = "this.EsClickBarra" class="row">
+            <div class="col-lg-6">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5 class="font-bold text-navy">Dias de Almacenaje por Nave</h5>                    
+                    </div>
+                    <div class="ibox-content table-responsive">
+                        <table class="table table-hover no-margins">
+                            <thead>
+                            <tr>                              
+                                <th>{{this.Cliente}}</th>
+                                <th>21</th>
+                                <th>20</th>
+                                <th>16</th>
+                                <th>14</th>
+                                <th>13</th>
+                                <th>6</th>  
+                                <th>5</th> 
+                                <th>4</th>
+                                <th>2</th>
+                                <th>1</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>                                   
+                                <td class="text-navy">AOETEA MAERSK</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>43</td>
+                                <td>31</td>
+                                <td>74</td>
+                            </tr>
+                            <tr>                               
+                                <td class="text-navy">MSC NATASHAK</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>32</td>
+                                <td>32</td>
+                            </tr>                                                                                                                                                              
+                             </tbody>
+                             <tfoot>
+                                <tr>
+                                <td class="text-navy">Total</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>75</td>
+                                <td>31</td>
+                                <td>106</td>
+                                </tr>
+                                </tfoot>
+
+                        </table>
+                    </div>
+                </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5 class="font-bold text-navy">Nave según el tamaño del CTN</h5>                    
+                    </div>
+                    <div class="ibox-content table-responsive">
+                        <table class="table table-hover no-margins">
+                            <thead>
+                            <tr>                              
+                                <th>{{this.Cliente}}</th>                               
+                                <th>20</th>
+                                <th>40</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>                                   
+                                <td class="text-navy">AOETEA MAERSK</td>                               
+                                <td>3</td>
+                                <td>71</td>
+                                <td>74</td>
+                            </tr>
+                            <tr>                               
+                                <td class="text-navy">MSC NATASHAK</td>                               
+                                <td>4</td>
+                                <td>28</td>
+                                <td>32</td>
+                            </tr>                                                                                                                                                              
+                             </tbody>
+                             <tfoot>
+                                <tr>
+                                <td class="text-navy">Total</td>
+                                <td>7</td>
+                                <td>99</td>
+                                <td>106</td>                            
+                                </tr>
+                                </tfoot>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        </div>
       </div> 
     </div>
 
@@ -48,7 +179,7 @@
             </div>            
             <div class="col-lg-6">
                
-                     <canvas id="barChart2"  ></canvas> 
+                     <canvas id="barChart2"  (click)="VerDetalle($event)"  ></canvas> 
             </div>
             <div class="col-lg-4">
                 <ul class="stat-list">
@@ -112,7 +243,7 @@
                            </ul>
                 </div>    
                 <div class="col-lg-5">
-                   <canvas id="barChartH"  ></canvas>  
+                   <canvas id="barChartH"  (click)="VerDetalle($event)"  ></canvas>  
                 </div>                  
             </div>
        </div>

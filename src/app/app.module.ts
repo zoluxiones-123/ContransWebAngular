@@ -14,7 +14,7 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 import { FormulariosModule } from "./views/formularios/formularios.module";
 
 // App modules/components
-import { topnavigationlayout } from './components/common/layouts/topnavigationlayout.component';
+//import { topnavigationlayout } from './components/common/layouts/topnavigationlayout.component';
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 
 import { SuscripComponent } from './views/appviews/suscrip.component';
@@ -27,6 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule, MatAutocompleteModule, MatListModule, MatInputModule, MatDialogModule} from '@angular/material';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
+import {DataTablesModule } from 'angular-datatables';
 
 import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
@@ -53,6 +55,8 @@ import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.com
 import { DragulaModule } from 'ng2-dragula';
 import { RepstockexpocliComponent } from './views/dashboards/repstockexpocli.component';
 import { RepstockexpestComponent } from './views/dashboards/repstockexpest.component';
+import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
+
 
 @NgModule({
   declarations: [
@@ -73,7 +77,9 @@ import { RepstockexpestComponent } from './views/dashboards/repstockexpest.compo
     RepfillratetabComponent,
     RepfillrategrafComponent,
     RepstockexpocliComponent,
-    RepstockexpestComponent   
+    RepstockexpestComponent,
+    DetrepstockComponent
+// topnavigationlayout
   ],
   imports: [
     BrowserModule,
@@ -89,6 +95,7 @@ import { RepstockexpestComponent } from './views/dashboards/repstockexpest.compo
     MatAutocompleteModule,
     MatFormFieldModule,
     MatListModule,
+    DataTablesModule,
     MatInputModule,
     NgxMatSelectSearchModule,
     ModalModule.forRoot(),
@@ -100,7 +107,7 @@ import { RepstockexpestComponent } from './views/dashboards/repstockexpest.compo
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent]
+  entryComponents: [SuscripComponent, DetrepstockComponent, ContraseniaComponent, RegdireccComponent]
   
   
 })

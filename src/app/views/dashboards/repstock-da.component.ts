@@ -95,7 +95,8 @@ export class RepstockDAComponent implements OnInit {
       .subscribe(
         data => {
           this.respStockCsu = data;
-          if (this.respStockCsu.Data != null) {
+          //if (this.respStockCsu.Data != null) {            
+          if (this.respStockCsu.Data.length > 1 ) {            
             let listaregistros = JSON.parse(JSON.stringify(this.respStockCsu.Data));
             for (var i = 0; i <= listaregistros.length - 1; i++) {
               let regi = listaregistros[i];
@@ -202,7 +203,7 @@ export class RepstockDAComponent implements OnInit {
       },
       options: {
         legend: {
-          display: true,
+          display: false,
           position: 'bottom',
           labels: {
             fontColor: "#000080",
@@ -240,7 +241,8 @@ export class RepstockDAComponent implements OnInit {
         tooltips: {
           callbacks: {
             title: (tooltipItem, data) => {
-              return "Fecha Ingreso: " + this.Fechas[tooltipItem[0].index].toString() + " \n" +
+              return "Articulo: " + this.Descripcion[tooltipItem[0].index].toString() + " \n" +
+                "Fecha Ingreso: " + this.Fechas[tooltipItem[0].index].toString() + " \n" +
                 "Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
             },
             label: function (tooltipItem, data) {
