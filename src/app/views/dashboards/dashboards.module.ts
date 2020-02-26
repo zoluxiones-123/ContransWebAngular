@@ -36,6 +36,8 @@ import { RepstockexpocliComponent } from "./repstockexpocli.component";
 import { RepstockexpestComponent } from "./repstockexpest.component";
 import { ConsultaTemperaturaComponent } from './consultemperatura.component';
 import { CartaTemperaturaComponent } from './cartatemperatura.component';
+import { RepstockrealComponent } from "./repstockreal.component";
+
 
 
 defineLocale('es', esLocale);
@@ -43,7 +45,7 @@ defineLocale('es', esLocale);
 
 
 @NgModule({
-  declarations: [ConsultaFacturaComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent, timelinecomponent,ConsultacontdlComponent, consultadireccionamientocomponent],
+  declarations: [ConsultaFacturaComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,
     DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, 
     TooltipModule.forRoot()],

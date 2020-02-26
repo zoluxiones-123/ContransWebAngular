@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../../models/Factura';
 import { DireccRQT, DireccRPT } from '../../models/Direcc';
 import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import { DataTableDirective } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import swal from 'sweetalert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
@@ -15,8 +15,8 @@ import { RegdireccComponent } from 'app/views/dashboards/regdirecc.component';
 import { RepDireccionamientoRPT } from '../../models/rep_direccionamientoRPT'
 import { RepDireccionamientoRQT } from '../../models/rep_direccionamientoRQT'
 import { AuthService } from 'app/services/auth.service';
-
-
+import 'rxjs/add/operator/map';
+import {BrowserModule} from '@angular/platform-browser';
 
 
 @Component({
@@ -25,8 +25,13 @@ import { AuthService } from 'app/services/auth.service';
     styleUrls : ['./consultadireccionamiento.component.css']
   })
 
-  export class consultadireccionamientocomponent implements OnDestroy, OnInit {  
+  export class consultadireccionamientocomponent implements AfterViewInit, OnDestroy, OnInit {  
 
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+	  //dtOptions: DataTables.Settings = {};
+	  dtInstance: DataTables.Api;
+  
     public SiCargoData = true;
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
     public TieneData = false;
@@ -35,13 +40,15 @@ import { AuthService } from 'app/services/auth.service';
     minDate: Date;
     maxDate: Date;
 
+
     
   public objrepdirecRPT: RepDireccionamientoRPT;
 
     
     constructor(private reportService: ReportService, private authService: AuthService, private router: Router, private dialog : MatDialog,
       private dialogc : MatDialog) { 
-      this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
+     
+     //   this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
 
      }
 
@@ -86,6 +93,12 @@ import { AuthService } from 'app/services/auth.service';
 
     public objDireccRQT : RepDireccionamientoRQT;
     public objDireccRPT: Array<DireccRPT>;
+
+    ngAfterViewInit(): void {
+      //this.dtTrigger.next();
+      this.dtTrigger.next();
+      console.log(this.dtElement);
+    }    
     
     public ngOnInit():any {      
       
@@ -93,7 +106,7 @@ import { AuthService } from 'app/services/auth.service';
        {this.router.navigate(['/login']);}
 
       this.SetGrillaVisibility(false);
-      this.SetClienteInput();
+     /// this.SetClienteInput();
       this.setearFechasLimite();
     }
 
@@ -127,21 +140,43 @@ import { AuthService } from 'app/services/auth.service';
 
       //let res = this.reportService.getDirecc(this.objDireccRQT);
       let res = this.authService.getDireccionamiento(this.objDireccRQT);
-                
+    
       res.subscribe( 
         data => { 
           this.objDireccRPT = data.Data;
           if (data.Data.length >= 1)
           {
+          
             this.SiCargoData = true;
-            this.dtTrigger.next(this.objDireccRPT);
-            this.SetGrillaVisibility(true);
+
+
+                this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  
+                  dtInstance.destroy();
+          
+                  this.dtTrigger.next(this.objDireccRPT);
+                  this.SetGrillaVisibility(true);
+                });
+
+            
+
+           
           }
           else
           {
+            this.SiCargoData = true;
+
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+
+            dtInstance.destroy();
+       
+               this.dtTrigger.next(this.objDireccRPT);
+               this.SetGrillaVisibility(true);
+            });
+
             swal("No existen datos");
           }
-          this.dtTrigger.unsubscribe();
+         // this.dtTrigger.unsubscribe();
         }, 
         error => {
           swal("Error al cargar los datos"); 
@@ -259,6 +294,13 @@ import { AuthService } from 'app/services/auth.service';
         downloadLink.download = fileName;
         downloadLink.click();
       }, (error)=> console.log("Salio error en la descarga: ", error));
+  }
+
+  solo_fecha(val)
+  {
+    var k = val.keyCode;
+    //var res = (k == 45 || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    return false;
   }
 
 

@@ -9,11 +9,23 @@ import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, TemperaturaDetall
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
+
+import { DetRepStockRealRQT } from  '../models/det_repstockreal'
+import { DetRepStockRealRPT } from  '../models/det_repstockreal'
+import { RepStockRealVacRPT } from  '../models/det_repstockreal'
+import { RepStockRealVacRQT } from  '../models/det_repstockreal'
+
+
 import { ZipRPT,ZipRQT } from '../models/ConvertirZip';
 
 
 import { RepStockImpRQT } from "../models/rep_stockimpRQT";
 import { RepStockImpRPT } from "../models/rep_stockimpRPT";
+
+import { DetRepStockCliRQT } from "../models/det_repstockcli";
+import { DetRepStockCliRPT } from "../models/det_repstockcli";
+import { DetRepStockCliExpRPT } from "../models/det_repstockcli";
+
 
 import { RepStockExpRQT } from "../models/rep_stockexpRQT";
 import { RepStockExpRPT } from "../models/rep_stockexpRPT";
@@ -64,6 +76,44 @@ export class ReportService {
     const url_api =`/ContransAPI/api/cntstockimpclien`;    
     return this.http
       .post<DetRepStockCliRPT>(
+        url_api, detrepstockclirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+  
+  getStockReal(repstockrealrqt: DetRepStockRealRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockvac`;    
+    return this.http
+      .post<DetRepStockRealRPT>(
+        url_api, repstockrealrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+
+  getStockRealDet(detrepstockrealrqt: RepStockRealVacRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockvactipo`;    
+    return this.http
+      .post<RepStockRealVacRPT>(
+        url_api, detrepstockrealrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getStockImpCli(detrepstockclirqt: DetRepStockCliRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockimpclien`;    
+    return this.http
+      .post<DetRepStockCliRPT>(
+        url_api, detrepstockclirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getStockExpCli(detrepstockclirqt: DetRepStockCliRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockimpclienexp`;    
+    return this.http
+      .post<DetRepStockCliExpRPT>(
         url_api, detrepstockclirqt, { headers: this.headers })
       .pipe(map(data => data));
   }
@@ -140,6 +190,23 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  getListaNaviera(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/listvacnaviera`;    
+    return this.http
+      .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getStockVacios(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/listvacnaviera`;    
+    return this.http
+      .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
   
   getListaProductos(): Observable<any> 
   {

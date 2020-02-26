@@ -120,7 +120,9 @@ export class RepstockDSComponent implements OnInit {
       .subscribe(
         data => {
           this.respStockCsuDS = data;
-          if (this.respStockCsuDS.Data != null) {
+          //if (this.respStockCsuDS.Data != null) {
+            
+          if (this.respStockCsuDS.Data.length > 1 ) {
             let listaregistrosDS = JSON.parse(JSON.stringify(this.respStockCsuDS.Data));
             for (var i = 0; i <= listaregistrosDS.length - 1; i++) {
               let regi = listaregistrosDS[i];

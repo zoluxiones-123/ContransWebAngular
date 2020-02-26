@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../../models/Factura';
 import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
@@ -16,7 +16,12 @@ import { Router } from '@angular/router';
     templateUrl: 'consultafactura.template.html'
   })
 
-  export class ConsultaFacturaComponent implements OnDestroy, OnInit {  
+  export class ConsultaFacturaComponent implements AfterViewInit, OnDestroy, OnInit {  
+
+    
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    dtInstance: DataTables.Api;
 
     public SiCargoData = true;
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
@@ -74,6 +79,13 @@ import { Router } from '@angular/router';
 
     public objFacturaRPT: Array<FacturasRPT>;
     
+
+    ngAfterViewInit(): void {
+      //this.dtTrigger.next();
+      this.dtTrigger.next();
+      console.log(this.dtElement);
+    }
+
     public ngOnInit():any {      
       
     if (localStorage.getItem("Usuario") == null)
@@ -120,15 +132,35 @@ import { Router } from '@angular/router';
           if (data.Data.length >= 1)
           {
             this.SiCargoData = true;
-            this.dtTrigger.next(this.objFacturaRPT);
-            this.SetGrillaVisibility(true);
+
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  
+              dtInstance.destroy();
+      
+              this.dtTrigger.next(this.objFacturaRPT);
+              this.SetGrillaVisibility(true);
+            });
+
+           // this.dtTrigger.next(this.objFacturaRPT);
+            //this.SetGrillaVisibility(true);
             // this.TieneData = true;
           }
           else
           {
+            this.SiCargoData = true;
+
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  
+            dtInstance.destroy();
+       
+               this.dtTrigger.next(this.objFacturaRPT);
+               this.SetGrillaVisibility(true);
+            });
+  
             swal("No existen datos");
+          
           }
-          this.dtTrigger.unsubscribe();
+          //this.dtTrigger.unsubscribe();
         }, 
         error => {
           swal("Error al cargar los datos"); 

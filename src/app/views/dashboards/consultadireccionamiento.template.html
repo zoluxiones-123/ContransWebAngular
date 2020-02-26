@@ -11,12 +11,12 @@
             <div class="row">
               <div class="col-sm-2">
                 <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
-                  <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue', adaptivePosition: true}"[ngModel] required>
+                  <input type="text" name="txtbox_Desde" (keypress)="solo_fecha($event)" placeholder="Desde" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue', adaptivePosition: true}"[ngModel] required>
                 </div>
               </div>
               <div class="col-sm-2">
                 <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
-                  <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue', adaptivePosition: true}"[ngModel] required>
+                  <input type="text"  name="txtbox_Hasta" (keypress)="solo_fecha($event)"  placeholder="Hasta" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue', adaptivePosition: true}"[ngModel] required>
                 </div>
               </div>
               <div class="col-sm-2">

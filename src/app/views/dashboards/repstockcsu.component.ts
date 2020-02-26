@@ -840,7 +840,8 @@ export class RepstockcsuComponent implements OnInit {
               //"Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
               
 
-             return "Fecha Ingreso: " + this.Fechas[tooltipItem[0].index].toString() + " \n" + 
+             return "Articulo: " + this.Descripcion[tooltipItem[0].index].toString() + " \n" +
+             "Fecha Ingreso: " + this.Fechas[tooltipItem[0].index].toString() + " \n" + 
              "Dias de Almacen: " + this.DiasAlmacen[tooltipItem[0].index].toString();
               
               

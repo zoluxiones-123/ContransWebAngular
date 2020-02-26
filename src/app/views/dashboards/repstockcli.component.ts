@@ -1,5 +1,5 @@
 import { Chart } from 'chart.js'
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ReportService } from '../../services/report.service'
 import { RepStockImpRPT } from '../../models/rep_stockimpRPT'
 import { RepStockImpRQT } from '../../models/rep_stockimpRQT'
@@ -22,8 +22,7 @@ import { DetRepStockCliRPT } from "../../models/det_repstockcli";
 
 export class RepstockcliComponent implements OnInit {
 
-  constructor(private dialog : MatDialog, 
-    private reportService: ReportService, private router: Router, private location: Location) { 
+  constructor(private dialog : MatDialog, private reportService: ReportService, private elementRef: ElementRef, private router: Router, private location: Location) { 
   }
 
   public isError = false;
@@ -69,6 +68,7 @@ export class RepstockcliComponent implements OnInit {
   title = 'Angular 8 with Chart Js';
   LineChart = [];
   BarChart: Chart;
+  //BarChart : Chart;
   BarChart2 = [];
   BarChartH = [];
   XLabels = [];
@@ -201,7 +201,12 @@ export class RepstockcliComponent implements OnInit {
   }
   cargarGraficosCliente():void{
 
-    this.BarChart = new Chart('barChart', {
+    
+    //let htmlRef = this.elementRef.nativeElement.querySelector(`#barChartStockCli`);
+    
+    //this.BarChart = new Chart('barChart', {
+    //this.BarChart = new Chart(htmlRef, {
+    this.BarChart = new Chart('barChartStockCli', {
       responsive : true,
       type: 'bar',
       data: {

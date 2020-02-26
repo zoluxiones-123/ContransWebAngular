@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 import { RepDiasLibresRPT } from '../../models/rep_diaslibresRPT'
 import { RepDiasLibresRQT } from '../../models/rep_diaslibresRQT'
 
@@ -23,8 +23,11 @@ import { ReportService } from '../../services/report.service';
   templateUrl: './consultacontdl.component.html'
   
 })
-export class ConsultacontdlComponent implements OnDestroy, OnInit {
+export class ConsultacontdlComponent implements AfterViewInit, OnDestroy, OnInit {
 
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtInstance: DataTables.Api;
   
   public SiCargoData = true;
   public TieneData = false;
@@ -78,6 +81,11 @@ export class ConsultacontdlComponent implements OnDestroy, OnInit {
   };
 
 
+  ngAfterViewInit(): void {
+    //this.dtTrigger.next();
+    this.dtTrigger.next();
+    console.log(this.dtElement);
+  }
 
     public ngOnInit():any {      
       
@@ -127,15 +135,33 @@ export class ConsultacontdlComponent implements OnDestroy, OnInit {
         if (data.Data.length >= 1)
         {
           this.SiCargoData = true;
-          this.dtTrigger.next(this.objrepdlRPT);
-          this.SetGrillaVisibility(true);
+         
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  
+            dtInstance.destroy();
+    
+            this.dtTrigger.next(this.objrepdlRPT);
+            this.SetGrillaVisibility(true);
+          });
+          //this.dtTrigger.next(this.objrepdlRPT);
+          //this.SetGrillaVisibility(true);
           // this.TieneData = true;
         }
         else
         {
+          this.SiCargoData = true;
+
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+
+          dtInstance.destroy();
+     
+             this.dtTrigger.next(this.objrepdlRPT);
+             this.SetGrillaVisibility(true);
+          });
+
           swal("No existen datos");
         }
-        this.dtTrigger.unsubscribe();
+       // this.dtTrigger.unsubscribe();
       }, 
       error => {
         swal("Error al cargar los datos"); 
