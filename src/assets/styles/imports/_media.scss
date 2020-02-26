@@ -7,7 +7,7 @@
 
   .navbar-static-side {
     z-index: 2001;
-    position: absolute;
+    position: fixed;
     width: $sidebar-width;
   }
 
