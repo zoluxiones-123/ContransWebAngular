@@ -29,8 +29,6 @@ import { MatSelectModule, MatAutocompleteModule, MatListModule, MatInputModule, 
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import {DataTablesModule } from 'angular-datatables';
-
 import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -56,10 +54,9 @@ import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.com
 import { DragulaModule } from 'ng2-dragula';
 import { RepstockexpocliComponent } from './views/dashboards/repstockexpocli.component';
 import { RepstockexpestComponent } from './views/dashboards/repstockexpest.component';
-import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consuldetalletemperatura.component'
-import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component'
-import { DetrepstockExpCliComponent } from './views/dashboards/detrepstockexpclic.component'
-
+import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consuldetalletemperatura.component';
+import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component';
+import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +80,7 @@ import { DetrepstockExpCliComponent } from './views/dashboards/detrepstockexpcli
     RepstockexpestComponent,
     ConsultaDetalleTemperaturaComponent,
     DetrepstockCliComponent,
-    DetrepstockExpCliComponent
+    DetrepstockComponent
   ],
   imports: [
     BrowserModule,
@@ -112,7 +109,7 @@ import { DetrepstockExpCliComponent } from './views/dashboards/detrepstockexpcli
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockExpCliComponent]
+  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockComponent]
   
   
 })

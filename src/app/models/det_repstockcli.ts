@@ -18,5 +18,24 @@ export class DetRepStockCliRPT {
   
    
     }
+
+    
+export class DetRepStockCliExpRPT {   
+   
+    Nave: string;
+    Linea: string;
+    Cliente: string;
+    Documento: string;
+    Volante: string;
+
+    Contenedor: string;
+    FechaIngreso : string;
+    Agencia: string;
+    Consolidador: string;
+    Almacen: string;
+    Tipo: string;
+    Tamano: string;
+   
+    }
     
         

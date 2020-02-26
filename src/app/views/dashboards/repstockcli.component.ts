@@ -24,6 +24,8 @@ export class RepstockcliComponent implements OnInit {
 
   constructor(private dialog : MatDialog, private reportService: ReportService, private elementRef: ElementRef, private router: Router, private location: Location) { 
   }
+  
+
 
   public isError = false;
   public repStockImpRPT :RepStockImpRPT = null;

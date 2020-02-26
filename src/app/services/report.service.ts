@@ -48,9 +48,6 @@ import { ResourceLoader } from "@angular/compiler";
 import { HttpResponse } from "selenium-webdriver/http";
 import { MenuPaginaRPS } from "app/models/PaginasMenu";
 
-import { DetRepStockCliRQT } from "../models/det_repstockcli";
-import { DetRepStockCliRPT } from "../models/det_repstockcli";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -99,16 +96,7 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
-  getStockImpCli(detrepstockclirqt: DetRepStockCliRQT ): Observable<any> 
-  {
-    const url_api =`/ContransAPI/api/cntstockimpclien`;    
-    return this.http
-      .post<DetRepStockCliRPT>(
-        url_api, detrepstockclirqt, { headers: this.headers })
-      .pipe(map(data => data));
-  }
-
-  
+   
   getStockExpCli(detrepstockclirqt: DetRepStockCliRQT ): Observable<any> 
   {
     const url_api =`/ContransAPI/api/cntstockimpclienexp`;    

@@ -1,0 +1,17 @@
+<section id="report">
+  <div *ngIf="this.esAgenteAduanas">
+    <!-- <ul class="stat-list">
+        <li> -->
+    <div class="descripcion">
+      <h1>{{this.stocktotal}}</h1>
+      <small>Contenedores</small>
+    </div>
+    <!-- </li>
+      </ul> -->
+<<<<<<< HEAD
+      <canvas id="barChart" (click)="VerDetalle($event)" >  </canvas>
+=======
+    <canvas id="barChartStockCli"></canvas>
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
+  </div>
+</section>

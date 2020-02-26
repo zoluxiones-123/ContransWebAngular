@@ -58,8 +58,8 @@ export const ROUTES:Routes = [
       {path: 'repstockexpo', component: RepstockexpComponent },
       {path: 'dashboardglobal', component : DashboardGlobalComponent},
       {path: 'consultatemperatura', component: ConsultaTemperaturaComponent},
-      {path: 'cartatemperatura', component: CartaTemperaturaComponent}
-     
+      {path: 'cartatemperatura', component: CartaTemperaturaComponent},
+      {path: 'repstockreal', component: RepstockrealComponent }
 
     ]
   },
