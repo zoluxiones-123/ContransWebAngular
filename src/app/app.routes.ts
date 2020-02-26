@@ -2,6 +2,9 @@ import {Routes} from "@angular/router";
 import {ConsultaFacturaComponent} from "./views/dashboards/consultafactura.component";
 import {consultadireccionamientocomponent} from "./views/dashboards/consultadireccionamiento.component";
 import { timelinecomponent } from "./views/dashboards/timeline/timeline.component";
+import {ConsultaTemperaturaComponent} from "./views/dashboards/consultemperatura.component";
+import {ConsultaDetalleTemperaturaComponent} from "./views/dashboards/consuldetalletemperatura.component";
+import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
 
 // Forms: Entrada de Datos / Mantenimientos
 import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-datos-usuario/actualizar-datos-usuario.component";
@@ -29,6 +32,7 @@ import {StarterViewComponent} from "./views/appviews/starterview.component";
 import {LoginComponent} from "./views/appviews/login.component";
 import {SuscripComponent} from "./views/appviews/suscrip.component";
 
+
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
 import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.component";
 import {topnavigationlayout} from "./components/common/layouts/topnavigationlayout.component";
@@ -50,7 +54,9 @@ export const ROUTES:Routes = [
       {path: 'consultacontdl', component: ConsultacontdlComponent},
       {path: 'consultadireccionamiento', component: consultadireccionamientocomponent},
       {path: 'repstockexpo', component: RepstockexpComponent },
-      {path: 'dashboardglobal', component : DashboardGlobalComponent}
+      {path: 'dashboardglobal', component : DashboardGlobalComponent},
+      {path: 'consultatemperatura', component: ConsultaTemperaturaComponent},
+      {path: 'cartatemperatura', component: CartaTemperaturaComponent}
      
 
     ]

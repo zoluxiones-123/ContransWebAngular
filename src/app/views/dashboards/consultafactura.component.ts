@@ -152,6 +152,7 @@ import { Router } from '@angular/router';
 
       this.objFacturaRQT.Desde = this.objFacturaRQT.Desde.toLocaleDateString();
       this.objFacturaRQT.Hasta = this.objFacturaRQT.Hasta.toLocaleDateString();
+      console.log(this.objFacturaRQT.Desde);
 
       if(this.NullEmpty(param.Documento))
       {

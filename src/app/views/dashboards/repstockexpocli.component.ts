@@ -7,7 +7,11 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {DetrepstockCliComponent} from './detrepstockcli.component';
 import { DataSetItem } from '../../models/datasetitem';
+import { DetRepStockExpCliRQT } from "../../models/det_repstockexpcli";
+import { DetRepStockExpCliRPT } from "../../models/det_repstockexpcli";
 
 
 @Component({
@@ -17,7 +21,8 @@ import { DataSetItem } from '../../models/datasetitem';
 })
 export class RepstockexpocliComponent implements OnInit {
 
-  constructor(private reportService: ReportService, private router: Router, private location: Location) { }
+  constructor(private dialog : MatDialog, 
+    private reportService: ReportService, private router: Router, private location: Location) { }
   
   public isError = false;
   public repStockExpRPT :RepStockExpRPT = null;
@@ -42,8 +47,8 @@ export class RepstockexpocliComponent implements OnInit {
   public esAgenteAduanas : boolean;
   public seVisualiza: boolean;
   public alto : string;
-
-  
+  Entidad = [];
+  NombreEntidad= [];
   dsitems= [];
   dsbgcolor = ['rgba(255, 122, 51, 0.68)','rgba(51, 255, 243, 0.65)','rgba(51, 255, 88, 0.75)','rgba(51, 82, 255, 0.66)'];
   dsbdcolor = ['rgba(255, 122, 51, 1)','rgba(51, 255, 243, 1)','rgba(51, 255, 88, 1)','rgba(51, 82, 255, 1)'];
@@ -57,7 +62,7 @@ export class RepstockexpocliComponent implements OnInit {
 
   title = 'Angular 8 with Chart Js';
   LineChart = [];
-  BarChart = [];
+  BarChart: Chart;
   BarChart2 = [];
   BarChartH = [];
   XLabels = [];
@@ -65,7 +70,12 @@ export class RepstockexpocliComponent implements OnInit {
   YStCT = [];
   YAband = [];
   
-  
+  public objDetStockExpCliRPT: Array<DetRepStockExpCliRPT>;
+  public objDetStockExpCliRQT : DetRepStockExpCliRQT = {
+    IDUSer: 1,
+    IDRol: 0,
+    IdCliente: ""
+  };  
   
   ngOnInit() {
 
@@ -117,7 +127,9 @@ export class RepstockexpocliComponent implements OnInit {
         for (var i = 0; i <= listaclientes.length - 1; i++) {
           let first = listaclientes[i];
           this.XLabels.push(first.NombreEntidad.toString());   
-          this.YLabels.push(first.CNTSTK.toString());          
+          this.YLabels.push(first.CNTSTK.toString());  
+          this.Entidad.push(first.IdEntidad.toString());             
+          this.NombreEntidad.push(first.NombreEntidad.toString())
         } 
 
         this.stkMe15 = this.repStockExpRPT.CNTSTK_ME15.toString();
@@ -171,6 +183,21 @@ export class RepstockexpocliComponent implements OnInit {
 
   }
 
+  DetalleRepStock(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.position = {
+    top: '100px',
+    left: '150px'
+    };
+    dialogConfig.width = "70%";
+    dialogConfig.height = "70%";
+    //dialogConfig.width = "1200px";
+    localStorage.setItem("TipoGrafico","repstockexpocli");
+    this.dialog.open(DetrepstockCliComponent, dialogConfig);   
+       
+  }
 
   cargarGraficosCliente():void{
 
@@ -232,5 +259,27 @@ export class RepstockexpocliComponent implements OnInit {
       this.isError = false;
     }, 4000);
   }
+
+  VerDetalle(evt:any){
+    //var data = this.BarChart.getElementsAtEvent(evt);
+    var data = this.BarChart.getElementAtEvent(evt);   
+    
+    if (data.length > 0) 
+    console.log(data) ;
+     {console.log(data[0]._model);
+    
+     let valor = this.BarChart.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+     let CodEntidad = this.Entidad[data[0]._datasetIndex].toString();
+     let NomEntidad = this.NombreEntidad[data[0]._datasetIndex].toString();
+     let tipo = this.BarChart.data.labels[data[0]._index];
+     localStorage.setItem("EsTotalG","0");
+     localStorage.setItem("CodEntidad", CodEntidad);
+     localStorage.setItem("NombreEntidad", NomEntidad);
+
+   this.DetalleRepStock();
+            
+        }
+    
+    }
 
 }

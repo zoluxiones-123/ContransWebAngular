@@ -59,7 +59,8 @@ export class NavigationComponent {
 
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
-    if (jQuery("body").hasClass('fixed-sidebar')) {
+    if (jQuery("body").hasClass('fixed-sidebar')) 
+    {
       jQuery('.sidebar-collapse').slimscroll({
         height: '100%'
       })

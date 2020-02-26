@@ -8,6 +8,11 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataSetItem } from '../../models/datasetitem';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {DetrepstockCliComponent} from './detrepstockcli.component';
+import { ChartsModule } from 'ng2-charts';
+import { DetRepStockCliRQT } from "../../models/det_repstockcli";
+import { DetRepStockCliRPT } from "../../models/det_repstockcli";
 
 @Component({
   selector: 'app-repstockcli',
@@ -17,7 +22,8 @@ import { DataSetItem } from '../../models/datasetitem';
 
 export class RepstockcliComponent implements OnInit {
 
-  constructor(private reportService: ReportService, private router: Router, private location: Location) { 
+  constructor(private dialog : MatDialog, 
+    private reportService: ReportService, private router: Router, private location: Location) { 
   }
 
   public isError = false;
@@ -43,7 +49,8 @@ export class RepstockcliComponent implements OnInit {
   public esAgenteAduanas : boolean;
   public seVisualiza: boolean;
   public alto : string;
-
+  Entidad = [];
+  NombreEntidad=[];
   dsitems= [];
   dsitemsDS= [];
   dsitemsDT= [];
@@ -61,7 +68,7 @@ export class RepstockcliComponent implements OnInit {
 
   title = 'Angular 8 with Chart Js';
   LineChart = [];
-  BarChart = [];
+  BarChart: Chart;
   BarChart2 = [];
   BarChartH = [];
   XLabels = [];
@@ -69,6 +76,12 @@ export class RepstockcliComponent implements OnInit {
   YStCT = [];
   YAband = [];
   
+  public objDetStockCliRPT: Array<DetRepStockCliRPT>;
+  public objDetStockCliRQT : DetRepStockCliRQT = {
+    IDUSer: 1,
+    IDRol: 0,
+    IdCliente: ""
+  };
 
   ngOnInit() {
 
@@ -112,7 +125,9 @@ export class RepstockcliComponent implements OnInit {
         for (var i = 0; i <= listaclientes.length - 1; i++) {
           let first = listaclientes[i];
           this.XLabels.push(first.NombreEntidad.toString());   
-          this.YLabels.push(first.CNTSTK.toString());          
+          this.YLabels.push(first.CNTSTK.toString());  
+          this.Entidad.push(first.IdEntidad.toString());        
+          this.NombreEntidad.push(first.NombreEntidad.toString())
         } 
     
         this.stkMe15 = this.repStockImpRPT.CNTSTK_ME15.toString();
@@ -165,6 +180,25 @@ export class RepstockcliComponent implements OnInit {
     
   }
 
+
+
+  
+  DetalleRepStock(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.position = {
+    top: '100px',
+    left: '150px'
+    };
+    dialogConfig.width = "70%";
+    dialogConfig.height = "70%";
+    //dialogConfig.width = "1200px";
+    localStorage.setItem("TipoGrafico","repstockcli");
+    this.dialog.open(DetrepstockCliComponent, dialogConfig);   
+    
+        
+  }
   cargarGraficosCliente():void{
 
     this.BarChart = new Chart('barChart', {
@@ -225,6 +259,42 @@ export class RepstockcliComponent implements OnInit {
       this.isError = false;
     }, 4000);
   }
+
+  VerDetalle(evt:any){
+    //var data = this.BarChart.getElementsAtEvent(evt);
+    var data = this.BarChart.getElementAtEvent(evt);   
+    
+    if (data.length > 0)  
+     {console.log(data[0]._model);
+    
+     let valor = this.BarChart.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+
+     let CodEntidad = this.Entidad[data[0]._datasetIndex].toString();
+     let NomEntidad = this.NombreEntidad[data[0]._datasetIndex].toString();
+
+     //this.Cliente =  this.XLabels[data[0]._datasetIndex].toString();
+
+     let tipo = this.BarChart.data.labels[data[0]._index];
+
+     localStorage.setItem("EsTotalG","0");
+     localStorage.setItem("CodEntidad", CodEntidad);
+     localStorage.setItem("NombreEntidad", NomEntidad);
+     
+    
+     //this.EsClickBarra = true;
+
+    this.objDetStockCliRQT.IDUSer = Number.parseInt(localStorage.getItem("Usuario"));
+    this.objDetStockCliRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+    this.objDetStockCliRQT.IdCliente = CodEntidad;
+
+    
+   // this.altoRep = 1000;
+
+   this.DetalleRepStock();
+            
+        }
+    
+    }
 
 
   }

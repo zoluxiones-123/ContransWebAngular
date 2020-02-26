@@ -7,6 +7,7 @@ import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { ROUTES } from "./app.routes";
 import { AppComponent } from './app.component';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { DataTablesModule } from 'angular-datatables';
 
 // App views
 import { DashboardsModule } from "./views/dashboards/dashboards.module";
@@ -53,6 +54,10 @@ import { RepfillrategrafComponent } from './views/dashboards/repfillrategraf.com
 import { DragulaModule } from 'ng2-dragula';
 import { RepstockexpocliComponent } from './views/dashboards/repstockexpocli.component';
 import { RepstockexpestComponent } from './views/dashboards/repstockexpest.component';
+import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consuldetalletemperatura.component'
+import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component'
+import { DetrepstockExpCliComponent } from './views/dashboards/detrepstockexpclic.component'
+
 
 @NgModule({
   declarations: [
@@ -73,7 +78,10 @@ import { RepstockexpestComponent } from './views/dashboards/repstockexpest.compo
     RepfillratetabComponent,
     RepfillrategrafComponent,
     RepstockexpocliComponent,
-    RepstockexpestComponent   
+    RepstockexpestComponent,
+    ConsultaDetalleTemperaturaComponent,
+    DetrepstockCliComponent,
+    DetrepstockExpCliComponent
   ],
   imports: [
     BrowserModule,
@@ -96,11 +104,12 @@ import { RepstockexpestComponent } from './views/dashboards/repstockexpest.compo
     BsDatepickerModule.forRoot(),
     AngularDraggableModule,
     IboxtoolsModule,
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    DataTablesModule
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent]
+  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockExpCliComponent]
   
   
 })

@@ -5,6 +5,7 @@ import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../models/Factura';
+import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, TemperaturaDetalleRQT } from '../models/Temperatura';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
@@ -35,7 +36,8 @@ import { ResourceLoader } from "@angular/compiler";
 import { HttpResponse } from "selenium-webdriver/http";
 import { MenuPaginaRPS } from "app/models/PaginasMenu";
 
-
+import { DetRepStockCliRQT } from "../models/det_repstockcli";
+import { DetRepStockCliRPT } from "../models/det_repstockcli";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +59,14 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  getStockImpCli(detrepstockclirqt: DetRepStockCliRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockimpclien`;    
+    return this.http
+      .post<DetRepStockCliRPT>(
+        url_api, detrepstockclirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
   
   getStockExp(repstockrqt: RepStockExpRQT ): Observable<any> 
   {
@@ -188,6 +198,24 @@ export class ReportService {
     const url_api =`/ContransAPI/api/facturarpt`;    
     return this.http.post<FacturasRPT>(
       url_api, objFacturas, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  getTemperatura(objTemperatura : TemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/consultartemperatura`;    
+    return this.http.post<TemperaturaRPT>(
+      url_api, objTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  getTemperaturaDetalle(objTemperaturaDetalle : TemperaturaDetalleRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/consultareeferfecha`;    
+    console.log(objTemperaturaDetalle);
+    //console.log(this.http.post<TemperaturaDetalleRPT>(
+     // url_api, objTemperaturaDetalle, { headers: this.headers }).pipe(map(data => data) ))
+    return this.http.post<TemperaturaDetalleRPT>(
+      url_api, objTemperaturaDetalle, { headers: this.headers }).pipe(map(data => data) );
+      
   }
 
   getDirecc(objDirecc : DireccRQT) : Observable<any>
