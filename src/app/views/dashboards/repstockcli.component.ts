@@ -189,12 +189,18 @@ export class RepstockcliComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.position = {
+    
+    /*dialogConfig.position = {
     top: '100px',
     left: '150px'
     };
     dialogConfig.width = "70%";
-    dialogConfig.height = "70%";
+    dialogConfig.height = "70%";*/
+
+    
+    dialogConfig.height = "100%";
+    dialogConfig.width = "700px";
+
     //dialogConfig.width = "1200px";
     localStorage.setItem("TipoGrafico","repstockcli");
     this.dialog.open(DetrepstockCliComponent, dialogConfig);   

@@ -780,8 +780,14 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
 
     public CargarPie(form: NgForm) {
 
-      this.ConsultoReporte = true;
-
+      if (this.EntidadSelect != undefined )
+      {
+        if (this.EntidadSelect.toString() != "" )
+        {  this.ConsultoReporte = true; }      
+      }
+      else
+      {return;}
+  
       this.PieData = [];
       this.PieLabels = [];
 

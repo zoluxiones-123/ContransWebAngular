@@ -9,7 +9,9 @@ import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataSetItem } from '../../models/datasetitem';
 import { MatDialog, MatDialogConfig} from '@angular/material';
-import { DetrepstockComponent  } from 'app/views/dashboards/detrepstock.component';
+import { DetrepstockcliexpComponent  } from 'app/views/dashboards/detrepstockcliexp.component';
+import { DetrepstockestComponent  } from 'app/views/dashboards/detrepstockest.component';
+
 import { ChartsModule } from 'ng2-charts';
 
 
@@ -21,6 +23,7 @@ import { ChartsModule } from 'ng2-charts';
 
 export class RepstockexpComponent implements OnInit  {
   constructor (private reportService: ReportService,  private elementRef: ElementRef, 
+    private dialogEst : MatDialog,
     private dialog : MatDialog,
     private router: Router, private location: Location)
     {}
@@ -65,12 +68,13 @@ export class RepstockexpComponent implements OnInit  {
   title = 'Angular 8 with Chart Js';
   LineChart = [];
   BarChart : Chart;
-  BarChart2 = [];
+  BarChart2 :Chart;
   BarChartH : Chart;
   XLabels = [];
   YLabels = [];
   YStCT = [];
   YAband = [];
+  Entidad = [];
   
   
   
@@ -124,7 +128,8 @@ export class RepstockexpComponent implements OnInit  {
         for (var i = 0; i <= listaclientes.length - 1; i++) {
           let first = listaclientes[i];
           this.XLabels.push(first.NombreEntidad.toString());   
-          this.YLabels.push(first.CNTSTK.toString());          
+          this.YLabels.push(first.CNTSTK.toString());                 
+          this.Entidad.push(first.IdEntidad.toString());    
         } 
 
         this.stkMe15 = this.repStockExpRPT.CNTSTK_ME15.toString();
@@ -187,9 +192,17 @@ export class RepstockexpComponent implements OnInit  {
     
      let valor = this.BarChart.data.datasets[data[0]._datasetIndex].data[data[0]._index];
 
+     let CodEntidad = this.Entidad[data[0]._datasetIndex].toString();
+
      let tipo = this.BarChart.data.labels[data[0]._index];
 
      localStorage.setItem("EsTotalG","0");
+     
+     localStorage.setItem("CodEntidad", CodEntidad);
+    
+    // this.EsClickBarra = true;
+    
+     localStorage.setItem("TituloReporte", "Stock de Contenedores por Cliente Exportación");
 
      this.DetalleRepExpo();
 
@@ -208,15 +221,90 @@ export class RepstockexpComponent implements OnInit  {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     //dialogConfig.width = "40%";
-    dialogConfig.height = "600px";
-    dialogConfig.width = "800px";
 
-    this.dialog.open(DetrepstockComponent, dialogConfig);   
+    
+    dialogConfig.height = "100%";
+    dialogConfig.width = "700px";
 
+   // dialogConfig.height = "600px";
+   // dialogConfig.width = "800px";
+
+    this.dialog.open(DetrepstockcliexpComponent, dialogConfig);   
         
   }
 
+  
 
+  VerDetalleGeneralEst()
+  {
+  
+      localStorage.setItem("IndexEstExp", "0");
+      localStorage.setItem("TituloReporte", "Tiempo de Estadia - Exportación");
+  
+      this.DetalleRepStockEst();
+
+  }
+
+  
+  VerDetalleGeneral()
+  {
+  
+      localStorage.setItem("CodEntidad", "");
+      localStorage.setItem("TituloReporte", "Stock de Contenedores por Cliente Exportación");
+  
+      this.DetalleRepExpo();
+
+  }
+
+  
+  VerDetalleEst(evt:any){
+    //var data = this.BarChart.getElementsAtEvent(evt);
+    var data = this.BarChart2.getElementAtEvent(evt);   
+    
+    if (data.length > 0)  
+     {
+       console.log(data[0]._model);
+    
+     let valor = this.BarChart2.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+
+     let IndexEst = Number.parseInt(data[0]._index) + 1
+     
+     localStorage.setItem("IndexEstExp", IndexEst.toString());
+    
+    // this.EsClickBarra = true;
+
+  //  this.objDetStockCliRQT.IdCliente = CodEntidad;
+    localStorage.setItem("TituloReporte", "Tiempo de Estadia - Exportación");
+    
+
+    this.DetalleRepStockEst();
+
+    
+     }
+  
+    }
+
+
+    DetalleRepStockEst(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+     
+     /* dialogConfig.position = {
+      top: '100px',
+      left: '250px'
+      };*/
+      //dialogConfig.width = "40%";
+      
+    dialogConfig.height = "100%";
+    dialogConfig.width = "700px";
+    //  dialogConfig.height = "400px";
+     // dialogConfig.width = "1200px";
+  
+      this.dialogEst.open(DetrepstockcliexpComponent, dialogConfig);   
+  
+    }
+  
   cargarGraficosCliente():void{
 
     this.BarChart = new Chart('barChartCliente', {

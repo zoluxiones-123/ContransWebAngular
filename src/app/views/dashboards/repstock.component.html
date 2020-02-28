@@ -173,13 +173,17 @@
                                         <h1 class="no-margins">{{this.stocktotal}}</h1>
                                         <small>Contenedores</small>
                                      </div>
+                                     <div class="ibox-content">                                   
+                                        <button type="button"   (click)="VerDetalleGeneralEst()"
+                                        class="btn btn-w-m btn-primary" >Visualizar Detalle Total</button>     
+                                      </div>
                                 </div>
                             </li>                                            
                        </ul>
             </div>            
             <div class="col-lg-6">
                
-                     <canvas id="barChart2"  (click)="VerDetalle($event)"  ></canvas> 
+                     <canvas id="barChart2"  (click)="VerDetalleEst($event)"  ></canvas> 
             </div>
             <div class="col-lg-4">
                 <ul class="stat-list">

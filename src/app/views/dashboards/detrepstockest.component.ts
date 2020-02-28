@@ -6,9 +6,8 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { RepStockRealRefRPT } from '../../models/rep_stockrealRPT'
 import { RepStockRealCabecera } from '../../models/rep_stockrealRPT'
 
-import { DetRepStockCliRPT } from '../../models/det_repstockcli'
-import { DetRepStockCliRQT } from '../../models/det_repstockcli'
-
+import {DetRepStockEstRPT, DetRepStockCliRPT } from '../../models/det_repstockcli'
+import {DetRepStockEstRQT } from '../../models/det_repstockcli'
 
 import { ReportService } from '../../services/report.service'
 import swal from 'sweetalert';
@@ -20,13 +19,13 @@ import {DataTablesModule } from 'angular-datatables';
 import { Subject, fromEventPattern } from 'rxjs';
 
 @Component({
-  selector: 'app-detrepstock',
-  templateUrl: './detrepstock.component.html',
-  styleUrls: ['./detrepstock.component.css']
+  selector: 'app-detrepstockest',
+  templateUrl: './detrepstockest.component.html',
+  styleUrls: ['./detrepstockest.component.css']
 })
-export class DetrepstockComponent implements OnInit {
+export class DetrepstockestComponent implements OnInit {
 
-  constructor(public dialogRef : MatDialogRef<DetrepstockComponent>, 
+  constructor(public dialogRef : MatDialogRef<DetrepstockestComponent>, 
     @Inject(MAT_DIALOG_DATA) public data:any, private reportService: ReportService)
      {   }
    
@@ -46,11 +45,12 @@ export class DetrepstockComponent implements OnInit {
   public objStockRealRefRPT: Array<RepStockRealRefRPT>;
   public objColumnaRealRef: Array<RepStockRealCabecera>;
 
-  public objDetStockCliRPT: Array<DetRepStockCliRPT>;
-  public objDetStockCliRQT : DetRepStockCliRQT = {
+  public objDetStockCliRPT: Array<DetRepStockEstRPT>;
+
+  public objDetStockCliRQT : DetRepStockEstRQT = {
     IDUSer: 1,
     IDRol: 0,
-    IdCliente: ""
+    Index: 0
   };
   
 
@@ -59,11 +59,11 @@ export class DetrepstockComponent implements OnInit {
      pagingType: 'full_numbers',
      pageLength: 10,
      searching: false,
-     dom: 'Bfrtip',       
+     dom: 'Bfrtip',  
      buttons: [
       'colvis',
       'excel'
-     ],
+    ],       
      language: {
        lengthMenu: "Mostrar _MENU_ registros" ,
        search : "Buscar",
@@ -76,7 +76,7 @@ export class DetrepstockComponent implements OnInit {
          previous: "Anterior"
        },
        buttons : {
-         colvis: "Columnas",
+         colvis : "Columnas",
          excel : "Exportar a Excel"
        },
        aria :
@@ -90,15 +90,14 @@ export class DetrepstockComponent implements OnInit {
 
   ngOnInit() {
 
-    this.EsTotalG = localStorage.getItem("EsTotalG").toString();
-
+   
     this.objDetStockCliRQT.IDUSer = Number.parseInt(localStorage.getItem("Usuario"));
     this.objDetStockCliRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
-    this.objDetStockCliRQT.IdCliente = localStorage.getItem("CodEntidad").toString();
+    this.objDetStockCliRQT.Index = Number.parseInt(localStorage.getItem("IndexEst"));
     this.TituloReporte = localStorage.getItem("TituloReporte").toString(); 
-        
-    let  res = this.reportService.getStockImpCli(this.objDetStockCliRQT);
-            
+     
+    let res = this.reportService.getDetStockEst(this.objDetStockCliRQT);
+  
     res.subscribe( 
       data => { 
         this.objDetStockCliRPT = data;
@@ -117,9 +116,6 @@ export class DetrepstockComponent implements OnInit {
            
           this.SetGrillaVisibility(true);
 
-          //this.dtTrigger.next(this.objFacturaRPT);
-          //this.SetGrillaVisibility(true);
-          // this.TieneData = true;
           });
         }
       ///  else
@@ -268,3 +264,4 @@ export class DetrepstockComponent implements OnInit {
   }
 
 }
+
