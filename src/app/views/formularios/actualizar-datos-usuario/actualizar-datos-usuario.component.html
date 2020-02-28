@@ -1,125 +1,134 @@
-
 <!--div class="wrapper wrapper-content">
   <div class="row"-->
-    <div class="col-lg-12">
-      <!--div class="ibox float-e-margins"-->
+<div class="col-lg-12">
+    <!--div class="ibox float-e-margins"-->
 
-        <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
-                <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
-                <h4 class="modal-title pull-left" style="display: inline-table;">Actualizar Datos del Usuario</h4>
-                <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close" (click)="cerrarPopup()">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-        </div>
-
-
-          <form class="m-t" role="form" #formUsuario="ngForm" (ngSubmit)="IniciarForm(formUsuario)">
-            <div class="ibox-content cuerpo-con-overflow" >            
-
-            <div class="row">
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Razón Social</label>
-                <div class="col-sm-8">
-                    <input type="text" name="txtbox_razonSocial" class="form-control" [(ngModel)]="razonSocial" readonly="readonly" >
-                </div>
-              </div>   
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Nombres</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtNombres" class="form-control" [(ngModel)]="nombres" readonly="readonly"  >
-                  </div>
-              </div>  
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Apellidos</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtApellidos" class="form-control" [(ngModel)]="apellidos" readonly="readonly" >
-                  </div>
-              </div>   
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Doc. Identidad</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtDocIdentidad" class="form-control" [(ngModel)]="docIdentidad" readonly="readonly" >
-                  </div>
-              </div>  
-                           
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Cargo (*)</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtCargo" class="form-control" [(ngModel)]="cargo" required>
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Teléfono (*)</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtTeléfono" class="form-control" [(ngModel)]="telefono"required>
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Celular (*)</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtCelular" class="form-control" [(ngModel)]="celular" required>
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Correo Confirmación (*)</label>
-                  <div class="col-sm-8">
-                      <input type="text" name="txtCorreo" class="form-control" [(ngModel)]="correo" required>
-                  </div>
-              </div>   
-              
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Roles por Default</label>
-                  <div class="col-sm-8">
-                    <select name="cboRolDefault" class="form-control" [(ngModel)]="codRolDefault"  > 
-                        <!--option [value]="" selected hidden>--Seleccione--</option-->                                                    
-                        <option *ngFor="let item of this.roles" [value]="item.RolCodigo">{{item.RolDesc}}</option>
-                    </select>                      
-                  </div>
-              </div>              
-              
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Actualizar Contraseña</label>
-                  <div class="col-sm-8" style="display: flex">
-                      <label class="col-form-label" for="rbt01">SI</label>
-                      <input type="radio" id="rbt01" name="rbtSi" [(ngModel)]="cambiarClave" value="SI" class="form-control" style="width: auto;" >
-                      <label class="col-form-label" style="margin-left: 40px;">NO</label>
-                      <input type="radio" name="rbtSi" [(ngModel)]="cambiarClave" value="NO" class="form-control" style="width: auto;" checked="checked" >
-                  </div>
-              </div>               
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Contraseña Actual</label>
-                  <div class="col-sm-8">
-                      <input type="password" name="txtClaveActual" class="form-control" [(ngModel)]="claveActual" >
-                  </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Nueva Contraseña</label>
-                <div class="col-sm-8">
-                    <input type="password" name="txtNuevaClave" class="form-control" [(ngModel)]="claveNueva" >
-                </div>
-            </div>                
-              <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Confirmar Contraseña</label>
-                  <div class="col-sm-8">
-                      <input type="password" name="txtConfirmarClave" class="form-control" [(ngModel)]="claveRepetida" >
-                  </div>
-              </div>  
-
-            </div>
-        </div>
-
-            <div class="row">
-              <div class="col-sm-12" style="text-align: center;" >
-                  <button type="reset" class="btn btn-w-m btn-primary" (click)="GuardarUsuario(formUsuario)" >Guardar</button>
-                  <button type="reset" class="btn btn-w-m btn-default" style="margin-left: 15px;" (click)="cerrarPopup()" >Cancelar</button>
-              </div>
-              
-            </div>
-
-
-        </form>
-
-      <!--/div-->
+    <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+        <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+        <h4 class="modal-title pull-left" style="display: inline-table;">Actualizar Datos del Usuario</h4>
+        <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+            (click)="cerrarPopup()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-  <!--/div>
+
+
+    <form class="m-t" role="form" #formUsuario="ngForm" (ngSubmit)="IniciarForm(formUsuario)">
+        <div class="ibox-content cuerpo-con-overflow">
+
+            <div class="row">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Razón Social</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtbox_razonSocial" class="form-control" [(ngModel)]="razonSocial"
+                            readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Nombres</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtNombres" class="form-control" [(ngModel)]="nombres"
+                            readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Apellidos</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtApellidos" class="form-control" [(ngModel)]="apellidos"
+                            readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Doc. Identidad</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtDocIdentidad" class="form-control" [(ngModel)]="docIdentidad"
+                            readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Cargo (*)</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtCargo" class="form-control" [(ngModel)]="cargo" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Teléfono (*)</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtTeléfono" class="form-control" [(ngModel)]="telefono" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Celular (*)</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtCelular" class="form-control" [(ngModel)]="celular" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Correo Confirmación (*)</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="txtCorreo" class="form-control" [(ngModel)]="correo" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Roles por Default</label>
+                    <div class="col-sm-8">
+                        <select name="cboRolDefault" class="form-control" [(ngModel)]="codRolDefault">
+                            <!--option [value]="" selected hidden>--Seleccione--</option-->
+                            <option *ngFor="let item of this.roles" [value]="item.RolCodigo">{{item.RolDesc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Actualizar Contraseña</label>
+                    <div class="col-sm-8" style="display: flex">
+                        <label class="col-form-label" for="rbt01">SI</label>
+                        <input type="radio" id="rbt01" name="rbtSi" [(ngModel)]="cambiarClave" value="SI"
+                            class="form-control" style="width: auto;">
+                        <label class="col-form-label" style="margin-left: 40px;">NO</label>
+                        <input type="radio" name="rbtSi" [(ngModel)]="cambiarClave" value="NO" class="form-control"
+                            style="width: auto;" checked="checked">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Contraseña Actual</label>
+                    <div class="col-sm-8">
+                        <input type="password" name="txtClaveActual" class="form-control" [(ngModel)]="claveActual">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Nueva Contraseña</label>
+                    <div class="col-sm-8">
+                        <input type="password" name="txtNuevaClave" class="form-control" [(ngModel)]="claveNueva">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Confirmar Contraseña</label>
+                    <div class="col-sm-8">
+                        <input type="password" name="txtConfirmarClave" class="form-control"
+                            [(ngModel)]="claveRepetida">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center;">
+                <button type="reset" class="btn btn-w-m btn-primary"
+                    (click)="GuardarUsuario(formUsuario)">Guardar</button>
+                <button type="reset" class="btn btn-w-m btn-default" style="margin-left: 15px;"
+                    (click)="cerrarPopup()">Cancelar</button>
+            </div>
+
+        </div>
+
+
+    </form>
+
+    <!--/div-->
+</div>
+<!--/div>
 </div-->

@@ -387,12 +387,12 @@ export class RepstockComponent implements OnInit  {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.position = {
+/*     dialogConfig.position = {
     top: '100px',
     left: '250px'
-    };
+    }; */
     //dialogConfig.width = "40%";
-    dialogConfig.height = "400px";
+    dialogConfig.height = "100%";
     dialogConfig.width = "1200px";
 
 

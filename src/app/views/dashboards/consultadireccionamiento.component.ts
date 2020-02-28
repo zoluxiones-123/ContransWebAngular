@@ -193,12 +193,24 @@ import {BrowserModule} from '@angular/platform-browser';
 
     
   NuevoDireccionamiento(){
+/*     const bodyRect = document.body.getBoundingClientRect();
+    const elemRect = this.dialogRef._containerInstance['_elementRef'].nativeElement.getBoundingClientRect();
+    const right = bodyRect.right - elemRect.right;
+    const top = elemRect.top - bodyRect.top;
+    const dialogRef = this.dialog.open(SecondDialog, {
+      width: '150px',
+      position: { right: right + 'px', top: top + 'px' },
+      hasBackdrop: false, */
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     //dialogConfig.width = "40%";
-    dialogConfig.height = "700px";
+    dialogConfig.height = "100%";
     dialogConfig.width = "700px";
+/*     dialogConfig.position={
+                              'top': '0'
+                          }; */
     this.dialog.open(RegdireccComponent, dialogConfig);      
   }
 

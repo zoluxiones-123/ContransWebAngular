@@ -26,6 +26,7 @@ import { stringify } from 'querystring';
     fechaActual: any;
     minDate: Date;
     maxDate: Date;
+    Contnumero : string;
     
 
     constructor(private reportService: ReportService,public dialogRef : MatDialogRef<ConsultaDetalleTemperaturaComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private router: Router){
@@ -122,7 +123,7 @@ import { stringify } from 'querystring';
     
     
     public ngOnInit():any {      
-
+    this.Contnumero = localStorage.getItem("Contnumero"),
     this.fechaActual = new Date();
  /*    let fechita = new Date();
     let dia = fechita.getDate().toString();

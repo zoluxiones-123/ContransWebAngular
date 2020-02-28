@@ -98,12 +98,13 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
       console.log(this.objTemperaturaRPT)
     }        
 
-    popupDetalleTemperatuda(CodContenedor:string,BookLineNroDoc:string){
+    popupDetalleTemperatuda(CodContenedor:string,BookLineNroDoc:string,Contnumero:string){
       const dialogConfig = new MatDialogConfig()
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       localStorage.setItem("CodContenedor",CodContenedor);
       localStorage.setItem("BookLineNroDoc",BookLineNroDoc);
+      localStorage.setItem("Contnumero",Contnumero);
       this.dialog.open(ConsultaDetalleTemperaturaComponent, dialogConfig); 
       return false;
     }  

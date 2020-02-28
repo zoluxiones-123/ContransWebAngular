@@ -3,14 +3,14 @@
     <div class="col-lg-12">
       <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
         <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
-        <h4 class="modal-title pull-left" style="display: inline-table;">Detalle Conteiner</h4>
+        <h4 class="modal-title pull-left" style="display: inline-table;">Detalle Contenedor: {{Contnumero}}</h4>
         <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close" (click)="cerrarPopup()">
           <span aria-hidden="true">&times;</span>
         </button>
     </div>
       <div class="ibox float-e-margins">
 
-        <div class="ibox-content">
+        <div class="ibox-content cuerpo-con-overflow">
           <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
             <div class="row">
               <div class="col-sm-3">
@@ -23,24 +23,12 @@
                   <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel]="fechaActual" autocomplete="off" required>
                 </div>
               </div>
-<!--               <div class="col-sm-4">
-                <div class="form-group">
-                  <input type="text" name="txtbox_Contenedor" placeholder="Nro Contenedor" class="form-control" [ngModel] required /> 
-                </div>
-              </div> -->
               <div class="col-sm-3"><button type="button" (click)="CargarGrilla(formFact)"
                 class="btn btn-w-m btn-primary" >Buscar</button></div>
 
             <div class="col-sm-3"><button type="reset" (click)="SiTieneData(false)"
                 class="btn btn-w-m btn-default">Limpiar</button></div>
             </div>
-<!--             <div class="row">
-              <div class="col-sm-4"><button type="button" (click)="CargarGrilla(formFact)"
-                  class="btn btn-w-m btn-primary" >Buscar</button></div>
-
-              <div class="col-sm-4"><button type="reset" (click)="SiTieneData(false)"
-                  class="btn btn-w-m btn-default">Limpiar</button></div>
-            </div> -->
           </form>
 
           <div class="row">
