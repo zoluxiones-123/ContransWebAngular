@@ -57,6 +57,8 @@ import { RepstockexpestComponent } from './views/dashboards/repstockexpest.compo
 import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consuldetalletemperatura.component';
 import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component';
 import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
+import { DetrepstockcliexpComponent } from './views/dashboards/detrepstockcliexp.component';
+import { DetrepstockestComponent } from './views/dashboards/detrepstockest.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,9 @@ import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
     RepstockexpestComponent,
     ConsultaDetalleTemperaturaComponent,
     DetrepstockCliComponent,
-    DetrepstockComponent
+    DetrepstockComponent,
+    DetrepstockcliexpComponent,
+    DetrepstockestComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +113,8 @@ import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [SuscripComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockComponent]
+    
+    entryComponents: [SuscripComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockComponent]
   
   
 })

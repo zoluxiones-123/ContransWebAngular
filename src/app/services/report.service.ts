@@ -22,8 +22,8 @@ import { ZipRPT,ZipRQT } from '../models/ConvertirZip';
 import { RepStockImpRQT } from "../models/rep_stockimpRQT";
 import { RepStockImpRPT } from "../models/rep_stockimpRPT";
 
-import { DetRepStockCliRQT } from "../models/det_repstockcli";
-import { DetRepStockCliRPT } from "../models/det_repstockcli";
+import { DetRepStockEstRQT, DetRepStockCliRQT } from "../models/det_repstockcli";
+import { DetRepStockEstRPT, DetRepStockCliRPT } from "../models/det_repstockcli";
 import { DetRepStockCliExpRPT } from "../models/det_repstockcli";
 
 
@@ -103,6 +103,24 @@ export class ReportService {
     return this.http
       .post<DetRepStockCliExpRPT>(
         url_api, detrepstockclirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+  
+  getDetStockEst(detrepstockestrqt: DetRepStockEstRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockimpdia`;    
+    return this.http
+      .post<DetRepStockEstRPT>(
+        url_api, detrepstockestrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+  
+  getDetStockEstExp(detrepstockestrqt: DetRepStockEstRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/cntstockexpdia`;    
+    return this.http
+      .post<DetRepStockCliExpRPT>(
+        url_api, detrepstockestrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
   

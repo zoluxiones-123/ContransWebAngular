@@ -8,6 +8,8 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataSetItem } from '../../models/datasetitem';
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { DetrepstockcliexpComponent  } from 'app/views/dashboards/detrepstockcliexp.component';
 
 @Component({
   selector: 'app-repstockexpest',
@@ -16,7 +18,7 @@ import { DataSetItem } from '../../models/datasetitem';
 })
 export class RepstockexpestComponent implements OnInit {
 
-  constructor(private reportService: ReportService, private router: Router, private location: Location) { }
+  constructor(private reportService: ReportService, private dialogEst : MatDialog, private router: Router, private location: Location) { }
   
   public isError = false;
   public repStockExpRPT :RepStockExpRPT = null;
@@ -57,7 +59,7 @@ export class RepstockexpestComponent implements OnInit {
   title = 'Angular 8 with Chart Js';
   LineChart = [];
   BarChart = [];
-  BarChart2 = [];
+  BarChart2 : Chart;
   BarChartH = [];
   XLabels = [];
   YLabels = [];
@@ -170,6 +172,53 @@ export class RepstockexpestComponent implements OnInit {
 
   }
 
+  VerDetalleEst(evt:any){
+    //var data = this.BarChart.getElementsAtEvent(evt);
+    var data = this.BarChart2.getElementAtEvent(evt);   
+    
+    if (data.length > 0)  
+     {
+       console.log(data[0]._model);
+    
+     let valor = this.BarChart2.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+
+     let IndexEst = Number.parseInt(data[0]._index) + 1
+     
+     localStorage.setItem("IndexEstExp", IndexEst.toString());
+    
+    // this.EsClickBarra = true;
+
+  //  this.objDetStockCliRQT.IdCliente = CodEntidad;
+    localStorage.setItem("TituloReporte", "Tiempo de Estadia - Exportación");
+    
+
+    this.DetalleRepStockEst();
+
+    
+     }
+  
+    }
+
+    DetalleRepStockEst(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+    
+    /*  dialogConfig.position = {
+      top: '100px',
+      left: '250px'
+      };
+      //dialogConfig.width = "40%";
+      dialogConfig.height = "400px";
+      dialogConfig.width = "1200px";*/
+
+      
+       dialogConfig.height = "100%";
+       dialogConfig.width = "700px";
+  
+      this.dialogEst.open(DetrepstockcliexpComponent, dialogConfig);   
+  
+    }
 
   cargarGraficosCliente():void{
 

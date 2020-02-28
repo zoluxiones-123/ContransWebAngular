@@ -3,6 +3,11 @@ export class DetRepStockCliRQT {
     IDRol: number;
     IdCliente: string;
     }
+export class DetRepStockEstRQT {   
+        IDUSer: number;
+        IDRol: number;
+        Index: number;
+        }
 
 export class DetRepStockCliRPT {   
    
@@ -27,7 +32,6 @@ export class DetRepStockCliExpRPT {
     Cliente: string;
     Documento: string;
     Volante: string;
-
     Contenedor: string;
     FechaIngreso : string;
     Agencia: string;
@@ -36,6 +40,23 @@ export class DetRepStockCliExpRPT {
     Tipo: string;
     Tamano: string;
    
+    }
+
+    
+export class DetRepStockEstRPT {   
+   
+    Nave: string;
+    NomLinea: string;
+    NomCliente: string;
+    Volante: string;
+    BlMaster: string;
+    Bl: string;
+    Contenedor: string;
+    Size: number;
+    FechaIngreso: string;
+    Almacenaje : number;
+  
+     
     }
     
         

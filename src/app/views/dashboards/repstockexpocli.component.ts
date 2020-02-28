@@ -9,6 +9,7 @@ import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {DetrepstockCliComponent} from './detrepstockcli.component';
+import {DetrepstockcliexpComponent} from './detrepstockcliexp.component';
 import { DataSetItem } from '../../models/datasetitem';
 import { DetRepStockExpCliRQT } from "../../models/det_repstockexpcli";
 import { DetRepStockExpCliRPT } from "../../models/det_repstockexpcli";
@@ -187,15 +188,20 @@ export class RepstockexpocliComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.position = {
+
+   /* dialogConfig.position = {
     top: '100px',
     left: '150px'
     };
     dialogConfig.width = "70%";
-    dialogConfig.height = "70%";
+    dialogConfig.height = "70%";*/
+
+    
+    dialogConfig.height = "100%";
+    dialogConfig.width = "700px";
     //dialogConfig.width = "1200px";
     localStorage.setItem("TipoGrafico","repstockexpocli");
-    this.dialog.open(DetrepstockCliComponent, dialogConfig);   
+    this.dialog.open(DetrepstockcliexpComponent, dialogConfig);   
        
   }
 
@@ -265,18 +271,22 @@ export class RepstockexpocliComponent implements OnInit {
     var data = this.BarChart.getElementAtEvent(evt);   
     
     if (data.length > 0) 
-    console.log(data) ;
      {console.log(data[0]._model);
     
-     let valor = this.BarChart.data.datasets[data[0]._datasetIndex].data[data[0]._index];
-     let CodEntidad = this.Entidad[data[0]._datasetIndex].toString();
-     let NomEntidad = this.NombreEntidad[data[0]._datasetIndex].toString();
-     let tipo = this.BarChart.data.labels[data[0]._index];
-     localStorage.setItem("EsTotalG","0");
-     localStorage.setItem("CodEntidad", CodEntidad);
-     localStorage.setItem("NombreEntidad", NomEntidad);
 
-   this.DetalleRepStock();
+     let CodEntidad = this.Entidad[data[0]._datasetIndex].toString();
+
+     let tipo = this.BarChart.data.labels[data[0]._index];
+
+     localStorage.setItem("EsTotalG","0");
+     
+     localStorage.setItem("CodEntidad", CodEntidad);
+    
+    // this.EsClickBarra = true;
+    
+     localStorage.setItem("TituloReporte", "Stock de Contenedores por Cliente Exportación");
+
+     this.DetalleRepStock();
             
         }
     

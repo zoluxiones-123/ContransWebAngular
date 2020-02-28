@@ -6,9 +6,8 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { RepStockRealRefRPT } from '../../models/rep_stockrealRPT'
 import { RepStockRealCabecera } from '../../models/rep_stockrealRPT'
 
-import { DetRepStockCliRPT } from '../../models/det_repstockcli'
-import { DetRepStockCliRQT } from '../../models/det_repstockcli'
-
+import {DetRepStockCliExpRPT, DetRepStockCliRPT } from '../../models/det_repstockcli'
+import {DetRepStockCliRQT, DetRepStockEstRQT } from '../../models/det_repstockcli'
 
 import { ReportService } from '../../services/report.service'
 import swal from 'sweetalert';
@@ -20,13 +19,13 @@ import {DataTablesModule } from 'angular-datatables';
 import { Subject, fromEventPattern } from 'rxjs';
 
 @Component({
-  selector: 'app-detrepstock',
-  templateUrl: './detrepstock.component.html',
-  styleUrls: ['./detrepstock.component.css']
+  selector: 'app-detrepstockcliexp',
+  templateUrl: './detrepstockcliexp.component.html',
+  styleUrls: ['./detrepstockcliexp.component.css']
 })
-export class DetrepstockComponent implements OnInit {
+export class DetrepstockcliexpComponent implements OnInit {
 
-  constructor(public dialogRef : MatDialogRef<DetrepstockComponent>, 
+  constructor(public dialogRef : MatDialogRef<DetrepstockcliexpComponent>, 
     @Inject(MAT_DIALOG_DATA) public data:any, private reportService: ReportService)
      {   }
    
@@ -46,11 +45,19 @@ export class DetrepstockComponent implements OnInit {
   public objStockRealRefRPT: Array<RepStockRealRefRPT>;
   public objColumnaRealRef: Array<RepStockRealCabecera>;
 
-  public objDetStockCliRPT: Array<DetRepStockCliRPT>;
+  public objDetStockCliRPT: Array<DetRepStockCliExpRPT>;
+
   public objDetStockCliRQT : DetRepStockCliRQT = {
     IDUSer: 1,
     IDRol: 0,
     IdCliente: ""
+  };
+
+  
+  public objDetStockEstRQT : DetRepStockEstRQT = {
+    IDUSer: 1,
+    IDRol: 0,
+    Index: 0
   };
   
 
@@ -61,8 +68,8 @@ export class DetrepstockComponent implements OnInit {
      searching: false,
      dom: 'Bfrtip',       
      buttons: [
-      'colvis',
-      'excel'
+       'colvis',
+       'excel'
      ],
      language: {
        lengthMenu: "Mostrar _MENU_ registros" ,
@@ -90,15 +97,27 @@ export class DetrepstockComponent implements OnInit {
 
   ngOnInit() {
 
-    this.EsTotalG = localStorage.getItem("EsTotalG").toString();
-
+    
     this.objDetStockCliRQT.IDUSer = Number.parseInt(localStorage.getItem("Usuario"));
     this.objDetStockCliRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.objDetStockCliRQT.IdCliente = localStorage.getItem("CodEntidad").toString();
     this.TituloReporte = localStorage.getItem("TituloReporte").toString(); 
-        
-    let  res = this.reportService.getStockImpCli(this.objDetStockCliRQT);
-            
+
+    this.objDetStockEstRQT.IDUSer = Number.parseInt(localStorage.getItem("Usuario"));
+    this.objDetStockEstRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+    this.objDetStockEstRQT.Index =  Number.parseInt(localStorage.getItem("IndexEstExp"));
+    this.TituloReporte = localStorage.getItem("TituloReporte").toString(); 
+
+    
+    var res : any;
+
+    if (this.TituloReporte.includes('Estadia - Exporta') == true)
+    { res = this.reportService.getDetStockEstExp(this.objDetStockEstRQT);   }
+    else
+    {
+      res = this.reportService.getStockExpCli(this.objDetStockCliRQT);
+    }
+
     res.subscribe( 
       data => { 
         this.objDetStockCliRPT = data;

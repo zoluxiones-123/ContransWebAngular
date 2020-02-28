@@ -9,6 +9,10 @@ import { isError } from 'util';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataSetItem } from '../../models/datasetitem';
 
+import { MatDialog, MatDialogConfig} from '@angular/material';
+import { DetrepstockComponent  } from 'app/views/dashboards/detrepstock.component';
+import { DetrepstockestComponent  } from 'app/views/dashboards/detrepstockest.component';
+
 @Component({
   selector: 'app-repestadia',
   templateUrl: './repestadia.component.html',
@@ -17,7 +21,7 @@ import { DataSetItem } from '../../models/datasetitem';
 
 export class RepestadiaComponent implements OnInit {
 
-  constructor(private reportService: ReportService, private router: Router, private location: Location,   
+  constructor(private reportService: ReportService, private dialogEst: MatDialog, private router: Router, private location: Location,   
     private elementRef : ElementRef) { 
   }
 
@@ -158,6 +162,50 @@ export class RepestadiaComponent implements OnInit {
    //this.router.navigate(['home']);    
     
   }
+
+  VerDetalleEst(evt:any){
+    //var data = this.BarChart.getElementsAtEvent(evt);
+    var data = this.BarChart2.getElementAtEvent(evt);   
+    
+    if (data.length > 0)  
+     {
+       console.log(data[0]._model);
+    
+     let valor = this.BarChart2.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+
+     let IndexEst = Number.parseInt(data[0]._index) + 1
+     
+     localStorage.setItem("IndexEst", IndexEst.toString());
+    
+    // this.EsClickBarra = true;
+  //  this.objDetStockCliRQT.IdCliente = CodEntidad;
+    localStorage.setItem("TituloReporte", "Tiempo de Estadia - Importación");    
+
+    this.DetalleRepStockEst();
+
+    
+     }
+  
+    }
+    
+
+
+DetalleRepStockEst(){
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.disableClose = true;
+  dialogConfig.autoFocus = true;
+  dialogConfig.position = {
+  top: '100px',
+  left: '250px'
+  };
+  //dialogConfig.width = "40%";
+  dialogConfig.height = "400px";
+  dialogConfig.width = "1200px";
+
+  this.dialogEst.open(DetrepstockestComponent, dialogConfig);   
+
+}
+
 
   cargarGraficoEstadia():void{
 

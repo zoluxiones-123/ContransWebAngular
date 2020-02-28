@@ -18,6 +18,8 @@ import { Subject, fromEventPattern } from 'rxjs';
 
 import { MatDialog, MatDialogConfig} from '@angular/material';
 import { DetrepstockComponent  } from 'app/views/dashboards/detrepstock.component';
+import { DetrepstockestComponent  } from 'app/views/dashboards/detrepstockest.component';
+
 import swal from 'sweetalert2';
 
 @Component({
@@ -29,6 +31,7 @@ import swal from 'sweetalert2';
 export class RepstockComponent implements OnInit  {
   constructor(private reportService: ReportService,  private elementRef: ElementRef, 
     private dialog : MatDialog,
+    private dialogEst : MatDialog,
     private router: Router, private location: Location) { }
 
   @ViewChildren(DataTableDirective)
@@ -148,7 +151,7 @@ export class RepstockComponent implements OnInit  {
   chartcl : Chart;
   BarChart : Chart;
   //BarChart = [];
-  BarChart2 = [];
+  BarChart2 : Chart;
   //BarChartH = [];
   BarChartH : Chart;
 
@@ -338,6 +341,16 @@ export class RepstockComponent implements OnInit  {
 
   }
 
+  VerDetalleGeneralEst()
+  {
+  
+      localStorage.setItem("IndexEst", "0");
+      localStorage.setItem("TituloReporte", "Tiempo de Estadia - Importación");
+  
+      this.DetalleRepStockEst();
+
+  }
+
   VerDetalle(evt:any){
     //var data = this.BarChart.getElementsAtEvent(evt);
     var data = this.BarChart.getElementAtEvent(evt);   
@@ -373,6 +386,34 @@ export class RepstockComponent implements OnInit  {
   
     }
 
+  VerDetalleEst(evt:any){
+      //var data = this.BarChart.getElementsAtEvent(evt);
+      var data = this.BarChart2.getElementAtEvent(evt);   
+      
+      if (data.length > 0)  
+       {
+         console.log(data[0]._model);
+      
+       let valor = this.BarChart2.data.datasets[data[0]._datasetIndex].data[data[0]._index];
+  
+       let IndexEst = Number.parseInt(data[0]._index) + 1
+       
+       localStorage.setItem("IndexEst", IndexEst.toString());
+      
+      // this.EsClickBarra = true;
+  
+      this.objDetStockCliRQT.IDUSer = Number.parseInt(localStorage.getItem("Usuario"));
+      this.objDetStockCliRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+    //  this.objDetStockCliRQT.IdCliente = CodEntidad;
+      localStorage.setItem("TituloReporte", "Tiempo de Estadia - Importación");
+      
+  
+      this.DetalleRepStockEst();
+  
+      
+       }
+    
+      }
   public SetGrillaVisibility(param:boolean)
   {
     if (param) {
@@ -388,18 +429,44 @@ export class RepstockComponent implements OnInit  {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 /*     dialogConfig.position = {
-    top: '100px',
-    left: '250px'
+    //top: '100px',
+    //left: '250px'
     }; */
     //dialogConfig.width = "40%";
     dialogConfig.height = "100%";
-    dialogConfig.width = "1200px";
+    dialogConfig.width = "700px";
+
+//    dialogConfig.height = "400px";
+//    dialogConfig.width = "1200px";
 
 
     this.dialog.open(DetrepstockComponent, dialogConfig);   
 
         
   }
+
+  
+  DetalleRepStockEst(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    
+    /*dialogConfig.position = {
+    top: '100px',
+    left: '250px'
+    };*/
+    //dialogConfig.width = "40%";
+    
+    dialogConfig.height = "100%";
+    dialogConfig.width = "700px";
+    //dialogConfig.height = "400px";
+    //dialogConfig.width = "1200px";
+
+    this.dialogEst.open(DetrepstockestComponent, dialogConfig);   
+
+  }
+
+  
 
   
 

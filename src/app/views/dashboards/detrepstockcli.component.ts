@@ -60,8 +60,9 @@ export class DetrepstockCliComponent implements OnInit {
      searching: false,
      dom: 'Bfrtip',       
      buttons: [
-       'excel'
-     ],
+      'colvis',
+      'excel'
+     ],    
      language: {
        lengthMenu: "Mostrar _MENU_ registros" ,
        search : "Buscar",
@@ -74,7 +75,8 @@ export class DetrepstockCliComponent implements OnInit {
          previous: "Anterior"
        },
        buttons : {
-         excel : "Exportar a Excel"
+        colvis : "Columnas",
+        excel : "Exportar a Excel"
        },
        aria :
        {

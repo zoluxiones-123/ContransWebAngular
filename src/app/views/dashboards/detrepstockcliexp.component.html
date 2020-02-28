@@ -16,27 +16,32 @@
                 <tr>
                 <th>Nave</th> 
                 <th>Linea</th> 
-                <th>Cliente</th>             
-                <th>Volante</th>             
-                <th>BlMaster</th>             
-                <th>BL</th>             
-                <th>Contenedor</th>             
-                <th>Tamaño</th>             
-                <th>Fecha Ingreso</th>                               
+                <th>Cliente</th>  
+                <th>Documento</th>                             
+                <th>Volante</th> 
+                <th>Contenedor</th> 
+                <th>Fecha Ingreso</th>           
+                <th>Agencia</th>             
+                <th>Consolidador</th>     
+                <th>Almacen</th>     
+                <th>Tipo</th>                  
+                <th>Tamaño</th>                                           
               </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.objDetStockCliRPT">
                    <td>{{item.Nave}}</td>
-                   <td>{{item.NomLinea}}</td>
-                   <td>{{item.NomCliente}}</td>    
-                   <td>{{item.Volante}}</td>    
-                   <td>{{item.BlMaster}}</td>    
-                   <td>{{item.Bl}}</td>    
-                   <td>{{item.Contenedor}}</td>                       
-                   <td>{{item.Size}}</td>  
-                   <td>{{item.FechaIngreso}}</td>  
-
+                   <td>{{item.Linea}}</td>
+                   <td>{{item.Cliente}}</td>    
+                   <td>{{item.Documento}}</td>   
+                   <td>{{item.Volante}}</td>  
+                   <td>{{item.Contenedor}}</td> 
+                   <td>{{item.FechaIngreso}}</td>    
+                   <td>{{item.Agencia}}</td>    
+                   <td>{{item.Consolidador}}</td>                     
+                   <td>{{item.Almacen}}</td>                      
+                   <td>{{item.Tipo}}</td>    
+                   <td>{{item.Tamano}}</td>                                 
                  </tr>
                   </tbody>
       
@@ -63,3 +68,4 @@
 
 
   </div>
+
