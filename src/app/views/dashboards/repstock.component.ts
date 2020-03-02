@@ -24,7 +24,8 @@ import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-repstock',
-  templateUrl: './repstock.component.html'
+  templateUrl: './repstock.component.html',
+  styleUrls : ['./repstock.component.css']
 
 })
 
@@ -434,11 +435,7 @@ export class RepstockComponent implements OnInit  {
     }; */
     //dialogConfig.width = "40%";
     dialogConfig.height = "100%";
-    dialogConfig.width = "700px";
-
-//    dialogConfig.height = "400px";
-//    dialogConfig.width = "1200px";
-
+    dialogConfig.width = "1200px";
 
     this.dialog.open(DetrepstockComponent, dialogConfig);   
 
@@ -458,9 +455,7 @@ export class RepstockComponent implements OnInit  {
     //dialogConfig.width = "40%";
     
     dialogConfig.height = "100%";
-    dialogConfig.width = "700px";
-    //dialogConfig.height = "400px";
-    //dialogConfig.width = "1200px";
+    dialogConfig.width = "1200px";
 
     this.dialogEst.open(DetrepstockestComponent, dialogConfig);   
 

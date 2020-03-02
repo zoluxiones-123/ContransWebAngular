@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'consultafactura',
-    templateUrl: 'consultafactura.template.html'
+    templateUrl: 'consultafactura.template.html',
+    styleUrls : ['consultafactura.component.css']
   })
 
   export class ConsultaFacturaComponent implements AfterViewInit, OnDestroy, OnInit {  

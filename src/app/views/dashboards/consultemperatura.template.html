@@ -19,21 +19,21 @@
                   <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel]="fechaActual" autocomplete="off" required>
                 </div>
               </div> -->
-              <div class="col-sm-4">
+              <div class="col-sm-4" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_Contenedor" placeholder="Nro Contenedor" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_Contenedor" placeholder="Nro Contenedor" class="form-control tamanio-device" [ngModel] required /> 
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
                 <button type="button" (click)="CargarGrilla(formFact)"
-                  class="btn btn-w-m btn-primary" >Buscar</button>
+                  class="btn btn-primary block m-b tamanio-device" >Buscar</button>
               </div>
 
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
                 <button type="reset" (click)="SiTieneData(false)" 
-                class="btn btn-w-m btn-default">Limpiar</button>  
+                class="btn btn-default block  m-b tamanio-device">Limpiar</button>  
               </div>
             </div>
           </form>

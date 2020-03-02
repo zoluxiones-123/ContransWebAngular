@@ -224,7 +224,7 @@ export class RepstockexpComponent implements OnInit  {
 
     
     dialogConfig.height = "100%";
-    dialogConfig.width = "700px";
+    dialogConfig.width = "1200px";
 
    // dialogConfig.height = "600px";
    // dialogConfig.width = "800px";
@@ -297,11 +297,10 @@ export class RepstockexpComponent implements OnInit  {
       //dialogConfig.width = "40%";
       
     dialogConfig.height = "100%";
-    dialogConfig.width = "700px";
+    dialogConfig.width = "1200px";
     //  dialogConfig.height = "400px";
-     // dialogConfig.width = "1200px";
-  
-      this.dialogEst.open(DetrepstockcliexpComponent, dialogConfig);   
+     // dialogConfig.width = "1200px"; 
+    this.dialogEst.open(DetrepstockcliexpComponent, dialogConfig);   
   
     }
   

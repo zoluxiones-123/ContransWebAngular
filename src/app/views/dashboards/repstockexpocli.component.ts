@@ -198,7 +198,7 @@ export class RepstockexpocliComponent implements OnInit {
 
     
     dialogConfig.height = "100%";
-    dialogConfig.width = "700px";
+    dialogConfig.width = "1200px";
     //dialogConfig.width = "1200px";
     localStorage.setItem("TipoGrafico","repstockexpocli");
     this.dialog.open(DetrepstockcliexpComponent, dialogConfig);   
