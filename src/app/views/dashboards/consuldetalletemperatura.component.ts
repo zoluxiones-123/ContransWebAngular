@@ -16,7 +16,8 @@ import { stringify } from 'querystring';
 
 @Component({
     selector: 'consuldetalletemperatura',
-    templateUrl: 'consuldetalletemperatura.template.html'
+    templateUrl: 'consuldetalletemperatura.template.html',
+    styleUrls: ['consuldetalletemperatura.component.css']
   })
 
   export class ConsultaDetalleTemperaturaComponent implements AfterViewInit, OnDestroy, OnInit {  
@@ -61,6 +62,7 @@ import { stringify } from 'querystring';
       dom: 'Bfrtip',
       paging:         false,
       fixedColumns:   true,
+      processing: true,
       buttons: [
         'excel',
       ],
@@ -93,6 +95,7 @@ import { stringify } from 'querystring';
       pageLength: 10,
       searching: false,
       autoFill: true, 
+      processing: true,
       //dom: 'Bfrtip',
       paging:         false,
       fixedColumns:   true,

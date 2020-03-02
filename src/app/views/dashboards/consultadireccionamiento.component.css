@@ -23,5 +23,10 @@
     position: relative;
     left: +0%;
  }
+ @media screen and (max-width:640px) { 
+  .tamanio-device {
+      width: 290px;
+  }
+} 
 
 }

@@ -9,30 +9,30 @@
         <div class="ibox-content">
           <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
             <div class="row">
-              <div class="col-sm-2">
-                <select name="listUniNeg"  class="form-control" (change)="ChangingValue($event)">
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listUniNeg"  class="form-control  tamanio-device" (change)="ChangingValue($event)">
                   <option [value]="" selected hidden>--Seleccione--</option>
                   <option *ngFor="let item of this.ListaUnidadNegocio" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option>
                 </select>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
-                  <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue' }"[ngModel] required>
+                  <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control  tamanio-device" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue' }"[ngModel] required>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
-                  <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel] autocomplete="off" required>
+                  <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel] autocomplete="off" required>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_Registro" placeholder="Registro / Nro Documento" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_Registro" placeholder="Registro / Nro Documento"  class="form-control  tamanio-device" [ngModel] required /> 
                 </div>
               </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <input id ="txtbox_Cliente" type="text" name="txtbox_Cliente" placeholder="Cliente" class="form-control"  [ngModel] required/>
+              <div class="col-sm-4" style="padding-left: 5px;" >
+                <div class="form-group" >
+                  <input id ="txtbox_Cliente" type="text" name="txtbox_Cliente" placeholder="Cliente" class="form-control  tamanio-device"  [ngModel] required/>
                 </div>
               </div>
             </div>
@@ -40,11 +40,11 @@
               <!-- <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary" >Ingresar</button></div> -->
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
                 <button type="button" (click)="CargarGrilla(formFact)"
-                  class="btn btn-w-m btn-primary" >Buscar</button></div>
+                  class="btn btn-primary block m-b tamanio-device" >Buscar</button></div>
 
                   <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
                     <button type="reset" (click)="SiTieneData(false)"
-                  class="btn btn-w-m btn-default">Limpiar</button></div>
+                  class="btn btn-default block  m-b tamanio-device">Limpiar</button></div>
             </div>
           </form>
           <div class="row">

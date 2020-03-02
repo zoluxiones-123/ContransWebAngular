@@ -2,7 +2,7 @@
     <div *ngFor="let item of graphs; let ind = index" class="dcomp" >
       <div *ngIf="ind % 2 == 0">
         <div [id]=item.Nombre *ngIf="item.Visible"  class="ibox">
-          <div class="ibox-title"> <h5> {{item.Titulo}} </h5> </div>
+          <div class="ibox-title" > <h5> {{item.Titulo}} </h5> </div>
           <div class="ibox-content">
             <div class="container-graph" [ngComponentOutlet]=item.component></div>
           </div>
@@ -11,10 +11,10 @@
       </div>
       <div *ngIf="ind % 2 != 0">
         <div [id]=item.Nombre *ngIf="item.Visible" class="ibox">
-          <div class="ibox-title">
+          <div class="ibox-title" >
             <h5> {{item.Titulo}} </h5>
           </div>
-          <div class="ibox-content">
+          <div class="ibox-content" >
             <div class="container-graph" [ngComponentOutlet]=item.component></div>
           </div>
         </div>

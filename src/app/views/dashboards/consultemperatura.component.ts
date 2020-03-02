@@ -16,7 +16,8 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
 
 @Component({
     selector: 'consultemperatura',
-    templateUrl: 'consultemperatura.template.html'
+    templateUrl: 'consultemperatura.template.html',
+    styleUrls : ['consultemperatura.component.css']
   })
 
   export class ConsultaTemperaturaComponent implements  AfterViewInit, OnDestroy, OnInit{  
@@ -102,6 +103,8 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
       const dialogConfig = new MatDialogConfig()
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
+      dialogConfig.height = "100%";
+      dialogConfig.width = "1200px";
       localStorage.setItem("CodContenedor",CodContenedor);
       localStorage.setItem("BookLineNroDoc",BookLineNroDoc);
       localStorage.setItem("Contnumero",Contnumero);

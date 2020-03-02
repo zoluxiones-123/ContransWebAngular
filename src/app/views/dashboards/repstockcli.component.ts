@@ -16,7 +16,8 @@ import { DetRepStockCliRPT } from "../../models/det_repstockcli";
 
 @Component({
   selector: 'app-repstockcli',
-  templateUrl: './repstockcli.component.html'
+  templateUrl: './repstockcli.component.html',
+  styleUrls: ['./repstockcli.component.css']
 })
 
 
@@ -199,9 +200,7 @@ export class RepstockcliComponent implements OnInit {
 
     
     dialogConfig.height = "100%";
-    dialogConfig.width = "700px";
-
-    //dialogConfig.width = "1200px";
+    dialogConfig.width = "1200px";
     localStorage.setItem("TipoGrafico","repstockcli");
     this.dialog.open(DetrepstockCliComponent, dialogConfig);   
     

@@ -1,0 +1,18 @@
+@media screen and (min-width:1024px) {
+    .tamanio-device {
+
+    }
+  }
+  
+  @media screen and (max-width:1024px) and (min-width:640px) {
+    .tamanio-device {
+
+  }
+  } 
+  
+   @media screen and (max-width:640px) { 
+    .tamanio-device {
+        width: 290px;
+    }
+  } 
+  
