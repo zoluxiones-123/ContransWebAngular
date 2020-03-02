@@ -214,7 +214,7 @@ export class RepstockexpestComponent implements OnInit {
 
       
        dialogConfig.height = "100%";
-       dialogConfig.width = "700px";
+       dialogConfig.width = "1200px";
   
       this.dialogEst.open(DetrepstockcliexpComponent, dialogConfig);   
   
