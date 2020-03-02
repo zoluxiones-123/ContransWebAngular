@@ -2,6 +2,7 @@
     margin: 75px;
   }
 
+=======
 
 @media screen and (min-width:1024px) {
     .cuerpo-con-overflow {
@@ -43,5 +44,4 @@
       height: 490px;
       margin: '0 auto';
     }
-  } 
-  
+  }   

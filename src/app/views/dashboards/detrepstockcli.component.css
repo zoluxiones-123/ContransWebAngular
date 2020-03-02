@@ -1,8 +1,6 @@
-
 .loading {
     margin: 75px;
   }
-
 @media screen and (min-width:1024px) {
     .cuerpo-con-overflow {
       border-image: none;
@@ -44,4 +42,3 @@
       margin: '0 auto';
     }
   } 
-  
