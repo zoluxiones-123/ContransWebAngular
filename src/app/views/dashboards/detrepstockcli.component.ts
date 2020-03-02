@@ -42,6 +42,7 @@ export class DetrepstockCliComponent implements OnInit {
   public TipoGrafico: string;
   public CabeceraPopup: string;
   public NombreEntidad: string;
+  public loading : boolean;
 /*   public objStockRealRefRPT: Array<RepStockRealRefRPT>;
   public objColumnaRealRef: Array<RepStockRealCabecera>; */
 
@@ -96,6 +97,8 @@ export class DetrepstockCliComponent implements OnInit {
     this.objDetStockCliRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.objDetStockCliRQT.IdCliente = localStorage.getItem("CodEntidad").toString();
 
+    this.loading = true;
+
     if (this.TipoGrafico=="repstockcli")
     {
     this.CabeceraPopup = "Detalle Stock Contenedores: " + this.NombreEntidad;
@@ -108,6 +111,7 @@ export class DetrepstockCliComponent implements OnInit {
         {
           this.SiCargoData = true;
           this.columns = Object.keys(data[0]);
+          this.loading = false;
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           dtInstance.destroy();
           this.dtTrigger.next(this.objDetStockCliRPT);             
@@ -138,6 +142,7 @@ export class DetrepstockCliComponent implements OnInit {
         {
           this.SiCargoData = true;
           this.columns = Object.keys(data[0]);
+          this.loading = false;
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           dtInstance.destroy();
           this.dtTrigger.next(this.objDetStockCliRPT);             
