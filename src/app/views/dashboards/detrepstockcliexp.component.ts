@@ -41,6 +41,7 @@ export class DetrepstockcliexpComponent implements OnInit {
   public TieneData = false;
   public EsTotalG : string;
   public TituloReporte : string;
+  public loading : boolean;
   
   public objStockRealRefRPT: Array<RepStockRealRefRPT>;
   public objColumnaRealRef: Array<RepStockRealCabecera>;
@@ -108,6 +109,8 @@ export class DetrepstockcliexpComponent implements OnInit {
     this.objDetStockEstRQT.Index =  Number.parseInt(localStorage.getItem("IndexEstExp"));
     this.TituloReporte = localStorage.getItem("TituloReporte").toString(); 
 
+    this.loading = true;
+
     
     var res : any;
 
@@ -126,6 +129,8 @@ export class DetrepstockcliexpComponent implements OnInit {
           this.SiCargoData = true;
 
           this.columns = Object.keys(data[0]);
+
+          this.loading = false;
 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 

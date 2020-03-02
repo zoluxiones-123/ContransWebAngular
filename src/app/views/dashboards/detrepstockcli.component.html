@@ -10,6 +10,9 @@
 
   <div class="ibox-content cuerpo-con-overflow">
     <div class="form-group row">
+      <div class="loading" *ngIf = "loading" style="text-align:center;height: 420px ;margin-right: 0px;margin-left: 0px;" >
+        <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+     </div>
       <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
       [dtTrigger]="dtTrigger" >                
       <thead>

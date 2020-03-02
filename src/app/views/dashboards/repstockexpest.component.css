@@ -15,12 +15,6 @@ div > span{
     display: inline-block;
 }
 
-.labelsgraph {
-    height: fit-content;
-    align-items: ;
-
-}
-
 .labelsgraph > * {
     display: inline-block;
     margin-right: 10px;
@@ -29,8 +23,4 @@ div > span{
 
 .container-graph {
     height: 500px !important;
-}
-
-div > section {
-    /* transform: translateY(100px); */
 }

@@ -10,6 +10,9 @@ import { DetRepStockCliRPT } from '../../models/det_repstockcli'
 import { DetRepStockCliRQT } from '../../models/det_repstockcli'
 
 
+import { NgxSpinnerService } from "ngx-spinner";
+
+
 import { ReportService } from '../../services/report.service'
 import swal from 'sweetalert';
 
@@ -27,7 +30,7 @@ import { Subject, fromEventPattern } from 'rxjs';
 export class DetrepstockComponent implements OnInit {
 
   constructor(public dialogRef : MatDialogRef<DetrepstockComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data:any, private reportService: ReportService)
+    @Inject(MAT_DIALOG_DATA) public data:any, private reportService: ReportService, private spinner: NgxSpinnerService)
      {   }
    
   @ViewChild(DataTableDirective)
@@ -42,6 +45,7 @@ export class DetrepstockComponent implements OnInit {
   public TieneData = false;
   public EsTotalG : string;
   public TituloReporte : string;
+  public loading : boolean;
   
   public objStockRealRefRPT: Array<RepStockRealRefRPT>;
   public objColumnaRealRef: Array<RepStockRealCabecera>;
@@ -96,15 +100,38 @@ export class DetrepstockComponent implements OnInit {
     this.objDetStockCliRQT.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.objDetStockCliRQT.IdCliente = localStorage.getItem("CodEntidad").toString();
     this.TituloReporte = localStorage.getItem("TituloReporte").toString(); 
+
+    this.loading = true;
         
     let  res = this.reportService.getStockImpCli(this.objDetStockCliRQT);
+
+    //this.spinner.show();
+
+   /* .subscribe((data)=>
+    {
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 1);
+      if (data.Cod === 0) {
+        swal({
+          icon: "success",
+          text: "Se realizo correctamente el cambio de contraseña"
+        });
+      }*/
             
     res.subscribe( 
       data => { 
+
+       /* setTimeout(() => {
+          this.spinner.hide();
+        }, 1);*/
+
         this.objDetStockCliRPT = data;
         if (data.length >= 1)
         {
           this.SiCargoData = true;
+
+          this.loading = false;
 
           this.columns = Object.keys(data[0]);
 
