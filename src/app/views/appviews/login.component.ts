@@ -202,7 +202,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("tiemposesion", this.UserRPT.TiempoEspera);
             localStorage.setItem("Menu",JSON.stringify(this.UserRPT.Menu));
             localStorage.setItem("Graficos",JSON.stringify(this.UserRPT.Dashboards.Data));
-
+            localStorage.setItem("accessToken", this.UserRPT.Token);
+            
             if(!this.UserRPT.UsuaAceptUso)
             {
               this.authService.getTyC().toPromise().then((data) => {

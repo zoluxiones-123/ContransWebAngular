@@ -1,0 +1,61 @@
+
+
+<form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="ActualizarCita(formFact)">
+
+  <div class="col-lg-10" style="width: 100%; align-content: center;display: inline-flex;" >
+          <div class="stat-percent font-bold text-danger">
+          <img alt="image" class="img-container" src="assets/images/LogoContransE.png">
+          </div>
+          <h3 class="font-bold text-navy">{{this.TituloCita}}</h3>
+  </div>
+  <div class="row">
+      <div class="col-lg-20">
+          <div class="ibox">
+              <div class="ibox-title">
+                  <h5>Actualizar Placa y Brevete Nro Cita: {{this.NroCita}} </h5>               
+              </div>          
+              <div class="ibox-content cuerpo-con-overflow" >
+                      
+                                <div class="form-group row">
+                                 <label class="col-sm-12 col-form-label">Dar click en el botón Generar Token y en breve recibirás el código de activación para continuar con la operación.</label>                               
+                                </div>
+                                 <div class="form-group row">                     
+                                 <label class="col-sm-4 col-form-label"><input type="radio" id="SMS" name="optradio" (change)="onItemChange($event)" >SMS</label>
+                                 </div>
+                                 <div class="form-group row">                                                      
+                                 <label class="col-sm-4 col-form-label"><input type="radio" id="E-MAIL" name="optradio" (change)="onItemChange($event)" >E-MAIL</label>
+                                 </div>                                                                  
+                                                                                  
+                      <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label">Token Code:</label>                        
+                        <div class="col-sm-4"><input type="text" maxlength="50"
+                           name="txtbox_token"  [formControl]="myControl" class="form-control" [ngModel] >                                                 
+                          </div>
+                          <div class="col-sm-4"><button (click) = "GenerarTokenCita()" class="btn btn-w-m btn-default">Generar</button></div>                                       
+                      </div>
+                      <div *ngIf = "!MuestraMotivo" class="form-group  row"><label class="col-sm-4 col-form-label">Placa</label>
+                          <div class="col-sm-8"><input type="text" maxlength="50" [formControl]="myPlaca"  name="txtbox_placa" class="form-control" [ngModel]></div>
+                      </div>                  
+                      <div *ngIf = "!MuestraMotivo"  class="form-group row"><label class="col-sm-4 col-form-label">Brevete</label>
+                          <div class="col-sm-8"><input type="text" maxlength="100" [formControl]="myBrevete" name="txtbox_brevete" class="form-control" [ngModel]   ></div>
+                      </div>  
+                      <div *ngIf = "MuestraMotivo" class="form-group row">
+                        <label class="col-sm-12 col-form-label">Para anular cita programada debe ingresar el motivo por el cual esta anulando</label>
+                        <div class="col-sm-12">
+                          <textarea type="text" name="txtarea_Motivo" [formControl]="myMotivo" class="form-control" [ngModel]>
+                                    </textarea>
+                        </div>
+                      </div>              
+                      <div class="form-group row">
+                      <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary">Aceptar</button></div>
+                      <div class="col-sm-2"></div>        
+                      <div class="col-sm-4"><button (click) = "onClose()" class="btn btn-w-m btn-default">Cancelar</button></div>                    
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </form>
+  
+  

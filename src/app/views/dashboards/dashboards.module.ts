@@ -3,6 +3,7 @@ import {BrowserModule} from "@angular/platform-browser";
 
 import {DataTablesModule } from 'angular-datatables';
 import {ConsultaFacturaComponent} from "./consultafactura.component";
+import {ConsultacitasComponent } from './consultacitas.component';
 import {ConsultacontdlComponent} from "./consultacontdl.component";
 import {consultadireccionamientocomponent} from "./consultadireccionamiento.component";
 
@@ -45,11 +46,11 @@ defineLocale('es', esLocale);
 
 
 @NgModule({
-  declarations: [ConsultaFacturaComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent],
+  declarations: [ConsultaFacturaComponent, ConsultacitasComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent],
   imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,
     DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, 
     TooltipModule.forRoot()],
-  exports     : [ConsultaFacturaComponent,ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent],
+  exports     : [ConsultaFacturaComponent, ConsultacitasComponent, ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent],
   entryComponents : [RepstockcliComponent,RepestadiaComponent,RepabandonoComponent,RepfillrateComponent,RepstockDAComponent,RepstockDSComponent,RepstockDTComponent,RepfillratetabComponent, RepfillrategrafComponent, RepstockexpocliComponent, RepstockexpestComponent]
  
 })

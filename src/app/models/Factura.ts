@@ -28,3 +28,28 @@ export class FacturasRQT {
     IDUnidadNegocio : string;
     UnidadNegocio   : string;
   }
+
+  export class AlmacenRQT {
+    EmpaCodigo : string;
+   }
+
+  export class Almacenes {
+   Data : any;
+  }
+
+  
+  export class TiposCarga {
+    Data : any;
+   }
+
+  
+export class TipoCarga {
+  EmpaCodigo: string;
+  EmpaIdentificador : string;
+}
+
+
+export class Almacen {
+  AlmaCodigo: string;
+  AlmaDescripcion : string;
+}
