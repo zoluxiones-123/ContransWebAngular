@@ -46,30 +46,63 @@
 
   export class TemperaturaDataRPT {
     public Data:any;
-    /*public CodigoHoraControlTemp: number;
-    public HoraControlTemp : string;
-    public CodigoControlTemp: number;
-    public ContCargCodigo : string;
-    public ContNumero : string;
-    public BookLineNroDoc : string;
-    public TSUPP : string;
-    public TRET : string;
-    public RH : string;
-    public O2 : string;
-    public CO2 : string;
-    public USDA1 : string;
-    public USDA2 : string;
-    public USDA3 : string;
-    public ALARMA : string;
-    public FechaReg : any;
-    public Dia : any; */
   }
 
   export class TemperaturaVDRPT {
     public VD:any;
-/*     SP : string;
-    RH : string;
-    VENT : string;
-    O2 : string;
-    CO2 : string; */
+  }
+
+  export class CartaTemperaturaRQT {
+    IDUser: number;
+    IDRol: number;
+    EntiCodi: string;
+    Kvje: string;
+    NBooking: string;
+    Emba: string;
+    Esta: string;
+    Desde: any;
+    Hasta: any;
+  } 
+
+  export class AnularCerrarCartaTemperaturaRQT {
+    Id	: string;
+    Usuario: string;
+  } 
+  export class AnularCerrarCartaTemperaturaRPT {
+    public Data:any;
+/*     Cod	: number;
+    Msj: string; */
+  } 
+
+   export class CartaTemperaturaRPT {
+    BctId: number;
+    KRefOscar: string;
+    CodViaje: string;
+    NaveViaje: string;
+    Producto: string;
+    CodEmbarcador: string;
+    Embarcador: string;
+    CodConsignatario: string;
+    Consignatario: string;
+    Temp: string;
+    TVent: string;
+    Vent: string;
+    Hume: string;
+    O2: string;
+    CO2: string;
+    Specials: string;
+    Ctem: boolean;
+    CTreat: boolean;
+    CAtmo: boolean;
+    FCTemp: any;
+    Usuario: string;
+    Email: string;
+    Estado: string;
+    Eta: any;
+    EstCamb: number;
+  }   
+  
+  export class ListaEstado {
+    Entidad : string;
+    Nombre   : string;
   }

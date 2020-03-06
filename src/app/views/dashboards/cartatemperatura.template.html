@@ -10,43 +10,52 @@
           <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
             <div class="row">
               
-              <div class="col-sm-2">
+              <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
                   <input type="text" name="txtbox_Contenedor" placeholder="Nro Contenedor" class="form-control" [ngModel] required /> 
                 </div>
               </div>
-              <div class="col-sm-2">
-                <select name="listUniNeg"  class="form-control" (change)="ChangingValue($event)">
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listEstado"  class="form-control" (change)="ChangingValue($event)">
                   <option [value]="" selected hidden>--Estado--</option>
-                  <!-- <option *ngFor="let item of this.ListaUnidadNegocio" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option> -->
+                  <option *ngFor="let item of this.ListaEstado" [value]="item.Entidad">{{item.Nombre}}</option> -->
                 </select>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
                   <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue' }"[ngModel]="fechaActual" required>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
                   <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel]="fechaActual" autocomplete="off" required>
                 </div>
               </div>
-              <br>
-              <br>
-              <br>
-              <div class="col-sm-4">
+
+              <div class="col-sm-4" style="padding-left: 5px;">
                 <div class="form-group">
                   <input type="text" name="txtbox_Contenedor" placeholder="Nave / Viaje" class="form-control" [ngModel] required /> 
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-top: 7px;">
+                <div class="form-group">
+                  <input type="checkbox" name="cbbox_DocumentosFirmados"   value="R"> Documentos Firmados<br>
                 </div>
               </div>
 
             </div>
             <div class="row">
-              <div class="col-sm-4"><button type="button" (click)="CargarGrilla(formFact)"
-                  class="btn btn-w-m btn-primary" >Buscar</button></div>
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="reset" (click)="SiTieneData(false)"
+              class="btn btn-default block  m-b tamanio-device">Limpiar</button></div>
 
-              <div class="col-sm-4"><button type="reset" (click)="SiTieneData(false)"
-                  class="btn btn-w-m btn-default">Limpiar</button></div>
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="button" (click)="CargarGrilla(formFact)"
+                class="btn btn-primary block m-b tamanio-device"  >Buscar</button></div>
+
+                <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                  <button type="button" (click)="popupNuevaCartaTemperatura()"
+                  class="btn btn-primary block m-b tamanio-device"  >Nuevo</button></div>
             </div>
           </form>
           <div class="row">
@@ -54,13 +63,6 @@
              <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
                 [dtTrigger]="dtTrigger" > 
                 <thead>
-<!--                   <tr>
-                    <th>Embarcador</th>
-                    <th>Nave</th>
-                    <th>Booking</th>
-                    <th>Contenedor</th>
-                    <th>Detalle</th>
-                  </tr> -->
                   <tr>
                     <th>N°</th>
                     <th>Nave/Viaje</th>
@@ -70,27 +72,25 @@
                     <th>Producto</th>
                     <th>Registro Carta Temperatura</th>
                     <th>Estado</th>
-                    <th>Acción</th>
+                    <th colspan="4" style="width: 10%;">Accion</th>
                   </tr>
                 </thead>
                 <tbody>
-<!--                   <tr *ngFor="let item of this.objTemperaturaRPT">
+                  <tr *ngFor="let item of this.objCartaTemperaturaRPT">
+                    <td>{{item.BctId}}</td>
+                    <td>{{item.NaveViaje}}</td> 
+                    <td>{{item.KRefOscar}}</td>
                     <td>{{item.Embarcador}}</td>
-                    <td>{{item.Nave}}</td> 
-                    <td>{{item.Booking}}</td>
-                    <td>{{item.Contenedor}}</td>
-                    <td><a href="#" (click)="popupDetalleTemperatuda()"><img src="assets/images/IconBusqueda.png"></a></td>
-                  </tr> -->
-                  <!-- <tr *ngFor="let item of this.objTemperaturaRPT">
-                    <td>{{item.IDCntStk}}</td>
-                    <td>{{item.Nave}}</td> 
-                    <td>{{item.Line}}</td>
-                    <td>{{item.Cliente}}</td>
-                    <td>{{item.Contenedor}}</td>
-                    <td>{{item.SizeType}}</td>
-                    <td>{{item.Size}}</td>
-                    <td><a href="#" (click)="popupDetalleTemperatuda()"><img src="assets/images/IconBusqueda.png"></a></td>
-                  </tr> -->
+                    <td>{{item.Consignatario}}</td>
+                    <td>{{item.Producto}}</td>
+                    <td>{{item.FCTemp}}</td> 
+                    <td *ngIf="item.Estado == 'R'" style="background-color:#FEFEC0">{{item.Estado}}</td> 
+                    <td *ngIf="item.Estado == 'C'" style="background-color:#C1FFFE">{{item.Estado}}</td> 
+                    <td><a ><img src="assets/images/document_edit.png"></a></td>
+                    <td><a (click)="popupAnularCartaTemperatura(item.BctId,item.Usuario,item.KRefOscar)"><img src="assets/images/delete.png"></a></td>
+                    <td><a ><img src="assets/images/preview.png"></a></td>
+                    <td><a (click)="popupCerrarCartaTemperatura(item.BctId,item.Usuario,item.KRefOscar)"><img src="assets/images/lock.png"></a></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

@@ -1,0 +1,148 @@
+
+<div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
+  <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+    <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+    <h4 class="modal-title pull-left" style="display: inline-table;">Carta Temperatura Booking N°: {{Contnumero}}</h4>
+    <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+      (click)="cerrarPopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="ibox-content cuerpo-con-overflow">
+    <!-- ------------PARTE 1------------ -->
+    <div>
+      <div class="form-group row titulo_boton" >
+        <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Datos Booking</h4>
+        <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+        <b class="caret boton_mostrar" (click)="muestra_oculta('datosbooking')"></b>
+      </div>
+      <div id="datosbooking">
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Vessel :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="CAPE PIONEER" maxlength="50" name="txtbox_BL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Voyage N° :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="2811E" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Booking Number :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="LIMU01486700" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Loading port :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="CALLAO" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Discharge port :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="VALPARAISO" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Final Destination :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="VALPARAISO" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Shipper :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="HELLMANN WORLDWIDE LOGISTICS S.A.C" maxlength="50" name="txtbox_HBL"
+            class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Consignee :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="HELLMANN WORLDWIDE LOGISTICS S.A.C" maxlength="50" name="txtbox_HBL"
+            class="form-control">
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- ------------PARTE 2------------ -->
+    <div>
+      <div class="form-group row titulo_boton" >
+        <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Temperatura</h4>
+        <!-- <a style='cursor: pointer;' (click)="muestra_oculta('temperatura')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+        <b class="caret boton_mostrar" (click)="muestra_oculta('temperatura')"></b>
+      </div>
+      <div id="temperatura">
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Comodity (Producto) :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="FROZEN FRUIT PULP" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Inlet air Temp. (ºC) (Temp. de Suministro) :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="-20" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Humidity (%) (Humedad) :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="OFF" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Air ventilation (Apertura de lampa) :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="HELLMANN WORLDWIDE LOGISTICS S.A.C" maxlength="50" name="txtbox_HBL"
+            class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Cold Treatment :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="HELLMANN WORLDWIDE LOGISTICS S.A.C" maxlength="50" name="txtbox_HBL"
+            class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Control Atmosphere :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="HELLMANN WORLDWIDE LOGISTICS S.A.C" maxlength="50" name="txtbox_HBL"
+            class="form-control">
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- ------------PARTE 3------------ -->
+    <div>
+      <div class="form-group row titulo_boton" >
+        <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Containers</h4>
+        <!-- <a style='cursor: pointer;' (click)="muestra_oculta('containers')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+        <b class="caret boton_mostrar" (click)="muestra_oculta('containers')"></b>
+      </div>
+      <div id="containers">
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Quantity Containers (Cantidad de Contenedores) :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="1 x 40RH" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Containers Nrs. (Nº de Contenedores) :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" value="SEGU9189240" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Place :</label>
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" disabled value="CALLAO" maxlength="50" name="txtbox_HBL" class="form-control">
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
+      <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
+      <button type="submit" (click)="cerrarPopup()" class="btn btn-w-m btn-primary">Actualizar</button>
+      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default">Cancelar</button></div>
+  </div>
+</div>

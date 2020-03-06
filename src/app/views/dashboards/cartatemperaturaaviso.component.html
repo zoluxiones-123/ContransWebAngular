@@ -1,0 +1,39 @@
+<!-- <h1 mat-dialog-title>Alerta - TRANSMERIDIAN</h1>
+<div mat-dialog-content>
+  <p>Esta seguró anular carta temperatura para el booking LIMU01471100.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button >No Thanks</button>
+  <button mat-button >Ok</button>
+</div> -->
+
+
+
+<div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
+  <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+    <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+    <h4 class="modal-title pull-left" style="display: inline-table;">Alerta - TRANSMERIDIAN</h4>
+    <button type="button" (click)="cerrarPopup()"  class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+      >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="ibox-content cuerpo-con-overflow">
+    <p>{{this.MsgCabecera}}.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
+      <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
+      <button [mat-dialog-close]="true" type="submit"   class="btn  btn-primary" style=" margin-right: 20px; margin-left: 20px;">Aceptar</button>
+      <button (click)="cerrarPopup()" class="btn btn-default" style=" margin-right: 20px; margin-left: 20px;">Cancelar</button></div>
+<!--  btn btn-default block  m-b     <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+        <button type="button" 
+        class="btn btn-primary block m-b tamanio-device"  >Aceptar</button></div>
+      <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+        <button type="reset" 
+      class="btn btn-default block  m-b tamanio-device">Cancelar</button></div> -->
+
+ 
+  </div>
+</div>

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef,AfterViewInit } from '@angular/core';
-import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../../models/Factura';
-import { TemperaturaRQT,TemperaturaRPT} from '../../models/Temperatura';
+import { CartaTemperaturaRQT,AnularCerrarCartaTemperaturaRQT,AnularCerrarCartaTemperaturaRPT,CartaTemperaturaRPT,ListaEstado} from '../../models/Temperatura';
 import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
@@ -10,13 +9,14 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig} from '@angular/material';
-import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetalletemperatura.component'
-
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {CartaTemperaturaDetalleComponent} from '../dashboards/cartatemperaturadetalle.component';
+import { CartaTemperaturaAvisoComponent } from '../dashboards/cartatemperaturaaviso.component'
 
 @Component({
     selector: 'cartatemperatura',
-    templateUrl: 'cartatemperatura.template.html'
+    templateUrl: 'cartatemperatura.template.html',
+    styleUrls: ['cartatemperatura.component.css']
   })
 
   export class CartaTemperaturaComponent implements  AfterViewInit, OnDestroy, OnInit{  
@@ -28,12 +28,11 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
     fechaActual: string;
     minDate: Date;
     maxDate: Date;
-    
-    //constructor(private reportService: ReportService, private router: Router) { 
-      //this.reportService.getunidadnegociolist().subscribe(data => this.ListaUnidadNegocio = data);
+    public EstadoSelect:string;
+    public ListaEstado : Array<ListaEstado>;
 
-    // }
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
+      this.reportService.getestadolist().subscribe(data => this.ListaEstado = data.Data);
     }
     
     @ViewChild(DataTableDirective)
@@ -88,19 +87,13 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
       }
     };
 
-    public objTemperaturaRQT : TemperaturaRQT;
-
-    public objTemperaturaRPT: Array<TemperaturaRPT>;
+    public objCartaTemperaturaRQT : CartaTemperaturaRQT;
+    public objAnularCerrarCartaTemperaturaRQT : AnularCerrarCartaTemperaturaRQT;
+    public objCartaTemperaturaRPT: Array<CartaTemperaturaRPT>;
+    public objAnularCerrarCartaTemperaturaRPT: AnularCerrarCartaTemperaturaRPT;
     
     public ngOnInit():any {      
 
-    ////Fecha Actual
-/*     let fechita = new Date();
-    let dia = fechita.getDate().toString();
-    let mes = (fechita.getMonth() + 1).toString();
-    let anio = fechita.getFullYear().toString();
-    this.fechaActual = dia + "-" + mes + "-" + anio; */
-    
     if (localStorage.getItem("Usuario") == null)
        {this.router.navigate(['/login']);}
 
@@ -111,7 +104,7 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
       /* this.objTemperaturaRPT = [
         {
 
-           Embarcador: "Exportadora Y Comercializadora Greenvic S.A.C. ",
+          Embarcador: "Exportadora Y Comercializadora Greenvic S.A.C. ",
           Nave: "MSC MARS",
           Booking: "LIMA00377500",
           Contenedor: "FSCU5756108",
@@ -132,19 +125,100 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
           O2: "X",
           CO2: "X", 
           
-        }] */
+        }]  */
 
 
-        console.log(this.objTemperaturaRPT)
+        console.log(this.objCartaTemperaturaRPT)
     }        
-
-      popupDetalleTemperatuda(){
+    popupNuevaCartaTemperatura(Id:number, Usuario:string){
       const dialogConfig = new MatDialogConfig()
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      this.dialog.open(ConsultaDetalleTemperaturaComponent, dialogConfig); 
+      dialogConfig.height = "100%";
+      dialogConfig.width = "600px";
+      this.dialog.open(CartaTemperaturaDetalleComponent, dialogConfig); 
       return false;
     }  
+
+    popupAnularCartaTemperatura(Id:string, Usuario:string, NroBooking: string){
+      localStorage.setItem("MsgCabecera","Seguró que desea anular la carta temperatura para el booking: " + NroBooking);
+      const dialogRef = this.dialog.open(CartaTemperaturaAvisoComponent,{
+        disableClose: true,
+        autoFocus: true,
+        width: "300px",
+        position: {
+          top: '10%'
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result){
+          this.AnularCerrarRegistro(Id,Usuario,"Anular")
+          this.RefrescarGrilla();
+        }
+      
+    });
+    }
+
+    popupCerrarCartaTemperatura(Id:string, Usuario:string, NroBooking: string){
+      localStorage.setItem("MsgCabecera","Seguró que desea cerrar carta de temperatura para el booking: " + NroBooking);
+      const dialogRef = this.dialog.open(CartaTemperaturaAvisoComponent,{
+        disableClose: true,
+        autoFocus: true,
+        width: "300px",
+        position: {
+          top: '10%'
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.AnularCerrarRegistro(Id,Usuario,"Cerrar")
+        this.RefrescarGrilla();
+      }
+      
+    });
+    }
+
+    public AnularCerrarRegistro(VId:string, VUsuario:string, VTipo: string){
+      
+      this.objAnularCerrarCartaTemperaturaRQT = {
+        Id: VId,
+        Usuario : VUsuario
+      };
+
+      if (VTipo=="Anular"){
+        let res = this.reportService.AnularCartaTemperatura(this.objAnularCerrarCartaTemperaturaRQT);
+        console.log(this.objAnularCerrarCartaTemperaturaRQT)
+        res.subscribe( 
+          data => { 
+            this.objAnularCerrarCartaTemperaturaRPT = data;
+            console.log("entre");
+            console.log(data);
+          }, 
+          error => {
+            swal("Error al cargar los datos"); 
+            console.log("Error : ", error); 
+          }
+        ); 
+      }else if (VTipo=="Cerrar"){
+        let res = this.reportService.CerrarCartaTemperatura(this.objAnularCerrarCartaTemperaturaRQT);
+        console.log(this.objAnularCerrarCartaTemperaturaRQT)
+        res.subscribe( 
+          data => { 
+            this.objAnularCerrarCartaTemperaturaRPT = data;
+            console.log("entre");
+            console.log(data);
+          }, 
+          error => {
+            swal("Error al cargar los datos"); 
+            console.log("Error : ", error); 
+          }
+        ); 
+      }
+ 
+
+    }
 
     public CargarGrilla(form: NgForm) {
 
@@ -156,36 +230,37 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
      /*  this.SiCargoData = true;
       this.dtTrigger.next(this.objTemperaturaRPT);
       this.SetGrillaVisibility(true); */
-
-/*      this.objTemperaturaRQT = {
-         IDUSer : Number.parseInt(localStorage.getItem("Usuario")),
+      console.log(form.value.listEstado);
+    this.objCartaTemperaturaRQT = {
+        IDUser: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        EntiCodi:"",
+        Kvje:"",
+        NBooking: form.value.txtbox_Contenedor,
+        Emba:"",
+        Esta: this.EstadoSelect,
         Desde : form.value.txtbox_Desde,
-        Hasta : form.value.txtbox_Hasta,
-        Contenedor : form.value.txtbox_Contenedor 
-        IDUSer: 10,
-        IDRol: 1,
-        IdCliente: "007477"
-      };*/
-
-/*       if(this.ValidarInput(this.objTemperaturaRQT))
+        Hasta : form.value.txtbox_Hasta
+    };
+      
+       if(this.ValidarInput(this.objCartaTemperaturaRQT))
       {        
         swal({
               text: "Error en los campos de ingreso, por favor verificar",
               icon: "warning",
             });
         return;
-      } */
+      } 
 
 ///Aun Falta obtener el servicio ///
-       let res = this.reportService.getTemperatura(this.objTemperaturaRQT);
-      
+       let res = this.reportService.getCartaTemperatura(this.objCartaTemperaturaRQT);
+      console.log(this.objCartaTemperaturaRQT)
       
       res.subscribe( 
         data => { 
-          this.objTemperaturaRPT = data;
-          console.log(data);
-          if (data.length >= 1)
+          this.objCartaTemperaturaRPT = data.Data;
+          console.log(data.Data);
+          if (data.Data.length >= 1)
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
@@ -195,13 +270,19 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-              this.dtTrigger.next(this.objTemperaturaRPT);         
+              this.dtTrigger.next(this.objCartaTemperaturaRPT);         
             });
             this.SetGrillaVisibility(true);
            
           }
           else
           {
+            this.SiCargoData = true;
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              dtInstance.destroy();
+               this.dtTrigger.next(this.objCartaTemperaturaRPT);
+               this.SetGrillaVisibility(true);
+            });
             swal("No existen datos");
           }
           //this.dtTrigger.unsubscribe();
@@ -214,10 +295,84 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
 
     }
     
+    public RefrescarGrilla(){
+      let res = this.reportService.getCartaTemperatura(this.objCartaTemperaturaRQT);
+      console.log(this.objCartaTemperaturaRQT)
+      
+      res.subscribe( 
+        data => { 
+          this.objCartaTemperaturaRPT = data.Data;
+          console.log(data.Data);
+          if (data.Data.length >= 1)
+          {
+            //this.SiCargoData = true;
+            //this.dtTrigger.next(this.objTemperaturaRQT);
+            //this.SetGrillaVisibility(true);
+            // this.TieneData = true;
+
+            this.SiCargoData = true;
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              dtInstance.destroy();
+              this.dtTrigger.next(this.objCartaTemperaturaRPT);         
+            });
+            this.SetGrillaVisibility(true);
+           
+          }
+          else
+          {
+            this.SiCargoData = true;
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              dtInstance.destroy();
+               this.dtTrigger.next(this.objCartaTemperaturaRPT);
+               this.SetGrillaVisibility(true);
+            });
+            swal("No existen datos");
+          }
+          //this.dtTrigger.unsubscribe();
+        }, 
+        error => {
+          swal("Error al cargar los datos"); 
+          console.log("Error : ", error); 
+        }
+      );  
+
+    }
 
     public ngOnDestroy():any {
       this.SetGrillaVisibility(false);
       this.dtTrigger.unsubscribe();
+    }
+
+    public ValidarInput(param : CartaTemperaturaRQT) : boolean
+    {
+      var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+/*       if (this.NullEmpty(param.Desde) || this.NullEmpty(param.Hasta))
+      {
+        return true;
+      } */
+      if(this.NullEmpty(param.Desde))
+      {
+        this.objCartaTemperaturaRQT.Desde = "";
+      }else{
+        this.objCartaTemperaturaRQT.Desde = this.objCartaTemperaturaRQT.Desde.toLocaleDateString("es-ES",options);
+      }
+      if(this.NullEmpty(param.Hasta))
+      {
+        this.objCartaTemperaturaRQT.Hasta = "";
+      }else{
+        this.objCartaTemperaturaRQT.Hasta = this.objCartaTemperaturaRQT.Hasta.toLocaleDateString("es-ES",options);
+      }
+      //console.log(this.objCartaTemperaturaRQT.Desde);
+      if(this.NullEmpty(param.Esta)||this.objCartaTemperaturaRQT.Esta == "T")
+      {
+          this.objCartaTemperaturaRQT.Esta = "";
+      }
+      if(this.NullEmpty(param.NBooking))
+      {
+        this.objCartaTemperaturaRQT.NBooking = "";
+      }
+
+      return false;
     }
 
     public NullEmpty (param:any) : boolean
@@ -255,7 +410,7 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
 
     public ChangingValue(param : any)
     {
-      //this.UnidadNegSelect = param.target.value;
+      this.EstadoSelect = param.target.value;
     }
 
 /*     public SetClienteInput()

@@ -4,7 +4,10 @@ import {consultadireccionamientocomponent} from "./views/dashboards/consultadire
 import { timelinecomponent } from "./views/dashboards/timeline/timeline.component";
 import {ConsultaTemperaturaComponent} from "./views/dashboards/consultemperatura.component";
 import {ConsultaDetalleTemperaturaComponent} from "./views/dashboards/consuldetalletemperatura.component";
+import {CartaTemperaturaDetalleComponent} from "./views/dashboards/cartatemperaturadetalle.component";
+import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
 import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
+
 
 // Forms: Entrada de Datos / Mantenimientos
 import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-datos-usuario/actualizar-datos-usuario.component";

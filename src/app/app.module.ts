@@ -55,6 +55,10 @@ import { DragulaModule } from 'ng2-dragula';
 import { RepstockexpocliComponent } from './views/dashboards/repstockexpocli.component';
 import { RepstockexpestComponent } from './views/dashboards/repstockexpest.component';
 import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consuldetalletemperatura.component';
+import { CartaTemperaturaDetalleComponent } from './views/dashboards/cartatemperaturadetalle.component';
+import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
+
+
 import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component';
 import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
 import { DetrepstockcliexpComponent } from './views/dashboards/detrepstockcliexp.component';
@@ -81,6 +85,8 @@ import { DetrepstockestComponent } from './views/dashboards/detrepstockest.compo
     RepstockexpocliComponent,
     RepstockexpestComponent,
     ConsultaDetalleTemperaturaComponent,
+    CartaTemperaturaDetalleComponent,
+    CartaTemperaturaAvisoComponent,
     DetrepstockCliComponent,
     DetrepstockComponent,
     DetrepstockcliexpComponent,
@@ -114,7 +120,7 @@ import { DetrepstockestComponent } from './views/dashboards/detrepstockest.compo
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
     
-    entryComponents: [SuscripComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockComponent]
+    entryComponents: [SuscripComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent]
   
   
 })

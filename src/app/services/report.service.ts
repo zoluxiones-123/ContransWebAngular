@@ -5,7 +5,7 @@ import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../models/Factura';
-import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, TemperaturaDetalleRQT } from '../models/Temperatura';
+import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
@@ -291,6 +291,27 @@ export class ReportService {
       
   }
 
+  getCartaTemperatura(objCartaTemperatura : CartaTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/consultacartatemperatura`;    
+    return this.http.post<CartaTemperaturaRPT>(
+      url_api, objCartaTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  AnularCartaTemperatura(objAnularCerrarCartaTemperatura : AnularCerrarCartaTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/cartatemperaturaanular`;    
+    return this.http.post<AnularCerrarCartaTemperaturaRPT>(
+      url_api, objAnularCerrarCartaTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  CerrarCartaTemperatura(objAnularCerrarCartaTemperatura : AnularCerrarCartaTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/cartatemperaturacerrar`;    
+    return this.http.post<AnularCerrarCartaTemperaturaRPT>(
+      url_api, objAnularCerrarCartaTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
   getDirecc(objDirecc : DireccRQT) : Observable<any>
   {
     const url_api =`/ContransAPI/api/facturarpt`;    
@@ -302,6 +323,13 @@ export class ReportService {
   {
     const url_api =`/ContransAPI/api/unidadnegociolist`;
     return this.http.get<Array<ListaUnidadNegocio>>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  getestadolist() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/cartatemperatutraestado`;
+    return this.http.get<Array<ListaEstado>>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
 
