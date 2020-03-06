@@ -4,8 +4,10 @@ import { Observable } from "rxjs/internal/Observable";
 import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
-import { FacturasRPT, FacturasRQT, ListaUnidadNegocio } from '../models/Factura';
+import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes } from '../models/Factura';
 import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
+import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT } from '../models/Cita';
+
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
@@ -84,6 +86,61 @@ export class ReportService {
       .post<DetRepStockRealRPT>(
         url_api, repstockrealrqt, { headers: this.headers })
       .pipe(map(data => data));
+  }
+
+  getCitas(citasrqt: CitasRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarcita`;    
+    return this.http
+      .post<Citas>(
+        url_api, citasrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  generarTokenCita(tokencitarqt: TokenCitaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/generarTokenCita`;    
+    return this.http
+      .post<TokenCitaRPT>(
+        url_api, tokencitarqt, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  validarTokenCita(valtokencitarqt: ValidarTokenCitaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/validarTokenCita`;    
+    return this.http
+      .post<ValidarTokenCitaRPT>(
+        url_api, valtokencitarqt, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  
+  actualizarTokenCita(acttokencitarqt: ActTokenCitaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/actualizarTokenCita`;    
+    return this.http
+      .post<ActTokenCitaRPT>(
+        url_api, acttokencitarqt, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  ActualizarCita(actcitarqt: ActCitaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/actualizarcita`;    
+    return this.http
+      .post<ActCitaRPT>(
+        url_api, actcitarqt, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  AnularCita(anucitarqt: AnularCitaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/anularcita`;    
+    return this.http
+      .post<AnularCitaRPT>(
+        url_api, anucitarqt, { headers: this.headers })
+      .pipe(map(data => data));      
   }
 
 
@@ -326,10 +383,22 @@ export class ReportService {
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
 
-  getestadolist() : Observable<any>
+   getestadolist() : Observable<any>
   {
     const url_api =`/ContransAPI/api/cartatemperatutraestado`;
     return this.http.get<Array<ListaEstado>>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+getunidadnegocioxtipo(objAlmRqt : AlmacenRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/listaralmace`;
+    return this.http.post<Almacenes>(
+        url_api, objAlmRqt, { headers: this.headers }).pipe(map(data => data));
+  }
+  getTipoCarga() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/listarempaque`;
+    return this.http.get<TiposCarga>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
 

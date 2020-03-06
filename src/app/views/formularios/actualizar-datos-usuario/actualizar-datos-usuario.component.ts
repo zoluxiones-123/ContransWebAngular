@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import {  Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse, RolResponse } from '../../../services/usuario/Usuario';
+import {  Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse, RolResponse } 
+from '../../../services/usuario/Usuario';
 
 import swal from 'sweetalert';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';

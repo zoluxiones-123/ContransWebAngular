@@ -19,6 +19,8 @@ import {RepstockcsuComponent} from  "./views/dashboards/repstockcsu.component";
 
 import {ConsultacontdlComponent} from  "./views/dashboards/consultacontdl.component";
 
+import {ConsultacitasComponent} from  "./views/dashboards/consultacitas.component";
+
 import {FileuploadComponent} from  "./views/dashboards/fileupload.component";
 
 import {RepstockcliComponent} from  "./views/dashboards/repstockcli.component";
@@ -62,7 +64,8 @@ export const ROUTES:Routes = [
       {path: 'dashboardglobal', component : DashboardGlobalComponent},
       {path: 'consultatemperatura', component: ConsultaTemperaturaComponent},
       {path: 'cartatemperatura', component: CartaTemperaturaComponent},
-      {path: 'repstockreal', component: RepstockrealComponent }
+      {path: 'repstockreal', component: RepstockrealComponent },
+      {path: 'consultacitas', component: ConsultacitasComponent}
 
     ]
   },
