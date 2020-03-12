@@ -67,6 +67,9 @@
                     <button type="reset" (click)="SiTieneData(false)"
                   class="btn btn-default block  m-b tamanio-device">Limpiar</button></div>
 
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                    <button type="button" (click)="GenerarCita()"
+                      class="btn btn-primary block m-b tamanio-device" >Nuevo</button></div>    
             </div>
             <div class="row">
               <!-- <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary" >Ingresar</button></div> -->
@@ -78,31 +81,37 @@
               <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
                 [dtTrigger]="dtTrigger">
                 <thead>
-                  <tr>
+                  <tr>                    
+                    <th>Imprimir</th>  
                     <th>Actualizar</th>     
-                    <th>Anular</th>                                  
+                    <th>Anular</th>                                    
                     <th>Nro. Cita</th>
                     <th>Programación</th>
                     <th>Registro</th>
                     <th>Permiso</th>
                     <th>Contenedor</th>
                     <th>Cliente</th>
+                    <th>Documento</th>                    
                    </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.ListaCitas">
-                    <td><a href="#" (click)="popupActualizarCita(item.Cita,'ActCita')"><img src="assets/images/actcita.jpg"></a></td>                
-                    <td><a href="#" (click)="popupActualizarCita(item.Cita,'AnularCita')"><img src="assets/images/anular.jpg"></a></td>                                  
+                    <td><a (click)="popupImprimirCita(item.Cita, item.Documento, item.Registro, item.NroPermiso,'ImprimirCita')"><img src="assets/images/printcita.png"></a></td>                                                         
+                    <td><a (click)="popupActualizarCita(item.Cita,'ActCita')"><img src="assets/images/actcita.jpg"></a></td>                                      
+                    <td><a (click)="popupAnularCita(item.Cita,'AnularCita')"><img src="assets/images/anular.jpg"></a></td>                                      
                     <td>{{item.Cita}}</td>
                     <td>{{item.FPrograma}}</td> 
                     <td>{{item.Registro}}</td>
                     <td>{{item.NroPermiso}}</td>
                     <td>{{item.Contenedor}}</td>
-                    <td>{{item.Cliente}}</td>                   
+                    <td>{{item.Cliente}}</td> 
+                    <td>{{item.Documento}}</td>                                      
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            
           </div>
         </div>
       </div>

@@ -15,7 +15,8 @@ import { entidad } from 'app/models/entidad';
 import {map, startWith} from 'rxjs/operators';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {switchMap, debounceTime, tap, finalize} from 'rxjs/operators';
-import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRQT, ValidarTokenCitaRPT, ActTokenCitaRPT, AnularCitaRPT, AnularCitaRQT, ActTokenCitaRQT} from '../../models/Cita';
+import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRQT, 
+ValidarTokenCitaRPT, ActTokenCitaRPT, AnularCitaRPT, AnularCitaRQT, ActTokenCitaRQT, ImpriCitaRPT, ImpriCitaRQT} from '../../models/Cita';
 import { Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse, RolResponse } 
 from '../../services/usuario/Usuario';
 import "rxjs/add/operator/toPromise";
@@ -37,6 +38,7 @@ export class ActualizarcitaComponent implements OnInit {
   myPlaca = new FormControl();
   myBrevete = new FormControl();
   myMotivo = new FormControl();
+  
   
   constructor(
   private reportService: ReportService, 
@@ -62,9 +64,13 @@ export class ActualizarcitaComponent implements OnInit {
   public msjfinal:string = "";
   public NroCita : string = "";
   public TituloCita : string = "";
+  public SubTituloCita : string = "";
   public OperacionCita : string = "";
   public MuestraMotivo : boolean = false;
+  public MuestraImp : boolean = true;
+  
   public ValTokenCita : boolean = false;
+  public clicked : boolean = false;
   
   public telefono : string;
   public celular : string;
@@ -123,6 +129,27 @@ export class ActualizarcitaComponent implements OnInit {
   };
 
   
+
+  private impCitaRqt: ImpriCitaRQT = {
+
+    Token:  "",
+    IDRol: 0,
+    TCarga:  "",
+    Almacen: "",
+    NroCita: "" ,
+    Documento:  "",
+    Registro:  "",
+    Permiso:   "",
+    Desde:  "",
+    Hasta:  ""
+  };
+
+  private impCitaRpt: ImpriCitaRPT = {
+    
+    Data:  "",
+    };
+
+  
   private actTokenCitaRqt: ActTokenCitaRQT = {
     Token: "",
     IDRol: 0,
@@ -171,11 +198,20 @@ export class ActualizarcitaComponent implements OnInit {
 
   if (this.OperacionCita == "AnularCita")
       {this.MuestraMotivo = true;
-       this.TituloCita = "Anular Cita";}
+       this.TituloCita = "Anular Cita";
+       this.SubTituloCita = "Anular Nro Cita: "
+      }
 
   if (this.OperacionCita == "ActCita")
        {this.MuestraMotivo = false;
-        this.TituloCita = "Actualizar Cita";}
+        this.TituloCita = "Actualizar Cita";
+        this.SubTituloCita = "Actualizar Placa y Brevete Nro Cita: "}
+
+  if (this.OperacionCita == "ImprimirCita")
+  { this.MuestraMotivo = false;
+    this.MuestraImp = false;
+    this.TituloCita = "Imprimir Cita";
+    this.SubTituloCita = "Imprimir Nro Cita: "}
  
 
    this.CargarDatosUsuario(this.usuariorqt);
@@ -241,6 +277,7 @@ export class ActualizarcitaComponent implements OnInit {
       this.tokenCitaRqt.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
       this.tokenCitaRqt.Cita = localStorage.getItem("NroCita").toString();
       this.tokenCitaRqt.Token = this.reportService.getToken();
+    
 
       
      if (this.OperacionCita == "ActCita")
@@ -249,7 +286,10 @@ export class ActualizarcitaComponent implements OnInit {
         
      if (this.OperacionCita == "AnularCita")
      { this.tokenCitaRqt.Operacion = "Delete Cita";}
-      
+
+     if (this.OperacionCita == "ImprimirCita")
+     { this.tokenCitaRqt.Operacion = "Print Cita";}
+
       this.cerrado = true;
 
       this.generarToken();
@@ -258,6 +298,22 @@ export class ActualizarcitaComponent implements OnInit {
 
 
     }
+
+  /*  public VistaPreviaPDF(paramIdCT:string, paramNombre:string){
+      this.reportService.ImprimirPDF(Number.parseInt(localStorage.getItem("Usuario")),
+      paramIdCT,Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"))).subscribe(
+        data => {
+          
+          const linkSource = 'data:application/pdf;base64,' + data;
+          const downloadLink = document.createElement("a");
+          const fileName = paramNombre + ".pdf";
+  
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+  
+        }, (error)=> console.log("Salio error en la descarga: ", error));
+    }*/
   
   onClose(){
 
@@ -312,6 +368,14 @@ export class ActualizarcitaComponent implements OnInit {
     return;}
     }
 
+    
+    if (this.OperacionCita == "ImprimirCita")
+    {
+    if (this.myControl.value.toString() == "")   
+    {swal({text :"Debe ingresar todos los campos obligatorios"});
+    return;}
+    }
+
     this.valCitaRqt.Token = this.tokenCitaRqt.Token;
     this.valCitaRqt.IDRol = this.tokenCitaRqt.IDRol;
     this.valCitaRqt.Operacion = this.tokenCitaRqt.Operacion;
@@ -325,6 +389,20 @@ export class ActualizarcitaComponent implements OnInit {
     this.actCitaRqt.HojaservCodigo = localStorage.getItem("NroCita").toString();
     this.actCitaRqt.Placa = this.myPlaca.value.toString();
     this.actCitaRqt.Brevete =  this.myBrevete.value.toString();
+    }
+
+    if (this.OperacionCita == "ImprimirCita")
+    {
+  
+    this.impCitaRqt.IDRol =  Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+    this.impCitaRqt.Token = this.tokenCitaRqt.Token;
+    this.impCitaRqt.TCarga = localStorage.getItem("TCarga").toString();
+    this.impCitaRqt.Almacen = localStorage.getItem("TAlmacen").toString();    
+    this.impCitaRqt.NroCita =  localStorage.getItem("NroCita").toString();
+    this.impCitaRqt.Documento =  localStorage.getItem("Documento").toString();
+    this.impCitaRqt.Registro =  localStorage.getItem("Registro").toString();
+    this.impCitaRqt.Permiso =  localStorage.getItem("Permiso").toString();
+
     }
 
     this.actTokenCitaRqt.IDRol = this.valCitaRqt.IDRol;
@@ -367,7 +445,8 @@ export class ActualizarcitaComponent implements OnInit {
               let TokenCita = data.Msj.toString();
 
               this.myControl.setValue(TokenCita);
-              this.myControl.disable();
+              this.myControl.disable();              
+          
 
             }
             else
@@ -410,6 +489,9 @@ export class ActualizarcitaComponent implements OnInit {
                   if (this.valCitaRqt.Operacion == "Delete Cita")
                   {this.AnularCita();}
                   
+                  
+                  if (this.valCitaRqt.Operacion == "Print Cita")
+                  {this.ImprimirCita();}
   
     
                 }
@@ -510,23 +592,35 @@ export class ActualizarcitaComponent implements OnInit {
          //  return "";
           }
       
-  AnularCita(): void {
+         ImprimirCita(): void {
             //void{
           
               //Reporte Eri...............//
               this.reportService
               //.loginuser(this.user.Usuario, this.user.Password)
-              .AnularCita(this.anulaCitaRqt)
+              .ImprimirCita(this.impCitaRqt)
               .subscribe(
               data => {      
-                this.anulaCitaRpt  = data[0];
-                if (this.anulaCitaRpt != null)
+                this.impCitaRpt  = data;
+                if (this.impCitaRpt != null)
                 {                          
                     //if (this.respSolic.Msj == "Ok")
-                    if (data[0].Cod == 0)
+                    if (data != "")
                     {
-                      console.log(data[0].Msj);
-                      swal({text : data[0].Msj.toString()}); 
+                      console.log(data);
+                      //swal({text : data[0].Msj.toString()}); 
+                                                
+                            const linkSource = 'data:application/pdf;base64,' + data;
+                            const downloadLink = document.createElement("a");
+                            const fileName = this.NroCita + ".pdf";
+                    
+                            downloadLink.href = linkSource;
+                            downloadLink.download = fileName;
+                            downloadLink.click();
+                    
+                      
+
+
                       this.actualizarToken(); 
                                                      
         
@@ -552,7 +646,48 @@ export class ActualizarcitaComponent implements OnInit {
              //  return "";
               }
   
-
+              AnularCita(): void {
+                //void{
+              
+                  //Reporte Eri...............//
+                  this.reportService
+                  //.loginuser(this.user.Usuario, this.user.Password)
+                  .AnularCita(this.anulaCitaRqt)
+                  .subscribe(
+                  data => {      
+                    this.anulaCitaRpt  = data[0];
+                    if (this.anulaCitaRpt != null)
+                    {                          
+                        //if (this.respSolic.Msj == "Ok")
+                        if (data[0].Cod == 0)
+                        {
+                          console.log(data[0].Msj);
+                          swal({text : data[0].Msj.toString()}); 
+                          this.actualizarToken(); 
+                                                         
+            
+                        }
+                        else
+                        { 
+                         //this.msjfinal = data[0].Msj.toString(); 
+                         //swal({text : this.msjfinal.toString()});
+                         
+                         swal({text : data[0].Msj.toString()});               
+            
+                        }
+                        // return 0;}
+                    } 
+                    else{
+                     //this.TokenCita = "";
+                    }                       
+                  },  
+                  error => {
+                    this.onIsError();           
+                    console.log("Error");}
+                  );
+                 //  return "";
+                  }
+      
 
   solo_letras(val)
   {

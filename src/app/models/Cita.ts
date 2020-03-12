@@ -86,6 +86,27 @@ export class ActCitaRPT {
 }
 
 
+export class ImpriCitaRQT {
+
+  Token: string;
+  IDRol: number;
+  TCarga:  string;
+  Almacen: string;
+  NroCita:  string ;
+  Documento:  string;
+  Registro:  string;
+  Permiso:  string;
+  Desde:  string;
+  Hasta:  string;
+  
+}
+
+export class ImpriCitaRPT {
+Data : any;
+}
+
+
+
 
 export class ValidarTokenCitaRQT {
   Token:  string;
@@ -135,5 +156,106 @@ export class AnularCitaRPT {
   Msj : string; 
 
 }
+
+
+export class CitaPermisoRQT {
+  Token: string;
+  IDRol: number;
+  TCarga: string; 
+  Almacen: string;
+  Registro: string;
+  Trasegado : boolean;
+  TipoCita : string;
+}
+
+
+
+export class CitaPermisoRPT {
+      Error: number;
+      ErrorMsg: string;
+      PermCodigo: string;
+      PermFecha: string;
+      CantContenedores: number;
+      BL: string;
+      FechActu: string;
+      DUA: string;
+      Regimen: string;
+      Manifiesto: string;
+  }
+
+  export class CitaLContenedorRQT
+  {
+    Token: string;
+    IDRol: number;
+    TCarga: string;
+    Almacen: string;
+    Permiso: string;
+    Trasegado: boolean;
+  }
+
+  export class CitaLContenedorRPT
+  {
+    CodiContenedor: string;
+    Contenedor: string;
+    DesCTNR: string;
+    Estado: string;
+    PermDetaCodigo: string;
+    Registro: string;
+    FechaProg: string;
+    IntegralContrans: string;
+    AutBulto: number;
+    AutPeso: number;
+    Serie: string;
+    CuotaPeso: number;
+    CuotaBulto: number;
+  }
+
+  export class CitasContenedor
+  {
+    Error: number;
+    ErrorMsg: string;
+    Data: any;
+  }
+
+
+
+export class CitasPermiso {
+  Data : any;
+  }
+
+  
+  export class CitasCFechaRQT
+  {
+    Token: string;
+    IDRol: number;  
+  }
+
+  
+  export class CitasCFechaRPT
+  {
+    ErrMsg: string;
+    Proceso: number;
+    Dia: number;
+    DiasRepetecion: number;
+    FInicio: string;
+    FTermino: string;
+    Cantidad: number;
+  }
+
+  
+  export class CitasCHorasRQT
+  {
+    Token: string;
+    IDRol: number;  
+    Fecha: string;
+    Registro: string;
+    TipoCarga: string;
+    Almacen: string;
+  }
+
+  
+  
+  
+  
 
 

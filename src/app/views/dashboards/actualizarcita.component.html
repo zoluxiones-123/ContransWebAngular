@@ -12,7 +12,7 @@
       <div class="col-lg-20">
           <div class="ibox">
               <div class="ibox-title">
-                  <h5>Actualizar Placa y Brevete Nro Cita: {{this.NroCita}} </h5>               
+                  <h5>{{this.SubTituloCita}} {{this.NroCita}} </h5>               
               </div>          
               <div class="ibox-content cuerpo-con-overflow" >
                       
@@ -31,12 +31,12 @@
                         <div class="col-sm-4"><input type="text" maxlength="50"
                            name="txtbox_token"  [formControl]="myControl" class="form-control" [ngModel] >                                                 
                           </div>
-                          <div class="col-sm-4"><button (click) = "GenerarTokenCita()" class="btn btn-w-m btn-default">Generar</button></div>                                       
+                          <div class="col-sm-4"><button [disabled] = "clicked" (click) = "GenerarTokenCita()" class="btn btn-w-m btn-default">Generar</button></div>                                       
                       </div>
-                      <div *ngIf = "!MuestraMotivo" class="form-group  row"><label class="col-sm-4 col-form-label">Placa</label>
+                      <div *ngIf = "!MuestraMotivo && MuestraImp" class="form-group  row"><label class="col-sm-4 col-form-label">Placa</label>
                           <div class="col-sm-8"><input type="text" maxlength="50" [formControl]="myPlaca"  name="txtbox_placa" class="form-control" [ngModel]></div>
                       </div>                  
-                      <div *ngIf = "!MuestraMotivo"  class="form-group row"><label class="col-sm-4 col-form-label">Brevete</label>
+                      <div *ngIf = "!MuestraMotivo && MuestraImp"  class="form-group row"><label class="col-sm-4 col-form-label">Brevete</label>
                           <div class="col-sm-8"><input type="text" maxlength="100" [formControl]="myBrevete" name="txtbox_brevete" class="form-control" [ngModel]   ></div>
                       </div>  
                       <div *ngIf = "MuestraMotivo" class="form-group row">

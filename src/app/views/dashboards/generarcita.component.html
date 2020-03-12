@@ -1,0 +1,163 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Generación de Citas </h5>
+          <iboxtools></iboxtools>
+        </div>
+        <div class="ibox-content">
+          <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
+            <div class="row">
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listTipoCarga"  class="form-control  tamanio-device" (change)="ChangingValue($event)">
+                  <option [value]="" selected hidden>--Tipo Carga--</option>
+                  <option *ngFor="let item of this.ListaTiposCarga" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}</option>
+                </select>
+              </div>
+
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listUniNeg"  class="form-control  tamanio-device" (change)="ChangingValueUN($event)">
+                  <option [value]="" selected hidden>--Unidad Negocio--</option>
+                  <option *ngFor="let item of this.ListaAlmacenes" [value]="item.AlmaCodigo">{{item.AlmaDescripcion}}</option>
+                </select>
+              </div>
+
+              <div *ngIf = "MuestraTipoCita"  class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listTiposCita"  class="form-control  tamanio-device" (change)="ChangingValueTC($event)">
+                  <option [value]="" selected hidden>--Tipo Cita--</option>
+                  <option *ngFor="let item of this.ListaTiposCita" [value]="item.TipoCodigo">{{item.TipoNombre}}</option>
+                </select>
+
+              </div>
+              
+              <div  class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">             
+              <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;">
+                <label style="margin-bottom: 0px;padding-top: 10px;padding-right: 5px;">
+                 Trasegado</label> <input style="padding-top: 8px;border-top-width: 10px;margin-top: 8px;vertical-align: text-bottom;"
+                 type="checkbox" (change)="Checked($event)" >
+              </td>
+              </div>
+
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">                  
+                  <input type="text" name="txtbox_Booking" placeholder={{this.campo}}  class="form-control  tamanio-device" [ngModel] required /> 
+                </div>
+              </div>
+              
+            </div>
+            <div class="row">
+             
+
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="button" (click)="CargarGrilla(formFact)"
+                  class="btn btn-primary block m-b tamanio-device" >Buscar</button>
+              </div> 
+
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="button" (click)="onClose()"
+                  class="btn btn-primary block m-b tamanio-device" >Cancelar</button>
+              </div> 
+                  
+            </div>
+           
+            <div class="row">
+              <!-- <div class="col-sm-4"><button type="submit" class="btn btn-w-m btn-primary" >Ingresar</button></div> -->
+            
+            </div>
+          </form>
+          <div class="row">
+            <div id="grillacitas" class="table-responsive">
+              <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger">
+                <thead>
+                  <tr>
+                    <th>Seleccionar</th>                                                                                      
+                    <th>Nro. Permiso</th>
+                    <th>F. Permiso</th>
+                    <th>Nro. Contenedor</th>
+                    <th>BL</th>
+                    <th>DUA</th>
+                    <th>Fecha</th>
+                    <th>Regimen</th>
+                    <th>Manifiesto</th>                                          
+                   </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.objCitasPermisos">
+                    <td><a (click)="VisualizarContenedores(item.PermCodigo,item.BL)"><img src="assets/images/select.png"></a></td>                                                        
+                    <td>{{item.PermCodigo}}</td>
+                    <td>{{item.PermFecha}}</td> 
+                    <td>{{item.CantContenedores}}</td>
+                    <td>{{item.BL}}</td>
+                    <td>{{item.DUA}}</td>
+                    <td>{{item.FechActu}}</td> 
+                    <td>{{item.Regimen}}</td>       
+                    <td>{{item.Manifiesto}}</td>                                                            
+                  </tr>
+                </tbody>
+                
+              </table>
+            </div>                       
+          </div>
+
+          <div *ngIf = "MuestraCont" class="row">
+            <br/>
+            <div class="col-sm-4">
+              <label>Carga Paletizada :&nbsp;&nbsp;</label>     
+              <label class="radio-inline"><input type="radio" id="CPSi" name="optradio" (change)="onItemChangeCP($event)" >Si</label>
+              <label class="radio-inline"><input type="radio" id="CPNo" name="optradio" (change)="onItemChangeCP($event)" >No</label>
+            </div>
+            <div class="col-sm-4">
+              <label>Servicio Extemporáneo :&nbsp;&nbsp;</label>
+              <label class="radio-inline"><input type="radio" id="SESi" disabled = "true" name="optradioSESI" [(ngModel)]="ServExt" value="SI"  (change)="onItemChangeCP($event)" >Si</label>
+              <label class="radio-inline"><input type="radio" id="SENo" disabled = "true" name="optradioSENo" [(ngModel)]="ServExt" value="NO" (change)="onItemChangeCP($event)" >No</label>
+            </div>
+            <div class="col-sm-4">
+              <label>Servicio Extraordinario :&nbsp;&nbsp;</label>
+              <label class="radio-inline"><input type="radio" id="SEXTSi" name="optradioSEXTSi" disabled = "true" (change)="onItemChangeCP($event)" >Si</label>
+              <label class="radio-inline"><input type="radio" id="SEXTNo" name="optradioSEXTNo" checked = "true" disabled = "true" (change)="onItemChangeCP($event)" >No</label>
+            </div>
+          </div>
+
+          <div class="row">
+          <div *ngIf = "MuestraCont"  class="col-sm-6" >
+            <mat-tab-group>
+              <mat-tab *ngIf = "MuestraCantCTN" label="Cantidad(CTN)">
+                <div class="col-sm-8" style="padding-left: 5px;">
+                  <div class="form-group">
+                    <br/>
+                    <input type="text" name="txtbox_NroContenedores" placeholder="Nro Contenedores" class="form-control tamanio-device" [ngModel] required /> 
+                  </div>
+                </div>               
+              </mat-tab>
+              <mat-tab *ngIf = "!MuestraCantCTN" label="Número(CTN)">
+                <h3 style="text-align: center;" >Contenedor/Serie</h3>          
+                <div class="col-sm-8">
+                  <mat-selection-list #list>
+                    <mat-list-option *ngFor="let item of this.objCitasContenedor"                     
+                      [value]="item.CodiContenedor">
+                      <label style="color:black;">{{item.Contenedor}} 
+                      </label>
+                    </mat-list-option>
+                  </mat-selection-list>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+
+          </div>
+
+          <div class="col-sm-4" style="padding-left: 5px;">
+            <label>Fecha Programación:&nbsp;&nbsp;</label>
+            <div class="form-group" tooltip="" placement="top">            
+              <input type="text" name="txtbox_FechaProg" placeholder="Fecha Programacion" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel] autocomplete="off" required>
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -47,7 +47,7 @@ defineLocale('es', esLocale);
 
 @NgModule({
   declarations: [ConsultaFacturaComponent, ConsultacitasComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent],
-  imports     : [BrowserModule,ChartsModule, FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,
+  imports     : [BrowserModule,ChartsModule,  FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,
     DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, 
     TooltipModule.forRoot()],
   exports     : [ConsultaFacturaComponent, ConsultacitasComponent, ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent],
