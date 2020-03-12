@@ -5,6 +5,7 @@ import { timelinecomponent } from "./views/dashboards/timeline/timeline.componen
 import {ConsultaTemperaturaComponent} from "./views/dashboards/consultemperatura.component";
 import {ConsultaDetalleTemperaturaComponent} from "./views/dashboards/consuldetalletemperatura.component";
 import {CartaTemperaturaDetalleComponent} from "./views/dashboards/cartatemperaturadetalle.component";
+import {CartaTemperaturaNuevoComponent} from "./views/dashboards/cartatemperaturanuevo.component";
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
 import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
 

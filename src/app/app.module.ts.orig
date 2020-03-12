@@ -33,6 +33,8 @@ import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+import {MatTabsModule} from '@angular/material/tabs';
 import { RepstockcsuComponent } from './views/dashboards/repstockcsu.component';
 import { FileuploadComponent } from './views/dashboards/fileupload.component';
 import { RepstockcliComponent } from './views/dashboards/repstockcli.component';
@@ -56,6 +58,7 @@ import { RepstockexpocliComponent } from './views/dashboards/repstockexpocli.com
 import { RepstockexpestComponent } from './views/dashboards/repstockexpest.component';
 import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consuldetalletemperatura.component';
 import { CartaTemperaturaDetalleComponent } from './views/dashboards/cartatemperaturadetalle.component';
+import { CartaTemperaturaNuevoComponent } from './views/dashboards/cartatemperaturanuevo.component';
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
 
 
@@ -64,6 +67,7 @@ import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
 import { DetrepstockcliexpComponent } from './views/dashboards/detrepstockcliexp.component';
 import { DetrepstockestComponent } from './views/dashboards/detrepstockest.component';
 import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.component';
+import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
 
 @NgModule({
   declarations: [
@@ -87,12 +91,14 @@ import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.compo
     RepstockexpestComponent,
     ConsultaDetalleTemperaturaComponent,
     CartaTemperaturaDetalleComponent,
+    CartaTemperaturaNuevoComponent,
     CartaTemperaturaAvisoComponent,
     DetrepstockCliComponent,
     DetrepstockComponent,
     DetrepstockcliexpComponent,
     DetrepstockestComponent,
-    ActualizarcitaComponent
+    ActualizarcitaComponent,
+    GenerarcitaComponent
    
   ],
   imports: [
@@ -118,17 +124,19 @@ import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.compo
     AngularDraggableModule,
     IboxtoolsModule,
     DragulaModule.forRoot(),
-    DataTablesModule
+    DataTablesModule,
+    MatTabsModule
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
     
+
 <<<<<<< HEAD
-    entryComponents: [SuscripComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent]
 =======
-    entryComponents: [SuscripComponent, ActualizarcitaComponent, DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,DetrepstockCliComponent,DetrepstockComponent]
->>>>>>> 35fb2d5261f9ebe08afd7eff5603f6633e81e3bd
-  
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent, GenerarcitaComponent]
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
+   
   
 })
 export class AppModule { }

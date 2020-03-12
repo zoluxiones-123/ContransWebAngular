@@ -5,7 +5,7 @@ import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes, TiposCita } from '../models/Factura';
-import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
+import { TemperaturaRPT,BuscarNuevoCartaDetalleTemperaturaRQT,BuscarNuevoCartaDetalleTemperaturaRPT,BuscarCartaDetalleTemperaturaRQT,BuscarCartaDetalleTemperaturaRPT,NuevoCartaDetalleTemperaturaRQT,NuevoCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRQT,CartaDetalleTemperatura2RQT,CartaDetalleTemperatura2RPT,ActualizarCartaDetalleTemperaturaRQT,ActualizarCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRPT,TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
   CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
@@ -47,7 +47,7 @@ import { RespSolicitud } from '../models/resp_solicinsc';
 import { Entidades } from '../models/entidad';
 import { entidad } from '../models/entidad';
 import { entid } from '../models/entidad';
-import { ArchivoDescarga } from '../models/Archivo';
+import { ArchivoDescarga,StringArchivoDescarga } from '../models/Archivo';
 import { ResourceLoader } from "@angular/compiler";
 import { HttpResponse } from "selenium-webdriver/http";
 import { MenuPaginaRPS } from "app/models/PaginasMenu";
@@ -386,6 +386,24 @@ export class ReportService {
       url_api, objCartaTemperatura, { headers: this.headers }).pipe(map(data => data));
   }
 
+  getDetalleCartaTemperatura(objDetalleCartaTemperatura : CartaDetalleTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/cartatemperaturapt`;    
+    return this.http.post<CartaDetalleTemperaturaRPT>(
+      url_api, objDetalleCartaTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+  getDetalleCartaNuevoTemperatura(objDetalleCartaNuevoTemperatura : BuscarNuevoCartaDetalleTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/MostrarDatosBookingCartaTemperatura`;    
+    return this.http.post<BuscarNuevoCartaDetalleTemperaturaRPT>(
+      url_api, objDetalleCartaNuevoTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+  getDetalleCartaTemperatura2(objDetalleCartaTemperatura2 : CartaDetalleTemperatura2RQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/MostrarContenedorBookingCartaTemperatura`;    
+    return this.http.post<CartaDetalleTemperatura2RPT>(
+      url_api, objDetalleCartaTemperatura2, { headers: this.headers }).pipe(map(data => data));
+  }
   AnularCartaTemperatura(objAnularCerrarCartaTemperatura : AnularCerrarCartaTemperaturaRQT) : Observable<any>
   {
     const url_api =`/ContransAPI/api/cartatemperaturaanular`;    
@@ -398,6 +416,27 @@ export class ReportService {
     const url_api =`/ContransAPI/api/cartatemperaturacerrar`;    
     return this.http.post<AnularCerrarCartaTemperaturaRPT>(
       url_api, objAnularCerrarCartaTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  ActualizarCartaTemperatura(objActualizarCartaDetalleTemperatura : ActualizarCartaDetalleTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/cartatemperaturaactualizar`;    
+    return this.http.post<ActualizarCartaDetalleTemperaturaRPT>(
+      url_api, objActualizarCartaDetalleTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  NuevoCartaTemperatura(objNuevoCartaDetalleTemperatura : NuevoCartaDetalleTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/cartatemperaturaregistrar`;    
+    return this.http.post<NuevoCartaDetalleTemperaturaRPT>(
+      url_api, objNuevoCartaDetalleTemperatura, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  BuscarCartaTemperatura(objBuscarCartaDetalleTemperatura : BuscarCartaDetalleTemperaturaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/validarbooking`;    
+    return this.http.post<BuscarCartaDetalleTemperaturaRPT>(
+      url_api, objBuscarCartaDetalleTemperatura, { headers: this.headers }).pipe(map(data => data));
   }
 
   getDirecc(objDirecc : DireccRQT) : Observable<any>
@@ -471,6 +510,18 @@ export class ReportService {
     let resul = this.http.post<string>(
         url_api, objArchivo, { headers: this.headers}).pipe(map(data => data));
 
+    return resul; 
+  }
+
+  ImprimirPDF(paramUsuario:number, paramIdCT:string, paramIDRol:number) : Observable<any>{
+    const url_api =`/ContransAPI/api/imprimircartatemperatura`;
+    let objArchivo : StringArchivoDescarga =  {
+      Usuario : paramUsuario,
+      IdCT : paramIdCT,
+      IDRol : paramIDRol
+    };
+    let resul = this.http.post<string>(
+        url_api, objArchivo, { headers: this.headers}).pipe(map(data => data));
     return resul; 
   }
   
