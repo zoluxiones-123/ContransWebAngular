@@ -9,8 +9,7 @@ import { TemperaturaRPT, TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCarta
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
   CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
-  CitasCFechaRPT, CitasCFechaRQT } from '../models/Cita';
-
+  CitasCFechaRPT, CitasCFechaRQT, CitasCHoras, CitasCHorasRPT, CitasCHorasRQT } from '../models/Cita';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
@@ -449,6 +448,14 @@ export class ReportService {
     const url_api =`/ContransAPI/api/citasconsultarfecha`;
     return this.http.post<CitasCFechaRPT>(
         url_api, citacfecharqt, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  
+  getCitasConsultarHoras(citachorarqt : CitasCHorasRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/citasconsultarhoras`;
+    return this.http.post<CitasCHoras>(
+        url_api, citachorarqt, { headers: this.headers }).pipe(map(data => data));
   }
 
 

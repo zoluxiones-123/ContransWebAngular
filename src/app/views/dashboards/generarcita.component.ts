@@ -16,7 +16,7 @@ import { FacturasRPT, FacturasRQT, ListaUnidadNegocio, TipoCarga, TiposCarga, Al
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRQT, 
 ValidarTokenCitaRPT, ActTokenCitaRPT, AnularCitaRPT, AnularCitaRQT, ActTokenCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
 CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
-CitasCFechaRQT, CitasCFechaRPT } from '../../models/Cita';
+CitasCFechaRQT, CitasCFechaRPT, CitasCHoras, CitasCHorasRQT, CitasCHorasRPT } from '../../models/Cita';
 import swal from 'sweetalert';
 
 @Component({
@@ -125,6 +125,15 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
     Permiso : "",
     Trasegado : false
     };
+
+    private citaCHorasRqt: CitasCHorasRQT = {
+      Token : "",
+      IDRol : 0,
+      Fecha : "",
+      Registro : "",
+      TipoCarga : "",
+      Almacen : ""
+      };
 
     
   private citaCFechaRQT: CitasCFechaRQT = {

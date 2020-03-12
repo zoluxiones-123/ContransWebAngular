@@ -253,6 +253,20 @@ export class CitasPermiso {
     Almacen: string;
   }
 
+  export class CitasCHorasRPT
+  {
+    RetiCuotCodigo: number;
+    RetiCuotHora: number;
+    HoraProg: string;
+    CantidadDisponible: number;
+  }
+
+  
+  export class CitasCHoras
+  {
+    Data: any;
+  }
+
   
   
   
