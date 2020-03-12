@@ -11,6 +11,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {CartaTemperaturaDetalleComponent} from '../dashboards/cartatemperaturadetalle.component';
+import {CartaTemperaturaNuevoComponent} from '../dashboards/cartatemperaturanuevo.component';
 import { CartaTemperaturaAvisoComponent } from '../dashboards/cartatemperaturaaviso.component'
 
 @Component({
@@ -130,14 +131,26 @@ import { CartaTemperaturaAvisoComponent } from '../dashboards/cartatemperaturaav
 
         console.log(this.objCartaTemperaturaRPT)
     }        
-    popupNuevaCartaTemperatura(Id:number, Usuario:string){
-      const dialogConfig = new MatDialogConfig()
+    popupNuevaCartaTemperatura(){
+      /* const dialogConfig = new MatDialogConfig()
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.height = "100%";
       dialogConfig.width = "600px";
       this.dialog.open(CartaTemperaturaDetalleComponent, dialogConfig); 
-      return false;
+      return false; */
+      localStorage.setItem("paramAccion","Nuevo");
+      const dialogRef = this.dialog.open(CartaTemperaturaNuevoComponent,{
+        disableClose: true,
+        autoFocus: true,
+        width: "600px",
+        height: "100%"
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        this.RefrescarGrilla();
+     
+  });
+
     }  
 
     popupAnularCartaTemperatura(Id:string, Usuario:string, NroBooking: string){
@@ -220,6 +233,40 @@ import { CartaTemperaturaAvisoComponent } from '../dashboards/cartatemperaturaav
 
     }
 
+    public popupVistaPreviaPDF(paramIdCT:string, paramNombre:string){
+
+      this.reportService.ImprimirPDF(Number.parseInt(localStorage.getItem("Usuario")),
+      paramIdCT,Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"))).subscribe(
+        data => {
+          
+          const linkSource = 'data:application/pdf;base64,' + data;
+          const downloadLink = document.createElement("a");
+          const fileName = paramNombre + ".pdf";
+  
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+  
+        }, (error)=> console.log("Salio error en la descarga: ", error));
+    }
+
+    public popupDetalleCartaTemperatura(paramIdCT:string,paramNBooking:string){
+      localStorage.setItem("paramIdCT",paramIdCT);
+      localStorage.setItem("paramNBooking",paramNBooking);
+      localStorage.setItem("paramAccion","Editar");
+      const dialogRef = this.dialog.open(CartaTemperaturaDetalleComponent,{
+        disableClose: true,
+        autoFocus: true,
+        width: "600px",
+        height: "100%"
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+          this.RefrescarGrilla();
+       
+    });
+    }
+    
     public CargarGrilla(form: NgForm) {
 
        if (this.TieneData)

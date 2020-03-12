@@ -1,0 +1,231 @@
+<div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
+  <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+    <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+    <h4 class="modal-title pull-left" style="display: inline-table;">Carta Temperatura Booking</h4>
+    <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+      (click)="cerrarPopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="m-t" role="form" #formUsuario="ngForm" (ngSubmit)="BuscarBooking(formUsuario)">
+    <div class="ibox-content cuerpo-con-overflow">
+      <div class="form-group row">
+        <label class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 0px;padding-top: 7px;">
+          N° Booking :</label>
+        <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 5px;">
+          <input type="text" name="txtbox_NBooking" class="form-control tamanio-device" [ngModel]>
+        </div>
+        <div class="col-xs-5 col-sm-2 col-lg-2" style="padding: 1px 5px 2px;width: auto;"><button type="button"
+            (click)="BuscarBooking(formUsuario)" class="btn btn-primary block m-b tamanio-device">Buscar</button></div>
+      </div>
+      <div>
+        <!-- ------------PARTE 1------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Datos Booking</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('datosbooking')"></b>
+          </div>
+          <div id="datosbooking">
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Vessel :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Nave" maxlength="50" name="txtbox_Nave"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Voyage N° :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Viaje" maxlength="50" name="txtbox_Viaje"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Booking Number :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Booking" maxlength="50" name="txtbox_Booking"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Loading port :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Embarcador" maxlength="50" name="txtbox_Embarcador"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Discharge port :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Consignatario" maxlength="50"
+                  name="txtbox_Consignatario" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Final Destination
+                :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="PtoEmba" maxlength="50" name="txtbox_PtoEmba"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Shipper :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="PtoDescarga" maxlength="50"
+                  name="txtbox_PtoDescarga" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Consignee :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50"
+                  name="txtbox_PtoDestinoFinal" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ------------PARTE 2------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Temperatura</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('temperatura')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('temperatura')"></b>
+          </div>
+          <div id="temperatura">
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Comodity (Producto)
+                :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Producto" maxlength="50" name="txtbox_Producto" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Inlet air Temp. (ºC)
+                (Temp. de Suministro) :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Temp" maxlength="50" name="txtbox_Temp" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Humidity (%) (Humedad)
+                :</label>
+              <div id="ControlComboxHumidity">
+                <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;padding-right: 4px;">
+                  <select name="cboHumidity" class="form-control" [(ngModel)]="Hume_Opcion"
+                    (change)="ChangingValue($event)">
+                    <option *ngFor="let item of this.SelectHumidity" [value]="item.Descripcion">
+                      {{item.Descripcion}} </option>
+                  </select>
+                </div>
+                <div id="SelectComboxHumidity">
+                  <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                    <input type="text" [(ngModel)]="Hume" style="width: 46px;" name="txtbox_Hume" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Air ventilation
+                (Apertura
+                de lampa) :</label>
+              <div id="ControlComboxAirVentilation">
+                <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;padding-right: 4px;">
+                  <select name="cboAirVentilation" class="form-control" [(ngModel)]="Vent_Opcion"
+                    (change)="ChangingValue($event)">
+                    <option *ngFor="let item of this.SelectAirVentilation" [value]="item.Descripcion">
+                      {{item.Descripcion}} </option>
+                  </select>
+                </div>
+                <div id="SelectComboxAirVentilation">
+                  <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                    <input type="text" [(ngModel)]="CO2" style="width: 46px;" name="txtbox_CO2" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Cold Treatment :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <label for="rbt01" style="padding-right: 5px;">YES</label>
+                <input type="radio" id="rbt01" name="rbtCTreatSi" [(ngModel)]="CTreat_Opcion" value="YES"
+                  style="width: auto;vertical-align: text-bottom;">
+                <label style="padding-right: 5px;padding-left: 10px;">NO</label>
+                <input type="radio" name="rbtCTreatSi" [(ngModel)]="CTreat_Opcion" value="NO"
+                  style="width: auto;vertical-align: text-bottom;" checked="checked">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Control Atmosphere :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <label for="rbt01" style="padding-right: 5px;">YES</label>
+                <input type="radio" id="rbt02" name="rbtCAtmoSi" [(ngModel)]="CAtmo_Opcion" value="YES"
+                  style="width: auto;vertical-align: text-bottom;"
+                  (click)="SetGrillaVisibility('ControlComboxAtmosphere','',true)">
+                <label style="padding-right: 5px;padding-left: 10px;">NO</label>
+                <input type="radio" name="rbtCAtmoSi" [(ngModel)]="CAtmo_Opcion" value="NO"
+                  style="width: auto;vertical-align: text-bottom;" checked="checked"
+                  (click)="SetGrillaVisibility('ControlComboxAtmosphere','SelectComboxAtmosphere',false)">
+              </div>
+              <div id="ControlComboxAtmosphere">
+                <label class="col-xs-12 col-sm-4 col-lg-4 label_device"></label>
+                <div class="col-xs-12 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
+                  <select name="cboControlAtmosphere" class="form-control" [(ngModel)]="CAtmo_Select"
+                    (change)="ChangingValue($event)">
+                    <!--option [value]="" selected hidden>--Seleccione--</option-->
+                    <option *ngFor="let item of this.SelectControlAtmosphere" [value]="item.Descripcion">
+                      {{item.Descripcion}}</option>
+                  </select>
+                </div>
+                <div id="SelectComboxAtmosphere">
+                  <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                    <label class="col-xs-12 col-sm-2 col-lg-2 label_device"
+                      style="padding-right: 30px;padding-top: 8px;">CO2</label>
+                    <input type="text" [(ngModel)]="CO2" style="width: 46px;" name="txtbox_CO2" class="form-control">
+                  </div>
+                  <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                    <label class="col-xs-12 col-sm-2 col-lg-2 label_device"
+                      style="padding-right: 30px;padding-top: 8px;">O2</label>
+                    <input type="text" [(ngModel)]="O2" style="width: 46px;" name="txtbox_O2" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ------------PARTE 3------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Containers</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('containers')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('containers')"></b>
+          </div>
+          <div id="containers">
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Quantity Containers (Cantidad de
+                Contenedores) :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Capacidad" maxlength="50" name="txtbox_Capacidad"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Containers Nrs. (Nº de Contenedores)
+                :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Contenedor" maxlength="50" name="txtbox_Contenedor"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4">Place :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly" [(ngModel)]="Puerto" maxlength="50" name="txtbox_Puerto"
+                  class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
+      <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
+      <button type="submit" (click)="NuevoTemperatura(formUsuario)" class="btn btn-w-m btn-primary">Nuevo</button>
+      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
+  </div>
+</div>

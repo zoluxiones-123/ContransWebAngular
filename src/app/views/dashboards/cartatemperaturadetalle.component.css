@@ -101,5 +101,9 @@ width: 66%;
         font-size:16px;
         font-weight:bold;
       }
+      .label_device{
+        padding-left: 0px;
+      }
+      
   } 
   
