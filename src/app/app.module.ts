@@ -33,6 +33,8 @@ import { ContraseniaComponent } from './views/appviews/contrasenia.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+import {MatTabsModule} from '@angular/material/tabs';
 import { RepstockcsuComponent } from './views/dashboards/repstockcsu.component';
 import { FileuploadComponent } from './views/dashboards/fileupload.component';
 import { RepstockcliComponent } from './views/dashboards/repstockcli.component';
@@ -65,6 +67,7 @@ import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
 import { DetrepstockcliexpComponent } from './views/dashboards/detrepstockcliexp.component';
 import { DetrepstockestComponent } from './views/dashboards/detrepstockest.component';
 import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.component';
+import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +97,8 @@ import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.compo
     DetrepstockComponent,
     DetrepstockcliexpComponent,
     DetrepstockestComponent,
-    ActualizarcitaComponent
+    ActualizarcitaComponent,
+    GenerarcitaComponent
    
   ],
   imports: [
@@ -120,13 +124,14 @@ import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.compo
     AngularDraggableModule,
     IboxtoolsModule,
     DragulaModule.forRoot(),
-    DataTablesModule
+    DataTablesModule,
+    MatTabsModule
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent]
    
   
 })

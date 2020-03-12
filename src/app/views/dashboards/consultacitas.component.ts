@@ -12,7 +12,11 @@ import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
 import { ActualizarcitaComponent  } from 'app/views/dashboards/actualizarcita.component';
+import { GenerarcitaComponent  } from 'app/views/dashboards/generarcita.component';
+
+
 import { MatDialog, MatDialogConfig} from '@angular/material';
+import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaaviso.component'
 import "rxjs/add/operator/toPromise";
 
 @Component({
@@ -167,9 +171,103 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
     this.objCitasRqt.Token = this.reportService.getToken();
     this.objCitasRqt.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
 
-  }     
+  }  
+
+  popupGenerarCita(NroCita:string, TipoOpe:string)
+  {
+    
+  const dialogRef = this.dialog.open(GenerarcitaComponent,{
+    disableClose: true,
+    autoFocus: true,
+    width: "500px",
+    height : "500px",
+    position: {
+      top: '10%'
+    }
+  });
+  }
   
-  popupActualizarCita(NroCita:string, TipoOpe:string){
+  
+  //popupAnularCartaTemperatura(Id:string, Usuario:string, NroBooking: string)  {
+    //localStorage.setItem("MsgCabecera","Seguró que desea anular la carta temperatura para el booking: " + NroBooking);
+    popupAnularCita(NroCita:string, TipoOpe:string)
+    {
+    localStorage.setItem("NroCita",NroCita);
+    localStorage.setItem("OperacionCita",TipoOpe); 
+
+    const dialogRef = this.dialog.open(ActualizarcitaComponent,{
+      disableClose: true,
+      autoFocus: true,
+      width: "500px",
+      height : "500px",
+      position: {
+        top: '10%'
+      }
+    });
+
+    
+    dialogRef.afterClosed().subscribe(  result => {         
+    this.RefrescarGrilla();}
+    );
+
+   /* dialogRef.afterClosed().subscribe(result => {
+      if (result){    
+        this.RefrescarGrilla();
+      }
+    
+  });*/
+  }
+
+  popupActualizarCita(NroCita:string, TipoOpe:string)
+  {
+  localStorage.setItem("NroCita",NroCita);
+  localStorage.setItem("OperacionCita",TipoOpe); 
+
+  const dialogRef = this.dialog.open(ActualizarcitaComponent,{
+    disableClose: true,
+    autoFocus: true,
+    width: "500px",
+    height : "500px",
+    position: {
+      top: '10%'
+    }
+  });
+
+  
+ /* dialogRef.afterClosed().subscribe(  result => {         
+  this.RefrescarGrilla();}
+  );*/
+
+ /* dialogRef.afterClosed().subscribe(result => {
+    if (result){    
+      this.RefrescarGrilla();
+    }
+  
+});*/
+}
+
+
+popupImprimirCita(NroCita:string, Documento : string, Registro:string, Permiso: string, TipoOpe:string)
+
+{
+localStorage.setItem("NroCita",NroCita);
+localStorage.setItem("Documento",Documento);
+localStorage.setItem("Registro",Registro);
+localStorage.setItem("Permiso",Permiso);
+localStorage.setItem("OperacionCita",TipoOpe); 
+
+const dialogRef = this.dialog.open(ActualizarcitaComponent,{
+  disableClose: true,
+  autoFocus: true,
+  width: "500px",
+  height : "500px",
+  position: {
+    top: '10%'
+  }
+});
+}
+  
+/*  popupActualizarCita(NroCita:string, TipoOpe:string){
 
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = true;
@@ -182,23 +280,8 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
     return false;  
   
 
-   /* localStorage.setItem("NroCita",NroCita);
-    localStorage.setItem("OperacionCita",TipoOpe); 
 
-    const dialogRef = this.dialog.open(ActualizarcitaComponent,{
-      disableClose: true,
-      autoFocus: true,
-      width: "500px",
-      height : "100%"     
-    });*/
-
-   /* return false;*/
-
-    /*dialogRef.afterClosed().subscribe(result => {
-    this.RefrescarGrilla()
-    });
-    */
-  } 
+  } */
   
  /* popupAnularCita(){
    
@@ -219,6 +302,26 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
         });
 
         }*/
+
+  GenerarCita()
+  {
+   
+    /*const dialogRef = this.dialog.open(GenerarcitaComponent,{
+      disableClose: true,
+      autoFocus: true,
+      width: "1000px",
+      height : "500px"     
+    });*/
+
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = "100%";
+    dialogConfig.width = "1000px";
+    this.dialog.open(GenerarcitaComponent, dialogConfig); 
+    return false;
+
+  }
 
   public RefrescarGrilla(){
     
@@ -285,8 +388,9 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
     Hasta : form.value.txtbox_Hasta
 
     };
-
-
+    
+  localStorage.setItem("TCarga", this.objCitasRqt.TCarga);
+  localStorage.setItem("TAlmacen",this.objCitasRqt.Almacen);
 
     if(this.ValidarInput(this.objCitasRqt))
     {        

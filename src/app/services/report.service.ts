@@ -4,9 +4,12 @@ import { Observable } from "rxjs/internal/Observable";
 import { isNullOrUndefined } from "util";
 import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
-import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes } from '../models/Factura';
+import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes, TiposCita } from '../models/Factura';
 import { TemperaturaRPT,BuscarNuevoCartaDetalleTemperaturaRQT,BuscarNuevoCartaDetalleTemperaturaRPT,BuscarCartaDetalleTemperaturaRQT,BuscarCartaDetalleTemperaturaRPT,NuevoCartaDetalleTemperaturaRQT,NuevoCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRQT,CartaDetalleTemperatura2RQT,CartaDetalleTemperatura2RPT,ActualizarCartaDetalleTemperaturaRQT,ActualizarCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRPT,TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
-import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT } from '../models/Cita';
+import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
+  ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
+  CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
+  CitasCFechaRPT, CitasCFechaRQT } from '../models/Cita';
 
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
@@ -97,12 +100,41 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  getCitasPermiso(citaperqt: CitaPermisoRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarcitapermiso`;    
+    return this.http
+      .post<CitasPermiso>(
+        url_api, citaperqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getCitasLContenedores(citacontrqt: CitaLContenedorRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/citaslistarcontenedores`;    
+    return this.http
+      .post<CitasContenedor>(
+        url_api, citacontrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
   generarTokenCita(tokencitarqt: TokenCitaRQT): Observable<any> 
   {
     const url_api =`/ContransAPI/api/generarTokenCita`;    
     return this.http
       .post<TokenCitaRPT>(
         url_api, tokencitarqt, { headers: this.headers })
+      .pipe(map(data => data));      
+  }
+
+  
+  ImprimirCita(impcitarqt: ImpriCitaRQT): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/imprimircita`;    
+    return this.http
+      .post<ImpriCitaRPT>(
+        url_api, impcitarqt, { headers: this.headers })
       .pipe(map(data => data));      
   }
 
@@ -428,18 +460,36 @@ export class ReportService {
     return this.http.get<Array<ListaEstado>>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
-getunidadnegocioxtipo(objAlmRqt : AlmacenRQT) : Observable<any>
+  getunidadnegocioxtipo(objAlmRqt : AlmacenRQT) : Observable<any>
   {
     const url_api =`/ContransAPI/api/listaralmace`;
     return this.http.post<Almacenes>(
         url_api, objAlmRqt, { headers: this.headers }).pipe(map(data => data));
   }
+
   getTipoCarga() : Observable<any>
   {
     const url_api =`/ContransAPI/api/listarempaque`;
     return this.http.get<TiposCarga>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
+
+  getTiposCita() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/listatipocita`;
+    return this.http.get<TiposCita>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  
+
+  getCitasConsultarFecha(citacfecharqt : CitasCFechaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/citasconsultarfecha`;
+    return this.http.post<CitasCFechaRPT>(
+        url_api, citacfecharqt, { headers: this.headers }).pipe(map(data => data));
+  }
+
 
   getArchivoByte(paramUri:string, paramNombre:string, paramTipoArchivo:string) : Observable<any>{
     const url_api =`/ContransAPI/api/dercargarbase64`;

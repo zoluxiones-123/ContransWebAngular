@@ -53,3 +53,14 @@ export class Almacen {
   AlmaCodigo: string;
   AlmaDescripcion : string;
 }
+
+export class TipoCita {
+  TipoCodigo: string;
+  TipoNombre : string;
+}
+
+
+export class TiposCita {
+  Data : any;
+ }
+

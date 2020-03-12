@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {CartaTemperaturaDetalleComponent} from '../dashboards/cartatemperaturadetalle.component';
 import {CartaTemperaturaNuevoComponent} from '../dashboards/cartatemperaturanuevo.component';
-import { CartaTemperaturaAvisoComponent } from '../dashboards/cartatemperaturaaviso.component'
+import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaaviso.component'
 
 @Component({
     selector: 'cartatemperatura',
