@@ -175,8 +175,7 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
 
   popupGenerarCita(NroCita:string, TipoOpe:string)
   {
-    
-  const dialogRef = this.dialog.open(GenerarcitaComponent,{
+   const dialogRef = this.dialog.open(GenerarcitaComponent,{
     disableClose: true,
     autoFocus: true,
     width: "500px",
@@ -185,6 +184,18 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
       top: '10%'
     }
   });
+
+  /*  const dialogConfig = new MatDialogConfig()
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = "500px";
+    dialogConfig.width = "1500px";
+    this.dialog.open(GenerarcitaComponent, dialogConfig);   
+    return false;  
+*/
+
+ 
+
   }
   
   
@@ -317,7 +328,7 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.height = "100%";
-    dialogConfig.width = "1000px";
+    dialogConfig.width = "2000px";
     this.dialog.open(GenerarcitaComponent, dialogConfig); 
     return false;
 

@@ -1,7 +1,7 @@
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import {AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild, ViewChildren,QueryList, ElementRef } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { Observable } from "rxjs/internal/Observable";
 import { Router } from '@angular/router';
@@ -9,15 +9,23 @@ import { Location } from '@angular/common';
 import { isError } from 'util';
 import {map, startWith} from 'rxjs/operators';
 import { DataTableDirective } from 'angular-datatables';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import {MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material';
+
 import {switchMap, debounceTime, tap, finalize} from 'rxjs/operators';
 import { Subject, fromEventPattern } from 'rxjs';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio, TipoCarga, TiposCarga, Almacenes, Almacen, AlmacenRQT, TipoCita,TiposCita } from '../../models/Factura';
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRQT, 
 ValidarTokenCitaRPT, ActTokenCitaRPT, AnularCitaRPT, AnularCitaRQT, ActTokenCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
 CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
-CitasCFechaRQT, CitasCFechaRPT } from '../../models/Cita';
+CitasCFechaRQT, CitasCFechaRPT, CitasCHoras, CitasCHorasRQT, CitasCHorasRPT, CitaVacioDev,InsertarCitaDetalleRPT,
+InsertarCitaDetalleRQT, InsertarCitaRPT, InsertarCitaRQT } from '../../models/Cita';
 import swal from 'sweetalert';
+import { CitavacioasigComponent  } from 'app/views/dashboards/citavacioasig.component';
+
+
+
 
 @Component({
   selector: 'app-generarcita',
@@ -30,6 +38,7 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
 
   
   @ViewChild(DataTableDirective)
+ // @ViewChildren(DataTableDirective) dtElements: QueryList<DataTableDirective>
   dtElement: DataTableDirective;
   dtInstance: DataTables.Api;
 
@@ -41,12 +50,56 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public Trasegado = false;
   public MuestraTipoCita = false;
   public MuestraCont = false;
+  public MuestraTabla = false;
+  public FechaSelec : string = "";
+  public FechaSeleccionada : string = "";
+  
+  
   public MuestraCantCTN = false;
   public ServExt : string = "";
   public ServExtra : string = "";
-  
-  
+  public Serie : string = "";
+  public Descripcion : string = ""; 
 
+  public unaAM : string = "";
+  public dosAM : string = "";
+  public tresAM : string = "";
+  public cuatroAM : string = "";
+  public cincoAM : string = "";
+  public seisAM : string = "";
+  public sieteAM : string = "";
+  public ochoAM : string = "";
+  public nueveAM : string = "";
+  public diezAM : string = "";
+  public onceAM : string = "";
+  public doceAM : string = "";
+  
+  
+  public unaPM : string = "";
+  public dosPM : string = "";
+  public tresPM : string = "";
+  public cuatroPM : string = "";
+  public cincoPM : string = "";
+  public seisPM : string = "";
+  public sietePM : string = "";
+  public ochoPM : string = "";
+  public nuevePM : string = "";
+  public diezPM : string = "";
+  public oncePM : string = "";
+  public docePM : string = "";
+
+  public DiaSelec : number;
+  public RetiCuotCodigo : number;
+  public HoraProg : string;
+  public Paletizada : string = "";
+  public PaletizadaD : string = "";
+  
+  public Extra: string = "";
+  public ExtraD: string = "";
+  
+  public Extemp: string = "";
+
+  
   myControl = new FormControl();
   
   
@@ -56,6 +109,7 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public dialogRef : MatDialogRef<GenerarcitaComponent>, 
   @Inject(MAT_DIALOG_DATA) public data:any,
   private location: Location,
+  private dialog : MatDialog,
   private formBuilder: FormBuilder)
    { }
 
@@ -78,10 +132,21 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public TipoCargaSelect :  string = "";
   public TipoCitaSelect :  string = "";
   public UnidadNegSelect : string = "";
+
+  
+  public objCitasVDev = [];
+  selectedOptions = [];
+  public objCitasDetalles = [];
+  public objCitasCodigos = [];
+  
   
   
   public campo : string = "Registro";
   public labelfecha : string = "";
+  public IDRol : number;
+  public Token : string = "";
+  public Registro : string = "";
+  public PermCodigo : string = "";
 
 
   minDate: Date;
@@ -103,6 +168,8 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public objCitasPermisos : Array<CitaPermisoRPT> = [];
   public objCitasContenedor : Array<CitaLContenedorRPT> = [];
 
+  public objCitasHoras : Array<CitasCHorasRPT> = [];
+
   public TieneData = false;  
 
 
@@ -116,6 +183,39 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
     TipoCita: ""
 
     };
+
+    
+  private InsertarCitaRqt: InsertarCitaRQT = {
+    Token : "",
+    IDRol : 0,
+    RegiCodigo: "",
+    RetiCuotProgCodigo: "",
+    PermCodigo:  "",
+    Empaque: "",
+    UnidadNeg: "",
+    TipoCita: "",
+    Trasegado: false,
+    Extra: -1,
+    Extemp: -1,
+    Paletizada: -1,
+    ColdTreatment: false,
+    FechaCT: "",
+    HoraCT: "",
+    LugarProg: ""
+    };
+
+    
+  private InsertarCitaRpt: InsertarCitaRPT = {
+    Cod : -1,
+    Msj : ""
+  }
+
+   
+  private InsertarCitaDetRpt: InsertarCitaDetalleRPT = {
+    Cod : -1,
+    Msj : ""
+  }
+
     
   private citaContenedorRqt: CitaLContenedorRQT = {
     Token : "",
@@ -125,6 +225,19 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
     Permiso : "",
     Trasegado : false
     };
+
+    private citaCHorasRqt: CitasCHorasRQT = {
+      Token : "",
+      IDRol : 0,
+      Fecha : "",
+      Registro : "",
+      TipoCarga : "",
+      Almacen : ""
+      };
+
+      private citachoras : CitasCHoras = {
+        Data : [] 
+      }
 
     
   private citaCFechaRQT: CitasCFechaRQT = {
@@ -158,27 +271,36 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   ngAfterViewInit(): void {
     //this.dtTrigger.next();
     this.dtTrigger.next();
+   // this.dtTriggerDev.next();    
     console.log(this.dtElement);
   }
 
   public ngOnDestroy():any {
     this.SetGrillaVisibility(false);
     this.dtTrigger.unsubscribe();
+//    this.dtTriggerDev.unsubscribe();
+    
   }
 
   
-  
-  dtTrigger:Subject<any> = new Subject();
-  dtOptions : any = {
+  onListControlChanged(list:any)
+  {
+    this.selectedOptions = list.selectedOptions.selected.map(item => item.value);
+
+  }
+
+  dtTriggerImpo:Subject<any> = new Subject();
+  dtOptionsImpo : any = {
     pagingType: 'full_numbers',
     pageLength: 10,
+    retrieve : true,
     searching: false,
     dom: 'Bfrtip',
     buttons: [
      
     ],
     language: {
-      lengthMenu: "Mostrar _MENU_ registros" ,
+      lengthMenu: "Mostrar_MENU_registros" ,
       search : "Buscar",
       info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
       infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
@@ -195,14 +317,109 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
       }
     }
   };
+ 
 
+  dtTriggerDev:Subject<any> = new Subject();
+  dtOptionsDev : any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    retrieve : true,
+    searching: false,
+    dom: 'Bfrtip',
+    buttons: [
+     
+    ],
+    language: {
+      lengthMenu: "Mostrar_MENU_registros" ,
+      search : "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate : {
+        first:    "Primero",
+        last:     "Último",
+        next:     "Siguiente",
+        previous: "Anterior"
+      },
+      aria :
+      {
+        sortAscending :"Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
+ 
+  dtTriggerSuelta:Subject<any> = new Subject();
+  dtOptionsSuelta : any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    retrieve : true,
+    searching: false,
+    dom: 'Bfrtip',
+    buttons: [
+     
+    ],
+    language: {
+      lengthMenu: "Mostrar_MENU_registros" ,
+      search : "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate : {
+        first:    "Primero",
+        last:     "Último",
+        next:     "Siguiente",
+        previous: "Anterior"
+      },
+      aria :
+      {
+        sortAscending :"Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
+ 
   
+  dtTrigger:Subject<any> = new Subject();
+  dtOptions : any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    searching: false,
+    dom: 'Bfrtip',
+    buttons: [
+     
+    ],
+    language: {
+      lengthMenu: "Mostrar_MENU_registros" ,
+      search : "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate : {
+        first:    "Primero",
+        last:     "Último",
+        next:     "Siguiente",
+        previous: "Anterior"
+      },
+      aria :
+      {
+        sortAscending :"Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
   
   ngOnInit() {
     
-   this.NroCita = localStorage.getItem("NroCita").toString();
+   //this.NroCita = localStorage.getItem("NroCita").toString();
+
+   
+   this.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+   this.Token = this.reportService.getToken();
 
    this.SetGrillaVisibility(false);
+   this.SetGrillaVisibilityDev(false);
+   this.SetGrillaVisibilityImpo(false);
+   this.SetGrillaVisibilitySuelta(false);
+   
+   
 
    //this.setearFechasLimite();
 
@@ -250,7 +467,7 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
 
      if (this.TiposCitaE.Data != null)
      {                              
-       let listaent =JSON.parse(JSON.stringify(this.TiposCitaE.Data));              
+       let listaent = JSON.parse(JSON.stringify(this.TiposCitaE.Data));              
       
        for (var i = 0; i <= listaent.length-1; i++) {
          let last = listaent[i];            
@@ -327,6 +544,7 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
 
      if (this.UnidadNegSelect == "01")
      {this.MuestraTipoCita = false;
+      this.TipoCitaSelect = "";
       this.campo = "Registro";}
   }
 
@@ -350,6 +568,48 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   
+  public ChangeFecha(param : any)
+  {
+    //this.TipoCitaSelect = param.target.value;
+   // let valor = document.getElementById('dpFechaProg').textContent;    
+    /*document.getElementById("txtbox_Cliente").textContent = entiNombre;
+    document.getElementById("txtbox_Cliente").innerText = entiNombre;
+    document.getElementById("txtbox_Cliente").setAttribute("placeholder",entiNombre)
+    document.getElementById("txtbox_Cliente").setAttribute("disabled","true");*/
+if (param != null)
+{
+    this.MuestraTabla = true;
+    console.log(param);
+   // swal(valor.toString());
+
+    //let date = new Date("Sun Mar 15 2020");
+
+    var datePipe = new DatePipe("en-US");
+    let value = datePipe.transform(param.toString(), 'dd/MM/yyyy');
+    this.FechaSelec =  datePipe.transform(param.toString(), 'yyyy/MM/dd');
+    this.FechaSeleccionada = value.toString();
+
+    let dia = datePipe.transform(param.toString(), 'dd');
+
+    this.DiaSelec = Number.parseInt(dia.toString()),
+  //  swal(value.toString());
+
+    
+this.citaCHorasRqt = {
+  Token : this.citaContenedorRqt.Token,
+  IDRol : this.citaContenedorRqt.IDRol,
+  Fecha : value.toString(),
+  Registro : this.citaPermisoRqt.Registro ,
+  TipoCarga : this.citaContenedorRqt.TCarga,
+  Almacen : this.UnidadNegSelect
+  };
+     
+this.VisualizarHoras();
+
+}
+  }
+
+  
   public Checked(param : any)
   {
     let chekeado = param.currentTarget.checked;
@@ -359,16 +619,733 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
    
   }
 
+  AgregarProgramacion()
+  {
+
+    
+    let extra= document.getElementById('SEXTNo').getAttribute("checked").valueOf();
+
+    if (extra == "true")
+    {this.Extra = "0";
+    this.ExtraD = "NO";
+    }
+
+    for (var i = 0; i <= this.selectedOptions.length-1; i++) {
+      
+      let cont = this.selectedOptions[i].toString();
+
+      var fitemz = this.objCitasVDev.filter(function (f) {
+        return f.Serie == cont;
+      });
+      
+      if (fitemz.length == 1)
+      {
+        swal("Ya existe una programación para el Contenedor: " + cont.toString());
+      }
+      else
+      {
+       
+
+
+        let conte = this.selectedOptions[i].toString();
+
+        var citacont = this.objCitasContenedor.filter(function (f) {
+          return f.Contenedor == conte;
+        });
+        
+       let desccont;
+       let autbulto = 0;
+       let autpeso = 0;
+       let seriesu = "";
+       let cpeso = 0;
+       let cbulto = 0;
+       let descontsu = "";
+
+
+        if (citacont.length == 1)
+        {
+          desccont = citacont[0].DesCTNR;
+          descontsu = citacont[0].Contenedor;
+
+          autbulto = citacont[0].AutBulto;
+          autpeso =  citacont[0].AutPeso;
+
+          seriesu =  citacont[0].Serie;
+          cpeso =  citacont[0].CuotaPeso;
+          cbulto =  citacont[0].CuotaBulto;
+
+        }  
+        
+        
+    let serief = "";
+    let desccontf = "";
+    
+
+    if (this.TipoCargaSelect == "002")
+    {
+       serief = seriesu;
+       desccontf = descontsu;
+    }
+    else
+    { serief = this.selectedOptions[i].toString();
+      desccontf = desccont;
+      
+    }
+        
+
+   
+
+      let citavdev = new CitaVacioDev(serief, desccontf, this.FechaSeleccionada,this.HoraProg,
+      this.ServExt, "", "", autbulto, autpeso , cpeso , cbulto,"",0, this.PaletizadaD , this.ExtraD  );
+       
+      this.objCitasVDev.push(citavdev);
+      
+      let citadetalle = new InsertarCitaDetalleRQT(this.Token,this.IDRol,"", this.PermCodigo,"", "000000","","", this.Registro,
+      cont,autpeso, autbulto, cpeso, cbulto, this.TipoCargaSelect,this.UnidadNegSelect, this.TipoCitaSelect, "", this.Trasegado);
+
+      this.objCitasDetalles.push(citadetalle);
+      
+    }
+
+    if (this.TipoCitaSelect == "01")
+    {
+     this.Serie = "Serie";
+     this.Descripcion = "Descripción";
+
+     
+    this.dtTriggerDev.next(this.objCitasVDev);         
+    this.SetGrillaVisibilityDev(true);
+
+    /* this.dtOptionsDev.columnDefs = [
+      {
+          "targets": [ 4 ],
+          "visible": true
+        }
+     ]*/
+
+    }
+
+    if (this.UnidadNegSelect == "01" && this.TipoCargaSelect == "001")
+    {
+     this.Serie = "Contenedor";
+     this.Descripcion = "Tipo/Tamaño";
+
+          
+    this.dtTriggerImpo.next(this.objCitasVDev);         
+    this.SetGrillaVisibilityImpo(true);
+
+
+    }
+
+    if (this.TipoCargaSelect == "002")
+    {
+    
+          
+    this.dtTriggerSuelta.next(this.objCitasVDev);         
+    this.SetGrillaVisibilitySuelta(true);
+
+
+    }
+    /*this.dtElements.forEach((dtElement: DataTableDirective) => {
+      dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+    });*/
+    
+    //this.dtTrigger.next(this.objCitasPermisos);     
+
+    //this.dtTriggerDev.unsubscribe();
+    //this.SetGrillaVisibility(true);
+  }
+
+  }
+
+  popupGenerarCitaVacios()
+  {
+    let traseg;
+    if (this.Trasegado == true)
+    {  traseg = "1" }
+    else
+    { traseg = "0"}
+
+    let CantCont;
+
+    if ((this.objCitasPermisos.length >= 1) && (this.TipoCitaSelect == "02"))
+    {CantCont = this.objCitasPermisos[0].CantContenedores;    
+     localStorage.setItem("CantContenedores", CantCont.toString()); }
+
+    localStorage.setItem("CitasPermiso",JSON.stringify(this.objCitasPermisos));    
+    localStorage.setItem("Empaque",this.TipoCargaSelect);
+    localStorage.setItem("UnidadNegocio", this.UnidadNegSelect);
+    localStorage.setItem("TipoCita",this.TipoCitaSelect );
+    localStorage.setItem("Trasegado", traseg);
+    localStorage.setItem("Paletizada", this.Paletizada );
+   
+    
+    let extemp= document.getElementById('SENo').getAttribute("checked").valueOf();
+
+    if (extemp == "true")
+    this.Extemp = "0";
+    
+    let extra= document.getElementById('SEXTNo').getAttribute("checked").valueOf();
+
+    if (extra == "true")
+    {this.Extra = "0";
+    this.ExtraD = "NO";
+    }
+    localStorage.setItem("Extemp",this.Extemp);
+    localStorage.setItem("Extra",this.Extra);
+
+  if (this.TipoCitaSelect == "02")
+  {
+  const dialogRef = this.dialog.open(CitavacioasigComponent,{
+    disableClose: true,
+    autoFocus: true,
+    width: "500px",
+    height : "500px",
+    position: {
+      top: '10%'
+             }
+     });
+  }
+
   
+  if (this.TipoCitaSelect == "01" || this.UnidadNegSelect == "01" || this.TipoCargaSelect == "002")
+  {
+
+    this.GrabarCita()
+
+
+  }
+
+  }
+
+  public GrabarCita()
+  {
+    
+
+    this.InsertarCitaRqt.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+    this.InsertarCitaRqt.Token = this.reportService.getToken();
+    this.InsertarCitaRqt.RegiCodigo = this.objCitasPermisos[0].BL.toString();
+    this.InsertarCitaRqt.RetiCuotProgCodigo = this.RetiCuotCodigo.toString();
+    this.InsertarCitaRqt.PermCodigo =  this.objCitasPermisos[0].PermCodigo.toString();    
+    this.InsertarCitaRqt.Empaque =  this.TipoCargaSelect;    
+    this.InsertarCitaRqt.UnidadNeg = this.UnidadNegSelect;    
+    this.InsertarCitaRqt.TipoCita = this.TipoCitaSelect;    
+    this.InsertarCitaRqt.Trasegado = this.Trasegado;
+
+    this.InsertarCitaRqt.Extra = Number.parseInt(this.Extra);
+    this.InsertarCitaRqt.Extemp =  Number.parseInt(this.Extemp);
+    this.InsertarCitaRqt.Paletizada =  Number.parseInt(this.Paletizada);
+    this.InsertarCitaRqt.ColdTreatment = false;
+    this.InsertarCitaRqt.FechaCT = "";
+    this.InsertarCitaRqt.HoraCT = "";
+    this.InsertarCitaRqt.LugarProg = "";
+
+    
+    //let placa= document.getElementById('txtPlaca').nodeValue;
+
+    //let placa= document.getElementById('txtPlaca').getAttribute("").valueOf();
+        
+    /*document.getElementById("txtbox_Cliente").textContent = entiNombre;
+    document.getElementById("txtbox_Cliente").innerText = entiNombre;*/
+
+    //let brevete= document.getElementById('txtBrevete').getAttribute("innerText").valueOf();
+
+    //this.Placa = placa;
+   // this.Brevete = brevete;
+
+    
+   /* for (var i = 0; i <= this.objCitasVAsig.length -1; i++) {
+
+       this.Placa = this.objCitasVAsig[i].Placa; 
+       this.Brevete = this.objCitasVAsig[i].Brevete; 
+       this.TipoContenedor =  this.objCitasVAsig[i].TipoCont;
+
+    }*/
+    
+
+    for (var i = 0; i <= this.objCitasDetalles.length -1; i++) {
+
+      this.objCitasDetalles[i].VehiPlacaPri = this.objCitasVDev[i].Placa; 
+      this.objCitasDetalles[i].NroBrevete = this.objCitasVDev[i].Brevete; 
+      this.objCitasDetalles[i].TipoCont =  "";
+      this.objCitasDetalles[i].PermCodigo =  this.InsertarCitaRqt.PermCodigo;
+    
+  
+    }
+
+    var citas =  this.objCitasDetalles.length; 
+    var citg = 0;
+
+   /* while(citg <= citas)
+    {
+      
+      this.reportService
+      .InsertarCita(this.InsertarCitaRqt)
+      .subscribe(
+      data => {
+        
+        this.InsertarCitaRpt = data;
+  
+        if (data != null)      
+        {    
+          if (data[0].Cod == 0)                          
+          {        
+            //let citadetrqt = this.objCitasDetalles[j];
+            // this.objCitasDetalles[i].Hoja = this.Placa;
+           //  this.objCitasDetalles[i].NroBrevete = this.Brevete;           
+           //  this.objCitasDetalles[j].hojaServCodigo =  data[0].Msj;  
+             
+             this.objCitasCodigos.push(data[0].Msj);
+             citg = citg + 1;
+
+             if (citg == citas)
+             {
+               this.GrabarCitaDetalle();
+             }
+
+             
+             //if (this.objCitasDetalles.length ==   this.objCitasCodigos.length)
+               //  {this.GrabarCitaDetalle()}
+             //swal(this.objCitasCodigos[0].toString());
+          
+    
+          //this.GrabarCitaDetalle(citadetrqt);
+  
+         // swal("Se registro la cita " + data[0].Msj + " correctamente"); }
+        
+        }
+        else{  
+          this.onIsError();   
+        }
+      }
+    },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+     
+    }*/
+
+
+    for (var j = 0; j <= this.objCitasDetalles.length ; j++) 
+    {
+  
+      console.log(j.toString());
+
+      this.reportService
+      .InsertarCita(this.InsertarCitaRqt)
+      .subscribe(
+      data => {
+        
+        this.InsertarCitaRpt = data;
+  
+        if (data != null)      
+        {    
+          if (data[0].Cod == 0)                          
+          {        
+            
+             
+             this.objCitasCodigos.push(data[0].Msj);
+             
+             if (this.objCitasDetalles.length ==  this.objCitasCodigos.length)
+                {
+                  
+                  for (var i = 0; i <= this.objCitasDetalles.length -1; i++) {
+    
+                    this.objCitasDetalles[i].hojaServCodigo = this.objCitasCodigos[i].toString();
+                  }              
+                  
+                  this.GrabarCitaDetalle()
+                
+                
+                }
+           
+        
+        }
+        else{  
+          this.onIsError();   
+        }
+      }
+    },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+     
+  
+    }
+    
+    
+   // this.GrabarCitaDetalle();
+    
+ // this.onClose();
+
+  }
+
+  GrabarCitaDetalle()
+  {
+    for (var j = 0; j <= this.objCitasDetalles.length-1; j++) {
+    
+    //  this.objCitasDetalles[j].hojaServCodigo = this.objCitasCodigos[j].toString();
+
+      let citadetrqt = this.objCitasDetalles[j];
+
+      this.reportService
+      .InsertarCitaDetalle(citadetrqt)
+      .subscribe(
+      data => {
+        
+        this.InsertarCitaDetRpt = data;
+  
+        if (data != null)      
+        {    
+          if (data[0].Cod == 0)                          
+          {
+            console.log(data[0].Msj + " Se inserto el detalle de la cita correctamente");
+            swal("Se inserto correctamente la cita " + citadetrqt.hojaServCodigo);
+         //   this.onClose();
+           }
+       
+        }
+      else
+      {  
+          this.onIsError();   
+    }
+      },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+      }
+  }
+
+
   onItemChangeCP(param :any){
 
-    if(param.target.id == "SMS"){
-     // this.RecObj.TipEnvio = "S";
+    if(param.target.id == "CPSi"){
+      this.Paletizada = "1";
+      this.PaletizadaD = "SI";
+      
     }
-    else if(param.target.id == "Correo"){
-     // this.RecObj.TipEnvio = "M";
+    else if(param.target.id == "CPNo"){
+      this.Paletizada = "0";
+      this.PaletizadaD = "NO";
+      
     }
   }
+
+  
+  onItemChangeExt(param :any){
+
+    if(param.target.id == "SESi"){
+      this.Extemp = "1";
+    }
+    else if(param.target.id == "SENo"){
+      this.Extemp = "0";
+    }
+  }
+
+
+  onItemChangeExtr(param :any){
+
+    if(param.target.id == "SEXTSi"){
+      this.Extra = "1";
+    }
+    else if(param.target.id == "SEXTNo"){
+      this.Extra = "0";
+    }
+  }
+
+  
+  onItemChangeHora(param :any){
+
+  let control =  param.target.id;
+  switch (control.toString()) {
+      case "runaAM":
+        var fitemz = this.objCitasHoras.filter(function (f) {
+          return f.RetiCuotHora == 1;
+        });
+        
+        if (fitemz.length == 1)
+        {
+        this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+        this.HoraProg = fitemz[0].HoraProg;
+        
+        }
+      break;
+      case "rdosAM":
+        var fitemz = this.objCitasHoras.filter(function (f) {
+          return f.RetiCuotHora == 2;
+        });
+        
+        if (fitemz.length == 1)
+        {
+        this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+        this.HoraProg = fitemz[0].HoraProg;  }
+        break;
+        case "rdosAM":
+          var fitemz = this.objCitasHoras.filter(function (f) {
+            return f.RetiCuotHora == 2;
+          });
+          
+          if (fitemz.length == 1)
+          {
+          this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo; 
+          this.HoraProg = fitemz[0].HoraProg; }
+          break;
+       
+        case "rtresAM":
+              var fitemz = this.objCitasHoras.filter(function (f) {
+                return f.RetiCuotHora == 3;
+              });
+              
+              if (fitemz.length == 1)
+              {
+              this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo; 
+              this.HoraProg = fitemz[0].HoraProg; }
+              break;
+        case "rcuatroAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 4;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "rcincoAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 5;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "rseisAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 6;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg; }
+                break;
+        case "rsieteAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 7;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "rochoAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 8;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg; }
+                break;
+        case "rnueveAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 9;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "rdiezAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 10;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "ronceAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 11;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "rdoceAM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 12;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "runaPM":
+                var fitemz = this.objCitasHoras.filter(function (f) {
+                  return f.RetiCuotHora == 13;
+                });
+                
+                if (fitemz.length == 1)
+                {
+                this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                this.HoraProg = fitemz[0].HoraProg;  }
+                break;
+        case "rdosPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 14;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "rtresPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 15;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo; 
+                  this.HoraProg = fitemz[0].HoraProg; }
+                  break;  
+        case "rcuatroPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 16;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo; 
+                  this.HoraProg = fitemz[0].HoraProg; }
+                  break;  
+        case "rcincoPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 17;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "rseisPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 18;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "rsietePM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 19;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "rochoPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 20;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "rnuevePM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 21;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+         case "rdiezPM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 22;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "roncePM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 23;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg;  }
+                  break;  
+        case "rdocePM":
+                  var fitemz = this.objCitasHoras.filter(function (f) {
+                    return f.RetiCuotHora == 24;
+                  });
+                  
+                  if (fitemz.length == 1)
+                  {
+                  this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+                  this.HoraProg = fitemz[0].HoraProg; }
+                  break;  
+        }
+
+        
+    localStorage.setItem("RetiCuotCodigo",this.RetiCuotCodigo.toString());
+
+    
+    }
+
+    /*let chekeado = param.currentTarget.checked;
+
+    swal("este es el evento");
+
+    if (chekeado == true)
+    {
+
+    if(param.target.id == 23){
+
+      var fitemz = this.objCitasHoras.filter(function (f) {
+        return f.RetiCuotHora == 1;
+      });
+      
+      if (fitemz.length == 1)
+      {
+      this.RetiCuotCodigo = fitemz[0].RetiCuotCodigo;
+      }
+    
+     }
+   }*/
+
+    
+
+  
 
  public setearFechasLimite(FechaInicio: string, FechaFin: string){
     let date = new Date();
@@ -415,6 +1392,11 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
  };
 
  this.MuestraCont = false;
+ this.MuestraTabla = false;
+ this.Registro = this.citaPermisoRqt.Registro;
+ this.objCitasHoras = [];
+ this.objCitasVDev = [];
+ this.objCitasDetalles = [];
    
     if(this.ValidarInput(this.citaPermisoRqt))
    {        
@@ -497,20 +1479,44 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
                 swal(data.Data[0].ErrorMsg.toString()); 
                 this.objCitasPermisos = [];
                 this.SiCargoData = true;
+
                 this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                   dtInstance.destroy();
                   this.dtTrigger.next(this.objCitasPermisos);         
                 });
                 this.SetGrillaVisibility(false);
+
+               /* this.dtElements.forEach((dtElement: DataTableDirective) => {
+                  dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+                });
+                this.dtTrigger.next(this.objCitasPermisos);   */      
+        
+              //  this.SetGrillaVisibility(true);
+                this.SetGrillaVisibilityDev(false); 
+                this.SetGrillaVisibilityImpo(false);
+                this.SetGrillaVisibilitySuelta(false);
+
+
                 return false;
               }   
               else     
         {this.SiCargoData = true;
-         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+         
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
            dtInstance.destroy();
            this.dtTrigger.next(this.objCitasPermisos);         
          });
-         this.SetGrillaVisibility(true);
+
+       /* this.dtElements.forEach((dtElement: DataTableDirective) => {
+          dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+        });*/
+        //this.dtTrigger.next(this.objCitasPermisos);         
+
+        this.SetGrillaVisibility(true);
+        this.SetGrillaVisibilityDev(false);
+        this.SetGrillaVisibilityImpo(false);
+        this.SetGrillaVisibilitySuelta(false);
+
         }
        }
        else
@@ -520,7 +1526,19 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
            dtInstance.destroy();
             this.dtTrigger.next(this.objCitasPermisos);
             this.SetGrillaVisibility(true);
+            this.SetGrillaVisibilityDev(false);
+            this.SetGrillaVisibilityImpo(false);
+            this.SetGrillaVisibilitySuelta(false);
          });
+
+
+        /*this.dtElements.forEach((dtElement: DataTableDirective) => {
+          dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+        });
+        this.dtTrigger.next(this.objCitasPermisos);  */       
+
+       
+
          swal("No existen datos");
        }
        //this.dtTrigger.unsubscribe();
@@ -572,11 +1590,56 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
  {
    if (param) {
      document.getElementById('grillacitas').style.visibility = "visible";
+     document.getElementById('grillacitasdev').style.visibility = "visible";
+    
+
    }
    else {
-     document.getElementById('grillacitas').style.visibility = "hidden";
+     document.getElementById('grillacitas').style.visibility = "hidden";     
+     document.getElementById('grillacitasdev').style.visibility = "hidden";
    }
  }
+
+ 
+ public SetGrillaVisibilityDev(param:boolean)
+ {
+   if (param) {
+     document.getElementById('grillacitasdev').style.visibility = "visible";
+    
+
+   }
+   else {    
+     document.getElementById('grillacitasdev').style.visibility = "hidden";
+   }
+ }
+
+ public SetGrillaVisibilitySuelta(param:boolean)
+ {
+   if (param) {
+     document.getElementById('grillacitassuelta').style.visibility = "visible";
+    
+
+   }
+   else {    
+     document.getElementById('grillacitassuelta').style.visibility = "hidden";
+   }
+ }
+
+
+
+ 
+ public SetGrillaVisibilityImpo(param:boolean)
+ {
+   if (param) {
+     document.getElementById('grillacitasimpo').style.visibility = "visible";
+    
+
+   }
+   else {    
+     document.getElementById('grillacitasimpo').style.visibility = "hidden";
+   }
+ }
+
 
 
  public SiTieneData(param :boolean)
@@ -623,6 +1686,319 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
    //  return "";
     }
 
+ VisualizarHoras()
+ {  
+let resh = this.reportService.getCitasConsultarHoras(this.citaCHorasRqt);
+
+resh.subscribe( 
+  data => { 
+    this.citachoras = data;
+    
+    if (data.Data.length >= 1)
+    {
+       this.objCitasHoras = data.Data;
+
+       let date = new Date();
+       var datePipe = new DatePipe("en-US");
+       let fechaact = datePipe.transform(date.toString(), 'yyyy/MM/dd'); 
+       let horaact = date.getHours();
+       
+       //if ( this.FechaSelec < fechaact.toString() )
+      // {return false;}
+       
+       for (var i = 0; i <= this.objCitasHoras.length-1; i++) {
+     
+        let hora = this.objCitasHoras[i].RetiCuotHora;
+        let deshora =  this.objCitasHoras[i].HoraProg;
+        let cantdisp = this.objCitasHoras[i].CantidadDisponible;
+        
+      switch (hora) {
+        case 1:
+          this.unaAM = deshora.toString().toUpperCase();
+          
+          //if ((cantdisp <= 0) || (this.FechaSelec < fechaact.toString() && hora <= horaact))          
+          if ((cantdisp <= 0) || (hora <= horaact))
+          { document.getElementById('runaAM').setAttribute("disabled","disabled");
+            document.getElementById('unaAM').style.color = "red";}
+          else
+          { document.getElementById('unaAM').style.color = "blue";}          
+          break;
+
+        case 2:
+          this.dosAM = deshora.toString().toUpperCase();
+          
+          if ((cantdisp <= 0) || (hora <= horaact))
+          { document.getElementById('dosAM').style.color = "red";
+            document.getElementById('rdosAM').setAttribute("disabled","disabled");
+          }
+          else
+          { document.getElementById('dosAM').style.color = "blue";}          
+          break;
+          
+        case 3:
+          this.tresAM = deshora.toString().toUpperCase();  
+          if ((cantdisp <= 0) || (hora <= horaact))
+          {
+            document.getElementById('rtresAM').setAttribute("disabled","disabled");    
+            document.getElementById('tresAM').style.color = "red";}
+          else
+          { document.getElementById('tresAM').style.color = "blue";}          
+          break;
+        
+        case 4:
+          this.cuatroAM = deshora.toString().toUpperCase();    
+          if ((cantdisp <= 0) || (hora <= horaact))
+          {  document.getElementById('rcuatroAM').setAttribute("disabled","disabled");
+            document.getElementById('cuatroAM').style.color = "red";}
+          else
+          { document.getElementById('cuatroAM').style.color = "blue";}          
+          break;
+            
+      
+        case 5:
+          this.cincoAM = deshora.toString().toUpperCase();          
+          if ((cantdisp <= 0) || ( hora <= horaact))
+          {  document.getElementById('rcincoAM').setAttribute("disabled","disabled");
+            document.getElementById('cincoAM').style.color = "red";}
+          else
+          { document.getElementById('cincoAM').style.color = "blue";}          
+          break;
+          
+      
+        case 6:
+          this.seisAM = deshora.toString().toUpperCase();      
+          if ((cantdisp <= 0) || (hora <= horaact))
+          {  document.getElementById('rseisAM').setAttribute("disabled","disabled");
+            document.getElementById('seisAM').style.color = "red";}
+          else
+          { document.getElementById('seisAM').style.color = "blue";}          
+          break;
+          
+          
+        case 7:
+          this.sieteAM = deshora.toString().toUpperCase();
+          if ((cantdisp <= 0) || (hora <= horaact))
+          {  document.getElementById('rsieteAM').setAttribute("disabled","disabled");
+            document.getElementById('sieteAM').style.color = "red";}
+          else
+          { document.getElementById('sieteAM').style.color = "blue";}          
+          break;
+                
+        case 8:   
+         this.ochoAM = deshora.toString().toUpperCase();      
+         if ((cantdisp <= 0) || (hora <= horaact))
+          { document.getElementById('rochoAM').setAttribute("disabled","disabled");
+             document.getElementById('ochoAM').style.color = "red";}
+          else
+          { document.getElementById('ochoAM').style.color = "blue";}          
+          break;
+          
+        case 9:
+          this.nueveAM = deshora.toString().toUpperCase();
+          if ((cantdisp <= 0) || (hora <= horaact))
+          { document.getElementById('rnueveAM').setAttribute("disabled","disabled");
+             document.getElementById('nueveAM').style.color = "red";}
+          else
+          { document.getElementById('nueveAM').style.color = "blue";}          
+          break;
+               
+        case 10:
+          this.diezAM = deshora.toString().toUpperCase();      
+          if ((cantdisp <= 0) || (hora <= horaact))
+          { 
+            document.getElementById('rdiezAM').setAttribute("disabled","disabled");
+            document.getElementById('diezAM').style.color = "red";}
+          else
+          { document.getElementById('diezAM').style.color = "blue";}          
+          break;
+          
+        case 11:
+          this.onceAM = deshora.toString().toUpperCase();      
+          if ((cantdisp <= 0) || (hora <= horaact))
+          { 
+            document.getElementById('ronceAM').setAttribute("disabled","disabled");
+            document.getElementById('onceAM').style.color = "red";}
+          else
+          { document.getElementById('onceAM').style.color = "blue";}          
+          break;
+          
+        case 12:    
+        this.doceAM = deshora.toString().toUpperCase();
+        if ((cantdisp <= 0) || (hora <= horaact))
+          {  document.getElementById('rdoceAM').setAttribute("disabled","disabled");
+            document.getElementById('doceAM').style.color = "red";}
+          else
+          { document.getElementById('doceAM').style.color = "blue";}          
+          break;
+                
+        case 13:    
+        this.unaPM = deshora.toString().toUpperCase();
+        
+        if ((cantdisp <= 0) || (hora <= horaact))
+          { 
+            document.getElementById('runaPM').setAttribute("disabled","disabled");
+            document.getElementById('unaPM').style.color = "red";}
+          else
+          { document.getElementById('unaPM').style.color = "blue";}
+
+        break;
+        case 14:    
+        this.dosPM = deshora.toString().toUpperCase();
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          
+          document.getElementById('rdosPM').setAttribute("disabled","disabled");
+          document.getElementById('dosPM').style.color = "red";}
+        else
+        { document.getElementById('dosPM').style.color = "blue";}
+
+        
+        break;
+        case 15:    
+        this.tresPM = deshora.toString().toUpperCase();      
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          document.getElementById('rtresPM').setAttribute("disabled","disabled");
+          document.getElementById('tresPM').style.color = "red";}
+        else
+        { document.getElementById('tresPM').style.color = "blue";}
+
+        break;
+        case 16:    
+        this.cuatroPM = deshora.toString().toUpperCase();      
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          document.getElementById('rcuatroPM').setAttribute("disabled","disabled");
+          document.getElementById('cuatroPM').style.color = "red";}
+        else
+        { document.getElementById('cuatroPM').style.color = "blue";}
+
+        break;
+        case 17:    
+        this.cincoPM = deshora.toString().toUpperCase();      
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          
+          document.getElementById('rcincoPM').setAttribute("disabled","disabled");
+          document.getElementById('cincoPM').style.color = "red";}
+        else
+        { document.getElementById('cincoPM').style.color = "blue";}
+
+        break;
+        case 18:    
+        this.seisPM = deshora.toString().toUpperCase();
+        if ((cantdisp <= 0) || (hora <= horaact))
+        { 
+          document.getElementById('rseisPM').setAttribute("disabled","disabled");
+          document.getElementById('seisPM').style.color = "red";}
+        else
+        { document.getElementById('seisPM').style.color = "blue";}
+    
+        break;
+        case 19:    
+        this.sietePM = deshora.toString().toUpperCase();
+        if ((cantdisp <= 0) || (hora <= horaact))
+        { 
+          
+          document.getElementById('rsietePM').setAttribute("disabled","disabled");
+          document.getElementById('sietePM').style.color = "red";}
+        else
+        { document.getElementById('sietePM').style.color = "blue";}
+    
+        break;
+        case 20:    
+        this.ochoPM = deshora.toString().toUpperCase();
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          
+          document.getElementById('rochoPM').setAttribute("disabled","disabled");
+          document.getElementById('ochoPM').style.color = "red";}
+        else
+        { document.getElementById('ochoPM').style.color = "blue";}
+    
+        break;          
+        case 21:    
+        this.nuevePM = deshora.toString().toUpperCase();      
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          document.getElementById('rnuevePM').setAttribute("disabled","disabled");
+          document.getElementById('nuevePM').style.color = "red";}
+        else
+        { document.getElementById('nuevePM').style.color = "blue";}
+
+        break;
+        case 22:    
+        this.diezPM = deshora.toString().toUpperCase();      
+        if ((cantdisp <= 0) || ( hora <= horaact))
+        { 
+          document.getElementById('rdiezPM').setAttribute("disabled","disabled");
+          document.getElementById('diezPM').style.color = "red";}
+        else
+        { document.getElementById('diezPM').style.color = "blue";}
+
+        break;
+        case 23:    
+        this.oncePM = deshora.toString().toUpperCase();      
+        if ((cantdisp <= -2) || ( hora <= horaact))
+        { 
+          document.getElementById('roncePM').setAttribute("disabled","disabled");
+          document.getElementById('oncePM').style.color = "red";}
+        else
+        { document.getElementById('oncePM').style.color = "blue";}
+
+        break;
+        case 24:    
+        this.docePM = deshora.toString().toUpperCase();
+        if ((cantdisp <= -2) || ( hora <= horaact))
+        { 
+          document.getElementById('rdocePM').setAttribute("disabled","disabled");
+          document.getElementById('docePM').style.color = "red";}
+        else
+        { document.getElementById('docePM').style.color = "blue";}
+    
+        break;
+
+        default:
+          console.log("No existe la hora!");
+          break;
+        }
+      }
+    }
+    else
+    {
+     this.objCitasHoras = [];
+      swal("No existen datos");
+    }
+    //this.dtTrigger.unsubscribe();
+  }, 
+  error => {
+    swal("Error al cargar los datos"); 
+    console.log("Error : ", error); 
+  }
+ );
+
+
+
+ }
+
+ 
+ EliminarDevolucion(Serie:string)
+ {  
+  var pos = this.objCitasVDev.map(function(e) { 
+    return e.Serie; 
+   }).indexOf(Serie); 
+
+
+   this.objCitasVDev.splice(pos,1);  
+
+   var poscit = this.objCitasDetalles.map(function(e) { 
+    return e.Contenedor; 
+   }).indexOf(Serie); 
+
+   this.objCitasDetalles.splice(poscit,1);  
+ 
+ }
+
  VisualizarContenedores(RPermiso:string, BL:string)
  {
    this.MuestraCont = true;
@@ -637,6 +2013,7 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   Trasegado : this.Trasegado
 };
 
+
 let res = this.reportService.getCitasLContenedores(this.citaContenedorRqt);
 //console.log(this.objCartaTemperaturaRQT)
 
@@ -647,6 +2024,7 @@ res.subscribe(
    if (data.Data.length >= 1)
    {
       this.objCitasContenedor = data.Data;
+      this.selectedOptions = [];
 
       if (this.TipoCitaSelect == "01")
       {this.MuestraCantCTN = false;}
@@ -672,6 +2050,7 @@ res.subscribe(
  }
 );
 
+ 
 
 
 

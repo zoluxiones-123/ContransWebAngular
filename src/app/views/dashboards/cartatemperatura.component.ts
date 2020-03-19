@@ -48,7 +48,8 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
     setearFechasLimite(){
       let date = new Date();
       this.minDate = new Date(date.getFullYear(), date.getMonth() - 5, 1);
-      this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
+      this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);   
+      
     }
     
     dtTrigger:Subject<any> = new Subject();

@@ -1,0 +1,61 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Generación de Citas </h5>
+          <iboxtools></iboxtools>
+        </div>
+        <div class="ibox-content">         
+          <div class="row">
+            <div id="grillacitavasig" class="table-responsive">
+              <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
+              [dtTrigger]="dtTrigger" > 
+                <thead>
+                  <tr>
+                    <th>Contenedor</th>                                                                                      
+                    <th>Tipo Cont</th>
+                    <th>Placa Tracto</th>
+                    <th>Nro. Brevete</th>                                                    
+                   </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.objCitasVAsig">
+                    <td>{{item.Contenedor}}</td>
+                    <td>  <select name="listTipoCont"  class="form-control  tamanio-device" (change)="ChangingValue($event)" [(ngModel)]="item.TipoCont"  >
+                      <option [value]="" selected hidden>--Tipo Contenedor--</option>
+                      <option *ngFor="let item of this.ListaTiposCont" [value]="item.Code">{{item.AbreviadoCapacidad}}</option>
+                    </select>
+                  </td> 
+                  <td>   <input type="text" name="txtbox_Placa"  id = "txtPlaca" placeholder="Placa"  class="form-control  tamanio-device"  [(ngModel)]="item.Placa" /> 
+                  
+                  </td>
+                  <td>
+                    <input type="text" name="txtbox_Brevete" id = "txtBrevete" placeholder="Brevete"  class="form-control  tamanio-device"  [(ngModel)]="item.Brevete" />             
+                  </td>
+                  </tr>
+                </tbody>
+                
+              </table>
+            </div>                       
+          </div>
+
+          <div class="row">
+          <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+            <button type="button" (click)="GrabarCita()"
+              class="btn btn-primary block m-b tamanio-device" >Aceptar</button>
+          </div>
+          <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+            <button type="button" (click)="Cerrar()"
+              class="btn btn-primary block m-b tamanio-device" >Cancelar</button>
+          </div> 
+        </div> 
+        
+
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

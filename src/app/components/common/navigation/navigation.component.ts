@@ -41,7 +41,7 @@ export class NavigationComponent {
     this.NombreIniciales = localStorage.getItem("NombreIniciales");
     this.IDUserObj = localStorage.getItem("Usuario").toString();
     this.rolcodigo =  localStorage.getItem("RolEmpUsuaCodigoDefault").toString();
-    this.MenuRST = JSON.parse(localStorage.getItem("Menu"));
+    this.MenuRST = JSON.parse(localStorage.getItem("Menu"));  
   }
 
   ObtenerRolActual (rolxdefecto:string)

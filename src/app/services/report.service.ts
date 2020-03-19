@@ -10,8 +10,8 @@ import { ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefren
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
   CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
-  CitasCFechaRPT, CitasCFechaRQT } from '../models/Cita';
-
+  CitasCFechaRPT, CitasCFechaRQT, CitasCHoras, CitasCHorasRPT, CitasCHorasRQT,TipoContenedor, TipoContenedores,
+   InsertarCitaDetalleRPT, InsertarCitaDetalleRQT, InsertarCitaRPT, InsertarCitaRQT } from '../models/Cita';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
@@ -117,6 +117,25 @@ export class ReportService {
     return this.http
       .post<CitasContenedor>(
         url_api, citacontrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  InsertarCita(inscitarqt: InsertarCitaRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/insertarcita`;    
+    return this.http
+      .post<InsertarCitaRPT>(
+        url_api, inscitarqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  InsertarCitaDetalle(inscitadetrqt: InsertarCitaDetalleRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/insertarcitadetalle`;    
+    return this.http
+      .post<InsertarCitaDetalleRPT>(
+        url_api, inscitadetrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 
@@ -510,6 +529,13 @@ export class ReportService {
     return this.http.get<TiposCarga>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
+  
+  getTipoContenedor() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/listartipocontenedor`;
+    return this.http.get<TipoContenedores>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
 
   getTiposCita() : Observable<any>
   {
@@ -525,6 +551,14 @@ export class ReportService {
     const url_api =`/ContransAPI/api/citasconsultarfecha`;
     return this.http.post<CitasCFechaRPT>(
         url_api, citacfecharqt, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  
+  getCitasConsultarHoras(citachorarqt : CitasCHorasRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/citasconsultarhoras`;
+    return this.http.post<CitasCHoras>(
+        url_api, citachorarqt, { headers: this.headers }).pipe(map(data => data));
   }
 
 
