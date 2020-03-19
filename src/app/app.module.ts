@@ -60,7 +60,7 @@ import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consulde
 import { CartaTemperaturaDetalleComponent } from './views/dashboards/cartatemperaturadetalle.component';
 import { CartaTemperaturaNuevoComponent } from './views/dashboards/cartatemperaturanuevo.component';
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
-
+import { RefrendoExpoNuevoComponent } from './views/dashboards/refrendoexponuevo.component';
 
 import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component';
 import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
@@ -98,7 +98,8 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
     DetrepstockcliexpComponent,
     DetrepstockestComponent,
     ActualizarcitaComponent,
-    GenerarcitaComponent
+    GenerarcitaComponent,
+    RefrendoExpoNuevoComponent
    
   ],
   imports: [
@@ -131,7 +132,7 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent]
    
   
 })

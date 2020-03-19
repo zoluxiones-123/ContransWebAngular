@@ -8,7 +8,8 @@ import {CartaTemperaturaDetalleComponent} from "./views/dashboards/cartatemperat
 import {CartaTemperaturaNuevoComponent} from "./views/dashboards/cartatemperaturanuevo.component";
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
 import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
-
+import {RefrendoExpoComponent} from "./views/dashboards/refrendoexpo.component";
+import {RefrendoExpoNuevoComponent} from "./views/dashboards/refrendoexponuevo.component";
 
 // Forms: Entrada de Datos / Mantenimientos
 import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-datos-usuario/actualizar-datos-usuario.component";
@@ -66,7 +67,8 @@ export const ROUTES:Routes = [
       {path: 'consultatemperatura', component: ConsultaTemperaturaComponent},
       {path: 'cartatemperatura', component: CartaTemperaturaComponent},
       {path: 'repstockreal', component: RepstockrealComponent },
-      {path: 'consultacitas', component: ConsultacitasComponent}
+      {path: 'consultacitas', component: ConsultacitasComponent},
+      {path: 'refrendoexpo', component: RefrendoExpoComponent}
 
     ]
   },

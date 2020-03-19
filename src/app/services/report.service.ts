@@ -6,6 +6,7 @@ import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes, TiposCita } from '../models/Factura';
 import { TemperaturaRPT,BuscarNuevoCartaDetalleTemperaturaRQT,BuscarNuevoCartaDetalleTemperaturaRPT,BuscarCartaDetalleTemperaturaRQT,BuscarCartaDetalleTemperaturaRPT,NuevoCartaDetalleTemperaturaRQT,NuevoCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRQT,CartaDetalleTemperatura2RQT,CartaDetalleTemperatura2RPT,ActualizarCartaDetalleTemperaturaRQT,ActualizarCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRPT,TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
+import { ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo } from '../models/RefrendoExpo';
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
   CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
@@ -439,6 +440,42 @@ export class ReportService {
     return this.http.post<BuscarCartaDetalleTemperaturaRPT>(
       url_api, objBuscarCartaDetalleTemperatura, { headers: this.headers }).pipe(map(data => data));
   }
+
+  ConsultaRefrendoExpo(objConsultaRefrendoExpo : ConsultaRefrendoExpoRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/refrendoconsultar`;    
+    return this.http.post<ConsultaRefrendoExpoRPT>(
+      url_api, objConsultaRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  ConsultaBookingRefrendoExpo(objConsultaBookingRefrendoExpo : ConsultaBookingRefrendoExpoRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/consultarbooking`;    
+    return this.http.post<ConsultaBookingRefrendoExpoRPT>(
+      url_api, objConsultaBookingRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  GenerarRefrendoExpo(objGenerarRefrendoExpo : GenerarRefrendoExpoRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/generarrefrendo`;    
+    return this.http.post<GenerarRefrendoExpoRPT>(
+      url_api, objGenerarRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  ConsultaEstadoRefrendoExpo() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/refrendoestado`;
+    return this.http.get<Array<ListaEstadoRefrendoExpo>>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  ConsultaModalidadRefrendoExpo() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/listarempaque`;
+    return this.http.get<Array<ListaModalidadRefrendoExpo>>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
 
   getDirecc(objDirecc : DireccRQT) : Observable<any>
   {

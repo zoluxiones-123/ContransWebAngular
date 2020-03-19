@@ -1,0 +1,197 @@
+<div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
+  <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+    <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+    <h4 class="modal-title pull-left" style="display: inline-table;">Refrendo Expo</h4>
+    <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+      (click)="cerrarPopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="m-t" role="form" #formUsuario="ngForm" >
+    <div class="ibox-content cuerpo-con-overflow">
+      <div class="form-group row">
+        <label class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 0px;padding-top: 7px;">
+          N° Booking :</label>
+        <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 5px;">
+          <input type="text" name="txtbox_NBooking" class="form-control tamanio-device" [ngModel]>
+        </div>
+        <div class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 5px;padding-bottom: 10px;">
+          <select name="listModalidad" class="form-control" style=" padding-left: 5px;padding-right: 5px;"
+            (change)="ChangingValue($event,'Modalidad')">
+            <option [value]="" selected hidden>--Modalidad--</option>
+            <option *ngFor="let item of this.ListaModalidad" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}
+            </option>
+          </select>
+        </div>
+        <div class="col-xs-5 col-sm-2 col-lg-2" style="padding: 1px 5px 2px;width: auto;"><button type="button"
+            (click)="BuscarBooking(formUsuario)" class="btn btn-primary block m-b tamanio-device">Buscar</button></div>
+      </div>
+      <div>
+        <!-- ------------PARTE 1------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">DAM</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('DAM')"></b>
+          </div>
+          <div id="DAM">
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Exportador :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Exportador" maxlength="50" name="txtbox_Exportador"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Despachador :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Agencia de
+                Aduana:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_AgenciaDeAduana"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nro de Orden :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="NroDeOrden" maxlength="50" name="txtbox_NroDeOrden"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nro de DAM :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="NroDeDAM" maxlength="50" name="txtbox_NroDeDAM" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de Num :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="FechaDeNum" maxlength="50" name="txtbox_FechaDeNum"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Mercancia :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Mercaderia" maxlength="50" name="txtbox_Mercaderia"
+                  class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ------------PARTE 2------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">CONTENEDORES</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('CONTENEDORES')"></b>
+          </div>
+          <div id="CONTENEDORES" class="form-group row" >
+            <div class="row">
+              <div style="width: 97%;overflow-y: hidden;">
+               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptions"
+                  [dtTrigger]="dtTrigger" > 
+                  <thead>
+                    <tr>
+                      <th>N° Contenedor</th>
+                      <th>--</th>
+                      <th>Bultos</th>
+                      <th>Peso Neto</th>
+                      <!-- <th>PCTO de Aduana</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of this.Datos">
+                      <td>{{item.Contenedor}}</td> 
+                      <td><input type="text" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
+                      <td>{{item.Bultos}}</td>
+                      <td>{{item.Peso}}</td>
+                      <!-- <td>{{item.Peso}}</td> -->
+                   </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        
+                    </tr>
+                </tfoot>
+                </table>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+        <!-- ------------PARTE 3------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">DOCUMENTOS</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('DOCUMENTOS')"></b>
+          </div>
+          <div id="DOCUMENTOS">
+<!--             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Exportador :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Exportador" maxlength="50" name="txtbox_Exportador"
+                  class="form-control">
+              </div>
+            </div> -->
+
+            <div class="form-group row" >
+              <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">Archivos:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
+                <div class="form-group" style="text-align: center;">
+                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
+                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
+                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                </div>
+      
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
+                <mat-selection-list #list >
+                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                    [value]="item.name" style="font-size: smaller;">
+                    <label style="color:blue;">Archivo: {{item.name}} Tamaño:
+                      {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
+                    </label>
+                  </mat-list-option>
+                </mat-selection-list>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-xs-12 col-sm-12 col-lg-12">
+                <label style="color:blue; font-style: normal;size: initial; ">Total:
+                  {{(this.TotalMB) | number: '1.1-2' }} MB </label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div *ngIf="this.EsMayor5">
+                <label style="color: red;" class="col-xs-12 col-sm-12 col-lg-12">No se puede cargar mas de 5MB como conjunto de
+                  Archivos</label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
+      <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
+      <button (click)="AgregarRefrendo(formUsuario)" type="submit" class="btn btn-w-m btn-primary">Nuevo</button>
+      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
+  </div>
+</div>
