@@ -60,7 +60,7 @@ import { ConsultaDetalleTemperaturaComponent } from './views/dashboards/consulde
 import { CartaTemperaturaDetalleComponent } from './views/dashboards/cartatemperaturadetalle.component';
 import { CartaTemperaturaNuevoComponent } from './views/dashboards/cartatemperaturanuevo.component';
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
-
+import { RefrendoExpoNuevoComponent } from './views/dashboards/refrendoexponuevo.component';
 
 import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component';
 import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
@@ -68,6 +68,7 @@ import { DetrepstockcliexpComponent } from './views/dashboards/detrepstockcliexp
 import { DetrepstockestComponent } from './views/dashboards/detrepstockest.component';
 import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.component';
 import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
+import { CitavacioasigComponent } from './views/dashboards/citavacioasig.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,12 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
     DetrepstockcliexpComponent,
     DetrepstockestComponent,
     ActualizarcitaComponent,
-    GenerarcitaComponent
+    GenerarcitaComponent,
+<<<<<<< HEAD
+    RefrendoExpoNuevoComponent
+=======
+    CitavacioasigComponent
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
    
   ],
   imports: [
@@ -132,9 +138,9 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
     
 
 <<<<<<< HEAD
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent]
 =======
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent, GenerarcitaComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,CitavacioasigComponent]
 >>>>>>> origin/con_el_cambio_a_nueva_Angular
    
   
