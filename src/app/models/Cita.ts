@@ -262,10 +262,177 @@ export class CitasPermiso {
   }
 
   
+  export class CitaVacioAsig
+  {
+    Contenedor: number;
+    TipoCont: string;
+    Placa: string;
+    Brevete: string;
+    constructor(cont:number,tipcont:string, placa:string, brevet : string)
+    {
+        this.Contenedor = cont;
+        this.TipoCont = tipcont;
+        this.Placa = placa;
+        this.Brevete =  brevet;
+    }
+  }
+
+  
+  export class CitaVacioDev
+  {
+    Serie: string;
+    Descripcion: string;
+    Fecha: string;
+    Hora: string;
+    ServExt: string;
+    Placa: string;
+    Brevete: string;
+    AutBulto: number;
+    AutPeso: number;
+    CuotaPeso: number;
+    CuotaBulto: number;
+    Bultos: string;
+    PesoTotal: number;
+    Paletizada: string;
+    ServExtra: string;
+        
+    constructor( serie: string, descripcion: string,fecha: string,hora: string,
+      servext: string, placa: string, brevete: string, autbulto : number,
+      autpeso : number, cpeso: number, cbulto: number, bultos: string,
+      ptotal: number, paletizada: string, servextra: string)
+    {
+        this.Serie = serie;
+        this.Descripcion = descripcion;
+        this.Fecha = fecha;
+        this.Hora = hora;
+        this.ServExt = servext;
+        this.Placa = placa;
+        this.Brevete =  brevete;
+        this.AutBulto = autbulto;
+        this.AutPeso = autpeso;
+        this.CuotaBulto = cbulto;
+        this.CuotaPeso = cpeso;
+        this.Bultos = bultos;
+        this.PesoTotal = ptotal;
+        this.Paletizada = paletizada;
+        this.ServExtra = servextra;
+
+
+    }
+  }
+
+  
+  export class TipoContenedor
+  {
+  Code: string;
+  Desc: string;
+  Abreviado: string;
+  Capacidad: string;
+  AbreviadoCapacidad: string;
+  }
+
+  
+  export class TipoContenedores
+  {
+  Data : any;
+  }
+  
   export class CitasCHoras
   {
     Data: any;
   }
+
+  export class InsertarCitaRQT
+  {
+   
+    Token: string;
+    IDRol: number;
+    RegiCodigo: string;
+    RetiCuotProgCodigo: string;
+    PermCodigo:  string;
+    Empaque: string;
+    UnidadNeg: string;
+    TipoCita: string;
+    Trasegado: boolean;
+    Extra: number;
+    Extemp: number;
+    Paletizada: number;
+    ColdTreatment: boolean;
+    FechaCT: string;
+    HoraCT: string;
+    LugarProg: string;
+  }
+
+  export class InsertarCitaRPT
+  {   
+    Cod: number;
+    Msj: string;
+  }
+
+  
+  export class InsertarCitaDetalleRQT
+  {
+   
+    Token: string;
+    IDRol: number;
+    hojaServCodigo: string;
+    PermCodigo: string;    
+    PermDetaCodigo: string;
+
+    ContCargCodigo:  string;
+    VehiPlacaPri:  string;
+    NroBrevete:  string;
+    Registro:  string;  
+    Contenedor:  string;  
+    AutPeso:  number;
+    AutBulto:  number;
+    Peso:  number;
+    Bulto:  number;
+   
+    Empaque:  string;  
+    UnidadNeg: string;
+    TipoCita: string;
+    TipoCont: string;
+    Trasegado: boolean;
+
+    constructor(tok:string,idrol:number, codcita:string, permcodigo : string, permdetacodigo : string,
+    contcargocodigo : string, placa : string, brevete : string, registro : string, contenedor : string, autpeso : number,
+    autbulto : number, peso : number, bulto : number, empaque : string, unineg : string, tipocita : string,
+    tipocont: string, trasegado: boolean)
+    {
+        this.Token = tok;
+        this.IDRol = idrol;
+        this.hojaServCodigo = codcita;
+        this.PermCodigo =  permcodigo;
+        this.PermDetaCodigo =  permdetacodigo;
+        this.ContCargCodigo =  contcargocodigo;
+        this.VehiPlacaPri =  placa;
+        this.NroBrevete =  brevete;
+        this.Registro =  registro;
+        this.Contenedor =  contenedor;
+
+        this.AutPeso =  autpeso;
+        this.AutBulto =  autbulto;
+        this.Peso =  peso;
+        this.Bulto =  bulto;
+        this.Empaque =  empaque;
+
+        this.UnidadNeg =  unineg;
+        this.TipoCita =  tipocita;
+        this.TipoCont =  tipocont;
+        this.Trasegado =  trasegado;
+
+    }
+   
+  }
+
+  
+  export class InsertarCitaDetalleRPT
+  {   
+    Cod: number;
+    Msj: string;
+  }
+
 
   
   

@@ -110,13 +110,13 @@
             </div>
             <div class="col-sm-4">
               <label>Servicio Extemporáneo :&nbsp;&nbsp;</label>
-              <label class="radio-inline"><input type="radio" id="SESi" disabled = "true" name="optradioSESI" [(ngModel)]="ServExt" value="SI"  (change)="onItemChangeCP($event)" >Si</label>
-              <label class="radio-inline"><input type="radio" id="SENo" disabled = "true" name="optradioSENo" [(ngModel)]="ServExt" value="NO" (change)="onItemChangeCP($event)" >No</label>
+              <label class="radio-inline"><input type="radio" id="SESi" disabled = "true" name="optradioSESI"  value="SI"  (change)="onItemChangeExt($event)" >Si</label>
+              <label class="radio-inline"><input type="radio" id="SENo" disabled = "true" name="optradioSENo" checked = "true"  value="NO" (change)="onItemChangeExt($event)" >No</label>
             </div>
             <div class="col-sm-4">
               <label>Servicio Extraordinario :&nbsp;&nbsp;</label>
-              <label class="radio-inline"><input type="radio" id="SEXTSi" name="optradioSEXTSi" disabled = "true" (change)="onItemChangeCP($event)" >Si</label>
-              <label class="radio-inline"><input type="radio" id="SEXTNo" name="optradioSEXTNo" checked = "true" disabled = "true" (change)="onItemChangeCP($event)" >No</label>
+              <label class="radio-inline"><input type="radio" id="SEXTSi" name="optradioSEXTSi" disabled = "true" (change)="onItemChangeExtr($event)" >Si</label>
+              <label class="radio-inline"><input type="radio" id="SEXTNo" name="optradioSEXTNo" checked = "true" disabled = "true" (change)="onItemChangeExtr($event)" >No</label>
             </div>
           </div>
 
@@ -133,10 +133,10 @@
               </mat-tab>
               <mat-tab *ngIf = "!MuestraCantCTN" label="Número(CTN)">
                 <h3 style="text-align: center;" >Contenedor/Serie</h3>          
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                   <mat-selection-list #list>
-                    <mat-list-option *ngFor="let item of this.objCitasContenedor"                     
-                      [value]="item.CodiContenedor">
+                    <mat-list-option *ngFor="let item of this.objCitasContenedor"  (click)="onListControlChanged(list)"                  
+                      [value]="item.Contenedor">
                       <label style="color:black;">{{item.Contenedor}} 
                       </label>
                     </mat-list-option>
@@ -146,16 +146,209 @@
             </mat-tab-group>
 
           </div>
-
-          <div class="col-sm-4" style="padding-left: 5px;">
-            <label>Fecha Programación:&nbsp;&nbsp;</label>
-            <div class="form-group" tooltip="" placement="top">            
-              <input type="text" name="txtbox_FechaProg" placeholder="Fecha Programacion" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel] autocomplete="off" required>
+          <div  class="col-sm-5" >
+           <div class="row">
+            <div *ngIf = "MuestraCont" class="col-sm-6" style="padding-left: 5px;">
+              <label>Fecha Programación:&nbsp;&nbsp;</label>
+              <div class="form-group" tooltip="" placement="top">            
+                <input type="text" id = "dpFechaProg" name="txtbox_FechaProg" (bsValueChange)="ChangeFecha($event)"  placeholder="Fecha Programacion" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel] autocomplete="off" required>
+              </div>
             </div>
           </div>
+          <div class="row">
+            <div *ngIf = "MuestraTabla" class="ibox-content table-responsive">
+              <table class="table table-hover no-margins">            
+                  <tbody>
+                  <tr>                             
+        <td class="text-navy"><label id = "unaAM"><input type="radio" id="runaAM" name="optradio"(change)="onItemChangeHora($event)">{{this.unaAM}}</label></td>                                        
+        <td class="text-navy"><label id = "sieteAM"><input type="radio" id="rsieteAM" name="optradio"(change)="onItemChangeHora($event)">{{this.sieteAM}}</label></td>
+        <td class="text-navy"><label id = "unaPM"><input type="radio" id="runaPM" name="optradio"(change)="onItemChangeHora($event)">{{this.unaPM}}</label></td>
+        <td class="text-navy"><label id = "sietePM"><input type="radio" id="rsietePM" name="optradio"(change)="onItemChangeHora($event)">{{this.sietePM}}</label></td>                    
+                  </tr>
+                  <tr>                               
+        <td class="text-navy"><label id = "dosAM"><input type="radio" id="rdosAM" name="optradio"(change)="onItemChangeHora($event)">{{this.dosAM}}</label></td>
+        <td class="text-navy"><label id = "ochoAM"><input type="radio" id="rochoAM" name="optradio"(change)="onItemChangeHora($event)">{{this.ochoAM}}</label></td>
+        <td class="text-navy"><label id = "dosPM"><input type="radio" id="rdosPM" name="optradio"(change)="onItemChangeHora($event)">{{this.dosPM}}</label></td>
+        <td class="text-navy"><label id = "ochoPM"><input type="radio" id="rochoPM" name="optradio"(change)="onItemChangeHora($event)">{{this.ochoPM}}</label></td>                    
+                  </tr>
+                  <tr>                               
+       <td class="text-navy"><label id = "tresAM" ><input type="radio" id="rtresAM" name="optradio"(change)="onItemChangeHora($event)">{{this.tresAM}}</label></td>
+       <td class="text-navy"><label id = "nueveAM"><input type="radio" id="rnueveAM" name="optradio"(change)="onItemChangeHora($event)">{{this.nueveAM}}</label></td>
+       <td class="text-navy"><label id = "tresPM"><input type="radio" id="rtresPM" name="optradio"(change)="onItemChangeHora($event)">{{this.tresPM}}</label></td>
+       <td class="text-navy"><label id = "nuevePM"><input type="radio" id="rnuevePM" name="optradio"(change)="onItemChangeHora($event)">{{this.nuevePM}}</label></td>
+  
+                      </tr>
+                  <tr>                  
+      <td class="font-bold"><label id = "cuatroAM"><input type="radio" id="rcuatroAM" name="optradio"(change)="onItemChangeHora($event)">{{this.cuatroAM}}</label></td>
+      <td class="font-bold"><label id = "diezAM"><input type="radio" id="rdiezAM" name="optradio"(change)="onItemChangeHora($event)">{{this.diezAM}}</label></td>                    
+      <td class="text-navy"><label id = "cuatroPM"><input type="radio" id="rcuatroPM" name="optradio"(change)="onItemChangeHora($event)">{{this.tresAM}}</label></td>
+      <td class="text-navy"><label id = "diezPM"><input type="radio" id="rdiezPM" name="optradio" (change)="onItemChangeHora($event)" >{{this.nueveAM}}</label></td>
+                  </tr>                   
+                  <tr>                  
+      <td class="font-bold"><label id = "cincoAM"><input type="radio" id="rcincoAM" name="optradio"(change)="onItemChangeHora($event)">{{this.cincoAM}}</label></td>
+      <td class="font-bold"><label id = "onceAM"><input type="radio" id="ronceAM" name="optradio" (change)="onItemChangeHora($event)" >{{this.onceAM}}</label></td>                    
+      <td class="text-navy"><label id = "cincoPM"><input type="radio" id="rcincoPM" name="optradio"(change)="onItemChangeHora($event)">{{this.cincoPM}}</label></td>
+      <td class="text-navy"><label id = "oncePM"><input type="radio" id="roncePM" name="optradio" (change)="onItemChangeHora($event)" > {{this.oncePM}} </label></td>
+                </tr>   
+                <tr>                  
+      <td class="font-bold"><label id = "seisAM" ><input type="radio" id="rseisAM" name="optradio" (change)="onItemChangeHora($event)" >{{this.seisAM}}</label></td>
+      <td class="font-bold"><label id = "doceAM" ><input type="radio" id="rdoceAM" name="optradio" (change)="onItemChangeHora($event)" >{{this.doceAM}}</label></td>                    
+      <td class="text-navy"><label id = "seisPM" ><input type="radio" id="rseisPM" name="optradio" (change)="onItemChangeHora($event)">{{this.seisPM}}</label></td>
+      <td class="text-navy"><label id = "docePM" ><input type="radio" id="rdocePM" name="optradio" (change)="onItemChangeHora($event)" >{{this.docePM}}</label></td>
+              </tr>                                                                                        
+                  </tbody>
+              </table>
+          </div>
+
+          </div>
+          <div class="row">
+            <div  *ngIf = "MuestraCont" class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+              <button type="button" (click)="AgregarProgramacion()"
+                class="btn btn-primary block m-b tamanio-device" >Agregar Programación</button>
+            </div> 
+          </div>
+
+
+          </div>
+
+         
+          
+         
+      
 
         </div>
+        <div class="row">
+          <div id="grillacitasdev" class="table-responsive">
+            <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptionsDev"
+              [dtTrigger]="dtTriggerDev">
+              <thead>
+                <tr>
+                  <th>Serie</th>                                                                                      
+                  <th>Descripcion</th>
+                  <th>Fecha Programación</th>
+                  <th>Hora Programación</th>
+                  <th>Servicio Extraordinario</th>
+                  <th>Placa Tracto</th>
+                  <th>Nro. Brevete</th>
+                  <th>Quitar</th>                                          
+                 </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of this.objCitasVDev">
+                  <td>{{item.Serie}}</td>
+                  <td>{{item.Descripcion}}</td> 
+                  <td>{{item.Fecha}}</td>
+                  <td>{{item.Hora}}</td>
+                  <td>{{item.ServExt}}</td>
+                  <td> <input type="text" name="txtbox_Placa"  id = "txtPlaca" placeholder="Placa"  class="form-control  tamanio-device"  [(ngModel)]="item.Placa" /> 
+                  </td> 
+                  <td> <input type="text" name="txtbox_Brevete"  id = "txtBrevete" placeholder="Brevete"  class="form-control  tamanio-device"  [(ngModel)]="item.Brevete" /> 
+                  </td>    
+                  <td><a (click)="EliminarDevolucion(item.Serie)"><img src="assets/images/delete.png"></a></td>                                                        
+                                                                           
+                </tr>
+              </tbody>
+              
+            </table>
+          </div>                       
+        </div>
 
+        
+        <div class="row">
+          <div id="grillacitasimpo" class="table-responsive">
+            <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptionsImpo"
+              [dtTrigger]="dtTriggerImpo">
+              <thead>
+                <tr>
+                  <th>Contenedor</th>                                                                                      
+                  <th>Tipo/Tamaño</th>
+                  <th>Fecha Programación</th>
+                  <th>Hora Programación</th>               
+                  <th>Placa Tracto</th>
+                  <th>Nro. Brevete</th>
+                  <th>Quitar</th>                                          
+                 </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of this.objCitasVDev">
+                  <td>{{item.Serie}}</td>
+                  <td>{{item.Descripcion}}</td> 
+                  <td>{{item.Fecha}}</td>
+                  <td>{{item.Hora}}</td>              
+                  <td> <input type="text" name="txtbox_Placa"  id = "txtPlaca" placeholder="Placa"  class="form-control  tamanio-device"  [(ngModel)]="item.Placa" /> 
+                  </td> 
+                  <td> <input type="text" name="txtbox_Brevete"  id = "txtBrevete" placeholder="Brevete"  class="form-control  tamanio-device"  [(ngModel)]="item.Brevete" /> 
+                  </td>    
+                  <td><a (click)="EliminarDevolucion(item.Serie)"><img src="assets/images/delete.png"></a></td>                                                        
+                                                                           
+                </tr>
+              </tbody>
+              
+            </table>
+          </div>                       
+        </div>
+
+        <div class="row">
+          <div id="grillacitassuelta" class="table-responsive">
+            <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptionsSuelta"
+              [dtTrigger]="dtTriggerSuelta">
+              <thead>
+                <tr>
+                  <th>Serie</th>                                                                                      
+                  <th>Descripción</th>
+                  <th>Fecha Prog</th>
+                  <th>Hora Prog</th>
+                  <th>Aut.Bulto</th>
+                  <th>Aut.Peso</th>
+                  <th>Sal.Bulto</th>
+                  <th>Sal.Peso</th>
+                  <th>Bultos</th>        
+                  <th>Peso(Aprox)</th>                          
+                  <th>Carga Paletizada</th>
+                  <th>Serv. Extemporaneo</th>
+                  <th>Serv. Extraordinario</th>                                                 
+                  <th>Placa Tracto</th>
+                  <th>Nro. Brevete</th>
+                  <th>Quitar</th>                                          
+                 </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of this.objCitasVDev">
+                  <td>{{item.Serie}}</td>
+                  <td>{{item.Descripcion}}</td> 
+                  <td>{{item.Fecha}}</td>
+                  <td>{{item.Hora}}</td>   
+                  <td>{{item.AutBulto}}</td>   
+                  <td>{{item.AutPeso}}</td>   
+                  <td>{{item.CuotaBulto}}</td>   
+                  <td>{{item.CuotaPeso}}</td>   
+                  <td> <input type="text" name="txtbox_Bultos"  id = "txtBultos" placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /> 
+                  </td>               
+                  <td>{{item.PesoTotal}}</td>    
+                  <td>{{item.Paletizada}}</td>   
+                  <td>{{item.ServExt}}</td>   
+                  <td>{{item.ServExtra}}</td>   
+                                                  
+                  <td> <input type="text" name="txtbox_Placa"  id = "txtPlaca" placeholder="Placa"  class="form-control  tamanio-device"  [(ngModel)]="item.Placa" /> 
+                  </td> 
+                  <td> <input type="text" name="txtbox_Brevete"  id = "txtBrevete" placeholder="Brevete"  class="form-control  tamanio-device"  [(ngModel)]="item.Brevete" /> 
+                  </td>    
+                  <td><a (click)="EliminarDevolucion(item.Serie)"><img src="assets/images/delete.png"></a></td>                                                        
+                                                                           
+                </tr>
+              </tbody>
+              
+            </table>
+          </div>                       
+        </div>
+
+        
+
+        <div  *ngIf = "MuestraCont" class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+          <button type="button" (click)="popupGenerarCitaVacios()"
+            class="btn btn-primary block m-b tamanio-device" >Grabar</button>
+        </div> 
+        
         </div>
       </div>
     </div>

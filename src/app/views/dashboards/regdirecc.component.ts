@@ -1421,7 +1421,7 @@ export class RegdireccComponent implements OnInit {
     
    
 
-      this.registrarDireccionamiento();
+    this.registrarDireccionamiento();
      
     //} 
         

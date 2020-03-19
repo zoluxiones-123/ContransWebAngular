@@ -68,6 +68,7 @@ import { DetrepstockcliexpComponent } from './views/dashboards/detrepstockcliexp
 import { DetrepstockestComponent } from './views/dashboards/detrepstockest.component';
 import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.component';
 import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
+import { CitavacioasigComponent } from './views/dashboards/citavacioasig.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
     DetrepstockcliexpComponent,
     DetrepstockestComponent,
     ActualizarcitaComponent,
-    GenerarcitaComponent
+    GenerarcitaComponent,
+    CitavacioasigComponent
    
   ],
   imports: [
@@ -131,7 +133,7 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,CitavacioasigComponent]
    
   
 })
