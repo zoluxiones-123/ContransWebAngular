@@ -1,0 +1,123 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Consulta de Solicitudes de Servicio </h5>
+          <iboxtools></iboxtools>
+        </div>
+        <div class="ibox-content">
+          <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
+            <div class="row">
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
+                  <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control  tamanio-device" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue' }"[ngModel] required>
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
+                  <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel] autocomplete="off" required>
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listUniNeg"  class="form-control  tamanio-device" (change)="ChangingValueUN($event)">
+                  <option [value]="" selected hidden>--Estado Solicitud--</option>
+                  <option *ngFor="let item of this.ListaEstSol" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}</option>
+                </select>
+              </div>
+
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_Cita" placeholder="Hoja Servicio"  class="form-control  tamanio-device" [ngModel] required /> 
+                </div>
+              </div>
+            </div>
+            <div class="row">
+            
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_Volante" placeholder="Volante"  class="form-control  tamanio-device" [ngModel] required /> 
+                </div>
+              </div>
+            
+              <div class="col-sm-2" style="padding-left: 5px;" >
+                <div class="form-group" >
+                  <input id ="txtbox_BL" type="text" name="txtbox_BL" placeholder="BL" class="form-control  tamanio-device"  [ngModel] required/>
+                </div>
+              </div>
+
+              <div class="col-sm-2" style="padding-left: 5px;" >
+                <div class="form-group" >
+                  <input id ="txtbox_Booking" type="text" name="txtbox_Booking" placeholder="Booking" class="form-control  tamanio-device"  [ngModel] required/>
+                </div>
+              </div>
+
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="button" (click)="CargarGrilla(formFact)"
+                  class="btn btn-primary block m-b tamanio-device" >Buscar</button></div>
+
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                    <button type="reset" (click)="SiTieneData(false)"
+                  class="btn btn-default block  m-b tamanio-device">Limpiar</button></div>
+
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                    <button type="button" (click)="GenerarSolServ()"
+                      class="btn btn-primary block m-b tamanio-device" >Nuevo</button></div>    
+            </div>
+            
+          </form>
+          <div class="row">
+            <div id="grillaserv" class="table-responsive">
+              <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger">
+                <thead>
+                  <tr>                    
+                    <th>Imprimir</th>                     
+                    <th>Anular</th>                                    
+                    <th>Hoja Serv</th>
+                    <th>Tarea</th>
+                    <th>F. Programada</th>
+                    <th>Volante</th>
+                    <th>BL</th>
+                    <th>Booking</th>
+                    <th>Cliente</th>
+                    <th>Agencia</th>
+                    <th>Solicita Web</th>
+                    <th>Regulariza en Contrans</th>
+                    <th>Estado</th>
+                    <th>F. Creación</th>
+                    
+                    
+                   </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.ListaSolServ">
+                    <td><a (click)="popupImprimirServicio(item.Cita, item.Documento, item.Registro, item.NroPermiso,'ImprimirCita')"><img src="assets/images/printcita.png"></a></td>                                                         
+                    <td><a (click)="popupAnularServicio(item.Cita,'AnularCita')"><img src="assets/images/anular.jpg"></a></td>                                      
+                    <td>{{item.HojaServCodigo}}</td>
+                    <td>{{item.TareServDescripcion}}</td> 
+                    <td>{{item.FechaPrograma}}</td>
+                    <td>{{item.Volante}}</td>
+                    <td>{{item.BlNbr}}</td>
+                    <td>{{item.BkgNbr}}</td> 
+                    <td>{{item.ClienteConsignatario}}</td>  
+                    
+                    <td>{{item.EntiAgente}}</td>       
+                    <td>{{item.EntiSolicitaWeb}}</td>       
+                    <td>{{item.EntiSolicita}}</td>       
+                    <td>{{item.DEstado}}</td>       
+                    <td>{{item.FechaCreacion}}</td>       
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
