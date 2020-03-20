@@ -51,7 +51,10 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   NroDeDAM: string;
   FechaDeNum: string;
 
-  Datos: ConsultaDetalleBookingRefrendoExpoRPT;
+  CantidadBultos: number;
+  CantidadPeso: number;
+
+  public Datos: ConsultaDetalleBookingRefrendoExpoRPT[];
 
   public objConsultaBookingRefrendoExpoRQT: ConsultaBookingRefrendoExpoRQT;
   public objConsultaBookingRefrendoExpoRPT: ConsultaBookingRefrendoExpoRPT;
@@ -63,6 +66,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public ModalidadSelect: string;
   public ListaModalidad: Array<ListaModalidadRefrendoExpo>;
 
+  //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
+  setearFechasLimite(){
+    let date = new Date();
+    this.minDate = new Date(date.getFullYear(), date.getMonth() - 5, 1);
+    this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
+  }
 
   constructor(private reportService: ReportService, public dialogRef: MatDialogRef<RefrendoExpoNuevoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
     this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
@@ -83,7 +92,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.NroDeOrden = emptyString;
     this.NroDeDAM = emptyString;
     this.FechaDeNum = emptyString;
-
+    this.CantidadBultos = 0;
+    this.CantidadPeso = 0;
   }
 
   fileData: File = null;
@@ -124,13 +134,13 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     searching: false,
     autoFill: true,
     dom: 'Bfrtip',
-    processing: true,
+    //processing: true,
     fixedColumns: true,
     buttons: [
       /*'colvis',
       'excel',*/
     ],
-    footerCallback: function ( row, data, start, end, display ) {
+    /* footerCallback: function ( row, data, start, end, display ) {
       var total = this.api()
           .column(2)//numero de columna a sumar
           //.column(1, {page: 'current'})//para sumar solo la pagina actual
@@ -141,7 +151,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
       $(this.api().column(2).footer()).html(total);
       
-    },
+    }, */
 
     language: {
       lengthMenu: "Mostrar _MENU_ registros",
@@ -184,6 +194,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         if (data.Cod == 1) {
           swal(data.Msj.toString());
         } else {
+          let DetalleDatos = [];  
           this.Codigo = resp.Codigo;
           this.Exportador = resp.Exportador;
           this.Despachador = "";
@@ -192,9 +203,15 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           this.NroDeDAM = "";
           this.FechaDeNum = "";
           this.Mercaderia = resp.Mercaderia;
-          this.Datos = resp.Datos;
 
-          console.log("CONSULTA DETALLE BOOKING " + JSON.stringify(this.Datos));
+          for (var clave in data.Datos){
+            this.CantidadBultos =  this.CantidadBultos + data.Datos[clave].Bultos;
+            this.CantidadPeso =  this.CantidadPeso + data.Datos[clave].Peso;
+            DetalleDatos.push({'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'PctoAduana':"" });
+          }
+          this.Datos = DetalleDatos;
+          console.log("CONSULTA DETALLE BOOKING " + this.Datos);
+
           this.muestra_oculta('DAM');
           this.muestra_oculta("CONTENEDORES");
 
@@ -790,10 +807,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       swal("Error: Ingresar Numero de Booking"); 
       //return false;
     }else{
-
-/*     this.objGenerarDetalleRefrendoExpoRQT={
-
-    } */
+      let DetalleDatos = [];  
+      for (var clave in this.Datos){
+        DetalleDatos.push({'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].PctoAduana });
+      }
+      this.Datos = DetalleDatos;
+      console.log("Detalle Booking Guardar "+ this.Datos);
 
      this.objGenerarRefrendoExpoRQT = {
       IDUser: Number.parseInt(localStorage.getItem("Usuario")),
@@ -810,7 +829,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       Mercancia: form.value.txtbox_Mercaderia,
       EmpaCodigo: "",
       Llenado: true,
-      //Deta: this.Datos
+      Deta: this.Datos
      }
 
      if(this.ValidarInput(this.objGenerarRefrendoExpoRQT))
@@ -822,9 +841,42 @@ export class RefrendoExpoNuevoComponent implements OnInit {
        return;
      }
 
-     console.log("Datos REFRENDON" + JSON.stringify(this.objGenerarRefrendoExpoRQT));
+     console.log("Datos REFRENDON " + JSON.stringify(this.objGenerarRefrendoExpoRQT));
+
+/*      console.log("EMPEZAR A Imagenes")
+     this.reqBase64.Carpeta = "E:\\TX";
+     this.registrarBase64("E:\\TX"); */
+
+     console.log("EMPEZAR A GUARDAR DATOS")
+     this.reportService.GenerarRefrendoExpo(this.objGenerarRefrendoExpoRQT).subscribe( 
+      data => { 
+        this.objGenerarRefrendoExpoRPT= data;
+        console.log("Mensaje : " + JSON.stringify(data)); 
+        console.log("Ruta : " + data.Msj.toString()); 
+        //swal(data[0].Msj.toString()); 
+
+        console.log("EMPEZAR A Imagenes")
+        this.reqBase64.Carpeta = data.Msj.toString();
+        this.registrarBase64(data.Msj.toString());
+
+        swal("Se Guardo Correctamente"); 
+        this.cerrarPopup();
+      }, 
+      error => {
+        swal("Error al crear Refrendo Expo"); 
+        console.log("Error : ", error); 
+      });  
 
     }
+  }
+
+  public Recalcular(){
+    this.CantidadBultos=0;
+    this.CantidadPeso=0;
+    for (var clave in this.Datos){
+      this.CantidadBultos =  this.CantidadBultos + Number.parseInt(this.Datos[clave].Bultos.toString());
+      this.CantidadPeso =  this.CantidadPeso + + Number.parseInt(this.Datos[clave].Peso.toString());
+    }  
   }
 
   public ValidarInput(param: GenerarRefrendoExpoRQT): boolean {
@@ -856,7 +908,9 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     if (this.NullEmpty(param.Mercancia) ) {
       return true;
     }
-
+    var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    this.objGenerarRefrendoExpoRQT.FechaNum = this.objGenerarRefrendoExpoRQT.FechaNum.toLocaleDateString("es-ES",options);
+    console.log(this.objGenerarRefrendoExpoRQT.FechaNum);
     return false;
   }
 

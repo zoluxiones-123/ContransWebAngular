@@ -100,7 +100,7 @@ import { CitavacioasigComponent } from './views/dashboards/citavacioasig.compone
     DetrepstockestComponent,
     ActualizarcitaComponent,
     GenerarcitaComponent,
-    RefrendoExpoNuevoComponent
+    RefrendoExpoNuevoComponent,
     CitavacioasigComponent
    
   ],

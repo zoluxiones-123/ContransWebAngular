@@ -67,8 +67,9 @@
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de Num :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" [(ngModel)]="FechaDeNum" maxlength="50" name="txtbox_FechaDeNum"
-                  class="form-control">
+                <input type="text" name="txtbox_FechaDeNum" placeholder="Fecha" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}" [(ngModel)]="FechaDeNum" autocomplete="off" required>
+<!--                 <input type="text" [(ngModel)]="FechaDeNum" maxlength="50" name="txtbox_FechaDeNum"
+                  class="form-control"> -->
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Mercancia :</label>
@@ -95,28 +96,29 @@
                   <thead>
                     <tr>
                       <th>N° Contenedor</th>
-                      <th>--</th>
-                      <th>Bultos</th>
+                      <!-- <th>--</th> -->
+                      <th >Bultos</th>
                       <th>Peso Neto</th>
-                      <!-- <th>PCTO de Aduana</th> -->
+                      <th>PCTO de Aduana</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of this.Datos">
                       <td>{{item.Contenedor}}</td> 
-                      <td><input type="text" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
-                      <td>{{item.Bultos}}</td>
+                      <td><input type="text" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
+                      <!-- <td >{{item.Bultos}}</td> -->
                       <td>{{item.Peso}}</td>
-                      <!-- <td>{{item.Peso}}</td> -->
+                      <td><input type="text" name="txtbox_PctoAduana_{{item.Contenedor}}"  id = "txtPctoAduana_{{item.Contenedor}}"  placeholder="Pcto Aduana"  class="form-control  tamanio-device"  [(ngModel)]="item.PctoAduana" /></td>
+                      <!-- <td>{{item.PctoAduana}}</td> -->
                    </tr>
                   </tbody>
                   <tfoot>
                     <tr>
                         <th>Total</th>
+                        <th>{{this.CantidadBultos}}</th>
+                        <th>{{this.CantidadPeso}}</th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        
                     </tr>
                 </tfoot>
                 </table>

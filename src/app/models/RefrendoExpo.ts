@@ -45,6 +45,7 @@ export class ConsultaDetalleBookingRefrendoExpoRPT {
  public TipoCont: string;
  public Bultos: number;
  public Peso: number;
+ public PctoAduana: string;
 }
 
 export class GenerarRefrendoExpoRQT {
@@ -58,11 +59,12 @@ export class GenerarRefrendoExpoRQT {
   Despachador: string;
   EntiCodAgencia: string;
   AgenciaAduana: string;
-  FechaNum: string;
+  FechaNum: any;
   Mercancia: string;
   EmpaCodigo: string;
   Llenado: boolean;
   //Deta:GenerarDetalleRefrendoExpoRQT;
+  Deta: any;
 }
 
 export class GenerarDetalleRefrendoExpoRQT {

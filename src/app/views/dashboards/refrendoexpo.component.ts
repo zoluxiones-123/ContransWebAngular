@@ -115,10 +115,11 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
         width: "600px",
         height: "100%"
       });
-      dialogRef.afterClosed().subscribe(result => {
+/*       dialogRef.afterClosed().subscribe(result => {
         this.RefrescarGrilla();
      
-  });
+  }
+  ); */
 
     }  
 

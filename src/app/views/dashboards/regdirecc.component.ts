@@ -1574,6 +1574,7 @@ ConvertirZip(carpeta:string):void
             
             this.msjfinal = "Direccionamiento Registrado Correctamente con código: " + data[0].Cod.toString() ;
             this.CarpetaFinal =  data[0].Msj.toString()
+            console.log(data[0].Msj.toString());
             swal({text : this.msjfinal , icon:"success"});
 
            this.reqBase64.Carpeta = this.CarpetaFinal;
