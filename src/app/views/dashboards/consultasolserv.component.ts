@@ -37,6 +37,14 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
   //public ListaTiposCarga : Array<TipoCarga> = [];
   //public TipoCargaE : TiposCarga;
   public isError = false;
+  public FilePathDJ : string = "";
+  public NombreArchivoDJ : string = "";
+    
+  public FilePathExpo : string = "";
+  public NombreArchivoExpo : string = "";
+
+  public FilePathImpo : string = "";
+  public NombreArchivoImpo : string = "";
 
   
   public ListaEstSol : Array<EstSolServicio> = [];
@@ -85,6 +93,16 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
     
    // this.ListaAlmacenes = new Array;
 
+   this.FilePathDJ = "C://Documentos//declaracion_jurada_reconocimiento_fisico.pdf";
+   this.NombreArchivoDJ = "declaracion_jurada_reconocimiento_fisico";
+
+   this.FilePathImpo = "C://Documentos//Manual_de_usuario_de_Programacion_de_servicios_de_importacion.pdf";
+   this.NombreArchivoImpo = "Manual_de_usuario_de_Programacion_de_servicios_de_importacion";
+
+   this.FilePathExpo = "C://Documentos//Manual_de_usuario_de_Programacion_de_servicios_de_exportacion.pdf";
+   this.NombreArchivoExpo = "Manual_de_usuario_de_Programacion_de_servicios_de_exportacion";
+   
+   
    this.SetGrillaVisibility(false);
 
     this.reportService
@@ -193,6 +211,29 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
 
   public GenerarSolServ()
   {}
+
+  public DescargarArchivo(paramUri:string, paramNombre:string){
+
+    this.reportService.getArchivoByte(paramUri,paramNombre,"pdf").subscribe(
+      data => {
+        
+        const linkSource = 'data:application/pdf;base64,' + data;
+        const downloadLink = document.createElement("a");
+        const fileName = paramNombre + ".pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+
+        
+      
+
+      }, (error)=> console.log("Salio error en la descarga: ", error));
+  }
+
+  
+
+
 
   public CargarGrilla(form: NgForm) {
 

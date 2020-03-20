@@ -64,6 +64,24 @@
                     <button type="button" (click)="GenerarSolServ()"
                       class="btn btn-primary block m-b tamanio-device" >Nuevo</button></div>    
             </div>
+            <div class="row">
+              <div class="col-sm-3" style="padding-left: 5px;">
+                <div class="form-group">
+                  <a (click)="DescargarArchivo(this.FilePathDJ, this.NombreArchivoDJ)">Descargar Formato Declaración Jurada</a>
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <a (click)="DescargarArchivo(this.FilePathExpo, this.NombreArchivoExpo)">Manual Exportación</a>
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <a (click)="DescargarArchivo(this.FilePathImpo, this.NombreArchivoImpo)">Manual Importación</a>
+                </div>
+              </div>
+
+            </div>
             
           </form>
           <div class="row">
