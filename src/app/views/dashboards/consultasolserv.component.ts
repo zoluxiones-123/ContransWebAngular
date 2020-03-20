@@ -14,10 +14,9 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
 import { ActualizarcitaComponent  } from 'app/views/dashboards/actualizarcita.component';
 import { GenerarcitaComponent  } from 'app/views/dashboards/generarcita.component';
-
+import {NuevoSolServComponent} from './nuevosolserv.component';
 
 import { MatDialog, MatDialogConfig} from '@angular/material';
-import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaaviso.component'
 import "rxjs/add/operator/toPromise";
 
 
@@ -330,5 +329,38 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
     this.EstadoSelect = param.target.value;
   }
 
+  popupNuevoServicio(){
+    let res = this.reportService.getValidarHorayFecha();
+    res.subscribe( 
+      data => { 
+        if (data.CodMsj == 1 )
+        {
+          //localStorage.setItem("paramAccion","Nuevo");
+          const dialogRef = this.dialog.open(NuevoSolServComponent,{
+            disableClose: true,
+            autoFocus: true,
+            width: "600px",
+            height: "100%"
+          });
+        /*       dialogRef.afterClosed().subscribe(result => {
+            this.RefrescarGrilla();
+        }
+        ); */
+        }
+        else
+        {
+          swal(data.MSj);
+        }
+      }, 
+      error => {
+        swal("Error al cargar los datos"); 
+        console.log("Error : ", error); 
+      }
+    );
+
+
+ 
+
+  }  
   
 }

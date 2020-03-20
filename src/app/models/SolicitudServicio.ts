@@ -1,5 +1,3 @@
-
-
   export class ConsultarSolicitudRQT
   {
     IDUser: number;
@@ -22,7 +20,6 @@
 
   export class SolicitudServicio
   {
-  
     HojaServCodigo: string;
     Estado: string;
     FechaCreacion: string;
@@ -49,14 +46,10 @@
     Contacto: string;
 }
 
-
 export class EstadoSolServicio
 {
-
   Data: any;
-
 }
-
 
 export class EstSolServicio
 {
@@ -64,5 +57,30 @@ export class EstSolServicio
     EmpaIdentificador: string;
 }
 
+export class ConsultarVolanteSolicitudRQT
+{
+  IDUser: number;
+  IDRol: number;
+  Documento: string;
+  UnidadNeg: string;
+}
 
+export class ConsultarVolanteSolicitudRPT
+{
+  CodMsj: number;
+  Msj: string;
+  BLCodigo: string;
+  BLNumero: string;
+  Manifiesto: string;
+  Nave: string;
+  Viaje: string;
+  Rumbo: string;
+  Carga: string;
+  CodCarga: string;
+  Cliente: string;
+  Condicion: string;
+  EntiCodigo: string;
+  CodCliente: string;
+  CodViaje: string;
+}
 

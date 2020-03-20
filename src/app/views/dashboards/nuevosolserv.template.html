@@ -1,0 +1,201 @@
+<div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
+  <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+    <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+    <h4 class="modal-title pull-left" style="display: inline-table;">Crear Solicitud de Servicio</h4>
+    <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+      (click)="cerrarPopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="m-t" role="form" #formUsuario="ngForm" >
+    <div class="ibox-content cuerpo-con-overflow">
+      <div class="form-group row">
+        <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;;padding-top: 6px">
+          <label for="rbt001" style="padding-right: 5px;">Volante (Importación)</label>
+          <input type="radio" id="rbt002" name="rbtSeleccion"  value="SI"
+            style="width: auto;vertical-align: text-bottom;" >
+          <label style="padding-right: 5px;padding-left: 10px;">Booking (Exportación)</label>
+          <input type="radio" name="rbtSeleccion"  value="NO"
+            style="width: auto;vertical-align: text-bottom;" checked="checked">
+        </div>
+
+        <!-- <label class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 0px;padding-top: 7px;">
+          N° Booking :</label> -->
+        <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 5px;">
+          <input type="text" placeholder="N°" name="txtbox_NBooking" class="form-control tamanio-device" [ngModel]>
+        </div>
+<!--         <div class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 5px;padding-bottom: 10px;">
+          <select name="listModalidad" class="form-control" style=" padding-left: 5px;padding-right: 5px;"
+            (change)="ChangingValue($event,'Modalidad')">
+            <option [value]="" selected hidden>--Modalidad--</option>
+            <option *ngFor="let item of this.ListaModalidad" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}
+            </option>
+          </select>
+        </div> -->
+
+        <div class="col-xs-5 col-sm-2 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+          <button type="button" (click)="BuscarServicio(formUsuario)" class="btn btn-primary block m-b tamanio-device">Buscar</button></div>
+      </div>
+      <div>
+        <!-- ------------PARTE 1------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Datos Generales</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('DatosGenerales')"></b>
+          </div>
+          <div id="DatosGenerales">
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">BL/Bkg :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_BLBkg"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Tiene DUA? :</label>
+<!--               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador"
+                  class="form-control">
+              </div> -->
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <label for="rbt01" style="padding-right: 5px;">SI</label>
+                <input type="radio" id="rbt02" name="rbtCAtmoSi" [(ngModel)]="CAtmo_Opcion" value="SI"
+                  style="width: auto;vertical-align: text-bottom;"
+                  (click)="SetGrillaVisibility('ControlComboxAtmosphere','',true)">
+                <label style="padding-right: 5px;padding-left: 10px;">NO</label>
+                <input type="radio" name="rbtCAtmoSi" [(ngModel)]="CAtmo_Opcion" value="NO"
+                  style="width: auto;vertical-align: text-bottom;" checked="checked"
+                  (click)="SetGrillaVisibility('ControlComboxAtmosphere','SelectComboxAtmosphere',false)">
+              </div>
+
+
+            </div>
+            <div class="form-group row">
+              <label class="col-xs-2 col-sm-2 col-lg-2 label_device">Año:</label>
+              <div class="col-xs-2 col-sm2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  maxlength="50" name="txtbox_Anio"
+                  class="form-control">
+              </div>
+            <!-- </div> -->
+            <!-- <div class="form-group row"> -->
+              <label class="col-xs-2 col-sm-2 col-lg-2 label_device">DUA:</label>
+              <div class="col-xs-2 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  maxlength="50" name="txtbox_DUA"
+                  class="form-control">
+              </div>
+            <!-- </div> -->
+            <!-- <div class="form-group row"> -->
+              <label class="col-xs-2 col-sm-2 col-lg-2 label_device">Regimen:</label>
+              <div class="col-xs-2 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  maxlength="50" name="txtbox_Regimen" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Tarea :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  maxlength="50" name="txtbox_Tarea"
+                  class="form-control">
+              </div>
+            </div>            
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" name="txtbox_Fecha" placeholder="Fecha" class="form-control  tamanio-device" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}" [(ngModel)]="FechaDeNum" autocomplete="off" required>
+<!--                 <input type="text" [(ngModel)]="FechaDeNum" maxlength="50" name="txtbox_FechaDeNum"
+                  class="form-control"> -->
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Estado :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Estado"
+                  class="form-control">
+              </div>
+            </div>   
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Info :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Info"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Cliente :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Cliente"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Carga :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Carga"
+                  class="form-control">
+              </div>
+            </div> 
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Despachador	 :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Despachador"
+                  class="form-control">
+              </div>
+            </div> 
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Manifiesto/Nave :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Manifiesto"
+                  class="form-control">
+              </div>
+            </div> 
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Condición :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Condicion"
+                  class="form-control">
+              </div>
+            </div> 
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Agencia :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" readonly="readonly"  maxlength="50" name="txtbox_Agencia"
+                  class="form-control">
+              </div>
+            </div> 
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observación :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <textarea  type="text"  maxlength="50" name="txtbox_Observacion"
+                  class="form-control"></textarea>
+              </div>
+            </div>                                                                   
+          </div>
+        </div>
+
+        <!-- ------------PARTE 2------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Datos Contacto</h4>
+            <b class="caret boton_mostrar" (click)="muestra_oculta('DatosContacto')"></b>
+          </div>
+          <div id="DatosContacto" >
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nombre :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" maxlength="50" name="txtbox_Nombre"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Apellidos :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  maxlength="50" name="txtbox_Apellidos"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">N° Nextel :</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  maxlength="50" name="txtbox_Nextel"
+                  class="form-control">
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
+      <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
+      <button (click)="AgregarRefrendo(formUsuario)" type="submit" class="btn btn-w-m btn-primary">Nuevo</button>
+      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
+  </div>
+</div>

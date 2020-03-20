@@ -13,7 +13,7 @@ import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActC
   CitasCFechaRPT, CitasCFechaRQT, CitasCHoras, CitasCHorasRPT, CitasCHorasRQT,TipoContenedor, TipoContenedores,
    InsertarCitaDetalleRPT, InsertarCitaDetalleRQT, InsertarCitaRPT, InsertarCitaRQT } from '../models/Cita';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
-import { ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio }
+import { ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT }
 from '../models/SolicitudServicio';
 
 import { Base64RPT,Base64RQT } from '../models/Base64';
@@ -549,6 +549,22 @@ export class ReportService {
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
   
+  getValidarHorayFecha(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/validarhorafecha`;    
+    return this.http
+      .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  ConsultarVolanteSolicitud(objConsultarVolanteSolicitud : ConsultarVolanteSolicitudRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/consultarvolantesolicitud`;    
+    return this.http.post<ConsultarVolanteSolicitudRPT>(
+      url_api, objConsultarVolanteSolicitud, { headers: this.headers }).pipe(map(data => data));
+  }
+
   getTipoContenedor() : Observable<any>
   {
     const url_api =`/ContransAPI/api/listartipocontenedor`;

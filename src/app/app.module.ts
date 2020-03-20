@@ -70,6 +70,8 @@ import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.compo
 import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
 import { CitavacioasigComponent } from './views/dashboards/citavacioasig.component';
 import { ConsultasolservComponent } from './views/dashboards/consultasolserv.component';
+import { NuevoSolServComponent } from './views/dashboards/nuevosolserv.component';
+
 
 @NgModule({
   declarations: [
@@ -103,8 +105,8 @@ import { ConsultasolservComponent } from './views/dashboards/consultasolserv.com
     GenerarcitaComponent,
     RefrendoExpoNuevoComponent,
     CitavacioasigComponent,
-    ConsultasolservComponent
-   
+    ConsultasolservComponent,
+    NuevoSolServComponent
   ],
   imports: [
     BrowserModule,
@@ -136,7 +138,7 @@ import { ConsultasolservComponent } from './views/dashboards/consultasolserv.com
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent,NuevoSolServComponent]
    
   
 })

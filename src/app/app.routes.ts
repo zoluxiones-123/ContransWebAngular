@@ -36,6 +36,8 @@ import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
 import {RepstockexpComponent} from  "./views/dashboards/repstockexp.component";
 import {RepstockrealComponent} from  "./views/dashboards/repstockreal.component";
 import {ConsultasolservComponent} from "./views/dashboards/consultasolserv.component";
+import {NuevoSolServComponent} from "./views/dashboards/nuevosolserv.component";
+
 
 import {DashboardGlobalComponent} from "./views/dashboards/dashboardglobal.component"
 import {StarterViewComponent} from "./views/appviews/starterview.component";
