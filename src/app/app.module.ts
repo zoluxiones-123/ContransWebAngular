@@ -69,6 +69,7 @@ import { DetrepstockestComponent } from './views/dashboards/detrepstockest.compo
 import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.component';
 import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
 import { CitavacioasigComponent } from './views/dashboards/citavacioasig.component';
+import { ConsultasolservComponent } from './views/dashboards/consultasolserv.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { CitavacioasigComponent } from './views/dashboards/citavacioasig.compone
     ActualizarcitaComponent,
     GenerarcitaComponent,
     RefrendoExpoNuevoComponent,
-    CitavacioasigComponent
+    CitavacioasigComponent,
+    ConsultasolservComponent
    
   ],
   imports: [

@@ -13,6 +13,9 @@ import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActC
   CitasCFechaRPT, CitasCFechaRQT, CitasCHoras, CitasCHorasRPT, CitasCHorasRQT,TipoContenedor, TipoContenedores,
    InsertarCitaDetalleRPT, InsertarCitaDetalleRQT, InsertarCitaRPT, InsertarCitaRQT } from '../models/Cita';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
+import { ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio }
+from '../models/SolicitudServicio';
+
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
 
@@ -89,6 +92,15 @@ export class ReportService {
     return this.http
       .post<DetRepStockRealRPT>(
         url_api, repstockrealrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  getSolicitudServicio(consultasolrqt: ConsultarSolicitudRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarsolicitud`;    
+    return this.http
+      .post<ConsultarSolicitudRPT>(
+        url_api, consultasolrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 
@@ -527,6 +539,13 @@ export class ReportService {
   {
     const url_api =`/ContransAPI/api/listarempaque`;
     return this.http.get<TiposCarga>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+  
+  getEstSolicitudServ() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/estadosolicitud`;
+    return this.http.get<EstadoSolServicio>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
   

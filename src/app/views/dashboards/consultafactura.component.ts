@@ -252,6 +252,9 @@ import { Router } from '@angular/router';
         downloadLink.download = fileName;
         downloadLink.click();
 
+        
+      
+
       }, (error)=> console.log("Salio error en la descarga: ", error));
   }
 

@@ -35,6 +35,7 @@ import {RepstockDSComponent} from  "./views/dashboards/repstock-ds.component";
 import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
 import {RepstockexpComponent} from  "./views/dashboards/repstockexp.component";
 import {RepstockrealComponent} from  "./views/dashboards/repstockreal.component";
+import {ConsultasolservComponent} from "./views/dashboards/consultasolserv.component";
 
 import {DashboardGlobalComponent} from "./views/dashboards/dashboardglobal.component"
 import {StarterViewComponent} from "./views/appviews/starterview.component";
@@ -68,7 +69,9 @@ export const ROUTES:Routes = [
       {path: 'cartatemperatura', component: CartaTemperaturaComponent},
       {path: 'repstockreal', component: RepstockrealComponent },
       {path: 'consultacitas', component: ConsultacitasComponent},
-      {path: 'refrendoexpo', component: RefrendoExpoComponent}
+      {path: 'refrendoexpo', component: RefrendoExpoComponent},
+      {path: 'consultasolserv', component: ConsultasolservComponent}
+      
 
     ]
   },
