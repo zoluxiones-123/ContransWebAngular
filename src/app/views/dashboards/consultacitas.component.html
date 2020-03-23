@@ -96,9 +96,9 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.ListaCitas">
-                    <td><a (click)="popupImprimirCita(item.Cita, item.Documento, item.Registro, item.NroPermiso,'ImprimirCita')"><img src="assets/images/printcita.png"></a></td>                                                         
-                    <td><a (click)="popupActualizarCita(item.Cita,'ActCita')"><img src="assets/images/actcita.jpg"></a></td>                                      
-                    <td><a (click)="popupAnularCita(item.Cita,'AnularCita')"><img src="assets/images/anular.jpg"></a></td>                                      
+                    <td><a (click)="popupImprimirCita(item.Cita, item.Documento, item.Registro, item.NroPermiso,'ImprimirCita')"><img  style="width: 16px;" src="assets/images/imprimir.png"></a></td>                                                         
+                    <td><a (click)="popupActualizarCita(item.Cita,'ActCita')"><img style="width: 16px;" src="assets/images/refresh.png"></a></td>                                      
+                    <td><a (click)="popupAnularCita(item.Cita,'AnularCita')"><img src="assets/images/delete.png"></a></td>                                      
                     <td>{{item.Cita}}</td>
                     <td>{{item.FPrograma}}</td> 
                     <td>{{item.Registro}}</td>

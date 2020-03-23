@@ -110,8 +110,8 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.ListaSolServ">
-                    <td><a (click)="popupImprimirServicio(item.Cita, item.Documento, item.Registro, item.NroPermiso,'ImprimirCita')"><img src="assets/images/printcita.png"></a></td>                                                         
-                    <td><a (click)="popupAnularServicio(item.Cita,'AnularCita')"><img src="assets/images/anular.jpg"></a></td>                                      
+                    <td><a ><img  style="width: 16px;" src="assets/images/imprimir.png"></a></td>                                                            
+                    <td><a ><img src="assets/images/delete.png"></a></td>                                      
                     <td>{{item.HojaServCodigo}}</td>
                     <td>{{item.TareServDescripcion}}</td> 
                     <td>{{item.FechaPrograma}}</td>

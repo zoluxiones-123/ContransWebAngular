@@ -616,9 +616,10 @@ export class ReportService {
     const url_api =`/ContransAPI/api/imprimircartatemperatura`;
     let objArchivo : StringArchivoDescarga =  {
       Usuario : paramUsuario,
-      IdCT : paramIdCT,
+      IdCT : paramIdCT.toString(),
       IDRol : paramIDRol
     };
+    console.log(objArchivo);
     let resul = this.http.post<string>(
         url_api, objArchivo, { headers: this.headers}).pipe(map(data => data));
     return resul; 

@@ -125,6 +125,15 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
         Contenedor : form.value.txtbox_Contenedor 
       };
 
+      if(this.ValidarInput(this.objTemperaturaRQT))
+      {        
+        swal({
+              text: "Error en los campos de ingreso, por favor verificar",
+              icon: "warning",
+            });
+        return;
+      }
+
       let res = this.reportService.getTemperatura(this.objTemperaturaRQT);
       res.subscribe( 
         data => { 
@@ -157,6 +166,15 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
     public ngOnDestroy():any {
       this.SetGrillaVisibility(false);
       this.dtTrigger.unsubscribe();
+    }
+
+    public ValidarInput(param: TemperaturaRQT): boolean {
+
+      if (this.NullEmpty(param.Contenedor) ) {
+        return true;
+      } 
+  
+      return false;
     }
 
     public NullEmpty (param:any) : boolean

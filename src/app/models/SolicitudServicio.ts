@@ -82,5 +82,41 @@ export class ConsultarVolanteSolicitudRPT
   EntiCodigo: string;
   CodCliente: string;
   CodViaje: string;
+  data: ConsultarVolanteSolicitudContenedoresRPT;
+  serv: ConsultarVolanteSolicitudServiciosRPT;
 }
+
+export class ConsultarVolanteSolicitudServiciosRPT
+{
+  SERVDETACODIGO: string;
+  SERVDESCRIPCION: string;
+  CONTCAPACODIGO: string;
+  ConvDetaOrden: string;
+  ServTN: string;
+  ServCategoria: string;
+  Seleccion: boolean;
+}
+
+export class ConsultarVolanteSolicitudContenedoresRPT
+{
+  CONTCARGCODIGO: string;
+  CONTNUMERO: string;
+  CONTCAPAIDENTIFICADOR: string;
+  CONTTIPO: string;
+  PESO: number;
+  BULTOS: number;
+  Empaque: string;
+  Seleccion: boolean;
+}
+
+export class ConsultarVolanteSolicitudServiciosContenedoresRPT
+{
+  ORDEN: number;
+  CONTNUMERO: string;
+  SERVDESCRIPCION: string;
+  Empaque: string;
+  BULTOS: number;
+
+}
+
 

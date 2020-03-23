@@ -363,7 +363,15 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       {
         this.objConsultaRefrendoExpoRQT.Booking = "";
       }
-
+      if(this.NullEmpty(param.Modalidad))
+      {
+        return true;
+      }
+      if(this.NullEmpty(param.Estado))
+      {
+        return true;
+      }
+    
       return false;
     }
 

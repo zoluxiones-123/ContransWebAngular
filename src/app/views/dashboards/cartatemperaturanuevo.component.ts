@@ -171,10 +171,17 @@ export class CartaTemperaturaNuevoComponent implements OnInit {
           swal(data[0].Msj.toString()); 
         }else{
           this.objBuscarNuevoCartaDetalleTemperaturaRQT = {
-            NBooking: form.value.txtbox_NBooking,
+            NBooking: form.value.txtbox_NBooking
           }
+          this.objCartaDetalleTemperatura2RQT = {
+            NBooking: localStorage.getItem("paramNBooking")
+          }
+          
           this.CargarDetalleCarta(this.objBuscarNuevoCartaDetalleTemperaturaRQT);
           console.log(this.objBuscarNuevoCartaDetalleTemperaturaRQT);
+
+          this.CargarDetalleCarta2(this.objCartaDetalleTemperatura2RQT);
+          console.log(this.objCartaDetalleTemperatura2RQT);
         }
       },
       error => {

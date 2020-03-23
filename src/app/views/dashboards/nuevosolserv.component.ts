@@ -8,7 +8,7 @@ import { Component, OnInit, Inject, OnDestroy, ViewChild, ViewChildren, QueryLis
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 //import { TemperaturaDetalleRQT, TemperaturaDetalleRPT, BuscarNuevoCartaDetalleTemperaturaRQT, BuscarNuevoCartaDetalleTemperaturaRPT, BuscarCartaDetalleTemperaturaRQT, BuscarCartaDetalleTemperaturaRPT, CartaDetalleTemperatura2RQT, CartaDetalleTemperatura2RPT, NuevoCartaDetalleTemperaturaRQT, NuevoCartaDetalleTemperaturaRPT, CartaDetalleTemperaturaRQT, CartaDetalleTemperaturaRPT, TemperaturaDataRPT, TemperaturaVDRPT } from '../../models/Temperatura';
 //import { ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo,GenerarRefrendoExpoRQT,GenerarRefrendoExpoRPT,GenerarDetalleRefrendoExpoRQT } from '../../models/RefrendoExpo';
-import { ConsultarVolanteSolicitudRPT, ConsultarVolanteSolicitudRQT }  from '../../models/SolicitudServicio';
+import { ConsultarVolanteSolicitudRPT, ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudServiciosRPT, ConsultarVolanteSolicitudContenedoresRPT, ConsultarVolanteSolicitudServiciosContenedoresRPT }  from '../../models/SolicitudServicio';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -27,7 +27,7 @@ import { isError } from 'util';
   styleUrls: ['nuevosolserv.component.css']
 })
 
-export class NuevoSolServComponent implements OnInit {
+export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{  
 
   public SiCargoData = true;
   public TieneData = false;
@@ -36,25 +36,28 @@ export class NuevoSolServComponent implements OnInit {
   maxDate: Date;
   Contnumero: string;
 
-  Codigo: string;
-  Booking: string;
+  BLCodigo: string;
+  BLNumero: string;
+  Manifiesto: string;
+  Nave: string;
   Viaje: string;
-  PuerDesc: string;
-  PDestino: string;
-  TipCarga: string;
-  TipoCont: string;
-  Exportador: string;
-  Mercaderia: string;
-
-  Despachador: string;
-  AgenciaDeAduana: string;
-  NroDeOrden: string;
-  NroDeDAM: string;
-  FechaDeNum: string;
+  Rumbo: string;
+  Carga: string;
+  CodCarga: string;
+  Cliente: string;
+  Condicion: string;
+  EntiCodigo: string;
+  CodCliente: string;
+  CodViaje: string;
 
   CantidadBultos: number;
   CantidadPeso: number;
 
+  
+
+  public Servicios: ConsultarVolanteSolicitudServiciosRPT[];
+  public Contenedores: ConsultarVolanteSolicitudContenedoresRPT[];
+  public ServiciosContenedores: ConsultarVolanteSolicitudServiciosContenedoresRPT[];
 /*    public Datos: ConsultaDetalleBookingRefrendoExpoRPT[];
 
   public objConsultaBookingRefrendoExpoRQT: ConsultaBookingRefrendoExpoRQT;
@@ -66,6 +69,7 @@ export class NuevoSolServComponent implements OnInit {
   public objConsultaVolanteSolicitudRQT: ConsultarVolanteSolicitudRQT;
   public objConsultaVolanteSolicitudRPT: ConsultarVolanteSolicitudRPT;
 
+
 /*   public ModalidadSelect: string;
   public ListaModalidad: Array<ListaModalidadRefrendoExpo>; */
 
@@ -76,11 +80,31 @@ export class NuevoSolServComponent implements OnInit {
   }
 
   constructor(private reportService: ReportService, public dialogRef: MatDialogRef<NuevoSolServComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
+  this.BLCodigo = "";
+  this.BLNumero= "";
+  this.Manifiesto= "";
+  this.Nave= "";
+  this.Viaje= "";
+  this.Rumbo= "";
+  this.Carga= "";
+  this.CodCarga= "";
+  this.Cliente= "";
+  this.Condicion= "";
+  this.EntiCodigo= "";
+  this.CodCliente= "";
+  this.CodViaje= "";
+  
   }
 
-  
-  dtTrigger: Subject<any> = new Subject();
-  dtOptions: any = {
+  @ViewChild(DataTableDirective)
+  @ViewChildren(DataTableDirective) dtElements: QueryList<DataTableDirective>
+  dtElement: DataTableDirective;
+  dtInstance: DataTables.Api;
+
+  dtTriggerServicios: Subject<any> = new Subject();
+  dtTriggerContenedores: Subject<any> = new Subject();
+  dtTriggerServiciosContenedores: Subject<any> = new Subject();
+  dtOptionsServicios: any = {
     pagingType: 'full_numbers',
     pageLength: 10,
     searching: false,
@@ -114,7 +138,74 @@ export class NuevoSolServComponent implements OnInit {
       }
     }
   };
-
+  dtOptionsContenedores: any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    searching: false,
+    autoFill: true,
+    dom: 'Bfrtip',
+    //processing: true,
+    fixedColumns: true,
+    buttons: [
+      /*'colvis',
+      'excel',*/
+    ],
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros",
+      search: "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior"
+      },
+      buttons: {
+        /*         colvis : "Columnas",
+                excel : "Exportar a Excel" */
+      },
+      aria:
+      {
+        sortAscending: "Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
+  dtOptionsServiciosContenedores: any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    searching: false,
+    autoFill: true,
+    dom: 'Bfrtip',
+    //processing: true,
+    fixedColumns: true,
+    buttons: [
+      /*'colvis',
+      'excel',*/
+    ],
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros",
+      search: "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior"
+      },
+      buttons: {
+        /*         colvis : "Columnas",
+                excel : "Exportar a Excel" */
+      },
+      aria:
+      {
+        sortAscending: "Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
   public BuscarServicio(form: NgForm) {
     this.objConsultaVolanteSolicitudRQT = {
         IDUser: Number.parseInt(localStorage.getItem("Usuario")),
@@ -133,33 +224,46 @@ export class NuevoSolServComponent implements OnInit {
         if (data.CodMsj == 1) {
           swal(data.Msj.toString());
         } else {
-          let DetalleDatos = [];  
-          /* this.Codigo = resp.Codigo;
-          this.Exportador = resp.Exportador;
-          this.Despachador = "";
-          this.AgenciaDeAduana = "";
-          this.NroDeOrden = "";
-          this.NroDeDAM = "";
-          this.FechaDeNum = "";
-          this.Mercaderia = resp.Mercaderia; */
-/* 
-          for (var clave in data.Datos){
-            this.CantidadBultos =  this.CantidadBultos + data.Datos[clave].Bultos;
-            this.CantidadPeso =  this.CantidadPeso + data.Datos[clave].Peso;
-            DetalleDatos.push({'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'PctoAduana':"" });
-          }
-          this.Datos = DetalleDatos;
-          console.log("CONSULTA DETALLE BOOKING " + this.Datos);
+          let DetalleServicios = []; 
+          let DetalleContenedores = [];  
+          let DetalleServiciosContenedores = [];  
+          
+          this.BLCodigo = data.BLCodigo;
+          this.BLNumero= data.BLNumero;
+          this.Manifiesto= data.Manifiesto;
+          this.Nave= data.Manifiesto + " / " + data.Nave ;
+          this.Viaje= data.Viaje;
+          this.Rumbo= data.Rumbo;
+          this.Carga= data.Carga;
+          this.CodCarga= data.CodCarga;
+          this.Cliente= data.Cliente;
+          this.Condicion= data.Condicion;
+          this.EntiCodigo= data.EntiCodigo;
+          this.CodCliente= data.CodCliente;
+          this.CodViaje= data.CodViaje;
 
-          this.muestra_oculta('DAM');
-          this.muestra_oculta("CONTENEDORES");
+          for (var contn in data.data){
+            DetalleContenedores.push({'CONTCARGCODIGO': data.data[contn].CONTCARGCODIGO, 'CONTNUMERO': data.data[contn].CONTNUMERO, 'CONTCAPAIDENTIFICADOR': data.data[contn].CONTCAPAIDENTIFICADOR, 'CONTTIPO': data.data[contn].CONTTIPO, 'PESO': data.data[contn].PESO, 'BULTOS': data.data[contn].BULTOS, 'Empaque': data.data[contn].Empaque, "Seleccion": true });
+          }
+
+          this.Contenedores = DetalleContenedores;
+          console.log("CONSULTA DETALLE Contenedores " + this.Contenedores);
+          
+          for (var servc in data.serv){
+            console.log(data.serv[servc].SERVDETACODIGO)
+            DetalleServicios.push({'SERVDETACODIGO': data.serv[servc].SERVDETACODIGO, 'SERVDESCRIPCION': data.serv[servc].SERVDESCRIPCION, 'CONTCAPACODIGO': data.serv[servc].CONTCAPACODIGO, 'ConvDetaOrden': data.serv[servc].ConvDetaOrden, 'ServTN': data.serv[servc].ServTN, 'ServCategoria': data.serv[servc].ServCategoria, "Seleccion": true });
+          }
+
+          this.Servicios = DetalleServicios;
+          console.log("CONSULTA DETALLE Servicios " + JSON.stringify(this.Servicios ));
 
           this.SiCargoData = true;
-          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.destroy();
-            console.log("ENTREEEEEE");
-            this.dtTrigger.next(this.Datos);
-          }); */
+          this.dtElements.forEach((dtElement: DataTableDirective) => {
+            dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+          });
+          
+          this.dtTriggerContenedores.next(this.Contenedores);
+          this.dtTriggerServicios.next(this.Servicios);
         }
       },
       error => {
@@ -168,12 +272,12 @@ export class NuevoSolServComponent implements OnInit {
       });
   }
 
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-  dtInstance: DataTables.Api;
+x
 
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+    this.dtTriggerServicios.next();
+    this.dtTriggerContenedores.next();
+    this.dtTriggerServiciosContenedores.next();
   }
 
   public ngOnInit(): any {
@@ -189,7 +293,9 @@ export class NuevoSolServComponent implements OnInit {
   }
 
   public ngOnDestroy(): any {
-    this.dtTrigger.unsubscribe();
+    this.dtTriggerServicios.unsubscribe();
+    this.dtTriggerContenedores.unsubscribe();
+    this.dtTriggerServiciosContenedores.unsubscribe();
   }
   
   public ValidarInput(param: ConsultarVolanteSolicitudRQT): boolean {
@@ -261,5 +367,8 @@ export class NuevoSolServComponent implements OnInit {
     return false;
   }
 
+  public AgregarServicioContenedor(){
+    console.log("CONSULTA SELECCION Servicios " + JSON.stringify(this.Servicios ));
+  }
 
 }

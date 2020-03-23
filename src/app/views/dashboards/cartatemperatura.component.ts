@@ -100,46 +100,10 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
        {this.router.navigate(['/login']);}
 
       this.SetGrillaVisibility(false);
-      //this.SetClienteInput();
-      //this.setearFechasLimite();
-
-      /* this.objTemperaturaRPT = [
-        {
-
-          Embarcador: "Exportadora Y Comercializadora Greenvic S.A.C. ",
-          Nave: "MSC MARS",
-          Booking: "LIMA00377500",
-          Contenedor: "FSCU5756108",
-          SP: "0",
-          RH: "X",
-          Vent: "X",
-          O2: "X",
-          CO2: "X", 
-          
-        },{
-          Embarcador: "Exportadora Y Comercializadora Greenvic S.A.C. ",
-          Nave: "MSC MARS",
-          Booking: "LIMA00373800",
-          Contenedor: "FSCU5756200",
-          SP: "0",
-          RH: "X",
-          Vent: "X",
-          O2: "X",
-          CO2: "X", 
-          
-        }]  */
-
-
-        console.log(this.objCartaTemperaturaRPT)
+      console.log(this.objCartaTemperaturaRPT)
     }        
+
     popupNuevaCartaTemperatura(){
-      /* const dialogConfig = new MatDialogConfig()
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.height = "100%";
-      dialogConfig.width = "600px";
-      this.dialog.open(CartaTemperaturaDetalleComponent, dialogConfig); 
-      return false; */
       localStorage.setItem("paramAccion","Nuevo");
       const dialogRef = this.dialog.open(CartaTemperaturaNuevoComponent,{
         disableClose: true,
@@ -147,10 +111,10 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
         width: "600px",
         height: "100%"
       });
-      dialogRef.afterClosed().subscribe(result => {
+/*       dialogRef.afterClosed().subscribe(result => {
         this.RefrescarGrilla();
-     
-  });
+        
+  }); */
 
     }  
 
@@ -235,6 +199,9 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
     }
 
     public popupVistaPreviaPDF(paramIdCT:string, paramNombre:string){
+
+      console.log(Number.parseInt(localStorage.getItem("Usuario")) + '-' +
+      paramIdCT+ '-' +Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")))
 
       this.reportService.ImprimirPDF(Number.parseInt(localStorage.getItem("Usuario")),
       paramIdCT,Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"))).subscribe(

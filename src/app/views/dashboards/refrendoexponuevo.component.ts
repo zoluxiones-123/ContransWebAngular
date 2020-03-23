@@ -626,9 +626,6 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       if (res.length > 0) {
         var tipoarchivo = res[1];
         if ((tipoarchivo.toLowerCase() == "jpg") || (tipoarchivo.toLowerCase() == "jpeg") || (tipoarchivo.toLowerCase() == "pdf") || (tipoarchivo.toLowerCase() == "png")) {
-          //this.muestra_oculta("DAM");
-          //this.muestra_oculta("CONTENEDORES");
-          //this.muestra_oculta("DOCUMENTOS");
           for (var i = 0; i <= this.fileitemsZ.length - 1; i++) {
             if (this.fileitemsZ[i].name == nombarc) {
               {
