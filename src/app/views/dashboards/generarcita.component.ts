@@ -1,7 +1,7 @@
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import {AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild, ViewChildren,QueryList, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild, ViewChildren,QueryList, ElementRef } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { Observable } from "rxjs/internal/Observable";
 import { Router } from '@angular/router';
@@ -50,6 +50,10 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public Trasegado = false;
   public MuestraTipoCita = false;
   public MuestraCont = false;
+  public MuestraProg = false;
+  public RegiCodigo : string = "";
+  
+  
   public MuestraTabla = false;
   public FechaSelec : string = "";
   public FechaSeleccionada : string = "";
@@ -539,11 +543,13 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
     this.UnidadNegSelect = param.target.value;
 
     if (this.UnidadNegSelect == "03")
-     {this.MuestraTipoCita = true;
+     {
+      this.MuestraTipoCita = true;
       this.campo = "BL"}
 
      if (this.UnidadNegSelect == "01")
-     {this.MuestraTipoCita = false;
+     {
+      this.MuestraTipoCita = false;
       this.TipoCitaSelect = "";
       this.campo = "Registro";}
   }
@@ -555,17 +561,19 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
 
     if (this.TipoCitaSelect == "01")
      {this.campo = "BL";     
-   
      }
 
      
     if (this.TipoCitaSelect == "02")
-    {this.campo = "BK Oscar";
+    {     this.campo = "BK Oscar"   
+          this.MuestraProg = false;
+   }
+   ;
   
-    }
-
-
   }
+
+
+  
 
   
   public ChangeFecha(param : any)
@@ -646,7 +654,6 @@ this.VisualizarHoras();
       {
        
 
-
         let conte = this.selectedOptions[i].toString();
 
         var citacont = this.objCitasContenedor.filter(function (f) {
@@ -660,6 +667,7 @@ this.VisualizarHoras();
        let cpeso = 0;
        let cbulto = 0;
        let descontsu = "";
+       let codicont = "";
 
 
         if (citacont.length == 1)
@@ -673,6 +681,9 @@ this.VisualizarHoras();
           seriesu =  citacont[0].Serie;
           cpeso =  citacont[0].CuotaPeso;
           cbulto =  citacont[0].CuotaBulto;
+
+          codicont = citacont[0].CodiContenedor;
+          this.RegiCodigo =  citacont[0].Registro;
 
         }  
         
@@ -700,7 +711,7 @@ this.VisualizarHoras();
        
       this.objCitasVDev.push(citavdev);
       
-      let citadetalle = new InsertarCitaDetalleRQT(this.Token,this.IDRol,"", this.PermCodigo,"", "000000","","", this.Registro,
+      let citadetalle = new InsertarCitaDetalleRQT(this.Token,this.IDRol,"", this.PermCodigo,"", codicont,"","", this.Registro,
       cont,autpeso, autbulto, cpeso, cbulto, this.TipoCargaSelect,this.UnidadNegSelect, this.TipoCitaSelect, "", this.Trasegado);
 
       this.objCitasDetalles.push(citadetalle);
@@ -805,14 +816,32 @@ this.VisualizarHoras();
       top: '10%'
              }
      });
+
+     
+    dialogRef.afterClosed().subscribe(  result => {         
+      
+    let GrabaCita =  localStorage.getItem("GraboCita").toString();
+
+    if (GrabaCita == "SI")
+    {this.onClose();}    
+      
+  }
+
+      );
+
   }
 
   
   if (this.TipoCitaSelect == "01" || this.UnidadNegSelect == "01" || this.TipoCargaSelect == "002")
   {
 
-    this.GrabarCita()
+    if (this.objCitasDetalles.length == 0)
+    {
+      swal("Agregar al menos una programación ");
+      return;
+    }
 
+    this.GrabarCita()
 
   }
 
@@ -824,7 +853,19 @@ this.VisualizarHoras();
 
     this.InsertarCitaRqt.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.InsertarCitaRqt.Token = this.reportService.getToken();
+
+    
+  if (this.TipoCitaSelect == "02")
+  {
+
     this.InsertarCitaRqt.RegiCodigo = this.objCitasPermisos[0].BL.toString();
+  }
+  else
+  {
+    this.InsertarCitaRqt.RegiCodigo = this.RegiCodigo;
+
+  }
+
     this.InsertarCitaRqt.RetiCuotProgCodigo = this.RetiCuotCodigo.toString();
     this.InsertarCitaRqt.PermCodigo =  this.objCitasPermisos[0].PermCodigo.toString();    
     this.InsertarCitaRqt.Empaque =  this.TipoCargaSelect;    
@@ -867,7 +908,7 @@ this.VisualizarHoras();
 
       this.objCitasDetalles[i].VehiPlacaPri = this.objCitasVDev[i].Placa; 
       this.objCitasDetalles[i].NroBrevete = this.objCitasVDev[i].Brevete; 
-      this.objCitasDetalles[i].TipoCont =  "";
+      this.objCitasDetalles[i].TipoCont =  "00";
       this.objCitasDetalles[i].PermCodigo =  this.InsertarCitaRqt.PermCodigo;
     
   
@@ -1003,7 +1044,7 @@ this.VisualizarHoras();
           {
             console.log(data[0].Msj + " Se inserto el detalle de la cita correctamente");
             swal("Se inserto correctamente la cita " + citadetrqt.hojaServCodigo);
-         //   this.onClose();
+            this.onClose();
            }
        
         }
@@ -1397,6 +1438,7 @@ this.VisualizarHoras();
  this.objCitasHoras = [];
  this.objCitasVDev = [];
  this.objCitasDetalles = [];
+ this.MuestraProg = false;
    
     if(this.ValidarInput(this.citaPermisoRqt))
    {        
@@ -2002,7 +2044,6 @@ resh.subscribe(
  VisualizarContenedores(RPermiso:string, BL:string)
  {
    this.MuestraCont = true;
-
    
  this.citaContenedorRqt = {
   Token : this.reportService.getToken(),
@@ -2016,6 +2057,16 @@ resh.subscribe(
 
 let res = this.reportService.getCitasLContenedores(this.citaContenedorRqt);
 //console.log(this.objCartaTemperaturaRQT)
+
+
+if (this.TipoCitaSelect == "02")
+{   
+  this.MuestraProg = false;
+}
+else
+{   
+  this.MuestraProg = true;
+}
 
 res.subscribe( 
  data => { 

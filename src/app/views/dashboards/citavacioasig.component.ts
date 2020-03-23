@@ -251,7 +251,7 @@ export class CitavacioasigComponent implements AfterViewInit, OnDestroy, OnInit 
   public ChangingValue(param : any)
   {
     this.TipoContSelect = param.target.value;
-    swal(this.TipoContSelect.toString());
+   // swal(this.TipoContSelect.toString());
    
   }
 
@@ -389,6 +389,8 @@ export class CitavacioasigComponent implements AfterViewInit, OnDestroy, OnInit 
         console.log("Error");}
       );
   
+      
+      localStorage.setItem("GraboCita","SI");
       this.Cerrar();      
       swal("Se inserto la cita " +  codcita + " correctamente");
 
