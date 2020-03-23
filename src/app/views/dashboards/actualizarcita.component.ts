@@ -66,11 +66,14 @@ export class ActualizarcitaComponent implements OnInit {
   public TituloCita : string = "";
   public SubTituloCita : string = "";
   public OperacionCita : string = "";
+  public myToken : string = "";
   public MuestraMotivo : boolean = false;
   public MuestraImp : boolean = true;
   
   public ValTokenCita : boolean = false;
   public clicked : boolean = false;
+  public NoGrabarAun : boolean = false;
+  
   
   public telefono : string;
   public celular : string;
@@ -290,11 +293,11 @@ export class ActualizarcitaComponent implements OnInit {
      if (this.OperacionCita == "ImprimirCita")
      { this.tokenCitaRqt.Operacion = "Print Cita";}
 
-      this.cerrado = true;
+      //this.cerrado = true;
 
       this.generarToken();
 
-      this.cerrado = false;
+     // this.cerrado = false;
 
 
     }
@@ -341,7 +344,7 @@ export class ActualizarcitaComponent implements OnInit {
     this.actTokenCitaRqt.TokenCita = null;
     
     
-    this.cerrado = true;
+  //  this.cerrado = true;
 
 
     this.dialogRef.close();
@@ -350,10 +353,15 @@ export class ActualizarcitaComponent implements OnInit {
   public ActualizarCita(form: NgForm)
   {
 
-    if (this.cerrado == true)
+
+   /* if (this.NoGrabarAun == true)
     { return;  }
 
-    
+    if (this.cerrado == true)
+    { return;  }*/
+
+    //this.myControl.setValue(this.myToken);
+
     if (this.OperacionCita == "ActCita")
     {
     if (this.myBrevete.value.toString() == "" || this.myPlaca.value.toString() == "" || this.myControl.value.toString() == "")   
@@ -375,6 +383,11 @@ export class ActualizarcitaComponent implements OnInit {
     {swal({text :"Debe ingresar todos los campos obligatorios"});
     return;}
     }
+
+    this.tokenCitaRqt.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
+    this.tokenCitaRqt.Cita = localStorage.getItem("NroCita").toString();
+    this.tokenCitaRqt.Token = this.reportService.getToken();
+  
 
     this.valCitaRqt.Token = this.tokenCitaRqt.Token;
     this.valCitaRqt.IDRol = this.tokenCitaRqt.IDRol;
@@ -443,9 +456,15 @@ export class ActualizarcitaComponent implements OnInit {
             {
               console.log(data.Msj);
               let TokenCita = data.Msj.toString();
+              swal({text : "Se genero correctamente el Token"});
+              //this.NoGrabarAun = true;
 
-              this.myControl.setValue(TokenCita);
-              this.myControl.disable();              
+              //this.myControl.setValue(TokenCita);
+              //this.myControl.disable(); 
+              
+              //this.myControl = undefined;
+             
+             //this.myToken = TokenCita;
           
 
             }
@@ -498,7 +517,8 @@ export class ActualizarcitaComponent implements OnInit {
                 else
                 { 
 
-                 swal({text :"El Token ya no es valido. Generar otro."});
+                 //swal({text :"El Token ya no es valido. Generar otro."});
+                 swal({text : data.Msj.toString()});
                  return;
                
                 }
@@ -640,7 +660,8 @@ export class ActualizarcitaComponent implements OnInit {
                 }                       
               },  
               error => {
-                this.onIsError();           
+                this.onIsError();
+                swal(error.toString());           
                 console.log("Error");}
               );
              //  return "";

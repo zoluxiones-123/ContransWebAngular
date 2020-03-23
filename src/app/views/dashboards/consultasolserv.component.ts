@@ -7,6 +7,7 @@ import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { DataTableDirective } from 'angular-datatables';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
@@ -14,6 +15,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
 import { ActualizarcitaComponent  } from 'app/views/dashboards/actualizarcita.component';
 import { GenerarcitaComponent  } from 'app/views/dashboards/generarcita.component';
+
+import { DatePipe } from '@angular/common';
 
 
 import { MatDialog, MatDialogConfig} from '@angular/material';
@@ -45,6 +48,13 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
 
   public FilePathImpo : string = "";
   public NombreArchivoImpo : string = "";
+
+  
+  myFechaDesde = new FormControl();
+  myFechaHasta = new FormControl();
+
+  public Hoy: Date;
+  public FechaDesde: Date;
 
   
   public ListaEstSol : Array<EstSolServicio> = [];
@@ -101,7 +111,29 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
 
    this.FilePathExpo = "C://Documentos//Manual_de_usuario_de_Programacion_de_servicios_de_exportacion.pdf";
    this.NombreArchivoExpo = "Manual_de_usuario_de_Programacion_de_servicios_de_exportacion";
-   
+
+    //let date = new Date("Sun Mar 15 2020");
+
+    //let fechaact = new Date();
+
+/*   let hoy = new Date();
+   let semanaEnMilisegundos = 1000 * 60 * 60 * 24 * 7;
+   let suma = hoy.getTime() - semanaEnMilisegundos; //getTime devuelve milisegundos de esa fecha
+   let fechaDesde = new Date(suma);
+
+
+    var datePipe = new DatePipe("en-US");
+    let value = datePipe.transform(fechaDesde.toString(), 'dd-MM-yyyy');
+    let fechaHasta = datePipe.transform(hoy.toString(), 'dd-MM-yyyy');
+    
+    this.myFechaDesde.setValue(value.toString());
+    this.myFechaHasta.setValue(fechaHasta.toString());
+
+    this.myFechaDesde.setValue(fechaDesde);
+    this.myFechaHasta.setValue(hoy);*/
+
+
+
    
    this.SetGrillaVisibility(false);
 
@@ -248,7 +280,9 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
     IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
     HojaServCodigo : form.value.txtbox_Cita,
     FechaDesde: form.value.txtbox_Desde ,
+    //FechaDesde: this.myFechaDesde.value,
     FechaHasta: form.value.txtbox_Hasta ,
+    //FechaHasta:  this.myFechaHasta.value,    
     Volante: form.value.txtbox_Volante ,
     BlNbr: form.value.txtbox_BL,
     BkgNbr: form.value.txtbox_Booking,
