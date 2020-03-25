@@ -459,8 +459,8 @@ export class ActualizarcitaComponent implements OnInit {
               swal({text : "Se genero correctamente el Token"});
               //this.NoGrabarAun = true;
 
-              //this.myControl.setValue(TokenCita);
-              //this.myControl.disable(); 
+              this.myControl.setValue(TokenCita);
+              this.myControl.disable(); 
               
               //this.myControl = undefined;
              

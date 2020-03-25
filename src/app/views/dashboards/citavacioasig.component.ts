@@ -83,7 +83,6 @@ export class CitavacioasigComponent implements AfterViewInit, OnDestroy, OnInit 
 
   public LCitasPermiso : any;
 
-  
   private InsertarCitaRqt: InsertarCitaRQT = {
     Token : "",
     IDRol : 0,
@@ -154,12 +153,43 @@ export class CitavacioasigComponent implements AfterViewInit, OnDestroy, OnInit 
       }
     }
   };
+
+  CargarTiposContenedores()
+  {
+
+    this.reportService
+    .getTipoContenedor()
+    .subscribe(
+    data => {
+      
+      this.TiposCont = data;
+
+      if (this.TiposCont.Data != null)      
+      {                              
+        this.ListaTiposCont = data.Data;
+      
+      }
+      else{  
+        this.onIsError();   
+      }
+    },  
+    error => {
+      this.onIsError();           
+      console.log("Error");}
+    );
+
+  }
  
 
   ngOnInit() {
+
+  //  swal("Antes de cargar los tipos contenderoes");
+
+    this.CargarTiposContenedores();
     
     let num = Number.parseInt(localStorage.getItem("CantContenedores").toString());
     
+   // swal("Num: " + num.toString());
     
     this.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
     this.Token = this.reportService.getToken();
@@ -208,31 +238,19 @@ export class CitavacioasigComponent implements AfterViewInit, OnDestroy, OnInit 
   
     }
 
-    this.reportService
-    .getTipoContenedor()
-    .subscribe(
-    data => {
-      
-      this.TiposCont = data;
+    this.CargarGrilla();
 
-      if (this.TiposCont.Data != null)      
-      {                              
-        this.ListaTiposCont = data.Data;
-      
-      }
-      else{  
-        this.onIsError();   
-      }
-    },  
-    error => {
-      this.onIsError();           
-      console.log("Error");}
-    );
 
+  }
+
+  CargarGrilla()
+  {
+   // swal(this.objCitasVAsig.length.toString());
+    
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next(this.objCitasVAsig);         
+      dtInstance.destroy();             
     });
+    this.dtTrigger.next(this.objCitasVAsig); 
     this.SetGrillaVisibility(true);
 
   }
@@ -428,6 +446,9 @@ export class CitavacioasigComponent implements AfterViewInit, OnDestroy, OnInit 
   this.Placa  = "";
   this.Brevete  = "";
   this.TipoContenedor = "";
+
+  
+  localStorage.setItem("GraboCita","NO");
     
   this.dialogRef.close();
   }

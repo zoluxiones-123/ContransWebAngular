@@ -50,6 +50,9 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public Trasegado = false;
   public MuestraTipoCita = false;
   public MuestraCont = false;
+  public MuestraPalet = false;
+  public MuestraVacio = false;
+  
   public MuestraProg = false;
   public RegiCodigo : string = "";
   
@@ -106,6 +109,14 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   
   myControl = new FormControl();
   
+  myPlacaV = new FormControl();
+  myBreveteV = new FormControl();
+  myBultoCita = new FormControl();
+  myPesoCita = new FormControl();
+  myTraseg = new FormControl();
+  myNroCont = new FormControl();
+  
+  
   
   constructor(
   private reportService: ReportService, 
@@ -151,6 +162,10 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   public Token : string = "";
   public Registro : string = "";
   public PermCodigo : string = "";
+  public Index : number;
+  public BultoCitaTotal : number = 0;
+  public PesoCitaTotal : number = 0;
+  
 
 
   minDate: Date;
@@ -357,6 +372,7 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
     pagingType: 'full_numbers',
     pageLength: 10,
     retrieve : true,
+    select : true,
     searching: false,
     dom: 'Bfrtip',
     buttons: [
@@ -417,6 +433,8 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
    
    this.IDRol = Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault"));
    this.Token = this.reportService.getToken();
+
+   this.myTraseg.disable();
 
    this.SetGrillaVisibility(false);
    this.SetGrillaVisibilityDev(false);
@@ -497,6 +515,62 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
  
+  public GetRowIndex(param : any)
+  {
+    //swal(param.toString());
+ //   this.Index = Number.parseInt(param.toString());
+
+  }
+
+  public ChangingBulto(param : any, indexrow : number)
+  {
+
+    this.PesoCitaTotal = 0;
+    this.BultoCitaTotal = 0;
+   // swal("Este es el evento");
+
+   this.Index = indexrow;
+
+  // swal(this.Index.toString());
+
+    let bultos = Number.parseFloat(param.target.value);
+
+    let salbulto = this.objCitasDetalles[this.Index].AutBulto;
+    let salpeso = this.objCitasDetalles[this.Index].AutPeso;
+
+    let pesoaprox = (salpeso * bultos)/salbulto;
+
+    this.objCitasDetalles[this.Index].Peso = pesoaprox.toFixed(2);
+    this.objCitasDetalles[this.Index].Bulto = bultos;
+
+    this.objCitasVDev[this.Index].Bultos = bultos;
+    
+    this.objCitasVDev[this.Index].PesoTotal = pesoaprox;
+
+    var bultotot = 0;
+
+    for (var i = 0; i <= this.objCitasVDev.length-1; i++) {
+
+      if (this.objCitasVDev[i].Bultos == "")
+      {this.objCitasVDev[i].Bultos = 0;}
+      
+      this.PesoCitaTotal = this.PesoCitaTotal + Number.parseFloat(this.objCitasVDev[i].PesoTotal);
+      this.BultoCitaTotal = this.BultoCitaTotal + Number.parseFloat(this.objCitasVDev[i].Bultos);
+
+      
+      
+      //bultotot = bultotot + Number.parseFloat(this.objCitasVDev[i].PesoTotal);
+
+    }
+
+
+    this.myBultoCita.setValue(this.BultoCitaTotal.toFixed(2));
+    this.myPesoCita.setValue(this.PesoCitaTotal.toFixed(2));
+
+    //this.myPesoCita.setValue(bultotot.toFixed(2));
+        
+
+  }
 
   public ChangingValue(param : any)
   {
@@ -504,6 +578,15 @@ export class GenerarcitaComponent implements AfterViewInit, OnDestroy, OnInit {
     this.objAlmacenRqt.EmpaCodigo = this.TipoCargaSelect;
     
     this.ListaAlmacenes = new Array;
+
+    if (this.TipoCargaSelect == "001")
+    { this.myTraseg.enable(); }
+
+
+    if (this.TipoCargaSelect == "002")
+    { this.MuestraTipoCita = false;
+      this.myTraseg.disable();}
+
 
     this.reportService
     .getunidadnegocioxtipo(this.objAlmacenRqt)
@@ -630,13 +713,37 @@ this.VisualizarHoras();
   AgregarProgramacion()
   {
 
+    if (this.selectedOptions.length == 0)
+    { swal("Debe seleccionar un contenedor para agregar una programación");
+    return};
+
+    if (this.RetiCuotCodigo == undefined || this.RetiCuotCodigo == 0)
+    { swal("Debe seleccionar una fecha y hora de programación");
+    return;}
+
+    if (this.TipoCargaSelect == "002" && (this.myPlacaV.value == "" || this.myBreveteV.value == "" )  )
+    { swal("Debe ingresar una placa y un brevete para agregar una programación");
+      return;
+    }
     
+    if (this.TipoCargaSelect == "002" && (this.myPlacaV.value == undefined || this.myBreveteV.value == undefined )  )
+    { swal("Debe ingresar una placa y un brevete para agregar una programación");
+      return;
+    }
+
+    if (this.MuestraPalet == true)
+    {
     let extra= document.getElementById('SEXTNo').getAttribute("checked").valueOf();
 
     if (extra == "true")
-    {this.Extra = "0";
-    this.ExtraD = "NO";
+      { this.Extra = "0";
+        this.ExtraD = "NO";
+      }
     }
+    else
+    { this.Extra = "0"; this.ExtraD = "NO"; }
+
+
 
     for (var i = 0; i <= this.selectedOptions.length-1; i++) {
       
@@ -703,15 +810,25 @@ this.VisualizarHoras();
       
     }
         
+      let placa = "";
+      let brevete = "";
 
+      if (this.TipoCargaSelect == "002")
+      {
+        brevete = this.myBreveteV.value;        
+        placa = this.myPlacaV.value;
+      }
+
+      autbulto = 1000;
+      cbulto = 1000;
    
 
       let citavdev = new CitaVacioDev(serief, desccontf, this.FechaSeleccionada,this.HoraProg,
-      this.ServExt, "", "", autbulto, autpeso , cpeso , cbulto,"",0, this.PaletizadaD , this.ExtraD  );
+      this.ServExt,placa , brevete, autbulto, autpeso , cpeso , cbulto,"",0, this.PaletizadaD , this.ExtraD  );
        
       this.objCitasVDev.push(citavdev);
       
-      let citadetalle = new InsertarCitaDetalleRQT(this.Token,this.IDRol,"", this.PermCodigo,"", codicont,"","", this.Registro,
+      let citadetalle = new InsertarCitaDetalleRQT(this.Token,this.IDRol,"", this.PermCodigo,"", codicont, placa, brevete, this.Registro,
       cont,autpeso, autbulto, cpeso, cbulto, this.TipoCargaSelect,this.UnidadNegSelect, this.TipoCitaSelect, "", this.Trasegado);
 
       this.objCitasDetalles.push(citadetalle);
@@ -779,8 +896,11 @@ this.VisualizarHoras();
 
     let CantCont;
 
+   // swal("Citas Vacios");
+
     if ((this.objCitasPermisos.length >= 1) && (this.TipoCitaSelect == "02"))
-    {CantCont = this.objCitasPermisos[0].CantContenedores;    
+    {CantCont = this.objCitasPermisos[0].CantContenedores;  
+  //    swal("CantContenedores" + CantCont.toString());  
      localStorage.setItem("CantContenedores", CantCont.toString()); }
 
     localStorage.setItem("CitasPermiso",JSON.stringify(this.objCitasPermisos));    
@@ -790,7 +910,8 @@ this.VisualizarHoras();
     localStorage.setItem("Trasegado", traseg);
     localStorage.setItem("Paletizada", this.Paletizada );
    
-    
+    if (this.TipoCargaSelect == "002")
+    {
     let extemp= document.getElementById('SENo').getAttribute("checked").valueOf();
 
     if (extemp == "true")
@@ -802,11 +923,27 @@ this.VisualizarHoras();
     {this.Extra = "0";
     this.ExtraD = "NO";
     }
+  }
+  else
+  {
+    this.Extemp = "0";
+    this.Extra = "0";
+    this.ExtraD = "NO";
+    this.Paletizada = "0";
+  }
+
+
     localStorage.setItem("Extemp",this.Extemp);
     localStorage.setItem("Extra",this.Extra);
 
   if (this.TipoCitaSelect == "02")
   {
+    if (this.RetiCuotCodigo == undefined || this.RetiCuotCodigo == 0)
+    {
+      swal("Debe seleccionar una fecha y hora de programación");
+      return;
+    }
+
   const dialogRef = this.dialog.open(CitavacioasigComponent,{
     disableClose: true,
     autoFocus: true,
@@ -917,9 +1054,12 @@ this.VisualizarHoras();
     var citas =  this.objCitasDetalles.length; 
     var citg = 0;
 
-   /* while(citg <= citas)
+
+    //Grabación de Carga Suelta//
+    if (this.TipoCargaSelect == "002")
     {
-      
+
+      this.InsertarCitaRqt.Paletizada = 0;
       this.reportService
       .InsertarCita(this.InsertarCitaRqt)
       .subscribe(
@@ -930,27 +1070,17 @@ this.VisualizarHoras();
         if (data != null)      
         {    
           if (data[0].Cod == 0)                          
-          {        
-            //let citadetrqt = this.objCitasDetalles[j];
+          {
+            
+          for (var i = 0; i <= this.objCitasDetalles.length -1; i++) {
+  
             // this.objCitasDetalles[i].Hoja = this.Placa;
            //  this.objCitasDetalles[i].NroBrevete = this.Brevete;           
-           //  this.objCitasDetalles[j].hojaServCodigo =  data[0].Msj;  
-             
-             this.objCitasCodigos.push(data[0].Msj);
-             citg = citg + 1;
-
-             if (citg == citas)
-             {
-               this.GrabarCitaDetalle();
-             }
-
-             
-             //if (this.objCitasDetalles.length ==   this.objCitasCodigos.length)
-               //  {this.GrabarCitaDetalle()}
-             //swal(this.objCitasCodigos[0].toString());
-          
+             this.objCitasDetalles[i].hojaServCodigo =  data[0].Msj;         
     
-          //this.GrabarCitaDetalle(citadetrqt);
+           }
+  
+          this.GrabarCitaDetalleCargaSuelta();
   
          // swal("Se registro la cita " + data[0].Msj + " correctamente"); }
         
@@ -964,14 +1094,19 @@ this.VisualizarHoras();
         this.onIsError();           
         console.log("Error");}
       );
-     
-    }*/
+  
 
+    }
+
+  
+    if (this.TipoCitaSelect == "01" || (this.TipoCargaSelect == "001" && this.UnidadNegSelect == "01" ))
+    {
 
     for (var j = 0; j <= this.objCitasDetalles.length ; j++) 
     {
   
       console.log(j.toString());
+      console.log(this.InsertarCitaRqt);
 
       this.reportService
       .InsertarCita(this.InsertarCitaRqt)
@@ -1016,12 +1151,70 @@ this.VisualizarHoras();
   
     }
     
+  }
+    //Aca acaba
     
    // this.GrabarCitaDetalle();
     
  // this.onClose();
 
   }
+
+  EditarPlacaVacios()
+  {
+
+    for (var i = 0; i <= this.objCitasDetalles.length -1; i++) {
+
+      this.objCitasVDev[i].Placa = this.myPlacaV.value;
+      this.objCitasVDev[i].Brevete = this.myBreveteV.value;
+    }
+  }
+
+  GrabarCitaDetalleCargaSuelta()
+  {
+
+    for (var i = 0; i <= this.objCitasDetalles.length -1; i++) {
+
+    let citadetrqt = this.objCitasDetalles[i];
+    let codcita = this.objCitasDetalles[i].hojaServCodigo;
+
+      this.reportService
+      .InsertarCitaDetalle(citadetrqt)
+      .subscribe(
+      data => {
+        
+        this.InsertarCitaDetRpt = data;
+  
+        if (data != null)      
+        {    
+          if (data[0].Cod == 0)                          
+          {
+            console.log(data[0].Msj + " Se inserto el detalle de la cita correctamente");
+
+           }
+       
+        }
+      else
+      {  
+          this.onIsError();   
+    }
+      },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+  
+      
+      localStorage.setItem("GraboCita","SI");
+      this.onClose();      
+      swal("Se inserto la cita " +  codcita + " correctamente");
+
+
+    }
+
+
+  }
+
 
   GrabarCitaDetalle()
   {
@@ -1439,6 +1632,8 @@ this.VisualizarHoras();
  this.objCitasVDev = [];
  this.objCitasDetalles = [];
  this.MuestraProg = false;
+ this.MuestraPalet = false;
+ this.MuestraVacio = false;
    
     if(this.ValidarInput(this.citaPermisoRqt))
    {        
@@ -1448,6 +1643,7 @@ this.VisualizarHoras();
          });
      return;
    } 
+
 
    if (this.campo == "BK Oscar" || this.campo == "BL")
     {
@@ -1514,6 +1710,7 @@ this.VisualizarHoras();
      data => { 
        this.objCitasPermisos = data.Data;
        console.log(data.Data);
+       //swal( this.objCitasPermisos[0].CantContenedores.toString());  
        if (data.Data.length >= 1)
        {
             if (data.Data[0].Error == 1)
@@ -1546,7 +1743,8 @@ this.VisualizarHoras();
          
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
            dtInstance.destroy();
-           this.dtTrigger.next(this.objCitasPermisos);         
+           this.dtTrigger.next(this.objCitasPermisos);
+           this.myNroCont.setValue(this.objCitasPermisos[0].CantContenedores.toString());           
          });
 
        /* this.dtElements.forEach((dtElement: DataTableDirective) => {
@@ -2068,6 +2266,19 @@ else
   this.MuestraProg = true;
 }
 
+if (this.TipoCargaSelect == "002")
+{
+  this.MuestraPalet = true;
+  this.MuestraVacio = true;
+  
+}
+else
+{
+ this.MuestraPalet = false;
+ this.MuestraVacio = false;
+  
+}
+
 res.subscribe( 
  data => { 
    this.citasContenedor = data;
@@ -2083,6 +2294,10 @@ res.subscribe(
       
      if (this.TipoCitaSelect == "02")
      {this.MuestraCantCTN = true;}
+
+     
+     if (this.TipoCargaSelect == "002")
+     {this.MuestraCantCTN = false;}
 
      this.getCitasConsultarFecha();
 

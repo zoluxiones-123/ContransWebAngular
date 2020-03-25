@@ -35,7 +35,7 @@
               <td style="width:300px;padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:1px;">
                 <label style="margin-bottom: 0px;padding-top: 10px;padding-right: 5px;">
                  Trasegado</label> <input style="padding-top: 8px;border-top-width: 10px;margin-top: 8px;vertical-align: text-bottom;"
-                 type="checkbox" (change)="Checked($event)" >
+                 type="checkbox" [formControl]="myTraseg" (change)="Checked($event)" >
               </td>
               </div>
 
@@ -101,7 +101,7 @@
             </div>                       
           </div>
 
-          <div *ngIf = "MuestraCont" class="row">
+          <div *ngIf = "MuestraPalet" class="row">
             <br/>
             <div class="col-sm-4">
               <label>Carga Paletizada :&nbsp;&nbsp;</label>     
@@ -127,7 +127,7 @@
                 <div class="col-sm-8" style="padding-left: 5px;">
                   <div class="form-group">
                     <br/>
-                    <input type="text" name="txtbox_NroContenedores" placeholder="Nro Contenedores" class="form-control tamanio-device" [ngModel] required /> 
+                    <input type="text"  [formControl]="myNroCont" disabled = "true" name="txtbox_NroContenedores" placeholder="Nro Contenedores" class="form-control tamanio-device" [ngModel] required /> 
                   </div>
                 </div>               
               </mat-tab>
@@ -181,8 +181,8 @@
                   <tr>                  
       <td class="font-bold"><label id = "cuatroAM"><input type="radio" id="rcuatroAM" name="optradio"(change)="onItemChangeHora($event)">{{this.cuatroAM}}</label></td>
       <td class="font-bold"><label id = "diezAM"><input type="radio" id="rdiezAM" name="optradio"(change)="onItemChangeHora($event)">{{this.diezAM}}</label></td>                    
-      <td class="text-navy"><label id = "cuatroPM"><input type="radio" id="rcuatroPM" name="optradio"(change)="onItemChangeHora($event)">{{this.tresAM}}</label></td>
-      <td class="text-navy"><label id = "diezPM"><input type="radio" id="rdiezPM" name="optradio" (change)="onItemChangeHora($event)" >{{this.nueveAM}}</label></td>
+      <td class="text-navy"><label id = "cuatroPM"><input type="radio" id="rcuatroPM" name="optradio"(change)="onItemChangeHora($event)">{{this.cuatroPM}}</label></td>
+      <td class="text-navy"><label id = "diezPM"><input type="radio" id="rdiezPM" name="optradio" (change)="onItemChangeHora($event)" >{{this.diezPM}}</label></td>
                   </tr>                   
                   <tr>                  
       <td class="font-bold"><label id = "cincoAM"><input type="radio" id="rcincoAM" name="optradio"(change)="onItemChangeHora($event)">{{this.cincoAM}}</label></td>
@@ -202,10 +202,26 @@
 
           </div>
           <div class="row">
+          
             <div  *ngIf = "MuestraProg" class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
               <button type="button" (click)="AgregarProgramacion()"
                 class="btn btn-primary block m-b tamanio-device" >Agregar Programación</button>
             </div> 
+          </div>
+          <div  *ngIf = "MuestraVacio" class="row">
+           
+              <div class="col-sm-3" style="padding-left: 5px;padding-bottom: 10px;">
+                <input type="text" name="txtbox_PlacaV" [formControl]="myPlacaV" placeholder="Placa"  class="form-control  tamanio-device" [ngModel] required /> 
+             </div>            
+
+            <div class="col-sm-3" style="padding-left: 5px;padding-bottom: 10px;">
+              <input type="text" name="txtbox_BreveteV" [formControl]="myBreveteV" placeholder="Brevete"  class="form-control  tamanio-device" [ngModel] required /> 
+           </div>
+           <div class="col-sm-1" style="padding-left: 5px;padding-bottom: 10px;">
+            <button type="button" (click)="EditarPlacaVacios()"
+            class="btn btn-primary block m-b tamanio-device" >Editar</button>
+          </div>
+       
           </div>
 
 
@@ -293,7 +309,8 @@
             <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptionsSuelta"
               [dtTrigger]="dtTriggerSuelta">
               <thead>
-                <tr>
+                <tr>                  
+                                                                                                           
                   <th>Serie</th>                                                                                      
                   <th>Descripción</th>
                   <th>Fecha Prog</th>
@@ -314,6 +331,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of this.objCitasVDev">
+              
                   <td>{{item.Serie}}</td>
                   <td>{{item.Descripcion}}</td> 
                   <td>{{item.Fecha}}</td>
@@ -322,17 +340,15 @@
                   <td>{{item.AutPeso}}</td>   
                   <td>{{item.CuotaBulto}}</td>   
                   <td>{{item.CuotaPeso}}</td>   
-                  <td> <input type="text" name="txtbox_Bultos"  id = "txtBultos" placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /> 
+                  <td> <input type="text" name="txtbox_Bultos" (click) = "GetRowIndex(this.objCitasVDev.indexOf(item))" (change)="ChangingBulto($event, this.objCitasVDev.indexOf(item))"  id = "txtBultos" placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /> 
                   </td>               
                   <td>{{item.PesoTotal}}</td>    
                   <td>{{item.Paletizada}}</td>   
                   <td>{{item.ServExt}}</td>   
                   <td>{{item.ServExtra}}</td>   
                                                   
-                  <td> <input type="text" name="txtbox_Placa"  id = "txtPlaca" placeholder="Placa"  class="form-control  tamanio-device"  [(ngModel)]="item.Placa" /> 
-                  </td> 
-                  <td> <input type="text" name="txtbox_Brevete"  id = "txtBrevete" placeholder="Brevete"  class="form-control  tamanio-device"  [(ngModel)]="item.Brevete" /> 
-                  </td>    
+                  <td>{{item.Placa}}</td> 
+                  <td> {{item.Brevete}} </td>    
                   <td><a (click)="EliminarDevolucion(item.Serie)"><img src="assets/images/delete.png"></a></td>                                                        
                                                                            
                 </tr>
@@ -341,13 +357,28 @@
             </table>
           </div>                       
         </div>
+        <div  *ngIf = "MuestraVacio" class="row">
+           
+          <div class="col-sm-3" style="padding-left: 5px;padding-bottom: 10px;">
+            <label style="margin-bottom: 0px;padding-top: 10px;padding-right: 5px;">
+              Bulto Cita Total</label>  <input type="text" name="txtbox_CitaTotal" [formControl]="myBultoCita"  class="form-control  tamanio-device" [ngModel] required /> 
+         </div>            
+
+        <div class="col-sm-3" style="padding-left: 5px;padding-bottom: 10px;">
+          <label style="margin-bottom: 0px;padding-top: 10px;padding-right: 5px;">
+            Peso Cita Total</label> <input type="text" name="txtbox_PesoTotal" [formControl]="myPesoCita" class="form-control  tamanio-device" [ngModel] required /> 
+       </div>   
+      </div>
 
         
         <div class="row">
+         
+
         <div  *ngIf = "MuestraCont" class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
           <button type="button" (click)="popupGenerarCitaVacios()"
             class="btn btn-primary block m-b tamanio-device" >Grabar</button>
-        </div> 
+        </div>
+
         </div> 
 
         </div>
