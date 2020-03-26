@@ -218,10 +218,12 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
         }, (error)=> console.log("Salio error en la descarga: ", error));
     }
 
-    public popupDetalleCartaTemperatura(paramIdCT:string,paramNBooking:string){
+    public popupDetalleCartaTemperatura(paramIdCT:string,paramNBooking:string,paramEstado:string){
       localStorage.setItem("paramIdCT",paramIdCT);
       localStorage.setItem("paramNBooking",paramNBooking);
       localStorage.setItem("paramAccion","Editar");
+      localStorage.setItem("paramEstadoCarta",paramEstado);
+
       const dialogRef = this.dialog.open(CartaTemperaturaDetalleComponent,{
         disableClose: true,
         autoFocus: true,

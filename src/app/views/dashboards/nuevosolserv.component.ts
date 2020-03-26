@@ -8,7 +8,7 @@ import { Component, OnInit, Inject, OnDestroy, ViewChild, ViewChildren, QueryLis
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 //import { TemperaturaDetalleRQT, TemperaturaDetalleRPT, BuscarNuevoCartaDetalleTemperaturaRQT, BuscarNuevoCartaDetalleTemperaturaRPT, BuscarCartaDetalleTemperaturaRQT, BuscarCartaDetalleTemperaturaRPT, CartaDetalleTemperatura2RQT, CartaDetalleTemperatura2RPT, NuevoCartaDetalleTemperaturaRQT, NuevoCartaDetalleTemperaturaRPT, CartaDetalleTemperaturaRQT, CartaDetalleTemperaturaRPT, TemperaturaDataRPT, TemperaturaVDRPT } from '../../models/Temperatura';
 //import { ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo,GenerarRefrendoExpoRQT,GenerarRefrendoExpoRPT,GenerarDetalleRefrendoExpoRQT } from '../../models/RefrendoExpo';
-import { ConsultarVolanteSolicitudRPT, ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudServiciosRPT, ConsultarVolanteSolicitudContenedoresRPT, ConsultarVolanteSolicitudServiciosContenedoresRPT }  from '../../models/SolicitudServicio';
+import { GenerarSolicitudDetalle,GenerarSolicitud, ConsultarVolanteSolicitudRPT, ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudServiciosRPT,ConsultarVolanteSolicitudServiciosUnicosRPT, ConsultarVolanteSolicitudContenedoresRPT, ConsultarVolanteSolicitudServiciosContenedoresRPT }  from '../../models/SolicitudServicio';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -53,25 +53,16 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
   CantidadBultos: number;
   CantidadPeso: number;
 
-  
-
   public Servicios: ConsultarVolanteSolicitudServiciosRPT[];
+  public ServiciosUnicos: ConsultarVolanteSolicitudServiciosUnicosRPT[];
   public Contenedores: ConsultarVolanteSolicitudContenedoresRPT[];
   public ServiciosContenedores: ConsultarVolanteSolicitudServiciosContenedoresRPT[];
-/*    public Datos: ConsultaDetalleBookingRefrendoExpoRPT[];
-
-  public objConsultaBookingRefrendoExpoRQT: ConsultaBookingRefrendoExpoRQT;
-  public objConsultaBookingRefrendoExpoRPT: ConsultaBookingRefrendoExpoRPT;
-  public objGenerarRefrendoExpoRQT: GenerarRefrendoExpoRQT;
-  public objGenerarRefrendoExpoRPT: GenerarRefrendoExpoRPT;
-  public objGenerarDetalleRefrendoExpoRQT: GenerarDetalleRefrendoExpoRQT;  */
+  public Datos: GenerarSolicitudDetalle[];
   
   public objConsultaVolanteSolicitudRQT: ConsultarVolanteSolicitudRQT;
   public objConsultaVolanteSolicitudRPT: ConsultarVolanteSolicitudRPT;
-
-
-/*   public ModalidadSelect: string;
-  public ListaModalidad: Array<ListaModalidadRefrendoExpo>; */
+  public objGenerarSolicitud: GenerarSolicitud;
+  //public objGenerarSolicitudDetalle: GenerarSolicitudDetalle;
 
   setearFechasLimite(){
     let date = new Date();
@@ -225,8 +216,9 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           swal(data.Msj.toString());
         } else {
           let DetalleServicios = []; 
+          let DetalleServiciosUnicos = []; 
           let DetalleContenedores = [];  
-          let DetalleServiciosContenedores = [];  
+          let DetalleServiciosContenedores = [];
           
           this.BLCodigo = data.BLCodigo;
           this.BLNumero= data.BLNumero;
@@ -243,7 +235,7 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           this.CodViaje= data.CodViaje;
 
           for (var contn in data.data){
-            DetalleContenedores.push({'CONTCARGCODIGO': data.data[contn].CONTCARGCODIGO, 'CONTNUMERO': data.data[contn].CONTNUMERO, 'CONTCAPAIDENTIFICADOR': data.data[contn].CONTCAPAIDENTIFICADOR, 'CONTTIPO': data.data[contn].CONTTIPO, 'PESO': data.data[contn].PESO, 'BULTOS': data.data[contn].BULTOS, 'Empaque': data.data[contn].Empaque, "Seleccion": true });
+            DetalleContenedores.push({'CONTCARGCODIGO': data.data[contn].CONTCARGCODIGO, 'CONTNUMERO': data.data[contn].CONTNUMERO, 'CONTCAPAIDENTIFICADOR': data.data[contn].CONTCAPAIDENTIFICADOR, 'CONTTIPO': data.data[contn].CONTTIPO, 'PESO': data.data[contn].PESO, 'BULTOS': data.data[contn].BULTOS, 'Empaque': data.data[contn].Empaque, "Seleccion": false });
           }
 
           this.Contenedores = DetalleContenedores;
@@ -251,11 +243,36 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           
           for (var servc in data.serv){
             console.log(data.serv[servc].SERVDETACODIGO)
-            DetalleServicios.push({'SERVDETACODIGO': data.serv[servc].SERVDETACODIGO, 'SERVDESCRIPCION': data.serv[servc].SERVDESCRIPCION, 'CONTCAPACODIGO': data.serv[servc].CONTCAPACODIGO, 'ConvDetaOrden': data.serv[servc].ConvDetaOrden, 'ServTN': data.serv[servc].ServTN, 'ServCategoria': data.serv[servc].ServCategoria, "Seleccion": true });
+            DetalleServicios.push({'SERVDETACODIGO': data.serv[servc].SERVDETACODIGO, 'SERVDESCRIPCION': data.serv[servc].SERVDESCRIPCION, 'CONTCAPACODIGO': data.serv[servc].CONTCAPACODIGO, 'ConvDetaOrden': data.serv[servc].ConvDetaOrden, 'ServTN': data.serv[servc].ServTN, 'ServCategoria': data.serv[servc].ServCategoria, "Seleccion": false });
+            DetalleServiciosUnicos.push({'SERVDESCRIPCION': data.serv[servc].SERVDESCRIPCION, "Seleccion": false });
           }
 
           this.Servicios = DetalleServicios;
           console.log("CONSULTA DETALLE Servicios " + JSON.stringify(this.Servicios ));
+
+/*           var SERVDESC: string;
+          SERVDESC="";
+          for (var servcu in data.serv){
+            if (data.serv[servcu].SERVDESCRIPCION == SERVDESC){
+             }else{
+              SERVDESC = data.serv[servcu].SERVDESCRIPCION;
+              console.log(SERVDESC);
+              DetalleServiciosUnicos.push({'SERVDESCRIPCION': data.serv[servcu].SERVDESCRIPCION, "Seleccion": false });
+
+            }
+          } */
+/*           Array.prototype.unique=function(a){
+            return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+          }); */
+          
+          var uniqs = DetalleServiciosUnicos.filter((el, index) => DetalleServiciosUnicos.indexOf(el) === index)
+          console.log(uniqs); 
+
+          this.ServiciosUnicos = uniqs;
+          console.log('SERVICIOS UNICOS '+ JSON.stringify(this.ServiciosUnicos))
+
+          DetalleServiciosContenedores.push({'ORDEN': 0,'CONTNUMERO': "",'SERVDESCRIPCION': "", 'Empaque': "", 'BULTOS': "" });
+          this.ServiciosContenedores = DetalleServiciosContenedores;
 
           this.SiCargoData = true;
           this.dtElements.forEach((dtElement: DataTableDirective) => {
@@ -263,7 +280,8 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           });
           
           this.dtTriggerContenedores.next(this.Contenedores);
-          this.dtTriggerServicios.next(this.Servicios);
+          this.dtTriggerServicios.next(this.ServiciosUnicos);
+          this.dtTriggerServiciosContenedores.next(this.ServiciosContenedores);
         }
       },
       error => {
@@ -272,7 +290,7 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
       });
   }
 
-x
+
 
   ngAfterViewInit(): void {
     this.dtTriggerServicios.next();
@@ -283,10 +301,6 @@ x
   public ngOnInit(): any {
     this.Contnumero = localStorage.getItem("paramNBooking");
     if (localStorage.getItem("Usuario") == null) { this.router.navigate(['/login']); }
-/*     this.muestra_oculta("DAM");
-    this.muestra_oculta("CONTENEDORES");
-    this.muestra_oculta("DOCUMENTOS"); */
-
   }
 
   public IniciarForm(form: NgForm) {
@@ -298,37 +312,44 @@ x
     this.dtTriggerServiciosContenedores.unsubscribe();
   }
   
-  public ValidarInput(param: ConsultarVolanteSolicitudRQT): boolean {
+  public ValidarInput(param: GenerarSolicitud): boolean {
 
-    /* if (this.NullEmpty(param.Exportador) ) {
-      return true;
+    if (this.NullEmpty(param.AnioDUA) ) {
+      this.objGenerarSolicitud.AnioDUA="";
+      //return true;
     } 
 
-    if (this.NullEmpty(param.Despachador) ) {
-      return true;
+    if (this.NullEmpty(param.DUA) ) {
+      this.objGenerarSolicitud.DUA="";
+      //return true;
     } 
 
-    if (this.NullEmpty(param.AgenciaAduana) ) {
-      return true;
+    if (this.NullEmpty(param.RegimenDUA) ) {
+      this.objGenerarSolicitud.RegimenDUA="";
+      //return true;
     } 
 
-    if (this.NullEmpty(param.NumOrden) ) {
-      return true;
+    if (this.NullEmpty(param.HojaServObservacione) ) {
+      this.objGenerarSolicitud.HojaServObservacione="";
+      //return true;
     } 
 
-    if (this.NullEmpty(param.DAM) ) {
-      return true;
+    if (this.NullEmpty(param.NombreContacto) ) {
+      this.objGenerarSolicitud.NombreContacto="";
+      //return true;
     } 
 
-    if (this.NullEmpty(param.FechaNum) ) {
-      return true;
+    if (this.NullEmpty(param.ApellidoContacto) ) {
+      this.objGenerarSolicitud.ApellidoContacto="";
+      //return true;
     }
 
-    if (this.NullEmpty(param.Mercancia) ) {
-      return true;
+    if (this.NullEmpty(param.TelefonoContacto) ) {
+      this.objGenerarSolicitud.TelefonoContacto="";
+      //return true;
     }
-    var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    this.objGenerarRefrendoExpoRQT.FechaNum = this.objGenerarRefrendoExpoRQT.FechaNum.toLocaleDateString("es-ES",options);
+/*     var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    this.objGenerarSolicitud.FechaNum = this.objGenerarRefrendoExpoRQT.FechaNum.toLocaleDateString("es-ES",options);
     console.log(this.objGenerarRefrendoExpoRQT.FechaNum); */
     return false;
   }
@@ -368,7 +389,134 @@ x
   }
 
   public AgregarServicioContenedor(){
+    var NOrden: number;
+    NOrden = 0;
     console.log("CONSULTA SELECCION Servicios " + JSON.stringify(this.Servicios ));
+    console.log("CONSULTA SELECCION Contenedor " + JSON.stringify(this.Contenedores ));
+    let DetalleServiciosContenedores = []; 
+    let CkContenedores: boolean;
+    let CkServicios: boolean;
+    CkContenedores = false;
+    CkServicios = false;
+
+    for (var serv in this.Servicios){
+      if (this.Servicios[serv].Seleccion == true){
+        CkServicios = true;
+      }
+    }
+
+    console.log("Validando Contenedores "+ CkServicios);
+    if (CkServicios == false){
+      swal({
+        text: "Debe seleccionar al menos un Servicio",
+        icon: "warning",
+      });
+      return false;
+    } else if ( CkServicios == true){
+
+    for (var contn in this.Contenedores){
+      if (this.Contenedores[contn].Seleccion == true){
+        
+        CkContenedores = true;
+        console.log("Contenedores Seleccionados "+ CkContenedores);
+      }
+    }
+    console.log("Validando Contenedores "+ CkContenedores);
+
+      if (CkContenedores == false){
+        swal({
+          text: "Debe seleccionar al menos un Contenedor",
+          icon: "warning",
+        });
+        return false;
+      }
+    }
+
+    for (var contn in this.Contenedores){
+        for (var servc in this.Servicios){
+          if (this.Contenedores[contn].Seleccion == true){
+            if (this.Servicios[servc].Seleccion == true){
+              NOrden = NOrden + 1;
+              DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': this.Servicios[servc].SERVDESCRIPCION, 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': this.Servicios[servc].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
+            }
+          }
+        }
+    }
+    this.ServiciosContenedores = DetalleServiciosContenedores;
+    this.dtElements.forEach((dtElement: DataTableDirective) => {
+      dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+    });
+    
+    this.dtTriggerContenedores.next(this.Contenedores);
+    this.dtTriggerServicios.next(this.ServiciosUnicos);
+    this.dtTriggerServiciosContenedores.next(this.ServiciosContenedores);
+
+    console.log("CONSULTA SELECCION Servicios Contenedor " + JSON.stringify(this.ServiciosContenedores ));
+
   }
 
+  public EliminarServicioContenedor(paramOrden: Number){
+    var NOrden: number;
+    NOrden = 0;
+    console.log("CONSULTA SELECCION Servicios " + JSON.stringify(this.Servicios ));
+    console.log("CONSULTA SELECCION Contenedor " + JSON.stringify(this.Contenedores ));
+    let DetalleServiciosContenedores = []; 
+
+    for (var servcontn in this.ServiciosContenedores){
+      if (this.ServiciosContenedores[servcontn].ORDEN != paramOrden){
+        NOrden = NOrden + 1;
+        DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.ServiciosContenedores[servcontn].CONTNUMERO,'SERVDESCRIPCION': this.ServiciosContenedores[servcontn].SERVDESCRIPCION, 'Empaque': this.ServiciosContenedores[servcontn].Empaque, 'BULTOS': this.ServiciosContenedores[servcontn].BULTOS, 'SERVDETACODIGO': this.ServiciosContenedores[servcontn].SERVDETACODIGO, 'CONTCARGCODIGO': this.ServiciosContenedores[servcontn].CONTCARGCODIGO });
+      }
+    }
+
+    this.ServiciosContenedores = DetalleServiciosContenedores;
+    this.dtElements.forEach((dtElement: DataTableDirective) => {
+      dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+    });
+    
+    this.dtTriggerContenedores.next(this.Contenedores);
+    this.dtTriggerServicios.next(this.ServiciosUnicos);
+    this.dtTriggerServiciosContenedores.next(this.ServiciosContenedores);
+  }
+
+  public AgregarSolicitud(form: NgForm){
+    let DetalleServiciosContenedores = []; 
+    for (var servcontn in this.ServiciosContenedores){
+        DetalleServiciosContenedores.push({'CodServicio': this.ServiciosContenedores[servcontn].SERVDETACODIGO,'CodContenedor': this.ServiciosContenedores[servcontn].CONTCARGCODIGO, 'Contenedor': this.ServiciosContenedores[servcontn].CONTNUMERO });
+    }
+
+    this.Datos =  DetalleServiciosContenedores;
+    console.log("Detalle DetalleServiciosContenedores " + JSON.stringify(this.Datos ));
+    this.objGenerarSolicitud = {
+      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      RubrCodigo: "",
+      HojaServObservacione: form.value.txtbox_Observacion,
+      RegiCodigo: form.value.txtbox_NBooking,
+      HojaServPrograma: "",
+      Documento: "",
+      AnioDUA: form.value.txtbox_Anio,
+      RegimenDUA: form.value.txtbox_Regimen,
+      DUA: form.value.txtbox_DUA,
+      TareServCodigo: form.value.txtbox_Tarea,
+      NombreContacto: form.value.txtbox_Nombre,
+      ApellidoContacto: form.value.txtbox_Apellidos,
+      TelefonoContacto: form.value.txtbox_Nextel,
+      Deta: this.Datos
+  }
+  console.log("Detalle objGenerarSolicitud " + JSON.stringify(this.objGenerarSolicitud ));
+
+  if(this.ValidarInput(this.objGenerarSolicitud))
+  {        
+    swal({
+          text: "Error en los campos de ingreso, por favor verificar",
+          icon: "warning",
+        });
+    return;
+  }
+
+  
+
+
+  }
 }

@@ -191,7 +191,7 @@
           <div id="Servicios" class="form-group row" >
             <div class="row">
               <div style="width: 97%;overflow-y: hidden;">
-               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsServicios"
+               <table id="1" datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsServicios"
                   [dtTrigger]="dtTriggerServicios" > 
                   <thead>
                     <tr>
@@ -200,7 +200,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of this.Servicios">
+                    <tr *ngFor="let item of this.ServiciosUnicos">
                       <td>{{item.SERVDESCRIPCION}}</td> 
                       <td><input type="checkbox" name="{{item.SERVDESCRIPCION}}"  value="{{item.Seleccion}}"  [(ngModel)]="item.Seleccion" ></td>
                    </tr>
@@ -224,7 +224,7 @@
           <div id="Contenedores" class="form-group row" >
             <div class="row">
               <div style="width: 97%;overflow-y: hidden;">
-               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsContenedores"
+               <table  id="2" datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsContenedores"
                   [dtTrigger]="dtTriggerContenedores" > 
                   <thead>
                     <tr>
@@ -239,14 +239,14 @@
                       <td>{{item.CONTNUMERO}}</td> 
                       <td>{{item.Empaque}}</td> 
                       <td>{{item.BULTOS}}</td>
-                      <td><input type="checkbox" name="{{item.CONTNUMERO}}" value="SI"></td>
+                      <td><input type="checkbox" name="{{item.CONTNUMERO}}"  value="{{item.Seleccion}}"  [(ngModel)]="item.Seleccion" ></td>
                    </tr>
                   </tbody>
                 </table>
               </div>
             </div>
             <div class="form-group row " style="text-align: center;">
-            <button (click)="AgregarServicioContenedor()" class="btn btn-w-m btn-primary">Agregar Servicio</button>
+            <button (click)="AgregarServicioContenedor()" class="btn btn-w-m btn-primary">Agregar</button>
           </div>
           </div>
           
@@ -262,10 +262,11 @@
           <div id="ServiciosAsignadosaContendores" class="form-group row" >
             <div class="row">
               <div style="width: 97%;overflow-y: hidden;">
-               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsServiciosContenedores"
+               <table id="3" datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsServiciosContenedores"
                   [dtTrigger]="dtTriggerServiciosContenedores" > 
                   <thead>
                     <tr>
+                      <th>Nro</th>
                       <th>Contenedor</th>
                       <th>Servicio</th>
                       <th>Tipo de Empaque</th>
@@ -280,7 +281,7 @@
                       <td>{{item.SERVDESCRIPCION}}</td> 
                       <td>{{item.Empaque}}</td>
                       <td>{{item.BULTOS}}</td>
-                      <td></td>
+                      <td><a (click)="EliminarServicioContenedor(item.ORDEN)"><img src="assets/images/delete.png"></a></td>
                    </tr>
                   </tbody>
                 </table>
@@ -302,7 +303,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
       <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
-      <button type="submit" class="btn btn-w-m btn-primary">Nuevo</button>
+      <button type="submit" (click)="AgregarSolicitud(formUsuario)" class="btn btn-w-m btn-primary">Grabar</button>
       <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
   </div>
 </div>
