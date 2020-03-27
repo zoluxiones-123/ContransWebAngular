@@ -61,6 +61,7 @@ import { map } from "rxjs/operators";
     UsuaCelular : string;
     UsuaEmail : string;
     RolEmpUsuaCodigoDefault : number;
+    EntiCodigo : string;
   }
 
   export class ActualizarClaveRequest {
