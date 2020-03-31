@@ -13,7 +13,7 @@ import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActC
   CitasCFechaRPT, CitasCFechaRQT, CitasCHoras, CitasCHorasRPT, CitasCHorasRQT,TipoContenedor, TipoContenedores,
    InsertarCitaDetalleRPT, InsertarCitaDetalleRQT, InsertarCitaRPT, InsertarCitaRQT } from '../models/Cita';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
-import { ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT }
+import { ListaTareaRQT,ListaTareaRPT,GenerarSolicitudRQT,GenerarSolicitudRPT,ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT }
 from '../models/SolicitudServicio';
 
 import { Base64RPT,Base64RQT } from '../models/Base64';
@@ -525,6 +525,14 @@ export class ReportService {
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
 
+  ConsultaTarea(objListaTarea : ListaTareaRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/tareasolicitud`;    
+    return this.http.post<ListaTareaRPT>(
+      url_api, objListaTarea, { headers: this.headers }).pipe(map(data => data));
+  }
+
+
 
   getDirecc(objDirecc : DireccRQT) : Observable<any>
   {
@@ -581,6 +589,13 @@ export class ReportService {
     const url_api =`/ContransAPI/api/consultarvolantesolicitud`;    
     return this.http.post<ConsultarVolanteSolicitudRPT>(
       url_api, objConsultarVolanteSolicitud, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  GenerarSolicitud(objGenerarSolicitud : GenerarSolicitudRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/generarsolicitud`;    
+    return this.http.post<GenerarSolicitudRPT>(
+      url_api, objGenerarSolicitud, { headers: this.headers }).pipe(map(data => data));
   }
 
   getTipoContenedor() : Observable<any>

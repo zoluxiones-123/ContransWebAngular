@@ -13,6 +13,7 @@ export class ConsultaRefrendoExpoRPT {
   DAM: string;
   NroOrden: string;
   FechaNumeracion: string;
+  Canal: string;
   Estado: string;
   Observacion: string; 
 }

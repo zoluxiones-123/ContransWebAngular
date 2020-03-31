@@ -126,7 +126,7 @@ export class ConsultarVolanteSolicitudServiciosContenedoresRPT
   CONTCARGCODIGO: string;
 }
 
-export class GenerarSolicitud
+export class GenerarSolicitudRQT
 {
   IDUser: number;
   IDRol: number;
@@ -146,9 +146,27 @@ export class GenerarSolicitud
    
 }
 
-export class GenerarSolicitudDetalle
+export class GenerarSolicitudRQTDetalle
 {
   CodServicio: string;
   CodContenedor: string;
   Contenedor: string;
+}
+
+export class GenerarSolicitudRPT
+{
+  Cod: number;
+  Msj: string;
+  CodServicio: string;
+}
+
+export class ListaTareaRQT
+{
+  Index: string;
+}
+
+export class ListaTareaRPT
+{
+  EmpaCodigo: string;
+  EmpaIdentificador: string;
 }

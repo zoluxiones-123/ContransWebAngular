@@ -12,10 +12,10 @@
       <div class="form-group row">
         <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;;padding-top: 6px">
           <label for="rbt001" style="padding-right: 5px;">Volante (Importación)</label>
-          <input type="radio" id="rbt002" name="rbtSeleccion" value="SI"
+          <input type="radio" id="rbt002" name="rbtSeleccion" [(ngModel)]="Seleccion_Opcion" value="01"
             style="width: auto;vertical-align: text-bottom;">
           <label style="padding-right: 5px;padding-left: 10px;">Booking (Exportación)</label>
-          <input type="radio" name="rbtSeleccion" value="NO" style="width: auto;vertical-align: text-bottom;"
+          <input type="radio" name="rbtSeleccion" [(ngModel)]="Seleccion_Opcion" value="02" style="width: auto;vertical-align: text-bottom;"
             checked="checked">
         </div>
 
@@ -59,13 +59,13 @@
               </div> -->
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
                 <label for="rbt01" style="padding-right: 5px;">SI</label>
-                <input type="radio" id="rbt02" name="rbtCAtmoSi" value="SI"
+                <input type="radio" id="rbt02" name="rbtTieneDUA" value="D"
                   style="width: auto;vertical-align: text-bottom;"
-                  (click)="SetGrillaVisibility('ControlComboxAtmosphere','',true)">
+                  (click)="CargarTarea('D')">
                 <label style="padding-right: 5px;padding-left: 10px;">NO</label>
-                <input type="radio" name="rbtCAtmoSi" value="NO" style="width: auto;vertical-align: text-bottom;"
+                <input type="radio" name="rbtTieneDUA" value="0" style="width: auto;vertical-align: text-bottom;"
                   checked="checked"
-                  (click)="SetGrillaVisibility('ControlComboxAtmosphere','SelectComboxAtmosphere',false)">
+                  (click)="CargarTarea('0')">
               </div>
 
 
@@ -73,24 +73,28 @@
             <div class="form-group row">
               <label class="col-xs-2 col-sm-2 col-lg-2 label_device">Año:</label>
               <div class="col-xs-2 col-sm2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_Anio" class="form-control">
+                <input type="number" maxlength="50" [(ngModel)]="Anio" name="txtbox_Anio" class="form-control">
               </div>
               <!-- </div> -->
               <!-- <div class="form-group row"> -->
               <label class="col-xs-2 col-sm-2 col-lg-2 label_device">DUA:</label>
               <div class="col-xs-2 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_DUA" class="form-control">
+                <input type="number" maxlength="50" [(ngModel)]="DUA" name="txtbox_DUA" class="form-control">
               </div>
               <!-- </div> -->
               <!-- <div class="form-group row"> -->
               <label class="col-xs-2 col-sm-2 col-lg-2 label_device">Regimen:</label>
               <div class="col-xs-2 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_Regimen" class="form-control">
+                <input type="number" maxlength="50" [(ngModel)]="Regimen" name="txtbox_Regimen" class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Tarea :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_Tarea" class="form-control">
+                <select name="listUniNeg"  class="form-control  tamanio-device" (change)="ChangingValue($event)">
+                  <option [value]="" selected hidden>--Seleccionar Tarea--</option>
+                  <option *ngFor="let item of this.objListaTareaRPT" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}</option>
+                </select>
+                <!-- <input type="text" maxlength="50" [(ngModel)]="Tarea" name="txtbox_Tarea" class="form-control"> -->
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha :</label>
@@ -98,10 +102,53 @@
                 <input type="text" name="txtbox_Fecha" placeholder="Fecha" class="form-control  tamanio-device"
                   bsDatepicker [minDate]="minDate" [maxDate]="maxDate"
                   [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"
-                   autocomplete="off" required>
+                   autocomplete="off" [(ngModel)]="FechaDeNum" required>
                 <!--                 <input type="text" [(ngModel)]="FechaDeNum" maxlength="50" name="txtbox_FechaDeNum"
                   class="form-control"> -->
               </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Hora :</label>
+              <table class="table table-hover no-margins">            
+                <tbody>
+                <tr>                             
+      <td class="text-navy"><label id = "unaAM"><input type="radio" id="{{this.unaAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.unaAM}}</label></td>                                        
+      <td class="text-navy"><label id = "sieteAM"><input type="radio" id="{{this.sieteAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.sieteAM}}</label></td>
+      <td class="text-navy"><label id = "unaPM"><input type="radio" id="{{this.unaPM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.unaPM}}</label></td>
+      <td class="text-navy"><label id = "sietePM"><input type="radio" id="{{this.sietePM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.sietePM}}</label></td>                    
+                </tr>
+                <tr>                               
+      <td class="text-navy"><label id = "dosAM"><input type="radio" id="{{this.dosAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.dosAM}}</label></td>
+      <td class="text-navy"><label id = "ochoAM"><input type="radio" id="{{this.ochoAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.ochoAM}}</label></td>
+      <td class="text-navy"><label id = "dosPM"><input type="radio" id="{{this.dosPM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.dosPM}}</label></td>
+      <td class="text-navy"><label id = "ochoPM"><input type="radio" id="{{this.ochoPM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.ochoPM}}</label></td>                    
+                </tr>
+                <tr>                               
+     <td class="text-navy"><label id = "tresAM" ><input type="radio" id="{{this.tresAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.tresAM}}</label></td>
+     <td class="text-navy"><label id = "nueveAM"><input type="radio" id="{{this.nueveAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.nueveAM}}</label></td>
+     <td class="text-navy"><label id = "tresPM"><input type="radio" id="{{this.tresPM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.tresPM}}</label></td>
+     <td class="text-navy"><label id = "nuevePM"><input type="radio" id="{{this.nuevePM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.nuevePM}}</label></td>
+
+                    </tr>
+                <tr>                  
+    <td class="text-navy"><label id = "cuatroAM"><input type="radio" id="{{this.cuatroAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.cuatroAM}}</label></td>
+    <td class="text-navy"><label id = "diezAM"><input type="radio" id="{{this.diezAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.diezAM}}</label></td>                    
+    <td class="text-navy"><label id = "cuatroPM"><input type="radio" id="{{this.cuatroPM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.cuatroPM}}</label></td>
+    <td class="text-navy"><label id = "diezPM"><input type="radio" id="{{this.diezPM}}" name="optradio" (change)="onItemChangeHora($event)" >{{this.diezPM}}</label></td>
+                </tr>                   
+                <tr>                  
+    <td class="text-navy"><label id = "cincoAM"><input type="radio" id="{{this.cincoAM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.cincoAM}}</label></td>
+    <td class="text-navy"><label id = "onceAM"><input type="radio" id="{{this.onceAM}}" name="optradio" (change)="onItemChangeHora($event)" >{{this.onceAM}}</label></td>                    
+    <td class="text-navy"><label id = "cincoPM"><input type="radio" id="{{this.cincoPM}}" name="optradio"(change)="onItemChangeHora($event)">{{this.cincoPM}}</label></td>
+    <td class="text-navy"><label id = "oncePM"><input type="radio" id="{{this.oncePM}}" name="optradio" (change)="onItemChangeHora($event)" >{{this.oncePM}}</label></td>
+              </tr>   
+              <tr>                  
+    <td class="text-navy"><label id = "seisAM" ><input type="radio" id="{{this.seisAM}}" name="optradio" (change)="onItemChangeHora($event)" >{{this.seisAM}}</label></td>
+    <td class="text-navy"><label id = "doceAM" ><input type="radio" id="{{this.doceAM}}" name="optradio" (change)="onItemChangeHora($event)" >{{this.doceAM}}</label></td>                    
+    <td class="text-navy"><label id = "seisPM" ><input type="radio" id="{{this.seisPM}}" name="optradio" (change)="onItemChangeHora($event)">{{this.seisPM}}</label></td>
+    <td class="text-navy"><label id = "docePM" ><input type="radio" id="{{this.docePM}}" name="optradio" (change)="onItemChangeHora($event)" >{{this.docePM}}</label></td>
+            </tr>                                                                                        
+                </tbody>
+            </table>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Estado :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
@@ -150,7 +197,7 @@
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observación :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <textarea type="text" maxlength="50" name="txtbox_Observacion" class="form-control"></textarea>
+                <textarea type="text" maxlength="50" [(ngModel)]="Observacion" name="txtbox_Observacion" class="form-control"></textarea>
               </div>
             </div>
           </div>
@@ -165,17 +212,17 @@
           <div id="DatosContacto">
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nombre :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_Nombre" class="form-control">
+                <input type="text" maxlength="50" [(ngModel)]="Nombre" name="txtbox_Nombre" class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Apellidos :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_Apellidos" class="form-control">
+                <input type="text" maxlength="50" [(ngModel)]="Apellidos" name="txtbox_Apellidos" class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">N° Celular :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" maxlength="50" name="txtbox_Nextel" class="form-control">
+                <input type="number" maxlength="50" [(ngModel)]="NCelular" name="txtbox_Nextel" class="form-control">
               </div>
             </div>
           </div>

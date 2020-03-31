@@ -39,6 +39,14 @@ import { ConsultaTemperaturaComponent } from './consultemperatura.component';
 import { CartaTemperaturaComponent } from './cartatemperatura.component';
 import { RepstockrealComponent } from "./repstockreal.component";
 import { RefrendoExpoComponent } from './refrendoexpo.component';
+import { LiquidacionGeneracionComponent } from './liquidaciongeneracion.component';
+import { LiquidacionGeneracionNuevoComponent } from './liquidaciongeneracionnuevo.component';
+import { LiquidacionAutorizacionPrecintosComponent } from './liquidacionautorizacionprecintos.component';
+import { LiquidacionTransportistaClienteComponent } from './liquidaciontransportistacliente.component';
+import { PagosCobranzaComponent } from './pagoscobranza.component';
+import { PagosCobranzaConsultaComponent } from './pagoscobranzaconsulta.component';
+import { PagosConsultaFacturasComponent } from './pagosconsultafacturas.component';
+
 
 
 
@@ -47,11 +55,11 @@ defineLocale('es', esLocale);
 
 
 @NgModule({
-  declarations: [ConsultaFacturaComponent, ConsultacitasComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent],
+  declarations: [ConsultaFacturaComponent, ConsultacitasComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent,LiquidacionGeneracionComponent,LiquidacionAutorizacionPrecintosComponent,LiquidacionTransportistaClienteComponent,PagosCobranzaComponent,PagosCobranzaConsultaComponent,PagosConsultaFacturasComponent,LiquidacionGeneracionNuevoComponent],
   imports     : [BrowserModule,ChartsModule,  FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,
     DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, 
     TooltipModule.forRoot()],
-  exports     : [ConsultaFacturaComponent, ConsultacitasComponent, ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent],
+  exports     : [ConsultaFacturaComponent, ConsultacitasComponent, ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,LiquidacionGeneracionComponent,LiquidacionAutorizacionPrecintosComponent,LiquidacionTransportistaClienteComponent,PagosCobranzaComponent,PagosCobranzaConsultaComponent,PagosConsultaFacturasComponent,LiquidacionGeneracionNuevoComponent],
   entryComponents : [RepstockcliComponent,RepestadiaComponent,RepabandonoComponent,RepfillrateComponent,RepstockDAComponent,RepstockDSComponent,RepstockDTComponent,RepfillratetabComponent, RepfillrategrafComponent, RepstockexpocliComponent, RepstockexpestComponent]
  
 })

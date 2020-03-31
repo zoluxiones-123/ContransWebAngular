@@ -409,9 +409,10 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
     let res = this.reportService.getValidarHorayFecha();
     res.subscribe( 
       data => { 
-        if (data.CodMsj == 1 )
+        if (data.CodMsj == 1 )//Cambiar 1 para limitar por hora | 0 para quitar el limite de hora
         {
-          //localStorage.setItem("paramAccion","Nuevo");
+          localStorage.setItem("paramDiasRepeticion",data.DiasRepeticion);
+          localStorage.setItem("paramDiaMas",data.DiaMas);
           const dialogRef = this.dialog.open(NuevoSolServComponent,{
             disableClose: true,
             autoFocus: true,

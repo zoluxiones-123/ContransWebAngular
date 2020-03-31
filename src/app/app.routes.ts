@@ -10,6 +10,14 @@ import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperat
 import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
 import {RefrendoExpoComponent} from "./views/dashboards/refrendoexpo.component";
 import {RefrendoExpoNuevoComponent} from "./views/dashboards/refrendoexponuevo.component";
+import {LiquidacionGeneracionComponent} from "./views/dashboards/liquidaciongeneracion.component";
+import {LiquidacionGeneracionNuevoComponent} from "./views/dashboards/liquidaciongeneracionnuevo.component";
+import {LiquidacionAutorizacionPrecintosComponent} from "./views/dashboards/liquidacionautorizacionprecintos.component";
+import {LiquidacionTransportistaClienteComponent} from "./views/dashboards/liquidaciontransportistacliente.component";
+import {PagosCobranzaComponent} from "./views/dashboards/pagoscobranza.component";
+import {PagosCobranzaConsultaComponent} from "./views/dashboards/pagoscobranzaconsulta.component";
+import {PagosConsultaFacturasComponent} from "./views/dashboards/pagosconsultafacturas.component";
+
 
 // Forms: Entrada de Datos / Mantenimientos
 import {ActualizarDatosUsuarioComponent} from "./views/formularios/actualizar-datos-usuario/actualizar-datos-usuario.component";
@@ -72,7 +80,15 @@ export const ROUTES:Routes = [
       {path: 'repstockreal', component: RepstockrealComponent },
       {path: 'consultacitas', component: ConsultacitasComponent},
       {path: 'refrendoexpo', component: RefrendoExpoComponent},
-      {path: 'consultasolserv', component: ConsultasolservComponent}
+      {path: 'consultasolserv', component: ConsultasolservComponent},
+      {path: 'liquidaciongeneracion', component: LiquidacionGeneracionComponent},
+      {path: 'liquidaciongeneracionnuevo', component: LiquidacionGeneracionNuevoComponent},      
+      {path: 'liquidacionautorizacionprecintos', component: LiquidacionAutorizacionPrecintosComponent},
+      {path: 'liquidaciontransportistacliente', component: LiquidacionTransportistaClienteComponent},
+      {path: 'pagoscobranza', component: PagosCobranzaComponent},
+      {path: 'pagoscobranzaconsulta', component: PagosCobranzaConsultaComponent},
+      {path: 'pagosconsultafacturas', component: PagosConsultaFacturasComponent},
+      
       
 
     ]
