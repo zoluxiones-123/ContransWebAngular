@@ -61,6 +61,7 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
   public objrepdlRQT : RepDiasLibresRQT;
 
   public objrepdlRPT: RepDiasLibresRPT;
+  public loading : boolean;
   
   public LEntidades : Entidades;
   public ListaEntidades : Array<entidad> = [];
@@ -149,8 +150,13 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
     dom: 'Bfrtip',
     buttons: [
       'colvis',
-      'excel'
-    ],  
+      {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          }
+      }     
+    ],    
     columnDefs :  [
       {
           "targets": [ 8 ],
@@ -214,6 +220,7 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
     }];
 
    this.stocktotal = 0;
+   this.loading = false;
     //this.reportService.getStockImp(this.repStockImpRQT);   
 
     
@@ -314,6 +321,8 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
 
       //this.CargarGrillaFinal();
 
+      this.loading = true;
+
       let res = this.reportService.getStockRealDet(this.detStockRealVacRQT)
 
       if (tipo.toString() == "40 RH")
@@ -369,6 +378,7 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
           {
           
             this.SiCargoData = true;
+            this.loading = false;
            
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
     
@@ -384,6 +394,7 @@ export class RepstockrealComponent implements OnInit, AfterViewInit, OnDestroy  
           else
           {
             this.SiCargoData = true;
+            this.loading = false;
   
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
   

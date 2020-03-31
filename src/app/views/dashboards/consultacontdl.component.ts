@@ -56,8 +56,14 @@ export class ConsultacontdlComponent implements AfterViewInit, OnDestroy, OnInit
     searching: false,
     dom: 'Bfrtip',
     buttons: [
-      'excel'
-    ],
+      'colvis',
+      {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          }
+      }     
+    ],    
     language: {
       lengthMenu: "Mostrar _MENU_ registros" ,
       search : "Buscar",
@@ -70,6 +76,7 @@ export class ConsultacontdlComponent implements AfterViewInit, OnDestroy, OnInit
         previous: "Anterior"
       },
       buttons : {
+        colvis : "Columnas",
         excel : "Exportar a Excel"
       },
       aria :

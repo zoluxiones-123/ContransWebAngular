@@ -29,6 +29,15 @@ export class FacturasRQT {
     UnidadNegocio   : string;
   }
 
+  export class UnidadNegocio {
+    Codigo : string;
+    Descripcion : string;
+  }
+  
+  export class UniNegocio {
+    Data : any;
+  }
+
   export class AlmacenRQT {
     EmpaCodigo : string;
    }

@@ -71,6 +71,7 @@ import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
 import { CitavacioasigComponent } from './views/dashboards/citavacioasig.component';
 import { ConsultasolservComponent } from './views/dashboards/consultasolserv.component';
 import { NuevoSolServComponent } from './views/dashboards/nuevosolserv.component';
+import { RegreclamoComponent } from './views/dashboards/regreclamo.component';
 
 
 @NgModule({
@@ -106,7 +107,8 @@ import { NuevoSolServComponent } from './views/dashboards/nuevosolserv.component
     RefrendoExpoNuevoComponent,
     CitavacioasigComponent,
     ConsultasolservComponent,
-    NuevoSolServComponent
+    NuevoSolServComponent,
+    RegreclamoComponent
   ],
   imports: [
     BrowserModule,

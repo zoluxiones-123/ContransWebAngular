@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
     public TieneData = false;
     public UnidadNegSelect:string;
+    public loading : boolean;
 
     minDate: Date;
     maxDate: Date;
@@ -51,8 +52,13 @@ import { Router } from '@angular/router';
       dom: 'Bfrtip',
       buttons: [
         'colvis',
-        'excel'
-      ],
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }     
+      ],    
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",
@@ -95,6 +101,7 @@ import { Router } from '@angular/router';
       this.SetGrillaVisibility(false);
       this.SetClienteInput();
       this.setearFechasLimite();
+      this.loading = false;
     }        
 
     public CargarGrilla(form: NgForm) {
@@ -123,6 +130,7 @@ import { Router } from '@angular/router';
         return;
       }
 
+      this.loading = true;
 
       let res = this.reportService.getFacturas(this.objFacturaRQT);
       
@@ -133,6 +141,8 @@ import { Router } from '@angular/router';
           if (data.Data.length >= 1)
           {
             this.SiCargoData = true;
+
+            this.loading = false;
 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
   
@@ -149,6 +159,8 @@ import { Router } from '@angular/router';
           else
           {
             this.SiCargoData = true;
+
+            this.loading = false;
 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
   
