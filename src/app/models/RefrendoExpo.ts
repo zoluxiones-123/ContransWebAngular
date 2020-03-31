@@ -65,6 +65,7 @@ export class GenerarRefrendoExpoRQT {
   Llenado: boolean;
   //Deta:GenerarDetalleRefrendoExpoRQT;
   Deta: any;
+  ArchivoRefrendo: any;
 }
 
 export class GenerarDetalleRefrendoExpoRQT {
@@ -74,6 +75,12 @@ export class GenerarDetalleRefrendoExpoRQT {
   public Peso: number;
   public PctoAduana: string;
 }
+export class GenerarArchivoRefrendoExpoRQT {
+  public RefrendoTipoArcCod: number;
+  public Archivo: string;
+  public NombreArchivo: string;
+}
+
 export class GenerarRefrendoExpoRPT {
   Cod: number;
   Msj: string;
@@ -86,3 +93,21 @@ export class ListaModalidadRefrendoExpo {
   EmpaCodigo: string;
   EmpaIdentificador: string;
 }
+
+export class Despachadores {   
+  Data: any;
+  }
+
+export class Despachador {
+    Entidad: string;       
+    Nombre : string;
+  }
+
+export class AgenciaAduanera {   
+    Data: any;
+    }
+  
+export class AgenciaAduana {
+      Entidad: string;       
+      Nombre : string;
+    }

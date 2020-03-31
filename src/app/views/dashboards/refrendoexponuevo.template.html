@@ -37,32 +37,61 @@
           <div id="DAM">
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Exportador :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" [(ngModel)]="Exportador" maxlength="50" name="txtbox_Exportador"
-                  class="form-control">
+ <!--                <input type="text" [(ngModel)]="Exportador" maxlength="50" name="txtbox_Exportador"
+                  class="form-control"> -->
+
+                  <mat-form-field style="width: 100%;">
+                    <input type="text" placeholder="Digite Exportador" matInput [formControl]="ControlEntidades"
+                      [matAutocomplete]="Exportador">
+                    <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'Entidad')" #Exportador="matAutocomplete">
+                      <mat-option *ngFor="let enti of filteredEntidad | async" [value]="enti.Nombre">
+                        {{enti.Nombre}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Despachador :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador"
-                  class="form-control">
+<!--                 <input type="text" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador"
+                  class="form-control"> -->
+                  <mat-form-field style="width: 100%;">
+                    <input type="text" placeholder="Digite Despachador" matInput [formControl]="ControlDespachador"
+                      [matAutocomplete]="Despachador">
+                    <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'Despachador')" #Despachador="matAutocomplete">
+                      <mat-option *ngFor="let enti of filteredDespachador | async" [value]="enti.Nombre">
+                        {{enti.Nombre}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Agencia de
                 Aduana:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_AgenciaDeAduana"
-                  class="form-control">
+<!--                 <input type="text" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_AgenciaDeAduana"
+                  class="form-control"> -->
+                  <mat-form-field style="width: 100%;">
+                    <input type="text" placeholder="Digite Agencia Aduana" matInput [formControl]="ControlAgenciaAduana"
+                      [matAutocomplete]="AgenciaAduana">
+                    <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'AgenciaAduana')" #AgenciaAduana="matAutocomplete">
+                      <mat-option *ngFor="let enti of filteredAgenciaAduana | async" [value]="enti.Entidad + ',' + enti.Nombre">
+                        {{enti.Nombre}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nro de Orden :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" [(ngModel)]="NroDeOrden" maxlength="50" name="txtbox_NroDeOrden"
+                <input type="number" [(ngModel)]="NroDeOrden" maxlength="50" name="txtbox_NroDeOrden" 
                   class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nro de DAM :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" [(ngModel)]="NroDeDAM" maxlength="50" name="txtbox_NroDeDAM" class="form-control">
+                <input type="number" [(ngModel)]="NroDeDAM" maxlength="50" name="txtbox_NroDeDAM" class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de Num :</label>
@@ -105,7 +134,7 @@
                   <tbody>
                     <tr *ngFor="let item of this.Datos">
                       <td>{{item.Contenedor}}</td> 
-                      <td><input type="text" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
+                      <td><input type="number" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
                       <!-- <td >{{item.Bultos}}</td> -->
                       <td>{{item.Peso}}</td>
                       <td><input type="text" name="txtbox_PctoAduana_{{item.Contenedor}}"  id = "txtPctoAduana_{{item.Contenedor}}"  placeholder="Pcto Aduana"  class="form-control  tamanio-device"  [(ngModel)]="item.PctoAduana" /></td>
@@ -149,17 +178,17 @@
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">DAM:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
                 <div class="form-group" style="text-align: center;">
-                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
-                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
-                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'DAM')">
+                  <button (click)="AgregarArchivo(this.filename_DAM,'DAM')" class="btn btn-primary m-b">Agregar</button>
+                  <button (click)="EliminarSelect('DAM')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
                 </div>
       
               </div>
             </div>
             <div class="form-group row">
               <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
-                <mat-selection-list #list >
-                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                <mat-selection-list #list_DAM >
+                  <mat-list-option *ngFor="let item of this.fileitems_DAM" (click)="onListControlChanged(list_DAM,'DAM')"
                     [value]="item.name" style="font-size: smaller;">
                     <label style="color:blue;">Archivo: {{item.name}} Tamaño:
                       {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
@@ -173,17 +202,17 @@
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">GUIA REMISION:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
                 <div class="form-group" style="text-align: center;">
-                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
-                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
-                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'GUIAREMISION')">
+                  <button (click)="AgregarArchivo(this.filename_GUIAREMISION,'GUIAREMISION')" class="btn btn-primary m-b">Agregar</button>
+                  <button (click)="EliminarSelect('GUIAREMISION')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
                 </div>
       
               </div>
             </div>
             <div class="form-group row">
               <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
-                <mat-selection-list #list >
-                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                <mat-selection-list #list_GUIAREMISION >
+                  <mat-list-option *ngFor="let item of this.fileitems_GUIAREMISION" (click)="onListControlChanged(list_GUIAREMISION,'GUIAREMISION')"
                     [value]="item.name" style="font-size: smaller;">
                     <label style="color:blue;">Archivo: {{item.name}} Tamaño:
                       {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
@@ -193,45 +222,77 @@
               </div>
             </div>
 
-            <div class="form-group row" >
-              <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">EIR / TARJA DE LLENADO:</label>
-              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
-                <div class="form-group" style="text-align: center;">
-                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
-                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
-                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+            <!--EIR / TARJA DE LLENADO-->
+            <div id="TARJADELLENADO" *ngIf="TARJADELLENADO">
+              <div class="form-group row" >
+                <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">EIR / TARJA DE LLENADO:</label>
+                <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
+                  <div class="form-group" style="text-align: center;">
+                    <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'TARJADELLENADO')">
+                    <button (click)="AgregarArchivo(this.filename_TARJADELLENADO,'TARJADELLENADO')" class="btn btn-primary m-b">Agregar</button>
+                    <button (click)="EliminarSelect('TARJADELLENADO')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  </div>
+        
                 </div>
-      
+              </div>
+              <div class="form-group row">
+                <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
+                  <mat-selection-list #list_TARJADELLENADO >
+                    <mat-list-option *ngFor="let item of this.fileitems_TARJADELLENADO" (click)="onListControlChanged(list_TARJADELLENADO,'TARJADELLENADO')"
+                      [value]="item.name" style="font-size: smaller;">
+                      <label style="color:blue;">Archivo: {{item.name}} Tamaño:
+                        {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
+                      </label>
+                    </mat-list-option>
+                  </mat-selection-list>
+                </div>
               </div>
             </div>
-            <div class="form-group row">
-              <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
-                <mat-selection-list #list >
-                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
-                    [value]="item.name" style="font-size: smaller;">
-                    <label style="color:blue;">Archivo: {{item.name}} Tamaño:
-                      {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
-                    </label>
-                  </mat-list-option>
-                </mat-selection-list>
+            <!--EIR / TARJA DE LLENADO-->
+            
+            <!--REPORTE DE CARGA SUELTA-->
+            <div id="REPORTDECARGASUELTA" *ngIf="REPORTDECARGASUELTA">
+              <div class="form-group row" >
+                <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">REPORTE DE CARGA SUELTA:</label>
+                <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
+                  <div class="form-group" style="text-align: center;">
+                    <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'REPORTDECARGASUELTA')">
+                    <button (click)="AgregarArchivo(this.filename_REPORTDECARGASUELTA,'REPORTDECARGASUELTA')" class="btn btn-primary m-b">Agregar</button>
+                    <button (click)="EliminarSelect('REPORTDECARGASUELTA')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  </div>
+        
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
+                  <mat-selection-list #list_REPORTDECARGASUELTA>
+                    <mat-list-option *ngFor="let item of this.fileitems_REPORTDECARGASUELTA" (click)="onListControlChanged(list_BOOKING,'REPORTDECARGASUELTA')"
+                      [value]="item.name" style="font-size: smaller;">
+                      <label style="color:blue;">Archivo: {{item.name}} Tamaño:
+                        {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
+                      </label>
+                    </mat-list-option>
+                  </mat-selection-list>
+                </div>
               </div>
             </div>
+            <!--REPORTE DE CARGA SUELTA-->
 
             <div class="form-group row" >
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">TICKET DE PESO:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
                 <div class="form-group" style="text-align: center;">
-                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
-                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
-                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'TICKETDEPESO')">
+                  <button (click)="AgregarArchivo(this.filename_TICKETDEPESO,'TICKETDEPESO')" class="btn btn-primary m-b">Agregar</button>
+                  <button (click)="EliminarSelect('TICKETDEPESO')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
                 </div>
       
               </div>
             </div>
             <div class="form-group row">
               <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
-                <mat-selection-list #list >
-                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                <mat-selection-list #list_TICKETDEPESO >
+                  <mat-list-option *ngFor="let item of this.fileitems_TICKETDEPESO" (click)="onListControlChanged(list_TICKETDEPESO,'TICKETDEPESO')"
                     [value]="item.name" style="font-size: smaller;">
                     <label style="color:blue;">Archivo: {{item.name}} Tamaño:
                       {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
@@ -245,17 +306,17 @@
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">BOOKING:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
                 <div class="form-group" style="text-align: center;">
-                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
-                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
-                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'BOOKING')">
+                  <button (click)="AgregarArchivo(this.filename_BOOKING,'BOOKING')" class="btn btn-primary m-b">Agregar</button>
+                  <button (click)="EliminarSelect('BOOKING')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
                 </div>
       
               </div>
             </div>
             <div class="form-group row">
               <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
-                <mat-selection-list #list >
-                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                <mat-selection-list #list_BOOKING >
+                  <mat-list-option *ngFor="let item of this.fileitems_BOOKING" (click)="onListControlChanged(list_BOOKING,'BOOKING')"
                     [value]="item.name" style="font-size: smaller;">
                     <label style="color:blue;">Archivo: {{item.name}} Tamaño:
                       {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
@@ -269,17 +330,17 @@
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">OTROS:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 0px;">
                 <div class="form-group" style="text-align: center;">
-                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event)">
-                  <button (click)="AgregarArchivo(this.filename1)" class="btn btn-primary m-b">Agregar</button>
-                  <button (click)="EliminarSelect()" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
+                  <input class="form-control tamanio-device" style="margin-bottom: 10px;" type="file" [accept]="['.jpg','.jpeg','.pdf','.png']" (change)="changeListener($event,'OTROS')">
+                  <button (click)="AgregarArchivo(this.filename_OTROS,'OTROS')" class="btn btn-primary m-b">Agregar</button>
+                  <button (click)="EliminarSelect('OTROS')" class="btn btn-default m-b" style="margin-left: 10px;">Eliminar</button>
                 </div>
       
               </div>
             </div>
             <div class="form-group row">
               <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;" >
-                <mat-selection-list #list >
-                  <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                <mat-selection-list #list_OTROS >
+                  <mat-list-option *ngFor="let item of this.fileitems_OTROS" (click)="onListControlChanged(list_OTROS,'OTROS')"
                     [value]="item.name" style="font-size: smaller;">
                     <label style="color:blue;">Archivo: {{item.name}} Tamaño:
                       {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
@@ -313,7 +374,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
       <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
-      <button (click)="AgregarRefrendo(formUsuario)" type="submit" class="btn btn-w-m btn-primary">Nuevo</button>
+      <button (click)="AgregarRefrendo(formUsuario)" type="submit" class="btn btn-w-m btn-primary">Grabar</button>
       <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
   </div>
 </div>

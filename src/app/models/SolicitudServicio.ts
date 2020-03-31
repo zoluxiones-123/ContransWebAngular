@@ -97,6 +97,12 @@ export class ConsultarVolanteSolicitudServiciosRPT
   Seleccion: boolean;
 }
 
+export class ConsultarVolanteSolicitudServiciosUnicosRPT
+{
+  SERVDESCRIPCION: string;
+  Seleccion: boolean;
+}
+
 export class ConsultarVolanteSolicitudContenedoresRPT
 {
   CONTCARGCODIGO: string;
@@ -116,7 +122,33 @@ export class ConsultarVolanteSolicitudServiciosContenedoresRPT
   SERVDESCRIPCION: string;
   Empaque: string;
   BULTOS: number;
-
+  SERVDETACODIGO: string;
+  CONTCARGCODIGO: string;
 }
 
+export class GenerarSolicitud
+{
+  IDUser: number;
+  IDRol: number;
+  RubrCodigo: string;
+  HojaServObservacione: string;
+  RegiCodigo: string;
+  HojaServPrograma: string;
+  Documento: string;
+  AnioDUA: string;
+  RegimenDUA: string;
+  DUA: string;
+  TareServCodigo: string;
+  NombreContacto: string;
+  ApellidoContacto: string;
+  TelefonoContacto: string;
+  Deta:any;
+   
+}
 
+export class GenerarSolicitudDetalle
+{
+  CodServicio: string;
+  CodContenedor: string;
+  Contenedor: string;
+}

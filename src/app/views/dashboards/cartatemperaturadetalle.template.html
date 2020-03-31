@@ -76,6 +76,103 @@
           <b class="caret boton_mostrar" (click)="muestra_oculta('temperatura')"></b>
         </div>
         <div id="temperatura">
+          <div class="form-group row" *ngIf="Bloqueo" >
+          <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Comodity (Producto)
+              :</label>
+            <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+              <input type="text" readonly="readonly" [(ngModel)]="Producto" maxlength="50" name="txtbox_Producto" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Inlet air Temp. (ºC)
+              (Temp. de Suministro) :</label>
+            <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+              <input type="text" readonly="readonly" [(ngModel)]="Temp" maxlength="50" name="txtbox_Temp" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Humidity (%) (Humedad)
+              :</label>
+              <div id="ControlComboxHumidity">
+                <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;padding-right: 4px;">
+                  <select name="cboHumidity" class="form-control" readonly="readonly" disabled="disabled" [(ngModel)]="Hume_Opcion" (change)="ChangingValue($event)">
+                    <option *ngFor="let item of this.SelectHumidity" [value]="item.Descripcion" >
+                      {{item.Descripcion}} </option>
+                  </select>
+                </div>
+                <div id="SelectComboxHumidity">
+                <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                  <input type="text" readonly="readonly" [(ngModel)]="Hume" style="width: 46px;" name="txtbox_Hume" class="form-control">
+                </div>
+              </div>
+              </div>
+          </div>
+
+          <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Air ventilation (Apertura
+              de lampa) :</label>
+              <div id="ControlComboxAirVentilation">
+                <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;padding-right: 4px;">
+                  <select name="cboAirVentilation" class="form-control" readonly="readonly" disabled="disabled" [(ngModel)]="Vent_Opcion" (change)="ChangingValue($event)">
+                    <option *ngFor="let item of this.SelectAirVentilation" [value]="item.Descripcion" >
+                      {{item.Descripcion}} </option>
+                  </select>
+                </div>
+                <div id="SelectComboxAirVentilation">
+                <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                  <input type="text" readonly="readonly" [(ngModel)]="CO2" style="width: 46px;" name="txtbox_CO2" class="form-control">
+                </div>
+              </div>
+              </div>
+          </div>
+
+          <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Cold Treatment :</label>
+            <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+              <label for="rbt01" style="padding-right: 5px;">YES</label>
+              <input type="radio" id="rbt01" name="rbtCTreatSi" readonly="readonly" disabled="disabled" [(ngModel)]="CTreat_Opcion" value="YES"
+                style="width: auto;vertical-align: text-bottom;">
+              <label style="padding-right: 5px;padding-left: 10px;">NO</label>
+              <input type="radio" name="rbtCTreatSi"readonly="readonly"  disabled="disabled" [(ngModel)]="CTreat_Opcion" value="NO"
+                style="width: auto;vertical-align: text-bottom;" checked="checked">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Control Atmosphere :</label>
+            <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+              <label for="rbt01" style="padding-right: 5px;">YES</label>
+              <input type="radio" id="rbt02" name="rbtCAtmoSi" readonly="readonly" disabled="disabled" [(ngModel)]="CAtmo_Opcion" value="YES"
+                style="width: auto;vertical-align: text-bottom;"
+                (click)="SetGrillaVisibility('ControlComboxAtmosphere','',true)">
+              <label style="padding-right: 5px;padding-left: 10px;">NO</label>
+              <input type="radio" name="rbtCAtmoSi" readonly="readonly" disabled="disabled" [(ngModel)]="CAtmo_Opcion" value="NO"
+                style="width: auto;vertical-align: text-bottom;" checked="checked"
+                (click)="SetGrillaVisibility('ControlComboxAtmosphere','SelectComboxAtmosphere',false)">
+            </div>
+            <div id="ControlComboxAtmosphere">
+              <label class="col-xs-12 col-sm-4 col-lg-4 label_device"></label>
+              <div class="col-xs-12 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
+                <select name="cboControlAtmosphere" class="form-control" readonly="readonly" disabled="disabled"  [(ngModel)]="CAtmo_Select" (change)="ChangingValue($event)">
+                  <!--option [value]="" selected hidden>--Seleccione--</option-->
+                  <option *ngFor="let item of this.SelectControlAtmosphere" [value]="item.Descripcion">
+                    {{item.Descripcion}}</option>
+                </select>
+              </div>
+              <div id="SelectComboxAtmosphere">
+              <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                <label class="col-xs-12 col-sm-2 col-lg-2 label_device"
+                  style="padding-right: 30px;padding-top: 8px;">CO2</label>
+                <input type="text" readonly="readonly"  [(ngModel)]="CO2" style="width: 46px;" name="txtbox_CO2" class="form-control">
+              </div>
+              <div class="col-xs-12 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                <label class="col-xs-12 col-sm-2 col-lg-2 label_device"
+                  style="padding-right: 30px;padding-top: 8px;">O2</label>
+                <input type="text" [(ngModel)]="O2" style="width: 46px;" name="txtbox_O2" class="form-control">
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="Activo" >
           <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Comodity (Producto)
               :</label>
             <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
@@ -171,6 +268,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
       <!-- ------------PARTE 3------------ -->
       <div>
@@ -207,7 +305,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
       <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
-      <button type="submit" (click)="ActualizarTemperatura(formUsuario)" class="btn btn-w-m btn-primary">Actualizar</button>
+      <button *ngIf="Activo" type="submit" (click)="ActualizarTemperatura(formUsuario)" class="btn btn-w-m btn-primary">Actualizar</button>
       <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
   </div>
 </div>

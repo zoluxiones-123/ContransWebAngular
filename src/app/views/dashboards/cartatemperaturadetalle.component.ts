@@ -29,6 +29,8 @@ export class CartaTemperaturaDetalleComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   Contnumero: string;
+  Bloqueo: boolean;
+  Activo: boolean;
 
   Nave: string;
   Viaje: string;
@@ -395,6 +397,15 @@ export class CartaTemperaturaDetalleComponent implements OnInit {
        let mes = (fechita.getMonth() + 1).toString();
        let anio = fechita.getFullYear().toString();
        this.fechaActual = dia + "-" + mes + "-" + anio; */
+     if (localStorage.getItem("paramEstadoCarta")=="C"){
+      this.Bloqueo= true;
+      this.Activo= false;
+     }else{
+      this.Bloqueo= false;
+      this.Activo= true;
+     }
+     
+
 
     this.SelectControlAtmosphere = [{ Descripcion: "" },
     { Descripcion: "EVERFRESH" },
