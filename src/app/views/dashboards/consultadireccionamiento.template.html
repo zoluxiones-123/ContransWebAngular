@@ -42,6 +42,9 @@
             </div>
           </form>
           <div class="row">
+            <div class="loading" *ngIf = "loading" style="text-align:center;height: 420px ;margin-right: 0px;margin-left: 0px;" >
+              <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+           </div>
             <div id="grilla" class="table-responsive">
               <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
                 <thead>

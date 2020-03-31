@@ -120,11 +120,16 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
     pagingType: 'full_numbers',
     pageLength: 10,
     searching: false,
-    dom: 'Bfrtip',
+    dom: 'Bfrtip',  
     buttons: [
       'colvis',
-      'excel'
-    ],
+      {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          }
+      }     
+    ],    
     language: {
       lengthMenu: "Mostrar _MENU_ registros" ,
       search : "Buscar",

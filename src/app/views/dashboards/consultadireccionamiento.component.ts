@@ -10,7 +10,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig, throwMatDialogContentAlreadyAttachedError} from '@angular/material';
 import { RegdireccComponent } from 'app/views/dashboards/regdirecc.component';
 import { RepDireccionamientoRPT } from '../../models/rep_direccionamientoRPT'
 import { RepDireccionamientoRQT } from '../../models/rep_direccionamientoRQT'
@@ -36,6 +36,7 @@ import {BrowserModule} from '@angular/platform-browser';
     public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
     public TieneData = false;
     public UnidadNegSelect:string;
+    public loading : boolean;
 
     minDate: Date;
     maxDate: Date;
@@ -66,8 +67,13 @@ import {BrowserModule} from '@angular/platform-browser';
       dom: 'Bfrtip',
       buttons: [
         'colvis',
-        'excel'
-      ],
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }     
+      ],    
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",
@@ -108,6 +114,7 @@ import {BrowserModule} from '@angular/platform-browser';
       this.SetGrillaVisibility(false);
      /// this.SetClienteInput();
       this.setearFechasLimite();
+      this.loading = false;
     }
 
     public CargarGrilla(form: NgForm) {
@@ -138,6 +145,8 @@ import {BrowserModule} from '@angular/platform-browser';
         return;
       }
 
+      this.loading = true;
+
       //let res = this.reportService.getDirecc(this.objDireccRQT);
       let res = this.authService.getDireccionamiento(this.objDireccRQT);
     
@@ -149,7 +158,7 @@ import {BrowserModule} from '@angular/platform-browser';
           
             this.SiCargoData = true;
 
-
+              this.loading = false;
                 this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
   
                   dtInstance.destroy();
@@ -165,6 +174,8 @@ import {BrowserModule} from '@angular/platform-browser';
           else
           {
             this.SiCargoData = true;
+
+            this.loading = false;
 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 

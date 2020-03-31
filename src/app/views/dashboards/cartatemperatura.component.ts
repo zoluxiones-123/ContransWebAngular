@@ -63,9 +63,13 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
       fixedColumns:   true,
       buttons: [
         'colvis',
-        'excel',
-      ],
-
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }     
+      ],    
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",

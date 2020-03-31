@@ -62,8 +62,13 @@ export class DetrepstockCliComponent implements OnInit {
      dom: 'Bfrtip',       
      buttons: [
       'colvis',
-      'excel'
-     ],    
+      {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          }
+      }     
+    ],    
      language: {
        lengthMenu: "Mostrar _MENU_ registros" ,
        search : "Buscar",
