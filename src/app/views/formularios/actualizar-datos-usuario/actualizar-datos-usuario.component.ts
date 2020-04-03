@@ -100,7 +100,10 @@ export class ActualizarDatosUsuarioComponent implements OnInit {
         this.codRolDefault = resp.RolEmpUsuaCodigoDefault.toString();
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
         console.log("Error : ", error); 
       });
   }

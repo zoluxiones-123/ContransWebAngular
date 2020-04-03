@@ -201,7 +201,10 @@ import { stringify } from 'querystring';
           this.SetGrillaVisibility(true);
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  

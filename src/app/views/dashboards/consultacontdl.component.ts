@@ -171,7 +171,10 @@ export class ConsultacontdlComponent implements AfterViewInit, OnDestroy, OnInit
        // this.dtTrigger.unsubscribe();
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
         console.log("Error : ", error); 
       }
     );

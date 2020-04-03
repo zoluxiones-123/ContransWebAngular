@@ -298,7 +298,10 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
         }
       },
       error => {
-        swal("Error al cargar los datos");
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        });
         console.log("Error : ", error);
       });
   }
@@ -1107,7 +1110,7 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
       let DetalleDatos = [];
       let DetalleArchivos = [];
       for (var clave in this.Datos) {
-        DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].PctoAduana });
+        DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].Precinto });
       }
       this.Datos = DetalleDatos;
       console.log("Detalle Booking Guardar " + this.Datos);
@@ -1152,6 +1155,14 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
         Mercancia: form.value.txtbox_Mercaderia,
         EmpaCodigo: this.ModalidadSelect,
         Llenado: true,
+        Aduana: "",
+        Anio: "",
+        Regimen: "",
+        CodProducto: "",
+        Producto: "",
+        FechaCutOff: "",
+        FOB: "",
+        MandatoElectronico: true,        
         Deta: this.Datos,
         ArchivoRefrendo: DetalleArchivos
       }

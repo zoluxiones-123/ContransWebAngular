@@ -212,7 +212,10 @@ export class RegreclamoComponent implements OnInit {
       
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
         console.log("Error : ", error); 
       });
   }

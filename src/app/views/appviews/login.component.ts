@@ -190,7 +190,7 @@ export class LoginComponent implements OnInit {
        
       this.authService.loginusuario(this.login).subscribe(data => {
           this.UserRPT = data;   
-          
+          console.log("Datos Accesos : " + JSON.stringify(data));
           if (this.UserRPT.IDMsj == 0) {
             localStorage.setItem("Usuario", this.UserRPT.UsuaCodigo.toString());
             localStorage.setItem("NombreUsuario", this.UserRPT.UsuaNombres);

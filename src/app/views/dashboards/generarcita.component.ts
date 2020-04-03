@@ -1784,7 +1784,10 @@ this.VisualizarHoras();
        //this.dtTrigger.unsubscribe();
      }, 
      error => {
-       swal("Error al cargar los datos"); 
+               swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
        console.log("Error : ", error); 
      }
    );  
@@ -2212,7 +2215,10 @@ resh.subscribe(
     //this.dtTrigger.unsubscribe();
   }, 
   error => {
-    swal("Error al cargar los datos"); 
+            swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
     console.log("Error : ", error); 
   }
  );
@@ -2311,7 +2317,10 @@ res.subscribe(
    //this.dtTrigger.unsubscribe();
  }, 
  error => {
-   swal("Error al cargar los datos"); 
+           swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
    console.log("Error : ", error); 
  }
 );

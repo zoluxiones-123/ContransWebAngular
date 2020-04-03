@@ -376,7 +376,10 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
         }
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
         console.log("Error : ", error); 
       }
     );
@@ -453,7 +456,10 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
         }
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
         console.log("Error : ", error); 
       }
     );

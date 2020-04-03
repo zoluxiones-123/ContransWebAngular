@@ -158,7 +158,10 @@ export class DetrepstockcliexpComponent implements OnInit {
        // this.dtTrigger.unsubscribe();
       }, 
       error => {
-        swal("Error al cargar los datos"); 
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
         console.log("Error : ", error); 
       }
     );

@@ -1,6 +1,7 @@
 export class ConsultaRefrendoExpoRQT {
   IDUSer: number;
   IDRol: number;
+  TipoConsulta: string;
   Booking: string;
   Modalidad: string;
   Estado: number;
@@ -13,9 +14,12 @@ export class ConsultaRefrendoExpoRPT {
   DAM: string;
   NroOrden: string;
   FechaNumeracion: string;
-  Canal: string;
   Estado: string;
   Observacion: string; 
+  Canal: string; 
+  UsuaCodigo: string; 
+  FechCreacion: string; 
+  Email: string; 
 }
 
 export class ConsultaBookingRefrendoExpoRQT {
@@ -37,6 +41,11 @@ export class ConsultaBookingRefrendoExpoRPT {
   TipoCont: string;
   Exportador: string;
   Mercaderia: string;
+  FechaCutOff: any;
+  CodProducto: string;
+  Producto: string;
+ // MandatoElectronico: string;/// CONSULTAR
+ // ValorFOBmercacia: string;/// CONSULTAR
   Datos:ConsultaDetalleBookingRefrendoExpoRPT;
 }
 export class ConsultaDetalleBookingRefrendoExpoRPT {
@@ -46,7 +55,8 @@ export class ConsultaDetalleBookingRefrendoExpoRPT {
  public TipoCont: string;
  public Bultos: number;
  public Peso: number;
- public PctoAduana: string;
+ public Ticket: string;
+ public Precinto: string;
 }
 
 export class GenerarRefrendoExpoRQT {
@@ -65,6 +75,15 @@ export class GenerarRefrendoExpoRQT {
   EmpaCodigo: string;
   Llenado: boolean;
   //Deta:GenerarDetalleRefrendoExpoRQT;
+  Aduana: string;
+  Anio: string;
+  Regimen: string;
+  CodProducto: string;
+  Producto: string;
+  FechaCutOff: string;
+  FOB: string;
+  MandatoElectronico: boolean;
+
   Deta: any;
   ArchivoRefrendo: any;
 }
@@ -95,6 +114,12 @@ export class ListaModalidadRefrendoExpo {
   EmpaIdentificador: string;
 }
 
+export class ListaRegimenRefrendoExpo {
+  Codigo: string;
+  Descripcion: string;
+}
+
+
 export class Despachadores {   
   Data: any;
   }
@@ -112,3 +137,21 @@ export class AgenciaAduana {
       Entidad: string;       
       Nombre : string;
     }
+
+export class AnularRefrendoExpoRQT{
+  IDUser: number;
+  IDRol: number;
+  RefrendoCod: number;
+  Observacion: string;
+  ArchivoRefrendo:any;
+}
+
+export class AnularRefrendoExpoArchivoRQT{
+  Archivo: string;
+  NombreArchivo: string;
+}
+
+export class AnularRefrendoExpoRPT{
+  Cod: number;
+  Msj: string;
+}

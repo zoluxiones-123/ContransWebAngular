@@ -179,7 +179,10 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+            swal({
+              text: "Error al cargar los datos",
+              icon: "error",
+            });
             console.log("Error : ", error); 
           }
         ); 
@@ -193,7 +196,10 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+            swal({
+              text: "Error al cargar los datos",
+              icon: "error",
+            });
             console.log("Error : ", error); 
           }
         ); 
@@ -309,7 +315,10 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+          swal({
+            text: "Error al cargar los datos",
+            icon: "error",
+          });
           console.log("Error : ", error); 
         }
       );  
@@ -352,7 +361,10 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+          swal({
+            text: "Error al cargar los datos",
+            icon: "error",
+          });
           console.log("Error : ", error); 
         }
       );  
