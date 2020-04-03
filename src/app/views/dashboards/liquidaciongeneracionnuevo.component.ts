@@ -21,6 +21,13 @@ import { FileItem } from '../../models/FileItem';
 import { isError } from 'util';
 import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import {SwAlertC} from 'app/models/swalert';
+
+
+import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, ValidaFacturarARPT, ValidaFacturarARQT,
+ValidarTerceroRPT, ValidarTerceroRQT}  from '../../models/Liquidacion';
+
 
 
 @Component({
@@ -34,6 +41,11 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   public LEntidades : Entidades;
   public ListaEntidades : Array<entidad> = [];
   ControlEntidades = new FormControl();
+  myAgencia = new FormControl();
+  myEmpresa = new FormControl();
+  myButton = new FormControl();
+  
+  
   public EntidadesSelect:string = "";
 
   filteredDespachador: Observable<Despachador[]>;
@@ -48,14 +60,56 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   ControlAgenciaAduana = new FormControl();
   public AgenciaAduanaSelect:string = "";
   public CodigoAgenciaAduanaSelect:string = "";
-    
+  
+
+  public objLiquidacionBRPT: LiquidacionBRPT;
+  public objLiquidacionBRQT: LiquidacionBRQT;
+  public objListLiquiCont : Array<LiquidacionCont>;
+  public objListLiquiCliente : Array<LiquidacionCliente>;
+
+  
+  public objValFactARQT: ValidaFacturarARQT;
+  public objValFactARPT: ValidaFacturarARPT;
+  public swAlertC : SwAlertC;
+  
+  
+  public objValTercRPT: ValidarTerceroRPT;
+  public objValTercRQT: ValidarTerceroRQT;
+
+  public EntidadSelect : string;
+  public NEntidadSelect : string;
+
+  public EmpresaSelect : string;
+  public NEmpresaSelect : string;
+
+
+  
+  filteredEmp: Observable<entidad[]>;
+  filteredEmpresa: Observable<entidad[]>;
+
+  
+  public LEmpresas : Entidades;
+  public ListaEmpresas : Array<entidad> = [];
+
+  
+  public LEmpresasF : Entidades;
+  public ListaEmpresasF : Array<entidad> = [];
+  
 
   public SiCargoData = true;
   public TieneData = false;
+  public MuestraPAP = false;
+  public buttondis = true;
+
   fechaActual: any;
   minDate: Date;
   maxDate: Date;
   Contnumero: string;
+  UnidadNegocio :  string;
+  TipoConsulta: string;
+  TipoConsultaD: string;
+  Documento: string;
+  Contenedor : string;
 
   REPORTDECARGASUELTA:boolean;
   TARJADELLENADO:boolean;
@@ -75,6 +129,12 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   NroDeOrden: string;
   NroDeDAM: string;
   FechaDeNum: any;
+
+  UniNegocio : string;
+  MBL: string;
+  NombreCompleto: string;
+  TipoDoc : string;
+  Empresa : string;
 
   CantidadBultos: number;
   CantidadPeso: number;
@@ -121,6 +181,9 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
   }
+
+  
+  @ViewChildren(DataTableDirective) dtElements: QueryList<DataTableDirective>
 
   fileData: File = null;
   previewUrl: any = null;
@@ -188,6 +251,56 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   
   dtTrigger: Subject<any> = new Subject();
   dtOptions: any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    searching: false,
+    autoFill: true,
+    dom: 'Bfrtip',
+    //processing: true,
+    fixedColumns: true,
+    buttons: [
+      /*'colvis',
+      'excel',*/
+    ],
+    /* footerCallback: function ( row, data, start, end, display ) {
+      var total = this.api()
+          .column(2)//numero de columna a sumar
+          //.column(1, {page: 'current'})//para sumar solo la pagina actual
+          .data()
+          .reduce(function (a, b) {
+              return parseInt(a) + parseInt(b);
+          }, 0 );
+
+      $(this.api().column(2).footer()).html(total);
+      
+    }, */
+
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros",
+      search: "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior"
+      },
+      buttons: {
+        /*         colvis : "Columnas",
+                excel : "Exportar a Excel" */
+      },
+      aria:
+      {
+        sortAscending: "Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
+
+  
+  dtTriggerCliente: Subject<any> = new Subject();
+  dtOptionsCliente: any = {
     pagingType: 'full_numbers',
     pageLength: 10,
     searching: false,
@@ -307,12 +420,185 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   dtElement: DataTableDirective;
   dtInstance: DataTables.Api;
 
+
   ngAfterViewInit(): void {
+    this.dtTriggerCliente.next();
     this.dtTrigger.next();
+    console.log(this.dtElement);
   }
 
+
+
   public ngOnInit(): any {
+   
+    this.UnidadNegocio = localStorage.getItem("UniNegocioL");    
+    this.TipoConsulta = localStorage.getItem("TipoConsultaL");
+  /*  this.Documento = localStorage.getItem("DocumentoL");*/
+    this.UniNegocio = localStorage.getItem("UniNegocioLD");
+
+    this.TipoConsultaD = "";
+    this.myButton.disable();
+
+    //document.getElementById("btnGen").setAttribute("disabled","true");
+
+
+    if (this.TipoConsulta == "S")
+    { this.MuestraPAP = true;
+      this.Contenedor = localStorage.getItem("DocumentoL"); 
+      this.MBL = this.Contenedor;
+      this.TipoConsultaD = "BOOKING";
+      this.Documento = ""; }
+
+    if (this.TipoConsulta == "I")
+    { this.MuestraPAP = false;
+      this.Contenedor = "" ;  
+      this.TipoConsultaD = "MBL";  
+      this.Documento = localStorage.getItem("DocumentoL"); 
+      this.MBL = this.Documento;
+    }
+
+
     this.Contnumero = localStorage.getItem("paramNBooking");
+
+    this.objLiquidacionBRQT = {
+      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      UnidNegoCodigo: this.UnidadNegocio,
+      Tipo: this.TipoConsulta,
+      Documento: this.Documento,
+      Contenedor: this.Contenedor
+      };
+      
+    let res = this.reportService.getLiquidacion(this.objLiquidacionBRQT);
+
+    //  console.log(this.objAutEntregaPrecRQT)
+    this.objListLiquiCliente = new Array;  
+
+    res.subscribe( 
+      data => {
+        this.objLiquidacionBRPT = data;
+        if (this.objLiquidacionBRPT.data != null)
+        {                              
+       
+          let clienteLiq = new LiquidacionCliente();
+          clienteLiq.RegiCodigo = data.RegiCodigo;
+          clienteLiq.Documento = data.Documento;
+          clienteLiq.Cliente = data.Cliente;
+          clienteLiq.NaveViaje = data.NaveViaje;
+          clienteLiq.LineaNaviera = data.LineaNaviera;
+          clienteLiq.Notificador = data.Notificador;
+          clienteLiq.Terminal = data.Terminal;
+          clienteLiq.EntiCodigo = data.EntiCodigo;
+          clienteLiq.Volante = data.Volante
+          clienteLiq.EntiCodigoAgAduanas = data.EntiCodigoAgAduanas;
+          clienteLiq.AgenteAduanas = data.AgenteAduanas;
+          clienteLiq.Termcodempty = data.Termcodempty;
+
+          this.objListLiquiCliente.push(clienteLiq);
+
+        /*  let listaent =JSON.parse(JSON.stringify(this.LEntidades.Data));              
+          for (var i = 0; i <= listaent.length-1; i++) {
+            let last = listaent[i];           
+            this.ListaEntidades.push(last);*/
+        this.objListLiquiCont = data.data;
+        }
+        else{
+          this.onIsError();   
+        }
+
+        this.dtElements.forEach((dtElement: DataTableDirective) => {
+          dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+        });
+        this.dtTriggerCliente.next(this.objListLiquiCliente); 
+        this.dtTrigger.next(this.objListLiquiCont);
+      },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+
+      
+  this.filteredEmp = this.myAgencia.valueChanges.pipe(
+    startWith(''),
+    map(value => this._filteremp(value))
+  );
+
+  
+  this.filteredEmpresa = this.myEmpresa.valueChanges.pipe(
+    startWith(''),
+    map(value => this._filterempf(value))
+  );
+
+  
+  this.ListaEmpresas = new Array
+
+  this.reportService
+  .getListaEntidades()
+  .subscribe(
+    data => {
+      
+      this.LEmpresas = data;
+
+      if (this.LEmpresas.Data != null)
+      {                              
+        let listaent =JSON.parse(JSON.stringify(this.LEmpresas.Data));              
+       
+        for (var i = 0; i <= listaent.length-1; i++) {
+          let last = listaent[i];            
+          this.ListaEmpresas.push(last);
+          //this.options.push(last.Nombre);
+        }
+      
+      }
+      else{
+        localStorage.removeItem('StockTotal');       
+        this.onIsError();   
+      }
+
+     // this.router.navigate(['home']);    
+
+    },  
+    error => {
+      this.onIsError();           
+      console.log("Error");}
+    );
+
+    
+  this.ListaEmpresasF = new Array
+
+  this.reportService
+  .getListaEntidades()
+  .subscribe(
+    data => {
+      
+      this.LEmpresasF = data;
+
+      if (this.LEmpresasF.Data != null)
+      {                              
+        let listaent =JSON.parse(JSON.stringify(this.LEmpresasF.Data));              
+       
+        for (var i = 0; i <= listaent.length-1; i++) {
+          let last = listaent[i];            
+          this.ListaEmpresasF.push(last);
+          //this.options.push(last.Nombre);
+        }
+      
+      }
+      else{
+        localStorage.removeItem('StockTotal');       
+        this.onIsError();   
+      }
+
+     // this.router.navigate(['home']);    
+
+    },  
+    error => {
+      this.onIsError();           
+      console.log("Error");}
+    );
+
+
+
     if (localStorage.getItem("Usuario") == null) { this.router.navigate(['/login']); }
 
     // this.SetGrillaVisibility(false);
@@ -320,88 +606,8 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     this.muestra_oculta("DAM");
     this.muestra_oculta("CONTENEDORES");
     this.muestra_oculta("DOCUMENTOS");
-
-    this.filteredEntidad = this.ControlEntidades.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterEntidades(value))
-    );
-
-    this.ListaEntidades = new Array
-    this.reportService.getListaEntidades().subscribe(
-      data => {
-        this.LEntidades = data;
-        if (this.LEntidades.Data != null)
-        {                              
-          let listaent =JSON.parse(JSON.stringify(this.LEntidades.Data));              
-          for (var i = 0; i <= listaent.length-1; i++) {
-            let last = listaent[i];            
-            this.ListaEntidades.push(last);
-          }
-        
-        }
-        else{
-          this.onIsError();   
-        }
-      },  
-      error => {
-        this.onIsError();           
-        console.log("Error");}
-      );
-
-      this.filteredDespachador = this.ControlDespachador.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterDespachador(value))
-      );
-  
-      this.ListaDespachador = new Array
-      this.reportService.getListaDespachador().subscribe(
-        data => {
-          this.LDespachador = data;
-          if (this.LDespachador.Data != null)
-          {                              
-            let listaent =JSON.parse(JSON.stringify(this.LDespachador.Data));              
-            for (var i = 0; i <= listaent.length-1; i++) {
-              let last = listaent[i];            
-              this.ListaDespachador.push(last);
-            }
-          
-          }
-          else{
-            this.onIsError();   
-          }
-        },  
-        error => {
-          this.onIsError();           
-          console.log("Error");}
-        );  
-
-
-        this.filteredAgenciaAduana = this.ControlAgenciaAduana.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterAgenciaAduana(value))
-        );
+    this.muestra_oculta("PAP");
     
-        this.ListaAgenciaAduana = new Array
-        this.reportService.getListaAgenciaAduana().subscribe(
-          data => {
-            this.LAgenciaAduana = data;
-            if (this.LAgenciaAduana.Data != null)
-            {                              
-              let listaent =JSON.parse(JSON.stringify(this.LAgenciaAduana.Data));              
-              for (var i = 0; i <= listaent.length-1; i++) {
-                let last = listaent[i];            
-                this.ListaAgenciaAduana.push(last);
-              }
-            
-            }
-            else{
-              this.onIsError();   
-            }
-          },  
-          error => {
-            this.onIsError();           
-            console.log("Error");}
-          );  
 
   }
 
@@ -410,6 +616,163 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     this.fileData = <File>fileInput.target.files[0];
     this.preview();
   }
+
+  
+  private _filteremp(value: string): entidad[] {
+    const filterValue = value.toLowerCase();
+     
+    return this.ListaEmpresas.filter(emp => emp.Nombre.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  private _filterempf(value: string): entidad[] {
+    const filterValue = value.toLowerCase();
+     
+    return this.ListaEmpresasF.filter(empresa => empresa.Nombre.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+
+  
+  public ChangingValueE(param : any)
+  {
+    var codenti = param.option.value.toString().split(",");
+    var codentif = codenti[0].toString();
+    
+    //this.EntidadSelect = param.option.value;
+    this.EntidadSelect = codentif;   
+ //   swal(this.EntidadSelect);   
+    this.NEntidadSelect = param.option.viewValue;
+    let enti = this.EntidadSelect;
+
+    this.myAgencia.setValue(this.NEntidadSelect);
+  }
+  
+  public ChangingValueF(param : any)
+  {
+    var codentidad = param.option.value.toString().split(",");
+    var codentidadf = codentidad[0].toString();
+    
+    //this.EntidadSelect = param.option.value;
+    this.EmpresaSelect = codentidadf;
+   // swal(this.EmpresaSelect);         
+    this.NEmpresaSelect = param.option.viewValue;
+    //let enti = this.EmpresaSelect;
+
+    this.myEmpresa.setValue(this.NEmpresaSelect);
+  }
+
+  VisualizarLiq()
+  {
+
+    if (this.EntidadSelect == "" || this.EntidadSelect == undefined || this.EmpresaSelect == "" || this.EmpresaSelect == undefined )
+    {
+       swal("Debe seleccionar la Agencia de Aduana y la Empresa a facturar");
+       return;
+    }
+
+    this.objValFactARQT = {
+      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      FacturarACod: this.EntidadSelect,
+      FacturarA: this.EmpresaSelect
+
+      };
+
+      this.objValTercRQT = {
+        IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+        IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        EntidadCod: this.TipoConsulta,
+        UnidNegoCodigo: this.UnidadNegocio,
+        FacturarACod: this.EntidadSelect
+        };
+      
+    let res = this.reportService.ValidarFacturarA(this.objValFactARQT);
+
+    res.subscribe( 
+      data => {
+        this.objValFactARPT = data[0];
+
+        if (this.objValFactARPT.Msj == "Ok")
+        {                              
+       
+          let resval = this.reportService.ValidarTercero(this.objValTercRQT);
+
+          resval.subscribe( 
+            data => {
+              this.objValTercRPT = data[0];
+
+              if (this.objValTercRPT.Msj == "Ok")
+              {                              
+               /*habilitar el boton generar liquidacion*/
+              } 
+             else{
+
+              this.swAlertC = {             
+  title: 'Alerta Contrans',
+  text: this.objValTercRPT.Msj.toString().toUpperCase(),
+  icon: 'info',
+  showCancelButton: true,
+  confirmButtonColor: '',
+  cancelButtonColor: '',
+  confirmButtonText: 'Aceptar',
+  width : 500
+          
+                };              
+              Swal(this.swAlertC
+               // swal(this.objValTercRPT.Msj);              
+              ).then((result) => {
+                if (result.value) {
+                  //this.myButton.enable();
+                  //this.buttondis = false;
+
+                  var element = <HTMLButtonElement> document.getElementById("btnGen");
+                  element.disabled = false;
+
+                 // document.getElementById("btnGen").setAttribute("disabled","false");
+
+                  console.log(this.buttondis);
+               /*   Swal(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )*/
+                }
+              })
+
+            //   this.onIsError();   
+             }
+            }, 
+           error => {
+           this.onIsError();           
+           console.log("Error");}
+           );
+
+        /*  Validar Tercero va aca*/
+        }
+        else{
+          swal(this.objValFactARPT.Msj);
+          this.onIsError();   
+        }
+
+     
+      },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+
+
+
+
+
+
+  }
+
+  GenerarLiq()
+  {}
+
+  Limpiar()
+  {}
+
 
   changeListener($event, TipoArchivoCarga: string): void {
     this.readThis($event.target, TipoArchivoCarga);
@@ -1092,9 +1455,12 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
 
   public IniciarForm(form: NgForm) {
   }
-  public ngOnDestroy(): any {
+  
+  public ngOnDestroy():any {
+   // this.SetGrillaVisibility(false);
     this.dtTrigger.unsubscribe();
-  }
+    this.dtTriggerCliente.unsubscribe();
+  } 
 
   public AgregarRefrendo(form: NgForm) {
     var NBooking: string

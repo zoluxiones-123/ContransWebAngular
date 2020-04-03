@@ -37,8 +37,8 @@
           <div id="CONTENEDORES" class="form-group row" >
             <div class="row">
               <div style="width: 97%;overflow-y: hidden;">
-               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptions"
-                  [dtTrigger]="dtTrigger" > 
+               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsCliente"
+                  [dtTrigger]="dtTriggerCliente" > 
                   <thead>
                     <tr>
                       <th>Documento</th>
@@ -50,12 +50,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of this.Datos">
-                      <td>{{item.Contenedor}}</td> 
-                      <td><input type="number" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
-                      <!-- <td >{{item.Bultos}}</td> -->
-                      <td>{{item.Peso}}</td>
-                      <td><input type="text" name="txtbox_PctoAduana_{{item.Contenedor}}"  id = "txtPctoAduana_{{item.Contenedor}}"  placeholder="Pcto Aduana"  class="form-control  tamanio-device"  [(ngModel)]="item.PctoAduana" /></td>
+                    <tr *ngFor="let item of this.objListLiquiCliente">
+                      <td>{{item.Documento}}</td> 
+                      <td>{{item.Cliente}}</td>  
+                      <td>{{item.LineaNaviera}}</td> 
+                      <td>{{item.NaveViaje}}</td> 
+                      <td>{{item.Notificador}}</td> 
+                      <td>{{item.Terminal}}</td> 
                       <!-- <td>{{item.PctoAduana}}</td> -->
                    </tr>
                   </tbody>
@@ -102,8 +103,11 @@
 
               </div>
             </div>
-            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Unidad de negocio:</label>
+            <div class="form-group row">
+              <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Unidad de negocio:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="UniNegocio" maxlength="50" name="txtbox_UniNegocio" 
+                class="form-control">
 <!--                 <input type="text" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador"
                   class="form-control"> -->
 <!--                   <mat-form-field style="width: 100%;">
@@ -117,8 +121,10 @@
                   </mat-form-field> -->
               </div>
             </div>
-            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">MBL:</label>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">{{this.TipoConsultaD}}</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="MBL" maxlength="50" name="txtbox_MBL" 
+                class="form-control">
 <!--                 <input type="text" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_AgenciaDeAduana"
                   class="form-control"> -->
 <!--                   <mat-form-field style="width: 100%;">
@@ -132,17 +138,51 @@
                   </mat-form-field> -->
               </div>
             </div>
-            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Agencia de aduana:</label>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device"><br/>Agencia de aduana:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="number" [(ngModel)]="NroDeOrden" maxlength="50" name="txtbox_NroDeOrden" 
-                  class="form-control">
+                
+                <mat-form-field>
+                  <input type="text" placeholder="Digite la Agencia" matInput [formControl]="myAgencia"
+                    [matAutocomplete]="autoAg">
+                  <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueE($event)" #autoAg="matAutocomplete">
+                    <mat-option *ngFor="let emp of filteredEmp | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                      {{emp.Nombre}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                
+
               </div>
             </div>
-            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Facturar a:</label>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device"><br/>Facturar a:</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="number" [(ngModel)]="NroDeDAM" maxlength="50" name="txtbox_NroDeDAM" class="form-control">
+           
+                <mat-form-field>
+                  <input type="text" placeholder="Digite la Empresa" matInput [formControl]="myEmpresa"
+                    [matAutocomplete]="auto">
+                  <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueF($event)" #auto="matAutocomplete">
+                    <mat-option *ngFor="let emp of filteredEmpresa | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                      {{emp.Nombre}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
               </div>
             </div>
+
+            <!--Row con Botones-->
+
+            <div class="form-group row">
+              <div class="col-sm-4"><button (click) = "VisualizarLiq()" class="btn btn-w-m btn-primary">Visualizar Liquidación</button></div>
+                   
+              <div class="col-sm-4"><button (click) = "GenerarLiq()" id="btnGen" disabled = "true"  class="btn btn-w-m btn-default">Generar Liquidación</button></div>                    
+                
+              <div class="col-sm-3"><button (click) = "Limpiar()" class="btn btn-w-m btn-default">Limpiar</button></div>                    
+            
+            
+            </div>
+
+
           </div>
         </div>
         <!-- ------------PARTE 3------------ -->
@@ -167,24 +207,20 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of this.Datos">
-                      <td>{{item.Contenedor}}</td> 
-                      <td><input type="number" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>
+                    <tr *ngFor="let item of this.objListLiquiCont">
+                      <td>{{item.ContNumero}}</td> 
+                      <td>{{item.ContCapaIdentificador}}</td> 
+                      <td>{{item.ContTipoIdentificador}}</td> 
+                      <td>{{item.CantProgramado}}</td> 
+                      <td>{{item.CantDisponible}}</td> 
+                      
+                      <!-- <td><input type="number" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>-->
                       <!-- <td >{{item.Bultos}}</td> -->
-                      <td>{{item.Peso}}</td>
-                      <td><input type="text" name="txtbox_PctoAduana_{{item.Contenedor}}"  id = "txtPctoAduana_{{item.Contenedor}}"  placeholder="Pcto Aduana"  class="form-control  tamanio-device"  [(ngModel)]="item.PctoAduana" /></td>
+                      <!--<td><input type="text" name="txtbox_PctoAduana_{{item.Contenedor}}"  id = "txtPctoAduana_{{item.Contenedor}}"  placeholder="Pcto Aduana"  class="form-control  tamanio-device"  [(ngModel)]="item.PctoAduana" /></td>-->
                       <!-- <td>{{item.PctoAduana}}</td> -->
                    </tr>
                   </tbody>
-                  <tfoot>
-                    <tr>
-                        <th>Total</th>
-                        <th>{{this.CantidadBultos}}</th>
-                        <th>{{this.CantidadPeso}}</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
+                
                 </table>
               </div>
             </div>
@@ -192,6 +228,70 @@
 
 
           </div>
+        </div>
+          <!-- ------------PARTE 4------------ -->
+        <div *ngIf = "MuestraPAP" >
+            <div class="form-group row titulo_boton">
+              <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Persona Autorizada para el recojo del Precinto</h4>
+              <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+              <b class="caret boton_mostrar" (click)="muestra_oculta('PAP')"></b>
+            </div>
+            <div id="PAP">            
+              <div class="form-group row">
+                <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nombre Completo:</label>
+                <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                  <input type="text"  [(ngModel)]="NombreCompleto" maxlength="50" name="txtbox_NombreCompleto" 
+                  class="form-control">
+  <!--                 <input type="text" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador"
+                    class="form-control"> -->
+  <!--                   <mat-form-field style="width: 100%;">
+                      <input type="text" placeholder="Digite Despachador" matInput [formControl]="ControlDespachador"
+                        [matAutocomplete]="Despachador">
+                      <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'Despachador')" #Despachador="matAutocomplete">
+                        <mat-option *ngFor="let enti of filteredDespachador | async" [value]="enti.Nombre">
+                          {{enti.Nombre}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field> -->
+                </div>
+              </div>
+              <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Tipo Doc. DNI/Carnet Extr.</label>
+                <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                  <input type="text"  [(ngModel)]="TipoDoc" maxlength="50" name="txtbox_TipoDoc" 
+                  class="form-control">
+  <!--                 <input type="text" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_AgenciaDeAduana"
+                    class="form-control"> -->
+  <!--                   <mat-form-field style="width: 100%;">
+                      <input type="text" placeholder="Digite Agencia Aduana" matInput [formControl]="ControlAgenciaAduana"
+                        [matAutocomplete]="AgenciaAduana">
+                      <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'AgenciaAduana')" #AgenciaAduana="matAutocomplete">
+                        <mat-option *ngFor="let enti of filteredAgenciaAduana | async" [value]="enti.Entidad + ',' + enti.Nombre">
+                          {{enti.Nombre}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field> -->
+                </div>
+              </div>
+              <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Empresa a la que pertenece:</label>
+                <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                  <input type="text"  [(ngModel)]="Empresa" maxlength="50" name="txtbox_Empresa" 
+                  class="form-control">
+  <!--                 <input type="text" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_AgenciaDeAduana"
+                    class="form-control"> -->
+  <!--                   <mat-form-field style="width: 100%;">
+                      <input type="text" placeholder="Digite Agencia Aduana" matInput [formControl]="ControlAgenciaAduana"
+                        [matAutocomplete]="AgenciaAduana">
+                      <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'AgenciaAduana')" #AgenciaAduana="matAutocomplete">
+                        <mat-option *ngFor="let enti of filteredAgenciaAduana | async" [value]="enti.Entidad + ',' + enti.Nombre">
+                          {{enti.Nombre}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field> -->
+                </div>
+              </div>
+            
+           
+            </div>
         </div>
 
 

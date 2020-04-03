@@ -11,6 +11,11 @@ import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { UniNegocio,UnidadNegocio}  from '../../models/Factura';
+import { AutEntregaPrec,AutEntregaPrecRPT,AutEntregaPrecRQT, ValidaEdiPrecRPT, ValidaEdiPrecRQT, ActualizaPrecRPT,
+ActualizaPrecRQT}  from '../../models/Liquidacion';
+import { ActualizaprecintoComponent  } from 'app/views/dashboards/actualizaprecinto.component';
+
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 
@@ -25,17 +30,18 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     public SiCargoData = true;
     //public ListaUnidadNegocio : Array<ListaUnidadNegocio>;
     public TieneData = false;
+    public loading : boolean;
     //public UnidadNegSelect:string;
     fechaActual: string;
     minDate: Date;
     maxDate: Date;
-    public EstadoSelect:string;
+    public UniNegocioSelect:string;
     public ModalidadSelect:string;
-    public ListaEstado : Array<ListaEstadoRefrendoExpo>;
+    public ListaUniNegocio : Array<UnidadNegocio>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
-      this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
+      this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
       this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
     }
     
@@ -98,8 +104,23 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 
     public objConsultaRefrendoExpoRQT : ConsultaRefrendoExpoRQT;
     public objConsultaRefrendoExpoRPT: Array<ConsultaRefrendoExpoRPT>;
+
     
-    public ngOnInit():any {      
+    public objAutEntregaPrecRQT : AutEntregaPrecRQT;
+    public objListaAutEntregaPrec: Array<AutEntregaPrec>;    
+    public objAutEntregaPrecRPT : AutEntregaPrecRPT;
+    
+
+    public objValidaEdiPrecRQT : ValidaEdiPrecRQT; 
+    public objValidaEdiPrecRPT : ValidaEdiPrecRPT;
+    
+    
+    public objActualizaPrecRQT : ActualizaPrecRQT; 
+    public objActualizaPrecRPT : ActualizaPrecRPT;
+
+    public ngOnInit():any {   
+      
+    this.loading = false;
 
     if (localStorage.getItem("Usuario") == null)
        {this.router.navigate(['/login']);}
@@ -247,17 +268,26 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
      /*  this.SiCargoData = true;
       this.dtTrigger.next(this.objTemperaturaRPT);
       this.SetGrillaVisibility(true); */
-    console.log(Number.parseInt(this.EstadoSelect));
-    console.log(this.ModalidadSelect);
-    this.objConsultaRefrendoExpoRQT = {
+    console.log(Number.parseInt(this.UniNegocioSelect));
+    //console.log(this.ModalidadSelect);
+
+  /*  this.objConsultaRefrendoExpoRQT = {
         IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
         Booking: form.value.txtbox_NroDocumento,
         Modalidad: this.ModalidadSelect,
-        Estado : Number.parseInt(this.EstadoSelect)
-    };
+        Estado : Number.parseInt(this.UniNegocioSelect)
+    };*/
+
+    this.objAutEntregaPrecRQT = {
+      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      UnidadNegocio : this.UniNegocioSelect,
+      Documento : form.value.txtbox_NroDocumento,
+      Persona : form.value.txtbox_Persona
+      };
       
-       if(this.ValidarInput(this.objConsultaRefrendoExpoRQT))
+       if(this.ValidarInput(this.objAutEntregaPrecRQT))
       {        
         swal({
               text: "Error en los campos de ingreso, por favor verificar",
@@ -266,25 +296,35 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
         return;
       } 
 
+      this.loading = true;
+
 ///Aun Falta obtener el servicio ///
-       let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
-      console.log(this.objConsultaRefrendoExpoRQT)
+       //let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
+       let res = this.reportService.getAutorizacionPersonal(this.objAutEntregaPrecRQT);
+
+      console.log(this.objAutEntregaPrecRQT)
       
       res.subscribe( 
         data => { 
-          this.objConsultaRefrendoExpoRPT = data.data;
-          console.log(data.data);
-          if (data.data.length >= 1)
+          //this.objConsultaRefrendoExpoRPT = data.data;
+          this.objAutEntregaPrecRPT = data;
+
+          console.log(data);
+          if (data.Msj == "OK")
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
             //this.SetGrillaVisibility(true);
             // this.TieneData = true;
 
+            this.objListaAutEntregaPrec = data.data;
+
+            this.loading = false;
+
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-              this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);         
+              this.dtTrigger.next(this.objListaAutEntregaPrec);         
             });
             this.SetGrillaVisibility(true);
            
@@ -292,9 +332,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           else
           {
             this.SiCargoData = true;
+            this.loading = false;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-               this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
+               this.dtTrigger.next(this.objListaAutEntregaPrec);
                this.SetGrillaVisibility(true);
             });
             swal("No existen datos");
@@ -308,26 +349,112 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       );  
 
     }
+
+    ActualizarPrecinto(Codigo:number, RegiCod: string, Nombres : string, dni: string,Empresa:string)
+    {
+
+      this.objValidaEdiPrecRQT = {
+        IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+        IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        CodLiqu : Codigo,
+        NombreCompleto : Nombres,
+        DNI : dni ,
+        EmpresaPertenece : Empresa        
+        };
+
+        let res = this.reportService.ValidaEdiPrec(this.objValidaEdiPrecRQT);
+
+       // console.log(this.objAutEntregaPrecRQT)
+        
+        res.subscribe( 
+          data => { 
+            //this.objConsultaRefrendoExpoRPT = data.data;
+            this.objValidaEdiPrecRPT = data;
+  
+            console.log(data);
+            if (data[0].Cod == 1)
+            {
+              //this.SiCargoData = true;
+              //this.dtTrigger.next(this.objTemperaturaRQT);
+              //this.SetGrillaVisibility(true);
+              // this.TieneData = true;
+
+              swal(data[0].Msj);
+  
+             
+             
+            }
+            else
+            {
+              localStorage.setItem("CodLiqui", Codigo.toString());
+              localStorage.setItem("RegiCod", RegiCod.toString());
+              localStorage.setItem("NombreCompleto", Nombres);
+              localStorage.setItem("DNICarnet", dni);
+              localStorage.setItem("EmpresaPert", Empresa);
+              
+                                        
+              const dialogRef = this.dialog.open(ActualizaprecintoComponent,{
+                disableClose: true,
+                autoFocus: true,
+                width: "500px",
+                height : "500px",
+                position: {
+                  top: '10%'
+                  }
+              });
+              
+            dialogRef.afterClosed().subscribe(  result => { 
+              
+            let grabo =  localStorage.getItem("GraboPrec");
+
+            if (grabo == "Si")               
+            {this.RefrescarGrilla();}
+            }
+            );
+
+         
+            }
+            //this.dtTrigger.unsubscribe();
+          }, 
+          error => {
+            swal("Error al cargar los datos"); 
+            console.log("Error : ", error); 
+          }
+        );  
+  
+
+
+
+
+    }        
     
     public RefrescarGrilla(){
-      let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
-      console.log(this.objConsultaRefrendoExpoRQT)
+     
+      let res = this.reportService.getAutorizacionPersonal(this.objAutEntregaPrecRQT);
+
+      console.log(this.objAutEntregaPrecRQT)
       
       res.subscribe( 
         data => { 
-          this.objConsultaRefrendoExpoRPT = data.data;
-          console.log(data.data);
-          if (data.data.length >= 1)
+          //this.objConsultaRefrendoExpoRPT = data.data;
+          this.objAutEntregaPrecRPT = data;
+
+          console.log(data);
+          if (data.Msj == "OK")
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
             //this.SetGrillaVisibility(true);
             // this.TieneData = true;
 
+            this.objListaAutEntregaPrec = data.data;
+
+            this.loading = false;
+
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-              this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);         
+              this.dtTrigger.next(this.objListaAutEntregaPrec);         
             });
             this.SetGrillaVisibility(true);
            
@@ -335,9 +462,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           else
           {
             this.SiCargoData = true;
+            this.loading = false;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-               this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
+               this.dtTrigger.next(this.objListaAutEntregaPrec);
                this.SetGrillaVisibility(true);
             });
             swal("No existen datos");
@@ -349,6 +477,8 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           console.log("Error : ", error); 
         }
       );  
+
+
 
     }
 
@@ -357,19 +487,21 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       this.dtTrigger.unsubscribe();
     }
 
-    public ValidarInput(param : ConsultaRefrendoExpoRQT) : boolean
+    public ValidarInput(param : AutEntregaPrecRQT) : boolean
     {
-      if(this.NullEmpty(param.Booking))
+
+      if(this.NullEmpty(param.UnidadNegocio))
       {
-        this.objConsultaRefrendoExpoRQT.Booking = "";
+        swal("Debe seleccionar una Unidad de Negocio");
+        return true;      
       }
-      if(this.NullEmpty(param.Modalidad))
+      if(this.NullEmpty(param.Documento))
       {
-        return true;
+        this.objAutEntregaPrecRQT.Documento = "";
       }
-      if(this.NullEmpty(param.Estado))
+      if(this.NullEmpty(param.Persona))
       {
-        return true;
+        this.objAutEntregaPrecRQT.Persona = "";
       }
     
       return false;
@@ -410,8 +542,8 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 
     public ChangingValue(param : any, paramTipo: string)
     {
-      if (paramTipo== "Estado"){
-        this.EstadoSelect = param.target.value;
+      if (paramTipo== "UniNegocio"){
+        this.UniNegocioSelect = param.target.value;
       }
       if (paramTipo== "Modalidad"){
         this.ModalidadSelect = param.target.value;

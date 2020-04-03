@@ -83,7 +83,7 @@ export const ROUTES:Routes = [
       {path: 'consultacitas', component: ConsultacitasComponent},
       {path: 'refrendoexpo', component: RefrendoExpoComponent},
       {path: 'consultasolserv', component: ConsultasolservComponent},
-      {path: 'registrareclamo', component: RegreclamoComponent}
+      {path: 'registrareclamo', component: RegreclamoComponent},
       
       {path: 'liquidaciongeneracion', component: LiquidacionGeneracionComponent},
       {path: 'liquidaciongeneracionnuevo', component: LiquidacionGeneracionNuevoComponent},      

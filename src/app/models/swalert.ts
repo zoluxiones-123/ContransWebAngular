@@ -11,3 +11,14 @@ export class SwAlert{
         this.confirmButtonText = "Aceptar";
     }
   }
+
+  export class SwAlertC{       
+  title: string;
+  text: string;
+  icon: string;
+  showCancelButton: boolean;
+  confirmButtonColor: string;
+  cancelButtonColor: string;
+  confirmButtonText: string;
+  width: number;
+  }
