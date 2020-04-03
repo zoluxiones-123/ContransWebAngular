@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef,AfterViewInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 //import { CartaTemperaturaRQT,AnularCerrarCartaTemperaturaRQT,AnularCerrarCartaTemperaturaRPT,CartaTemperaturaRPT,ListaEstado} from '../../models/Temperatura';
 import { ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo,ConsultaRefrendoExpoRQT,ConsultaRefrendoExpoRPT}  from '../../models/RefrendoExpo';
 import { ReportService } from '../../services/report.service';
@@ -10,6 +11,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
+import { UniNegocio,UnidadNegocio}  from '../../models/Factura';
+import { LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont}  from '../../models/Liquidacion';
+
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.component';
@@ -30,14 +34,19 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
     fechaActual: string;
     minDate: Date;
     maxDate: Date;
-    public EstadoSelect:string;
-    public ModalidadSelect:string;
-    public ListaEstado : Array<ListaEstadoRefrendoExpo>;
-    public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
+    public UniNegocioSelect:string;
+    public UniNegocioSelectD:string;
+    public TipoConsultaSelect:string;
+    public ListaUniNegocio : Array<UnidadNegocio>;
+    public ListaTipoConsulta : Array<UnidadNegocio>;
+    public objLiquidacionBRPT: LiquidacionBRPT;
+    public objLiquidacionBRQT: LiquidacionBRQT;
+    public objListLiquiCont : Array<LiquidacionCont>;
+    
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
-      this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
-      this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
+      this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
+      this.reportService.gettipoconsulta().subscribe(data => this.ListaTipoConsulta = data.Data);
     }
     
     @ViewChild(DataTableDirective)
@@ -108,8 +117,13 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
       this.SetGrillaVisibility(false);
     
     }        
-    popupNuevaRefrendoExpo(){
+    popupNuevaRefrendoExpo(form: NgForm){
       localStorage.setItem("paramAccion","Nuevo");
+      localStorage.setItem("UniNegocioL",this.UniNegocioSelect);
+      localStorage.setItem("TipoConsultaL",this.TipoConsultaSelect);
+      localStorage.setItem("DocumentoL",form.value.txtbox_Documento);      
+      localStorage.setItem("UniNegocioLD",this.UniNegocioSelectD);
+      
       const dialogRef = this.dialog.open(LiquidacionGeneracionNuevoComponent,{
         disableClose: true,
         autoFocus: true,
@@ -254,15 +268,15 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
      /*  this.SiCargoData = true;
       this.dtTrigger.next(this.objTemperaturaRPT);
       this.SetGrillaVisibility(true); */
-    console.log(Number.parseInt(this.EstadoSelect));
-    console.log(this.ModalidadSelect);
+    //console.log(Number.parseInt(this.EstadoSelect));
+    //console.log(this.ModalidadSelect);
     this.objConsultaRefrendoExpoRQT = {
         IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
         TipoConsulta: "",
         Booking: form.value.txtbox_NroDocumento,
-        Modalidad: this.ModalidadSelect,
-        Estado : Number.parseInt(this.EstadoSelect)
+        Modalidad: this.TipoConsultaSelect,
+        Estado : Number.parseInt(this.UniNegocioSelect)
     };
       
        if(this.ValidarInput(this.objConsultaRefrendoExpoRQT))
@@ -424,11 +438,18 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
 
     public ChangingValue(param : any, paramTipo: string)
     {
-      if (paramTipo== "Estado"){
-        this.EstadoSelect = param.target.value;
+      if (paramTipo== "UniNegocio"){
+        this.UniNegocioSelect = param.target.value;
+
+        let ind = param.target.selectedIndex;
+    
+       /*this.NEntidadSelect = param.target.options[ind].innerText;*/
+
+        this.UniNegocioSelectD = param.target.options[ind].innerText;
+        
       }
-      if (paramTipo== "Modalidad"){
-        this.ModalidadSelect = param.target.value;
+      if (paramTipo== "TipoConsulta"){
+        this.TipoConsultaSelect = param.target.value;        
       }
     }
   

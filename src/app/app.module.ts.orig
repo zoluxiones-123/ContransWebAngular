@@ -61,6 +61,8 @@ import { CartaTemperaturaDetalleComponent } from './views/dashboards/cartatemper
 import { CartaTemperaturaNuevoComponent } from './views/dashboards/cartatemperaturanuevo.component';
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
 import { RefrendoExpoNuevoComponent } from './views/dashboards/refrendoexponuevo.component';
+import { RefrendoExpoAnularComponent } from './views/dashboards/refrendoexpoanular.component';
+
 
 import { DetrepstockCliComponent } from './views/dashboards/detrepstockcli.component';
 import { DetrepstockComponent } from './views/dashboards/detrepstock.component';
@@ -70,6 +72,11 @@ import { ActualizarcitaComponent } from './views/dashboards/actualizarcita.compo
 import { GenerarcitaComponent } from './views/dashboards/generarcita.component';
 import { CitavacioasigComponent } from './views/dashboards/citavacioasig.component';
 import { ConsultasolservComponent } from './views/dashboards/consultasolserv.component';
+import { NuevoSolServComponent } from './views/dashboards/nuevosolserv.component';
+import { RegreclamoComponent } from './views/dashboards/regreclamo.component';
+import { LiquidacionGeneracionNuevoComponent } from './views/dashboards/liquidaciongeneracionnuevo.component';
+import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto.component'
+
 
 @NgModule({
   declarations: [
@@ -102,13 +109,13 @@ import { ConsultasolservComponent } from './views/dashboards/consultasolserv.com
     ActualizarcitaComponent,
     GenerarcitaComponent,
     RefrendoExpoNuevoComponent,
-<<<<<<< HEAD
-    CitavacioasigComponent
-=======
+    RefrendoExpoAnularComponent,
     CitavacioasigComponent,
-    ConsultasolservComponent
->>>>>>> origin/con_el_cambio_a_nueva_Angular
-   
+    ConsultasolservComponent,
+    NuevoSolServComponent,
+    RegreclamoComponent,
+    LiquidacionGeneracionNuevoComponent,
+    ActualizaprecintoComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +147,11 @@ import { ConsultasolservComponent } from './views/dashboards/consultasolserv.com
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent]
+<<<<<<< HEAD
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent]
+=======
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,ActualizaprecintoComponent, DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent,NuevoSolServComponent]
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
    
   
 })

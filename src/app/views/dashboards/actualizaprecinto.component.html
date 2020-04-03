@@ -1,0 +1,51 @@
+
+    
+<form class="m-t" role="form" #formFact="ngForm" >
+
+  <div class="col-lg-10" style="width: 100%; align-content: center;display: inline-flex;" >
+          <div class="stat-percent font-bold text-danger">
+          <img alt="image" class="img-container" src="assets/images/LogoContransE.png">
+          </div>
+          <h3 class="font-bold text-navy">Modificacion Precinto</h3>
+  </div>
+  <div class="row">
+      <div class="col-lg-20">
+          <div class="ibox">
+              <div class="ibox-title">
+                  <h5>{{this.Registro}}</h5>               
+              </div>          
+              <div class="ibox-content cuerpo-con-overflow" >
+                <div class="form-group row">
+                  <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Nombre del Personal:</label>
+                  <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                    <input type="text"  [(ngModel)]="Nombres" maxlength="50" name="txtbox_Nombres" 
+                    class="form-control">
+                  </div>
+                </div>  
+                
+                <div class="form-group row">
+                  <label class="col-xs-12 col-sm-4 col-lg-4 label_device">DNI/Carnet Extranjeria:</label>
+                  <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                    <input type="text"  [(ngModel)]="Documento" maxlength="50" name="txtbox_Documento" 
+                    class="form-control">
+                  </div>
+                </div>   
+                
+                <div class="form-group row">
+                  <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Empresa:</label>
+                  <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                    <input type="text"  [(ngModel)]="Empresa" maxlength="50" name="txtbox_Empresa" 
+                    class="form-control">
+                  </div>
+                </div>                                                                                                            
+                      <div class="form-group row">
+                      <div class="col-sm-4"><button (click) = "ActualizarPrecinto(formFact)" class="btn btn-w-m btn-primary">Aceptar</button></div>
+                      <div class="col-sm-2"></div>        
+                      <div class="col-sm-4"><button (click) = "onClose()" class="btn btn-w-m btn-default">Cancelar</button></div>                    
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </form>

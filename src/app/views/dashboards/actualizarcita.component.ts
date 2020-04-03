@@ -20,7 +20,6 @@ ValidarTokenCitaRPT, ActTokenCitaRPT, AnularCitaRPT, AnularCitaRQT, ActTokenCita
 import { Usuario, UsuarioRequest, UsuarioResponse, ActualizarClaveRequest, ActualizarClaveResponse, RolResponse } 
 from '../../services/usuario/Usuario';
 import "rxjs/add/operator/toPromise";
-
 import swal from 'sweetalert';
 
 @Component({

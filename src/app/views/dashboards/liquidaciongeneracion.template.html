@@ -15,23 +15,23 @@
                   <option *ngFor="let item of this.ListaEstado" [value]="item.Entidad">{{item.Nombre}}</option>
                 </select>
               </div> -->
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listEstado"  class="form-control" (change)="ChangingValue($event,'UniNegocio')">
+                  <option [value]="" selected hidden>--Unidad Negocio--</option>
+                  <option *ngFor="let item of this.ListaUniNegocio" [value]="item.Codigo">{{item.Descripcion}}</option> 
+                </select>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                <select name="listEstado"  class="form-control" (change)="ChangingValue($event,'TipoConsulta')">
+                  <option [value]="" selected hidden>--Tipo--</option>
+                  <option *ngFor="let item of this.ListaTipoConsulta" [value]="item.Codigo">{{item.Descripcion}}</option>
+                </select>
+              </div>
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_NroDocumento" placeholder="Nro Documento" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_Documento" placeholder="Documento" class="form-control" [ngModel] required /> 
                 </div>
-              </div>
-              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
-                <select name="listEstado"  class="form-control" (change)="ChangingValue($event,'Estado')">
-                  <option [value]="" selected hidden>--Unidad Negocio--</option>
-                  <option *ngFor="let item of this.ListaEstado" [value]="item.EstadoCodigo">{{item.EstadoDesc}}</option> 
-                </select>
-              </div>
-              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
-                <select name="listEstado"  class="form-control" (change)="ChangingValue($event,'Modalidad')">
-                  <option [value]="" selected hidden>--Tipo--</option>
-                  <option *ngFor="let item of this.ListaModalidad" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}</option>
-                </select>
-              </div>
+              </div>                      
             </div>
             <div class="row">
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
@@ -43,7 +43,7 @@
                 class="btn btn-primary block m-b tamanio-device"  >Buscar</button></div> -->
 
                 <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
-                  <button type="button" (click)="popupNuevaRefrendoExpo()"
+                  <button type="button" (click)="popupNuevaRefrendoExpo(formFact)"
                   class="btn btn-primary block m-b tamanio-device"  >Buscar</button>
                 </div>
             </div>
