@@ -267,7 +267,10 @@ export class CartaTemperaturaDetalleComponent implements OnInit {
 
       },
       error => {
-        swal("Error al cargar los datos");
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        });
         console.log("Error : ", error);
       });
   }
@@ -288,7 +291,10 @@ export class CartaTemperaturaDetalleComponent implements OnInit {
         this.Puerto = resp[0].Puerto;
       },
       error => {
-        swal("Error al cargar los datos");
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        });
         console.log("Error : ", error);
       });
   }

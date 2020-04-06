@@ -10,6 +10,7 @@ import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperat
 import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
 import {RefrendoExpoComponent} from "./views/dashboards/refrendoexpo.component";
 import {RefrendoExpoNuevoComponent} from "./views/dashboards/refrendoexponuevo.component";
+import {RefrendoExpoAnularComponent} from "./views/dashboards/refrendoexpoanular.component";
 import {LiquidacionGeneracionComponent} from "./views/dashboards/liquidaciongeneracion.component";
 import {LiquidacionGeneracionNuevoComponent} from "./views/dashboards/liquidaciongeneracionnuevo.component";
 import {LiquidacionAutorizacionPrecintosComponent} from "./views/dashboards/liquidacionautorizacionprecintos.component";
@@ -84,17 +85,13 @@ export const ROUTES:Routes = [
       {path: 'refrendoexpo', component: RefrendoExpoComponent},
       {path: 'consultasolserv', component: ConsultasolservComponent},
       {path: 'registrareclamo', component: RegreclamoComponent},
-      
       {path: 'liquidaciongeneracion', component: LiquidacionGeneracionComponent},
       {path: 'liquidaciongeneracionnuevo', component: LiquidacionGeneracionNuevoComponent},      
       {path: 'liquidacionautorizacionprecintos', component: LiquidacionAutorizacionPrecintosComponent},
       {path: 'liquidaciontransportistacliente', component: LiquidacionTransportistaClienteComponent},
       {path: 'pagoscobranza', component: PagosCobranzaComponent},
       {path: 'pagoscobranzaconsulta', component: PagosCobranzaConsultaComponent},
-      {path: 'pagosconsultafacturas', component: PagosConsultaFacturasComponent},
-      
-      
-
+      {path: 'pagosconsultafacturas', component: PagosConsultaFacturasComponent}
     ]
   },
   // App views

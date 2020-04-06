@@ -9,12 +9,14 @@
         <div class="ibox-content">
           <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
             <div class="row">
-<!--               <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
-                <select name="listEstado"  class="form-control" (change)="ChangingValue($event)">
-                  <option [value]="" selected hidden>--Tipo Consulta--</option>
-                  <option *ngFor="let item of this.ListaEstado" [value]="item.Entidad">{{item.Nombre}}</option>
-                </select>
-              </div> -->
+              <div class="col-sm-2" style="padding-left: 0px;padding-right: 4px;;padding-top: 6px">
+                <label for="rbt001" style="padding-right: 5px;">Booking</label>
+                <input type="radio" id="rbt002" name="rbtSeleccion" [(ngModel)]="Seleccion_Opcion" value="B"
+                  style="width: auto;vertical-align: text-bottom;">
+                <label style="padding-right: 5px;padding-left: 10px;">DAM</label>
+                <input type="radio" name="rbtSeleccion" [(ngModel)]="Seleccion_Opcion" value="D" style="width: auto;vertical-align: text-bottom;"
+                  checked="checked">
+              </div>
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
                   <input type="text" name="txtbox_NroDocumento" placeholder="Nro Documento" class="form-control" [ngModel] required /> 
@@ -53,29 +55,31 @@
                 [dtTrigger]="dtTrigger" > 
                 <thead>
                   <tr>
-                    <th>Codigo</th>
-                    <th>N° Booking</th>
-                    <th>Modalidad</th>
-                    <th>DAM</th>
-                    <th>N° Orden</th>
-                    <th>Fecha Numeración</th>
-                    <th>Canal</th>
-                    <th>Observacion</th>
-                    <th>Estado</th>
-                   <!--  <th colspan="4" style="width: 10%;">Accion</th> -->
+                    <th style="text-align: -webkit-center;" >Codigo</th>
+                    <th style="text-align: -webkit-center;" >N° Booking</th>
+                    <th style="text-align: -webkit-center;" >Modalidad</th>
+                    <th style="text-align: -webkit-center;" >DAM</th>
+                    <th style="text-align: -webkit-center;" >N° Orden</th>
+                    <th style="text-align: -webkit-center;" >Fecha Numeración</th>
+                    <th style="text-align: -webkit-center;" >Canal</th>
+                    <th style="text-align: -webkit-center;" >Observacion</th>
+                    <th style="text-align: -webkit-center;" >Estado</th>
+                    <th colspan="2" style="text-align: -webkit-center;" >Accion</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.objConsultaRefrendoExpoRPT">
-                    <td>{{item.Codigo}}</td>
-                    <td>{{item.Booking}}</td> 
-                    <td>{{item.Modalidad}}</td>
-                    <td>{{item.DAM}}</td>
-                    <td>{{item.NroOrden}}</td>
-                    <td>{{item.FechaNumeracion}}</td>
-                    <td>{{item.Canal}}</td>
-                    <td>{{item.Observacion}}</td> 
-                    <td>{{item.Estado}}</td> 
+                    <td style="text-align: -webkit-center;" >{{item.Codigo}}</td>
+                    <td style="text-align: -webkit-center;" >{{item.Booking}}</td> 
+                    <td style="text-align: -webkit-center;" >{{item.Modalidad}}</td>
+                    <td style="text-align: -webkit-center;" >{{item.DAM}}</td>
+                    <td style="text-align: -webkit-center;" >{{item.NroOrden}}</td>
+                    <td style="text-align: -webkit-center;" >{{item.FechaNumeracion}}</td>
+                    <td style="text-align: -webkit-center;" >{{item.Canal}}</td>
+                    <td style="text-align: -webkit-center;" >{{item.Observacion}}</td> 
+                    <td style="text-align: -webkit-center;" >{{item.Estado}}</td> 
+                    <td style="text-align: -webkit-center;" ><a ><img  style="width: 16px;" src="assets/images/imprimir.png"></a></td>
+                    <td style="text-align: -webkit-center;" ><a (click)="popupAnularRefrendoExpo(item.Codigo)" ><img src="assets/images/delete.png"></a></td> 
                  </tr>
                 </tbody>
               </table>

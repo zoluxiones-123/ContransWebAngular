@@ -6,7 +6,7 @@ import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes, TiposCita, UniNegocio } from '../models/Factura';
 import { TemperaturaRPT,BuscarNuevoCartaDetalleTemperaturaRQT,BuscarNuevoCartaDetalleTemperaturaRPT,BuscarCartaDetalleTemperaturaRQT,BuscarCartaDetalleTemperaturaRPT,NuevoCartaDetalleTemperaturaRQT,NuevoCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRQT,CartaDetalleTemperatura2RQT,CartaDetalleTemperatura2RPT,ActualizarCartaDetalleTemperaturaRQT,ActualizarCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRPT,TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
-import { ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo, Despachadores, AgenciaAduanera } from '../models/RefrendoExpo';
+import { ListaRegimenRefrendoExpo,AnularRefrendoExpoRQT,AnularRefrendoExpoRPT,ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo, Despachadores, AgenciaAduanera } from '../models/RefrendoExpo';
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
   CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
@@ -602,17 +602,31 @@ export class ReportService {
       url_api, objGenerarRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
   }
 
+  AnularRefrendoExpo(objAnularRefrendoExpo : AnularRefrendoExpoRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/anularfrendo`;    
+    return this.http.post<AnularRefrendoExpoRPT>(
+      url_api, objAnularRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
+  }
+
   ConsultaEstadoRefrendoExpo() : Observable<any>
   {
     const url_api =`/ContransAPI/api/refrendoestado`;
     return this.http.get<Array<ListaEstadoRefrendoExpo>>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
-
+  
   ConsultaModalidadRefrendoExpo() : Observable<any>
   {
     const url_api =`/ContransAPI/api/listarempaque`;
     return this.http.get<Array<ListaModalidadRefrendoExpo>>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  ConsultaRegimenRefrendoExpo() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/regimenrefrendo`;
+    return this.http.get<Array<ListaRegimenRefrendoExpo>>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
 

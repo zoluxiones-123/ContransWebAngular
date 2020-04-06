@@ -259,7 +259,10 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago}  from '../
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -273,7 +276,10 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago}  from '../
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -388,7 +394,10 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago}  from '../
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  
@@ -455,7 +464,10 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago}  from '../
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  

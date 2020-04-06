@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import { ListaRegimenRefrendoExpo,Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
+import { Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT,AnularRefrendoExpoRQT,AnularRefrendoExpoRPT } from '../../models/RefrendoExpo';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -19,28 +19,22 @@ import { Base64RPT, Base64RQT } from '../../models/Base64';
 import { ZipRPT, ZipRQT } from '../../models/ConvertirZip';
 import { FileItem } from '../../models/FileItem';
 import { isError } from 'util';
-import { entidad,Entidades, producto, Productos } from 'app/models/entidad';
+import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'refrendoexponuevo',
-  templateUrl: 'refrendoexponuevo.template.html',
-  styleUrls: ['refrendoexponuevo.component.css']
+  selector: 'refrendoexpoanular',
+  templateUrl: 'refrendoexpoanular.template.html',
+  styleUrls: ['refrendoexpoanular.component.css']
 })
 
-export class RefrendoExpoNuevoComponent implements OnInit {
+export class RefrendoExpoAnularComponent implements OnInit {
   filteredEntidad: Observable<entidad[]>;
   public LEntidades : Entidades;
   public ListaEntidades : Array<entidad> = [];
   ControlEntidades = new FormControl();
   public EntidadesSelect:string = "";
-
-  filteredProducto: Observable<producto[]>;
-  public LProductos : Productos;
-  public ListaProductos : Array<producto> = [];
-  ControlProductos = new FormControl();
-  public ProductosSelect:string = "";
 
   filteredDespachador: Observable<Despachador[]>;
   public LDespachador : Despachadores;
@@ -82,33 +76,28 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   NroDeDAM: string;
   FechaDeNum: any;
 
-  MandatoElectronico: boolean;/// CONSULTAR
-  FOB: string;/// CONSULTAR
-
-  FechaCutOff: any;
-  CodProducto:string;
-  Producto: string;
-
-  Aduana: string;
-  Regimen: string;
-
   CantidadBultos: number;
   CantidadPeso: number;
 
+  ParamCodigoAnular: string;
+
+  RefrendoCod:string;
+  Observacion:string;
   public Datos: ConsultaDetalleBookingRefrendoExpoRPT[];
 
   public objConsultaBookingRefrendoExpoRQT: ConsultaBookingRefrendoExpoRQT;
   public objConsultaBookingRefrendoExpoRPT: ConsultaBookingRefrendoExpoRPT;
   public objGenerarRefrendoExpoRQT: GenerarRefrendoExpoRQT;
   public objGenerarRefrendoExpoRPT: GenerarRefrendoExpoRPT;
+  public objAnularRefrendoExpoRQT: AnularRefrendoExpoRQT;
+  public objAnularRefrendoExpoRPT: AnularRefrendoExpoRPT;
+
   public objGenerarDetalleRefrendoExpoRQT: GenerarDetalleRefrendoExpoRQT;
   public objGenerarArchivoRefrendoExpoRQT: GenerarArchivoRefrendoExpoRQT;
 
-  public AnioSelect: string;
-  public RegimenSelect: string;
+
   public ModalidadSelect: string;
   public ListaModalidad: Array<ListaModalidadRefrendoExpo>;
-  public ListaRegimen: Array<ListaRegimenRefrendoExpo>;
 
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
@@ -117,11 +106,13 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   }
 
-  constructor(private reportService: ReportService, public dialogRef: MatDialogRef<RefrendoExpoNuevoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
+  constructor(private reportService: ReportService, public dialogRef: MatDialogRef<RefrendoExpoAnularComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
     this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
-    this.reportService.ConsultaRegimenRefrendoExpo().subscribe(data => this.ListaRegimen = data.Data);
-    var emptyString = "";
 
+    this.ParamCodigoAnular=localStorage.getItem("paramCodigoAnular")
+
+    var emptyString = "";
+    this.RefrendoCod= emptyString;
     this.Codigo = emptyString;
     this.Booking = emptyString;
     this.Viaje = emptyString;
@@ -132,16 +123,6 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.Exportador = emptyString;
     this.Mercaderia = emptyString;
 
-    this.MandatoElectronico= false;/// CONSULTAR
-    this.FOB= emptyString;/// CONSULTAR
-  
-    this.FechaCutOff= emptyString;
-    this.CodProducto= emptyString;
-    this.Producto= emptyString;
-
-    this.Aduana= emptyString;
-    this.Regimen= emptyString;
-    
     this.Despachador = emptyString;
     this.AgenciaDeAduana = emptyString;
     this.NroDeOrden = emptyString;
@@ -149,6 +130,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.FechaDeNum = emptyString;
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
+    this.Observacion=emptyString;
   }
 
   fileData: File = null;
@@ -166,7 +148,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   fileitems_BOOKING = [];
   fileitems_OTROS = [];
   fileitems_REPORTDECARGASUELTA = [];  
-  ListaAnio = [];
+  
   //selectedOptions = [];
   selectedOptions_DAM = [];
   selectedOptions_GUIAREMISION = [];
@@ -274,17 +256,6 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     } 
     console.log(this.objConsultaBookingRefrendoExpoRQT);
 
-    var fechita = new Date;
-    var anioActual = fechita.getFullYear();
-    var anioFinal= anioActual + 6;
-    
-
-    for (let i = Number.parseInt(anioActual.toString()); i < Number.parseInt(anioFinal.toString()); i++) {
-      //console.log ("AÑO - " + i);
-      this.ListaAnio.push({ 'Anio': i, 'Descripcion': i });
-    }
-    //console.log ("Lista Anio" + JSON.stringify(ListaAnio));
-
     if(this.ValidarInputCabecera(this.objConsultaBookingRefrendoExpoRQT))
     {        
       swal({
@@ -316,28 +287,16 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           this.NroDeDAM = "";
           this.FechaDeNum = new Date();
           this.Mercaderia = resp.Mercaderia;
-          this.FechaCutOff = resp.FechaCutOff;
-          this.CodProducto = resp.CodProducto;
-          this.Producto = resp.Producto;
-          this.MandatoElectronico= false;
-          this.FOB= "";
-          this.Viaje= resp.Viaje;
-          this.Aduana= "118";
-          this.Regimen="";
-          this.AnioSelect= anioActual.toString();
-
+          
           this.EntidadesSelect=resp.Exportador;
           this.ControlEntidades.setValue(resp.Exportador);
-
-          this.ProductosSelect=resp.Producto;
-          this.ControlProductos.setValue(resp.Producto);
 /*           this.ControlDespachador.setValue("");
           this.ControlAgenciaAduana.setValue(""); */
 
           for (var clave in data.Datos) {
             this.CantidadBultos = this.CantidadBultos + data.Datos[clave].Bultos;
             this.CantidadPeso = this.CantidadPeso + data.Datos[clave].Peso;
-            DetalleDatos.push({ 'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'Ticket': data.Datos[clave].Ticket, 'Precinto': data.Datos[clave].Precinto });
+            DetalleDatos.push({ 'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'PctoAduana': "" });
           }
           this.Datos = DetalleDatos;
           console.log("CONSULTA DETALLE BOOKING " + this.Datos);
@@ -406,36 +365,6 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         this.onIsError();           
         console.log("Error");}
       );
-
-      this.filteredProducto = this.ControlProductos.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterProductos(value))
-      );
-  
-      this.ListaProductos = new Array
-      this.reportService.getListaProductos().subscribe(
-        data => {
-          this.LProductos = data;
-          if (this.LProductos.Data != null)
-          {                              
-            let listaent =JSON.parse(JSON.stringify(this.LProductos.Data));              
-            for (var i = 0; i <= listaent.length-1; i++) {
-              let last = listaent[i];            
-              this.ListaProductos.push(last);
-            }
-          
-          }
-          else{
-            this.onIsError();   
-          }
-        },  
-        error => {
-          this.onIsError();           
-          console.log("Error");}
-        );
-
-
-
 
       this.filteredDespachador = this.ControlDespachador.valueChanges.pipe(
         startWith(''),
@@ -1185,23 +1114,23 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  public AgregarRefrendo(form: NgForm) {
-    var NBooking: string
-    NBooking = form.value.txtbox_NBooking
+  public AnularRefrendo(form: NgForm) {
+    //var NBooking: string
+    //NBooking = form.value.txtbox_NBooking
 
-    if (NBooking == undefined) {
-      swal("Error: Ingresar Numero de Booking");
+    //if (NBooking == undefined) {
+      //swal("Error: Ingresar Numero de Booking");
       //return false;
-    } else {
-      let DetalleDatos = [];
+    //} else {
+      //let DetalleDatos = [];
       let DetalleArchivos = [];
-      for (var clave in this.Datos) {
+/*       for (var clave in this.Datos) {
         DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].Precinto });
       }
       this.Datos = DetalleDatos;
-      console.log("Detalle Booking Guardar " + this.Datos);
+      console.log("Detalle Booking Anular " + this.Datos); */
 
-      for (var DAM in this.fileitems_DAM) {
+/*       for (var DAM in this.fileitems_DAM) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 1, 'Archivo': this.fileitems_DAM[DAM].base64, 'NombreArchivo': this.fileitems_DAM[DAM].name });
       }
       for (var GUIAREMISION in this.fileitems_GUIAREMISION) {
@@ -1215,49 +1144,28 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       }
       for (var BOOKING in this.fileitems_BOOKING) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 5, 'Archivo': this.fileitems_BOOKING[BOOKING].base64, 'NombreArchivo': this.fileitems_BOOKING[BOOKING].name });
-      }
+      } */
       for (var OTROS in this.fileitems_OTROS) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 6, 'Archivo': this.fileitems_OTROS[OTROS].base64, 'NombreArchivo': this.fileitems_OTROS[OTROS].name });
+        DetalleArchivos.push({ 'Archivo': this.fileitems_OTROS[OTROS].base64, 'NombreArchivo': this.fileitems_OTROS[OTROS].name });
       }
-      for (var REPORTDECARGASUELTA in this.fileitems_REPORTDECARGASUELTA) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 7, 'Archivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].base64, 'NombreArchivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].name });
-      }
+/*       for (var REPORTDECARGASUELTA in this.fileitems_REPORTDECARGASUELTA) {
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 6, 'Archivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].base64, 'NombreArchivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].name });
+      } */
 
       console.log("Archivos " + JSON.stringify(DetalleArchivos)); 
 
 
-      this.objGenerarRefrendoExpoRQT = {
+      this.objAnularRefrendoExpoRQT = {
         IDUser: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
-        BookLineCodigo: this.Codigo,
-        BookLineNroDoc: form.value.txtbox_NBooking,
-        DAM: form.value.txtbox_NroDeDAM,
-        Exportador: this.EntidadesSelect,
-        NumOrden: form.value.txtbox_NroDeOrden,
-        //Despachador: this.DespachadorSelect,
-        Despachador: this.Despachador,
-        EntiCodAgencia: localStorage.getItem("EntiCodigo").toString(),
-        //AgenciaAduana: this.AgenciaAduanaSelect,
-        AgenciaAduana: this.AgenciaDeAduana,
-        FechaNum: form.value.txtbox_FechaDeNum,
-        Mercancia: form.value.txtbox_Mercaderia,
-        EmpaCodigo: this.ModalidadSelect,
-        Llenado: true,
-        Aduana: this.Aduana,
-        Anio: this.AnioSelect,
-        Regimen: this.RegimenSelect,
-        CodProducto: this.CodProducto,
-        Producto: this.Producto,
-        FechaCutOff: form.value.txtbox_FechaCutOff,
-        FOB: form.value.txtbox_FOB,
-        MandatoElectronico: this.MandatoElectronico,
-        Deta: this.Datos,
+        RefrendoCod: Number.parseInt(this.ParamCodigoAnular),
+        Observacion: form.value.txtbox_Observacion,
         ArchivoRefrendo: DetalleArchivos
       }
 
-      console.log("Datos REFRENDON " + JSON.stringify(this.objGenerarRefrendoExpoRQT));
+      console.log("Datos REFRENDON Anular " + JSON.stringify(this.objAnularRefrendoExpoRQT));
 
-      if (this.ValidarInput(this.objGenerarRefrendoExpoRQT)) {
+      if (this.ValidarInput(this.objAnularRefrendoExpoRQT)) {
         swal({
           text: "Error en los campos de ingreso, por favor verificar",
           icon: "warning",
@@ -1267,23 +1175,23 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
       
 
-      console.log("EMPEZAR A GUARDAR DATOS")
-      this.reportService.GenerarRefrendoExpo(this.objGenerarRefrendoExpoRQT).subscribe(
+      console.log("EMPEZAR A Anular")
+      this.reportService.AnularRefrendoExpo(this.objAnularRefrendoExpoRQT).subscribe(
         data => {
           this.objGenerarRefrendoExpoRPT = data;
           console.log("Mensaje : " + JSON.stringify(data));
           console.log("Ruta : " + data.Msj.toString());
           console.log("EMPEZAR A Imagenes")
 
-          swal("Se Guardo Correctamente");
+          swal("Se Anulo Correctamente");
           this.cerrarPopup();
         },
         error => {
-          swal("Error al crear Refrendo Expo");
+          swal("Error al anular Refrendo Expo");
           console.log("Error : ", error);
         });
 
-    }
+    //}
   }
 
   public Recalcular() {
@@ -1302,15 +1210,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     }
     return false;
   }
-  public ValidarInput(param: GenerarRefrendoExpoRQT): boolean {
+  public ValidarInput(param: AnularRefrendoExpoRQT): boolean {
 
-    if (this.EntidadesSelect == "" || this.ControlEntidades.value.toString() == ""){
+/*     if (this.EntidadesSelect == "" || this.ControlEntidades.value.toString() == ""){
       return true;
     }
-    if (this.ProductosSelect == "" || this.ControlProductos.value.toString() == ""){
-      return true;
-    }
-/*     if (this.DespachadorSelect == "" || this.ControlDespachador.value.toString() == ""){
+    if (this.DespachadorSelect == "" || this.ControlDespachador.value.toString() == ""){
       return true;
     }
     if (this.AgenciaAduanaSelect == "" || this.ControlAgenciaAduana.value.toString() == ""){
@@ -1319,7 +1224,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
     /* if (this.NullEmpty(param.Exportador)) {
       return true;
-    }*/
+    }
 
     if (this.NullEmpty(param.Despachador)) {
       return true;
@@ -1327,13 +1232,13 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
     if (this.NullEmpty(param.AgenciaAduana)) {
       return true;
-    } 
+    } */
 
-    if (this.NullEmpty(param.NumOrden)) {
+    if (this.NullEmpty(param.Observacion)) {
       return true;
     }
 
-    if (this.NullEmpty(param.DAM)) {
+    /* if (this.NullEmpty(param.DAM)) {
       return true;
     }
 
@@ -1343,13 +1248,10 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
     if (this.NullEmpty(param.Mercancia)) {
       return true;
-    }
-/*     if (this.NullEmpty(param.Regimen)) {
-      return true;
     } */
-    var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+/*     var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     this.objGenerarRefrendoExpoRQT.FechaNum = this.objGenerarRefrendoExpoRQT.FechaNum.toLocaleDateString("es-ES", options);
-    console.log(this.objGenerarRefrendoExpoRQT.FechaNum);
+    console.log(this.objGenerarRefrendoExpoRQT.FechaNum); */
     return false;
   }
 
@@ -1383,33 +1285,16 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     if (paramTipo == "Modalidad") {
       this.ModalidadSelect = param.target.value;
       console.log("Modalidad " + param.target.value);
-      if (param.target.value=="SI"){
+      if (param.target.value=="001"){
         this.TARJADELLENADO= true;
         this.REPORTDECARGASUELTA=false;
-      }else if (param.target.value=="NO"){
+      }else if (param.target.value=="002"){
         this.TARJADELLENADO= false;
         this.REPORTDECARGASUELTA=true;
       }
-    }else if (paramTipo == "MandatoElectronico") {
-      console.log("MandatoElectronico " + param.target.value);
-      if (param.target.value=="001"){
-        this.MandatoElectronico= true;
-      }else if (param.target.value=="002"){
-        this.MandatoElectronico= false;
-      }
-    }else if (paramTipo == "Anio") {
-        console.log("Anio " + param.target.value);
-        this.AnioSelect= param.target.value;
-    }else if (paramTipo == "Regimen") {
-        console.log("Regimen " + param.target.value);
-        this.RegimenSelect= param.target.value;
     }else if (paramTipo == "Entidad") {
       this.EntidadesSelect=param.option.viewValue
       this.ControlEntidades.setValue(param.option.viewValue);
-    }else if (paramTipo == "Producto") {
-      this.CodProducto=param.target.value;
-      this.ProductosSelect=param.option.viewValue
-      this.ControlProductos.setValue(param.option.viewValue);
     }else if (paramTipo == "Despachador") {
       this.DespachadorSelect=param.option.viewValue
       this.ControlDespachador.setValue(param.option.viewValue);
@@ -1426,10 +1311,6 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   private _filterEntidades(value: string): entidad[] {
     const filterValue = value.toLowerCase();
     return this.ListaEntidades.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
-  }
-  private _filterProductos(value: string): entidad[] {
-    const filterValue = value.toLowerCase();
-    return this.ListaProductos.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
   
   private _filterDespachador(value: string): Despachador[] {

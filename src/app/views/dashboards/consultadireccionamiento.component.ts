@@ -190,7 +190,10 @@ import {BrowserModule} from '@angular/platform-browser';
          // this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );

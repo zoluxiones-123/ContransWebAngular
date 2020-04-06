@@ -180,7 +180,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -194,7 +197,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -252,6 +258,7 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     this.objConsultaRefrendoExpoRQT = {
         IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        TipoConsulta:"",
         Booking: form.value.txtbox_NroDocumento,
         Modalidad: this.ModalidadSelect,
         Estado : Number.parseInt(this.EstadoSelect)
@@ -302,7 +309,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  
@@ -345,7 +355,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  

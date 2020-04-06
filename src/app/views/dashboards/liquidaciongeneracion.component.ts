@@ -195,7 +195,10 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -209,7 +212,10 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -267,6 +273,7 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
     this.objConsultaRefrendoExpoRQT = {
         IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        TipoConsulta: "",
         Booking: form.value.txtbox_NroDocumento,
         Modalidad: this.TipoConsultaSelect,
         Estado : Number.parseInt(this.UniNegocioSelect)
@@ -318,7 +325,10 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  
@@ -361,7 +371,10 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  

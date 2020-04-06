@@ -390,7 +390,10 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -404,7 +407,10 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -538,7 +544,9 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
         }, 
         error => {
           this.loading = false;
-          swal("Error al cargar los datos"); 
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  
@@ -590,7 +598,10 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
            //this.dtTrigger.unsubscribe();
          }, 
          error => {
-           swal("Error al cargar los datos"); 
+           swal((
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
            console.log("Error : ", error); 
          }
        );  
@@ -633,7 +644,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
       if (param) {
         document.getElementById('grillatrans').style.visibility = "visible";
       }
-      else {
+      else { 
         document.getElementById('grillatrans').style.visibility = "hidden";
       }
     }

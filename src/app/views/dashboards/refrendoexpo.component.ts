@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
+import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
+
 
 @Component({
     selector: 'refrendoexpo',
@@ -29,12 +31,14 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     fechaActual: string;
     minDate: Date;
     maxDate: Date;
+    public Seleccion_Opcion: string;
     public EstadoSelect:string;
     public ModalidadSelect:string;
     public ListaEstado : Array<ListaEstadoRefrendoExpo>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
+      this.Seleccion_Opcion="B"
       this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
       this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
     }
@@ -112,6 +116,22 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       const dialogRef = this.dialog.open(RefrendoExpoNuevoComponent,{
         disableClose: true,
         autoFocus: true,
+        width: "700px",
+        height: "100%"
+      });
+/*       dialogRef.afterClosed().subscribe(result => {
+        this.RefrescarGrilla();
+     
+  }
+  ); */
+
+    }  
+    popupAnularRefrendoExpo(paramCodigo: string){
+      localStorage.setItem("paramAccion","Anular");
+      localStorage.setItem("paramCodigoAnular",paramCodigo);
+      const dialogRef = this.dialog.open(RefrendoExpoAnularComponent,{
+        disableClose: true,
+        autoFocus: true,
         width: "600px",
         height: "100%"
       });
@@ -122,7 +142,6 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
   ); */
 
     }  
-
 /*     popupAnularCartaTemperatura(Id:string, Usuario:string, NroBooking: string){
       localStorage.setItem("MsgCabecera","Seguró que desea anular la carta temperatura para el booking: " + NroBooking);
       const dialogRef = this.dialog.open(CartaTemperaturaAvisoComponent,{
@@ -180,7 +199,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -194,7 +216,10 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
             console.log(data);
           }, 
           error => {
-            swal("Error al cargar los datos"); 
+                    swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
             console.log("Error : ", error); 
           }
         ); 
@@ -252,6 +277,7 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     this.objConsultaRefrendoExpoRQT = {
         IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        TipoConsulta:  this.Seleccion_Opcion,
         Booking: form.value.txtbox_NroDocumento,
         Modalidad: this.ModalidadSelect,
         Estado : Number.parseInt(this.EstadoSelect)
@@ -272,9 +298,9 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       
       res.subscribe( 
         data => { 
-          this.objConsultaRefrendoExpoRPT = data.data;
-          console.log(data.data);
-          if (data.data.length >= 1)
+          this.objConsultaRefrendoExpoRPT = data.Data;
+          console.log(data.Data);
+          if (data.CodMsj == 0)
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
@@ -297,12 +323,18 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
                this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
                this.SetGrillaVisibility(true);
             });
-            swal("No existen datos");
+            swal({
+              text: data.Msj,
+              icon: "warning",
+            });
           }
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  
@@ -315,9 +347,9 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       
       res.subscribe( 
         data => { 
-          this.objConsultaRefrendoExpoRPT = data.data;
-          console.log(data.data);
-          if (data.data.length >= 1)
+          this.objConsultaRefrendoExpoRPT = data.Data;
+          console.log(data.Data);
+          if (data.CodMsj == 0)
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
@@ -340,12 +372,18 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
                this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
                this.SetGrillaVisibility(true);
             });
-            swal("No existen datos");
+            swal({
+              text: data.Msj,
+              icon: "warning",
+            });
           }
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          swal("Error al cargar los datos"); 
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
           console.log("Error : ", error); 
         }
       );  
