@@ -4,15 +4,22 @@ import { ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo,ConsultaRefrendoExpo
 import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataTableDirective } from 'angular-datatables';
 import swal from 'sweetalert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
+import { UniNegocio,UnidadNegocio}  from '../../models/Factura';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
+import { Observable } from "rxjs/internal/Observable";
+import { entidad,Entidades } from 'app/models/entidad';
+import { startWith, map } from 'rxjs/operators';
+
+import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago}  from '../../models/Pagos';
 
 @Component({
     selector: 'pagoscobranza',
@@ -31,12 +38,34 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     maxDate: Date;
     public EstadoSelect:string;
     public ModalidadSelect:string;
+    public ListaUniNegocio : Array<UnidadNegocio>;
     public ListaEstado : Array<ListaEstadoRefrendoExpo>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
+    myCliente = new FormControl();    
+    public ListaEmpresas : Array<entidad> = [];
+    public LEmpresas : Entidades;
+    public ClienteSelect : string;
+    public NClienteSelect : string;
+
+    public objConsPenRQT : ConsultaPendientesRQT;
+    public objConsPenRPT : ConsultaPendientesRPT;
+
+    
+    public objPendCancL : Array<PendientePago>;
+    
+    
+    
+    public isError = false;
+
+    
+  filteredEmp: Observable<entidad[]>;
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
-      this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
-      this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
+
+      this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
+
+    //  this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
+    //  this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
     }
     
     @ViewChild(DataTableDirective)
@@ -105,6 +134,48 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
        {this.router.navigate(['/login']);}
 
       this.SetGrillaVisibility(false);
+
+      
+    
+  this.filteredEmp = this.myCliente.valueChanges.pipe(
+    startWith(''),
+    map(value => this._filteremp(value))
+  );
+
+  this.ListaEmpresas = new Array;
+
+  this.reportService
+  .getListaEntidades()
+  .subscribe(
+    data => {
+      
+      this.LEmpresas = data;
+
+      if (this.LEmpresas.Data != null)
+      {                              
+        let listaent =JSON.parse(JSON.stringify(this.LEmpresas.Data));              
+       
+        for (var i = 0; i <= listaent.length-1; i++) {
+          let last = listaent[i];            
+          this.ListaEmpresas.push(last);
+          //this.options.push(last.Nombre);
+        }
+
+      
+      }
+      else{
+        localStorage.removeItem('StockTotal');       
+        this.onIsError();   
+      }
+
+     // this.router.navigate(['home']);    
+
+    },  
+    error => {
+      this.onIsError();           
+      console.log("Error");}
+    );
+
     
     }        
     popupNuevaRefrendoExpo(){
@@ -122,6 +193,14 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
   ); */
 
     }  
+
+    
+  onIsError(): void {
+    this.isError = true;
+    setTimeout(() => {
+      this.isError = false;
+    }, 4000);
+  }
 
 /*     popupAnularCartaTemperatura(Id:string, Usuario:string, NroBooking: string){
       localStorage.setItem("MsgCabecera","Seguró que desea anular la carta temperatura para el booking: " + NroBooking);
@@ -255,16 +334,17 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       this.SetGrillaVisibility(true); */
     console.log(Number.parseInt(this.EstadoSelect));
     console.log(this.ModalidadSelect);
-    this.objConsultaRefrendoExpoRQT = {
-        IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
-        IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
-        TipoConsulta:"",
-        Booking: form.value.txtbox_NroDocumento,
-        Modalidad: this.ModalidadSelect,
-        Estado : Number.parseInt(this.EstadoSelect)
-    };
+
+    this.objConsPenRQT = {
+      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      EntiCodigoCliente: this.ClienteSelect,
+      Documento: form.value.txtbox_NroDocumento
       
-       if(this.ValidarInput(this.objConsultaRefrendoExpoRQT))
+  };
+
+      
+       if(this.ValidarInput(this.objConsPenRQT))
       {        
         swal({
               text: "Error en los campos de ingreso, por favor verificar",
@@ -274,34 +354,39 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       } 
 
 ///Aun Falta obtener el servicio ///
-       let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
-      console.log(this.objConsultaRefrendoExpoRQT)
+       let res = this.reportService.getPendientesCancelar(this.objConsPenRQT);
+   //  console.log(this.objConsultaRefrendoExpoRQT)
       
       res.subscribe( 
         data => { 
-          this.objConsultaRefrendoExpoRPT = data.data;
-          console.log(data.data);
-          if (data.data.length >= 1)
+          this.objConsPenRPT = data;
+          //console.log(data.data);
+          if (data.Data.length > 1)
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
             //this.SetGrillaVisibility(true);
             // this.TieneData = true;
 
+            
+            this.objPendCancL = data.Data;
+
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-              this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);         
+              this.dtTrigger.next(this.objPendCancL);    
+              this.SetGrillaVisibility(true);     
             });
-            this.SetGrillaVisibility(true);
+      
            
           }
           else
           {
+            this.objPendCancL = data.Data;
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-               this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
+               this.dtTrigger.next(this.objPendCancL);
                this.SetGrillaVisibility(true);
             });
             swal("No existen datos");
@@ -318,6 +403,30 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       );  
 
     }
+
+    
+  public ChangingValueC(param : any)
+  {
+    var codentidad = param.option.value.toString().split(",");
+    var codentidadf = codentidad[0].toString();
+    
+    //this.EntidadSelect = param.option.value;
+    this.ClienteSelect = codentidadf;
+   // swal(this.EmpresaSelect);         
+    this.NClienteSelect = param.option.viewValue;
+    //let enti = this.EmpresaSelect;
+
+  //  swal("Cliente " + this.ClienteSelect  );
+
+    this.myCliente.setValue(this.NClienteSelect);
+  }
+
+    
+  private _filteremp(value: string): entidad[] {
+    const filterValue = value.toLowerCase();
+     
+    return this.ListaEmpresas.filter(emp => emp.Nombre.toLowerCase().indexOf(filterValue) === 0);
+  }
     
     public RefrescarGrilla(){
       let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
@@ -370,19 +479,16 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       this.dtTrigger.unsubscribe();
     }
 
-    public ValidarInput(param : ConsultaRefrendoExpoRQT) : boolean
+    public ValidarInput(param : ConsultaPendientesRQT) : boolean
     {
-      if(this.NullEmpty(param.Booking))
+      if(this.NullEmpty(param.EntiCodigoCliente))
       {
-        this.objConsultaRefrendoExpoRQT.Booking = "";
+        this.objConsPenRQT.EntiCodigoCliente = "";
       }
-      if(this.NullEmpty(param.Modalidad))
+
+      if(this.NullEmpty(param.Documento))
       {
-        return true;
-      }
-      if(this.NullEmpty(param.Estado))
-      {
-        return true;
+        this.objConsPenRQT.Documento = "";
       }
     
       return false;

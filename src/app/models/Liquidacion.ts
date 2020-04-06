@@ -147,6 +147,35 @@ export class LiquidacionBRPT{
   }
 
   
+  export class ClienteTransConsRQT
+  {
+    
+      IDUser: number;
+      IDRol: number;
+      EntiCodigoCliente: string;
+      IdTransportistaNavis: string;
+      Documento: string;
+  
+  }
+
+  
+  export class ClienteTransConsRPT {   
+  CodMsj: number;
+  Msj: string;
+  Data: any;
+  }
+
+  
+  export class ClienteTrans {
+  IdClienteTransportista: number;
+  Cliente: string;
+  Transportista: string;
+  EntiCodigoCliente: string;
+  Documento: string;
+  Estado: string;
+  }
+
+  
   export class ActualizaPrecRPT
   {
     
@@ -154,6 +183,24 @@ export class LiquidacionBRPT{
     Msj: string;
   
   }
+
+  
+  export class RegClienteTransRQT {
+    IDUser: number;
+    IDRol: number;
+    EntiCodigoCliente: string ;
+    IdTransportistaNavis: string;
+    Documento: string;
+
+    }
+
+    
+  export class RegClienteTransRPT {
+  
+    Cod: number;
+    Msj: string;
+
+    }
 
 
  

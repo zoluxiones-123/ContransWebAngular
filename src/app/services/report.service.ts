@@ -14,12 +14,15 @@ import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActC
    InsertarCitaDetalleRPT, InsertarCitaDetalleRQT, InsertarCitaRPT, InsertarCitaRQT } from '../models/Cita';
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { AutEntregaPrec,AutEntregaPrecRPT, AutEntregaPrecRQT,LiquidacionBRPT, LiquidacionBRQT, LiquidacionCont, ValidaEdiPrecRPT,
-ValidaEdiPrecRQT, ActualizaPrecRPT, ActualizaPrecRQT, ValidaFacturarARPT, ValidaFacturarARQT, ValidarTerceroRPT, ValidarTerceroRQT } from '../models/Liquidacion';
+ValidaEdiPrecRQT, ActualizaPrecRPT, ActualizaPrecRQT, ValidaFacturarARPT, ValidaFacturarARQT, ValidarTerceroRPT, ValidarTerceroRQT,
+ClienteTrans,ClienteTransConsRPT,ClienteTransConsRQT,RegClienteTransRPT, RegClienteTransRQT } from '../models/Liquidacion';
 
 import { ListaTareaRQT,ListaTareaRPT,GenerarSolicitudRQT,GenerarSolicitudRPT,ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT }
 from '../models/SolicitudServicio';
 
 import { Base64RPT,Base64RQT } from '../models/Base64';
+
+import { ConsultaPendientesRPT,ConsultaPendientesRQT }from '../models/Pagos';
 
 
 import { DetRepStockRealRQT } from  '../models/det_repstockreal'
@@ -116,6 +119,15 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  getPendientesCancelar(conspencanrqt: ConsultaPendientesRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/pendientesacancelar`;    
+    return this.http
+      .post<ConsultaPendientesRPT>(
+        url_api, conspencanrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
   
   getLiquidacion(liquidacionbrqt: LiquidacionBRQT ): Observable<any> 
   {
@@ -170,6 +182,16 @@ export class ReportService {
     return this.http
       .post<InsertarCitaDetalleRPT>(
         url_api, inscitadetrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  InsertarClienteTransportista(regclitransrqt: RegClienteTransRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/registrarclientetransportista`;    
+    return this.http
+      .post<RegClienteTransRPT>(
+        url_api, regclitransrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 
@@ -273,6 +295,16 @@ export class ReportService {
     return this.http
       .post<RepStockRealVacRPT>(
         url_api, detrepstockrealrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getClienteTransportista(clitransrqt: ClienteTransConsRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/clientetransportistaconsultar`;    
+    return this.http
+      .post<ClienteTransConsRPT>(
+        url_api, clitransrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 

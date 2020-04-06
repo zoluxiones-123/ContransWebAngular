@@ -75,6 +75,9 @@ import { ConsultasolservComponent } from './views/dashboards/consultasolserv.com
 import { NuevoSolServComponent } from './views/dashboards/nuevosolserv.component';
 //import { RegreclamoComponent } from './views/dashboards/regreclamo.component';
 import { LiquidacionGeneracionNuevoComponent } from './views/dashboards/liquidaciongeneracionnuevo.component';
+import { LiquidacionTransportistaClienteComponent } from './views/dashboards/liquidaciontransportistacliente.component';
+import { PagosCobranzaComponent } from './views/dashboards/pagoscobranza.component';
+
 import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto.component'
 
 
@@ -115,6 +118,8 @@ import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto
     NuevoSolServComponent,
     //RegreclamoComponent,
     LiquidacionGeneracionNuevoComponent,
+    LiquidacionTransportistaClienteComponent,
+    PagosCobranzaComponent,
     ActualizaprecintoComponent
   ],
   imports: [
