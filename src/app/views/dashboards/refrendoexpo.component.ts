@@ -116,7 +116,7 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
       const dialogRef = this.dialog.open(RefrendoExpoNuevoComponent,{
         disableClose: true,
         autoFocus: true,
-        width: "700px",
+        width: "600px",
         height: "100%"
       });
 /*       dialogRef.afterClosed().subscribe(result => {

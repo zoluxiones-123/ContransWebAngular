@@ -138,6 +138,15 @@ export class AgenciaAduana {
       Nombre : string;
     }
 
+export class Productos {   
+      Data: any;
+      }
+export class Producto {
+        Entidad: string;       
+        Nombre : string;
+      }
+
+
 export class AnularRefrendoExpoRQT{
   IDUser: number;
   IDRol: number;

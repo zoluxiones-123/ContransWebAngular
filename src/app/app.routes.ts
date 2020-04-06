@@ -45,7 +45,7 @@ import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
 import {RepstockexpComponent} from  "./views/dashboards/repstockexp.component";
 import {RepstockrealComponent} from  "./views/dashboards/repstockreal.component";
 import {ConsultasolservComponent} from "./views/dashboards/consultasolserv.component";
-import {RegreclamoComponent} from "./views/dashboards/regreclamo.component";
+//import {RegreclamoComponent} from "./views/dashboards/regreclamo.component";
 
 import {NuevoSolServComponent} from "./views/dashboards/nuevosolserv.component";
 
@@ -84,7 +84,7 @@ export const ROUTES:Routes = [
       {path: 'consultacitas', component: ConsultacitasComponent},
       {path: 'refrendoexpo', component: RefrendoExpoComponent},
       {path: 'consultasolserv', component: ConsultasolservComponent},
-      {path: 'registrareclamo', component: RegreclamoComponent},
+     // {path: 'registrareclamo', component: RegreclamoComponent},
       {path: 'liquidaciongeneracion', component: LiquidacionGeneracionComponent},
       {path: 'liquidaciongeneracionnuevo', component: LiquidacionGeneracionNuevoComponent},      
       {path: 'liquidacionautorizacionprecintos', component: LiquidacionAutorizacionPrecintosComponent},

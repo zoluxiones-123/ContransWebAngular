@@ -11,7 +11,7 @@ export class entid {
     constructor(public Entidad: string, public Nombre: string) {}
   }
   
-  export class Productos {   
+/*   export class Productos {   
     Data: any;
     }
   
@@ -22,4 +22,4 @@ export class entid {
   
   export class product {
       constructor(public Entidad: string, public Nombre: string) {}
-    }
+    } */

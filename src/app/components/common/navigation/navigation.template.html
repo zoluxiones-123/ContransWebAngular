@@ -23,16 +23,18 @@
           <img class="img-circle" style="height: 48px; width: 48 px;" src="assets/images/RosaNautica2.png">
         </div>
       </li>
-      <li class="nav-label" *ngFor="let item of this.MenuRST">
+      <li class="nav-label contenedor" *ngFor="let item of this.MenuRST">
         <ng-container *ngIf="!(item.ArrayPag.length > 0)">
           <a [routerLink]="[item.Ruta]"><i [ngClass]="item.Icono"></i><span
               class="nav-second-level">{{item.Nombre}}</span></a>
         </ng-container>
         <ng-container *ngIf="(item.ArrayPag.length > 0)">
           <a><i [ngClass]="item.Icono"></i><span class="nav-label">{{item.Nombre}}</span><span class="fa arrow"></span></a>
-          <ul *ngFor="let item2 of item.ArrayPag" class="nav nav-second-level collapse">
+          <!-- <div class="contenedor" > -->
+          <ul  *ngFor="let item2 of item.ArrayPag" class="nav nav-second-level collapse">
             <li><a [routerLink]="[item2.Ruta]">{{item2.Nombre}}</a></li>
           </ul>
+        <!-- </div> -->
         </ng-container>
       </li>
     </ul>

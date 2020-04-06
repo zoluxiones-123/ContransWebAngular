@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import { ListaRegimenRefrendoExpo,Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
+import { ListaRegimenRefrendoExpo,Productos,Producto,Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -19,8 +19,9 @@ import { Base64RPT, Base64RQT } from '../../models/Base64';
 import { ZipRPT, ZipRQT } from '../../models/ConvertirZip';
 import { FileItem } from '../../models/FileItem';
 import { isError } from 'util';
-import { entidad,Entidades, producto, Productos } from 'app/models/entidad';
+import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
+import { Pipe, PipeTransform } from '@angular/core';
 
 
 @Component({
@@ -36,9 +37,9 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   ControlEntidades = new FormControl();
   public EntidadesSelect:string = "";
 
-  filteredProducto: Observable<producto[]>;
+  filteredProducto: Observable<Producto[]>;
   public LProductos : Productos;
-  public ListaProductos : Array<producto> = [];
+  public ListaProductos : Array<Producto> = [];
   ControlProductos = new FormControl();
   public ProductosSelect:string = "";
 
@@ -275,7 +276,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     console.log(this.objConsultaBookingRefrendoExpoRQT);
 
     var fechita = new Date;
-    var anioActual = fechita.getFullYear();
+    var anioActual = (fechita.getFullYear() - 1);
     var anioFinal= anioActual + 6;
     
 
@@ -283,7 +284,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       //console.log ("AÑO - " + i);
       this.ListaAnio.push({ 'Anio': i, 'Descripcion': i });
     }
-    //console.log ("Lista Anio" + JSON.stringify(ListaAnio));
+    console.log ("Lista Anio" + JSON.stringify(this.ListaAnio));
 
     if(this.ValidarInputCabecera(this.objConsultaBookingRefrendoExpoRQT))
     {        
@@ -324,7 +325,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           this.Viaje= resp.Viaje;
           this.Aduana= "118";
           this.Regimen="";
-          this.AnioSelect= anioActual.toString();
+          this.AnioSelect= (anioActual + 1 ).toString();
 
           this.EntidadesSelect=resp.Exportador;
           this.ControlEntidades.setValue(resp.Exportador);
@@ -371,7 +372,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   }
 
   public ngOnInit(): any {
-    this.Contnumero = localStorage.getItem("paramNBooking");
+    //this.Contnumero = localStorage.getItem("paramNBooking");
     if (localStorage.getItem("Usuario") == null) { this.router.navigate(['/login']); }
 
     // this.SetGrillaVisibility(false);
@@ -391,12 +392,13 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         this.LEntidades = data;
         if (this.LEntidades.Data != null)
         {                              
+          //console.log(JSON.parse(JSON.stringify(this.LEntidades.Data)));
           let listaent =JSON.parse(JSON.stringify(this.LEntidades.Data));              
           for (var i = 0; i <= listaent.length-1; i++) {
             let last = listaent[i];            
             this.ListaEntidades.push(last);
           }
-        
+        //console.log(JSON.stringify(this.ListaEntidades));
         }
         else{
           this.onIsError();   
@@ -411,19 +413,21 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         startWith(''),
         map(value => this._filterProductos(value))
       );
-  
+      //console.log("Entrando PRODUCTOS" + JSON.stringify(this.ControlProductos));
       this.ListaProductos = new Array
       this.reportService.getListaProductos().subscribe(
         data => {
           this.LProductos = data;
+          //console.log("PRODUCTOS" + JSON.stringify(data));
           if (this.LProductos.Data != null)
           {                              
+            //console.log(JSON.parse(JSON.stringify(this.LProductos.Data)));
             let listaent =JSON.parse(JSON.stringify(this.LProductos.Data));              
             for (var i = 0; i <= listaent.length-1; i++) {
               let last = listaent[i];            
               this.ListaProductos.push(last);
             }
-          
+            //console.log(JSON.stringify(this.ListaProductos));
           }
           else{
             this.onIsError();   
@@ -437,7 +441,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
 
 
-      this.filteredDespachador = this.ControlDespachador.valueChanges.pipe(
+ /*      this.filteredDespachador = this.ControlDespachador.valueChanges.pipe(
         startWith(''),
         map(value => this._filterDespachador(value))
       );
@@ -490,7 +494,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           error => {
             this.onIsError();           
             console.log("Error");}
-          );  
+          );  */ 
 
   }
 
@@ -1404,12 +1408,15 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         console.log("Regimen " + param.target.value);
         this.RegimenSelect= param.target.value;
     }else if (paramTipo == "Entidad") {
+      console.log("Entre Entidad");
       this.EntidadesSelect=param.option.viewValue
       this.ControlEntidades.setValue(param.option.viewValue);
+      console.log(this.ControlEntidades);
     }else if (paramTipo == "Producto") {
-      this.CodProducto=param.target.value;
+      this.CodProducto=param.option.value;
       this.ProductosSelect=param.option.viewValue
       this.ControlProductos.setValue(param.option.viewValue);
+      //console.log(this.ControlProductos);
     }else if (paramTipo == "Despachador") {
       this.DespachadorSelect=param.option.viewValue
       this.ControlDespachador.setValue(param.option.viewValue);
@@ -1425,10 +1432,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
   private _filterEntidades(value: string): entidad[] {
     const filterValue = value.toLowerCase();
-    return this.ListaEntidades.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
+    //console.log(this.ListaEntidades.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0 ));
+    return this.ListaEntidades.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0 );
   }
-  private _filterProductos(value: string): entidad[] {
+  private _filterProductos(value: string): Producto[] {
     const filterValue = value.toLowerCase();
+    console.log(this.ListaProductos.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0 ));
     return this.ListaProductos.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
   

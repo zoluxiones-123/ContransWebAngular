@@ -6,7 +6,7 @@ import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes, TiposCita, UniNegocio } from '../models/Factura';
 import { TemperaturaRPT,BuscarNuevoCartaDetalleTemperaturaRQT,BuscarNuevoCartaDetalleTemperaturaRPT,BuscarCartaDetalleTemperaturaRQT,BuscarCartaDetalleTemperaturaRPT,NuevoCartaDetalleTemperaturaRQT,NuevoCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRQT,CartaDetalleTemperatura2RQT,CartaDetalleTemperatura2RPT,ActualizarCartaDetalleTemperaturaRQT,ActualizarCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRPT,TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
-import { ListaRegimenRefrendoExpo,AnularRefrendoExpoRQT,AnularRefrendoExpoRPT,ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo, Despachadores, AgenciaAduanera } from '../models/RefrendoExpo';
+import { ListaRegimenRefrendoExpo,AnularRefrendoExpoRQT,AnularRefrendoExpoRPT,ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo, Despachadores, AgenciaAduanera, Productos } from '../models/RefrendoExpo';
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
   CitaPermisoRPT, CitaPermisoRQT, CitasPermiso, CitaLContenedorRPT, CitaLContenedorRQT, CitasContenedor,
@@ -416,7 +416,7 @@ export class ReportService {
   {
     const url_api =`/ContransAPI/api/productoslist`;    
     return this.http
-      .post<Entidades>(
+      .post<Productos>(
         url_api, { headers: this.headers })
       .pipe(map(data => data));
   }

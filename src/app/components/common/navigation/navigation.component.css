@@ -1,3 +1,43 @@
 .show{
     display: none;
 }
+
+ .nav > li.active {
+/*      margin: 2rem auto; 
+     border: 1px solid #aaa;  */
+    height: 300px;
+     /* width:90%;  */
+    /* max-width: 400px; */
+     /* background: #f1f2f3;  */
+    overflow:auto;
+     /* box-sizing: border-box; 
+     padding:0 1rem;  */
+} 
+
+/* Estilos para motores Webkit y blink (Chrome, Safari, Opera... )*/
+/* .nav > li.active */
+.nav > li.active::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.nav > li.active::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.nav > li.active::-webkit-scrollbar-button:increment,.nav > li.active::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.nav > li.active::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.nav > li.active::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 10px;
+    border: 1px solid #a7b1c2;
+}
+
+.nav > li.active::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
