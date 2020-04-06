@@ -299,9 +299,10 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-              this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);         
+              this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);  
+              this.SetGrillaVisibility(true);       
             });
-            this.SetGrillaVisibility(true);
+           
            
           }
           else

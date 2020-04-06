@@ -11,17 +11,37 @@
             <div class="row">
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_NroDocumento" placeholder="Cliente" class="form-control" [ngModel] required /> 
+                   <mat-form-field>
+                    <input type="text" placeholder="Cliente" matInput [formControl]="myCliente"
+                      [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueF($event)" #auto="matAutocomplete">
+                      <mat-option *ngFor="let emp of filteredEmpresa | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                        {{emp.Nombre}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+
+
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+    
+                  <mat-form-field>
+                    <input type="text" placeholder="Transportista" matInput [formControl]="myTrans"
+                      [matAutocomplete]="autoAg">
+                    <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueE($event)" #autoAg="matAutocomplete">
+                      <mat-option *ngFor="let emp of filteredEmp | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                        {{emp.Nombre}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+               
                 </div>
               </div>
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_NroDocumento" placeholder="Transportista" class="form-control" [ngModel] required /> 
-                </div>
-              </div>
-              <div class="col-sm-2" style="padding-left: 5px;">
-                <div class="form-group">
-                  <input type="text" name="txtbox_NroDocumento" placeholder="BL/Booking" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_NroDocumento" [(ngModel)]="Documento" placeholder="BL/Booking" class="form-control" [ngModel] required /> 
                 </div>
               </div>
             </div>
@@ -35,40 +55,32 @@
                 class="btn btn-primary block m-b tamanio-device"  >Buscar</button></div>
 
                 <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
-                  <button type="button" (click)="popupNuevaRefrendoExpo()"
+                  <button type="button" (click)="AgregarCliTrans()"
                   class="btn btn-primary block m-b tamanio-device"  >Agregar</button>
                 </div>
             </div>
           </form>
           <div class="row">
-            <div id="grilla"  class="table-responsive" >
-             <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
-                [dtTrigger]="dtTrigger" > 
+            <div class="loading" *ngIf = "loading" style="text-align:center;height: 420px ;margin-right: 0px;margin-left: 0px;" >
+              <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+           </div>
+            <div id="grillatrans"  class="table-responsive" >
+             <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptionsTrans"
+                [dtTrigger]="dtTriggerTrans" > 
                 <thead>
                   <tr>
-                    <th>Codigo</th>
-                    <th>N° Booking</th>
-                    <th>Modalidad</th>
-                    <th>DAM</th>
-                    <th>N° Orden</th>
-                    <th>Fecha Numeración</th>
-                    <th>Canal</th>
-                    <th>Observacion</th>
-                    <th>Estado</th>
+                    <th>Cliente</th>
+                    <th>Transportista</th>
+                    <th>BL/Booking</th>
+                  
                    <!--  <th colspan="4" style="width: 10%;">Accion</th> -->
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of this.objConsultaRefrendoExpoRPT">
-                    <td>{{item.Codigo}}</td>
-                    <td>{{item.Booking}}</td> 
-                    <td>{{item.Modalidad}}</td>
-                    <td>{{item.DAM}}</td>
-                    <td>{{item.NroOrden}}</td>
-                    <td>{{item.FechaNumeracion}}</td>
-                    <td>{{item.Canal}}</td>
-                    <td>{{item.Observacion}}</td> 
-                    <td>{{item.Estado}}</td> 
+                  <tr *ngFor="let item of this.objClienteTransL">
+                    <td>{{item.Cliente}}</td>
+                    <td>{{item.Transportista}}</td> 
+                    <td>{{item.Documento}}</td>                
                  </tr>
                 </tbody>
               </table>
