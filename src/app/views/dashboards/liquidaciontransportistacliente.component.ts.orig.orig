@@ -581,8 +581,17 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
         error => {
           this.loading = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
+          swal({
 =======
-                  swal({
+        swal({
+>>>>>>> be6671e4438aef3c54c0a77040666a59025bbd5c
+=======
+        swal({
+=======
+          swal({
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
           text: "Error al cargar los datos",
           icon: "error",
         });
@@ -638,9 +647,17 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
          }, 
          error => {
 <<<<<<< HEAD
-           console.log("Error : ", error); 
+<<<<<<< HEAD
+           swal({
 =======
-                  swal({
+        swal({
+>>>>>>> be6671e4438aef3c54c0a77040666a59025bbd5c
+=======
+        swal({
+=======
+           swal({
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
           text: "Error al cargar los datos",
           icon: "error",
         });
