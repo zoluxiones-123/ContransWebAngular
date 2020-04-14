@@ -544,9 +544,10 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
         }, 
         error => {
           this.loading = false;
+        swal({
           text: "Error al cargar los datos",
           icon: "error",
-        }); 
+        });
           console.log("Error : ", error); 
         }
       );  
@@ -598,10 +599,10 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
            //this.dtTrigger.unsubscribe();
          }, 
          error => {
-           swal((
+        swal({
           text: "Error al cargar los datos",
           icon: "error",
-        }); 
+        });
            console.log("Error : ", error); 
          }
        );  

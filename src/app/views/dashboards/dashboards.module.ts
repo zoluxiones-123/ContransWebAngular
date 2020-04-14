@@ -43,8 +43,8 @@ import { LiquidacionGeneracionComponent } from './liquidaciongeneracion.componen
 /*import { LiquidacionGeneracionNuevoComponent } from './liquidaciongeneracionnuevo.component';*/
 import { LiquidacionAutorizacionPrecintosComponent } from './liquidacionautorizacionprecintos.component';
 /*import { LiquidacionTransportistaClienteComponent } from './liquidaciontransportistacliente.component';*/
-/*import { PagosCobranzaComponent } from './pagoscobranza.component';*/
-import { PagosCobranzaConsultaComponent } from './pagoscobranzaconsulta.component';
+//import { PagosCobranzaComponent } from './pagoscobranza.component';
+//import { PagosCobranzaConsultaComponent } from './pagoscobranzaconsulta.component';
 import { PagosConsultaFacturasComponent } from './pagosconsultafacturas.component';
 
 
@@ -55,11 +55,11 @@ defineLocale('es', esLocale);
 
 
 @NgModule({
-  declarations: [ConsultaFacturaComponent, ConsultacitasComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent,LiquidacionGeneracionComponent,LiquidacionAutorizacionPrecintosComponent,PagosCobranzaConsultaComponent,PagosConsultaFacturasComponent],
+  declarations: [ConsultaFacturaComponent, ConsultacitasComponent, ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,timelinecomponent,ConsultacontdlComponent, RepstockrealComponent, consultadireccionamientocomponent,LiquidacionGeneracionComponent,LiquidacionAutorizacionPrecintosComponent,PagosConsultaFacturasComponent],
   imports     : [BrowserModule,ChartsModule,  FlotModule,IboxtoolsModule,PeityModule,SparklineModule,JVectorMapModule,
     DataTablesModule, BrowserAnimationsModule, BsDatepickerModule.forRoot(), FormsModule, 
     TooltipModule.forRoot()],
-  exports     : [ConsultaFacturaComponent, ConsultacitasComponent, ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,LiquidacionGeneracionComponent,LiquidacionAutorizacionPrecintosComponent,PagosCobranzaConsultaComponent,PagosConsultaFacturasComponent],
+  exports     : [ConsultaFacturaComponent, ConsultacitasComponent, ConsultacontdlComponent,ConsultaTemperaturaComponent,CartaTemperaturaComponent,RefrendoExpoComponent,LiquidacionGeneracionComponent,LiquidacionAutorizacionPrecintosComponent,PagosConsultaFacturasComponent],
   entryComponents : [RepstockcliComponent,RepestadiaComponent,RepabandonoComponent,RepfillrateComponent,RepstockDAComponent,RepstockDSComponent,RepstockDTComponent,RepfillratetabComponent, RepfillrategrafComponent, RepstockexpocliComponent, RepstockexpestComponent]
  
 })

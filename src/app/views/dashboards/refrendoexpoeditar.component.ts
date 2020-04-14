@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import { ListaRegimenRefrendoExpo,Productos,Producto,Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
+import { GenerarRefrendoExpoActualizarRQT,GenerarDetalleRefrendoExpoActualizarRQT,GenerarArchivoRefrendoExpoActualizarRQT,GenerarRefrendoExpoActualizarRPT,ConsultaIDDataBookingRefrendoExpoRPT,ConsultaIDDetalleBookingRefrendoExpoRPT,ConsultaIDArchivoBookingRefrendoExpoRPT,ConsultaIDBookingRefrendoExpoRPT,ConsultaIDBookingRefrendoExpoRQT,ListaRegimenRefrendoExpo,Productos,Producto,Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -22,15 +22,16 @@ import { isError } from 'util';
 import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 
 @Component({
-  selector: 'refrendoexponuevo',
-  templateUrl: 'refrendoexponuevo.template.html',
-  styleUrls: ['refrendoexponuevo.component.css']
+  selector: 'refrendoexpoeditar',
+  templateUrl: 'refrendoexpoeditar.template.html',
+  styleUrls: ['refrendoexpoeditar.component.css']
 })
 
-export class RefrendoExpoNuevoComponent implements OnInit {
+export class RefrendoExpoEditarComponent implements OnInit {
   filteredEntidad: Observable<entidad[]>;
   public LEntidades : Entidades;
   public ListaEntidades : Array<entidad> = [];
@@ -102,14 +103,30 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public objConsultaBookingRefrendoExpoRPT: ConsultaBookingRefrendoExpoRPT;
   public objGenerarRefrendoExpoRQT: GenerarRefrendoExpoRQT;
   public objGenerarRefrendoExpoRPT: GenerarRefrendoExpoRPT;
+  public objGenerarRefrendoExpoActualizarRQT: GenerarRefrendoExpoActualizarRQT;
+  public objGenerarRefrendoExpoActualizarRPT: GenerarRefrendoExpoActualizarRPT;
   public objGenerarDetalleRefrendoExpoRQT: GenerarDetalleRefrendoExpoRQT;
   public objGenerarArchivoRefrendoExpoRQT: GenerarArchivoRefrendoExpoRQT;
+  public objGenerarDetalleRefrendoExpoActualizarRQT: GenerarDetalleRefrendoExpoActualizarRQT;
+  public objGenerarArchivoRefrendoExpoActualizarRQT: GenerarArchivoRefrendoExpoActualizarRQT;
+
+  public objConsultaIDBookingRefrendoExpoRQT: ConsultaIDBookingRefrendoExpoRQT;
+  public objConsultaIDBookingRefrendoExpoRPT: ConsultaIDBookingRefrendoExpoRPT;
+
+  public objConsultaIDDataBookingRefrendoExpoRPT: ConsultaIDDataBookingRefrendoExpoRPT;
+  public objConsultaIDDetalleBookingRefrendoExpoRPT: ConsultaIDDetalleBookingRefrendoExpoRPT;
+  public objConsultaIDArchivoBookingRefrendoExpoRPT: ConsultaIDArchivoBookingRefrendoExpoRPT; 
+  
 
   public AnioSelect: string;
+  ControlAnio = new FormControl();
   public RegimenSelect: string;
+  ControlRegimen = new FormControl();
   public ModalidadSelect: string;
   public ListaModalidad: Array<ListaModalidadRefrendoExpo>;
   public ListaRegimen: Array<ListaRegimenRefrendoExpo>;
+
+  public paramCodigo: string;
 
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
@@ -118,8 +135,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   }
 
-  constructor(private reportService: ReportService, public dialogRef: MatDialogRef<RefrendoExpoNuevoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
-    this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
+  constructor(private reportService: ReportService, public dialogRef: MatDialogRef<RefrendoExpoEditarComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router,private _sanitizer: DomSanitizer) {
+/*     this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data); */
     this.reportService.ConsultaRegimenRefrendoExpo().subscribe(data => this.ListaRegimen = data.Data);
     var emptyString = "";
 
@@ -150,6 +167,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.FechaDeNum = emptyString;
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
+    this.paramCodigo=localStorage.getItem("paramCodigo")
+
   }
 
   fileData: File = null;
@@ -264,7 +283,10 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       }
     }
   };
-
+  public getSantizeUrl(url : string) {
+    //console.log(this._sanitizer.bypassSecurityTrustUrl(url));
+    return this._sanitizer.bypassSecurityTrustUrl(url);
+  }
   public BuscarBooking(form: NgForm) {
     this.objConsultaBookingRefrendoExpoRQT = {
       IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
@@ -372,14 +394,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   }
 
   public ngOnInit(): any {
-    //this.Contnumero = localStorage.getItem("paramNBooking");
     if (localStorage.getItem("Usuario") == null) { this.router.navigate(['/login']); }
 
-    // this.SetGrillaVisibility(false);
-    //this.setearFechasLimite();
-    this.muestra_oculta("DAM");
-    this.muestra_oculta("CONTENEDORES");
-    this.muestra_oculta("DOCUMENTOS");
 
     this.filteredEntidad = this.ControlEntidades.valueChanges.pipe(
       startWith(''),
@@ -436,66 +452,154 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         error => {
           this.onIsError();           
           console.log("Error");}
-        );
+        ); 
 
+    var fechita = new Date;
+    var anioActual = (fechita.getFullYear() - 1);
+    var anioFinal= anioActual + 6;
+    
 
+    for (let i = Number.parseInt(anioActual.toString()); i < Number.parseInt(anioFinal.toString()); i++) {
+      //console.log ("AÑO - " + i);
+      this.ListaAnio.push({ 'Anio': i, 'Descripcion': i });
+    }
+    console.log ("Lista Anio" + JSON.stringify(this.ListaAnio));
 
+    this.objConsultaIDBookingRefrendoExpoRQT = {
+      IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      ID: Number.parseInt(this.paramCodigo)
+    } 
+    console.log(JSON.stringify(this.objConsultaIDBookingRefrendoExpoRQT));
 
- /*      this.filteredDespachador = this.ControlDespachador.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterDespachador(value))
-      );
-  
-      this.ListaDespachador = new Array
-      this.reportService.getListaDespachador().subscribe(
-        data => {
-          this.LDespachador = data;
-          if (this.LDespachador.Data != null)
-          {                              
-            let listaent =JSON.parse(JSON.stringify(this.LDespachador.Data));              
-            for (var i = 0; i <= listaent.length-1; i++) {
-              let last = listaent[i];            
-              this.ListaDespachador.push(last);
+/* 
+    if(this.ValidarInputCabecera(this.objConsultaBookingRefrendoExpoRQT))
+    {        
+      swal({
+            text: "Error en los campos de ingreso, por favor verificar",
+            icon: "warning",
+          });
+      return;
+    } */
+    
+    let res = this.reportService.ConsultaIDBookingRefrendoExpo(this.objConsultaIDBookingRefrendoExpoRQT);
+    res.subscribe(
+      data => {
+        var resp: ConsultaIDBookingRefrendoExpoRPT;
+        resp = data;
+
+        console.log("CONSULTA DATOS" + JSON.stringify(data));
+        if (data.Cod == 1) {
+          swal({
+            text: data.Msj.toString(),
+            icon: "warning",
+          });
+
+        } else {
+          this.objConsultaIDDataBookingRefrendoExpoRPT= data.Data;
+          this.objConsultaIDDetalleBookingRefrendoExpoRPT= data.Detalle;
+          this.objConsultaIDArchivoBookingRefrendoExpoRPT= data.Archivo;
+          this.FechaDeNum = new Date();
+          //console.log( this.objConsultaIDDataBookingRefrendoExpoRPT[0].Exportador);
+          //let DetalleDatos = [];
+          this.Codigo = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Codigo;
+          this.Booking = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Booking;
+          this.Despachador = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Despachador;
+          this.AgenciaDeAduana = this.objConsultaIDDataBookingRefrendoExpoRPT[0].AgenciaAduana;
+          this.NroDeOrden = this.objConsultaIDDataBookingRefrendoExpoRPT[0].NroOrden;
+          this.NroDeDAM = this.objConsultaIDDataBookingRefrendoExpoRPT[0].DAM;
+          this.FechaDeNum = this.objConsultaIDDataBookingRefrendoExpoRPT[0].FechaNumeracion;
+          this.Mercaderia = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Mercancia;
+          this.FechaCutOff = this.objConsultaIDDataBookingRefrendoExpoRPT[0].FechaCutOff;
+          this.CodProducto = this.objConsultaIDDataBookingRefrendoExpoRPT[0].CodProducto;
+          this.Producto = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Producto;
+          this.MandatoElectronico= this.objConsultaIDDataBookingRefrendoExpoRPT[0].MandatoElectronico;
+          this.FOB= this.objConsultaIDDataBookingRefrendoExpoRPT[0].FOB;
+          this.Viaje= this.objConsultaIDDataBookingRefrendoExpoRPT[0].Viaje;
+          this.Aduana= "118";
+
+          this.AnioSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Anio;
+          this.ControlAnio.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Anio);
+
+          this.RegimenSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Regimen;
+          this.ControlRegimen.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Regimen);
+
+          this.EntidadesSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Exportador;
+          this.ControlEntidades.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Exportador);
+
+          this.ProductosSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Producto;
+          this.ControlProductos.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Producto);
+
+          for (var clave in data.Detalle) {
+            this.CantidadBultos = this.CantidadBultos + data.Detalle[clave].Bultos;
+            this.CantidadPeso = this.CantidadPeso + data.Detalle[clave].Pesos;
+            //DetalleDatos.push({ 'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'Ticket': data.Datos[clave].Ticket, 'Precinto': data.Datos[clave].Precinto });
+          }
+
+          for (var clave in data.Archivo) {
+            var TipoArchivoCarga= "";
+            var FormatoArchivo="";
+            var TFile=data.Archivo[clave].NombreArchivo.split(".");
+            var TipoArchivo = TFile[1];
+
+            if ((TipoArchivo.toLowerCase() == "jpg") || (TipoArchivo.toLowerCase() == "jpeg") || (TipoArchivo.toLowerCase() == "png")) {
+              FormatoArchivo="data:image/"+ TipoArchivo.toLowerCase() +";base64,";
             }
+            if (TipoArchivo.toLowerCase() == "pdf"){
+              FormatoArchivo="data:application/pdf;base64,";
+            }
+            
+
+            
+            if (data.Archivo[clave].RefrendoTipoArcCod==1){
+              TipoArchivoCarga="DAM";
+            }else if (data.Archivo[clave].RefrendoTipoArcCod==2){
+              TipoArchivoCarga="GUIAREMISION";
+            }else if (data.Archivo[clave].RefrendoTipoArcCod==3){
+              TipoArchivoCarga="TARJADELLENADO";
+            }else if (data.Archivo[clave].RefrendoTipoArcCod==4){
+              TipoArchivoCarga="TICKETDEPESO";
+            }else if (data.Archivo[clave].RefrendoTipoArcCod==5){
+              TipoArchivoCarga="BOOKING";
+            }else if (data.Archivo[clave].RefrendoTipoArcCod==6){
+              TipoArchivoCarga="OTROS";
+            }else if (data.Archivo[clave].RefrendoTipoArcCod==7){
+              TipoArchivoCarga="REPORTDECARGASUELTA";
+            }
+              
+             this.LeerArchivos(data.Archivo[clave].NombreArchivo,FormatoArchivo + data.Archivo[clave].Archivo,data.Archivo[clave].RefrendoTipoArcCod,TipoArchivoCarga);
           
           }
-          else{
-            this.onIsError();   
-          }
-        },  
-        error => {
-          this.onIsError();           
-          console.log("Error");}
-        );  
 
 
-        this.filteredAgenciaAduana = this.ControlAgenciaAduana.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterAgenciaAduana(value))
-        );
-    
-        this.ListaAgenciaAduana = new Array
-        this.reportService.getListaAgenciaAduana().subscribe(
-          data => {
-            this.LAgenciaAduana = data;
-            if (this.LAgenciaAduana.Data != null)
-            {                              
-              let listaent =JSON.parse(JSON.stringify(this.LAgenciaAduana.Data));              
-              for (var i = 0; i <= listaent.length-1; i++) {
-                let last = listaent[i];            
-                this.ListaAgenciaAduana.push(last);
-              }
-            
-            }
-            else{
-              this.onIsError();   
-            }
-          },  
-          error => {
-            this.onIsError();           
-            console.log("Error");}
-          );  */ 
+/*
+          this.Datos = DetalleDatos;
+          console.log("CONSULTA DETALLE BOOKING " + this.Datos);*/
 
+          //this.muestra_oculta('DAM');
+          //this.muestra_oculta("CONTENEDORES");
+
+          this.SiCargoData = true;
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.destroy();
+            console.log("ENTREEEEEE");
+            this.dtTrigger.next(this.objConsultaIDDetalleBookingRefrendoExpoRPT);
+          }); 
+        }
+      },
+      error => {
+        swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        });
+        console.log("Error : ", error);
+      }); 
+
+/*     this.muestra_oculta("DAM");
+    this.muestra_oculta("CONTENEDORES");
+    this.muestra_oculta("DOCUMENTOS");
+
+*/
   }
 
 
@@ -543,6 +647,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         else { index = 0; }
         this.fileitem_DAM = new FileItem(file.name, file.size, this.reqBase64.Base64, index);
         this.filename_DAM = file.name;
+        //console.log(this.fileitem_DAM);
       }else if (TipoArchivoCarga=='GUIAREMISION'){
         if (this.fileitems_GUIAREMISION.length >= 1) { index = this.fileitems_GUIAREMISION.length; }
         else { index = 0; }
@@ -755,6 +860,49 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     }
   }
 
+  LeerArchivos(pNombreArchivo:string,pArchivo:any, pRefrendoTipoArcCod:number,TipoArchivoCarga:string ){
+    if (TipoArchivoCarga=='DAM'){
+      this.fileitem_DAM = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_DAM = pNombreArchivo;
+      this.fileitems_DAM.push(this.fileitem_DAM);
+      //console.log(this.fileitem_DAM);
+    }else if (TipoArchivoCarga=='GUIAREMISION'){
+      this.fileitem_GUIAREMISION = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_GUIAREMISION = pNombreArchivo;
+      this.fileitems_GUIAREMISION.push(this.fileitem_GUIAREMISION);
+      //console.log(this.fileitem_GUIAREMISION);
+    }else if (TipoArchivoCarga=='TARJADELLENADO'){
+        this.fileitem_TARJADELLENADO = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+        this.filename_TARJADELLENADO = pNombreArchivo;
+        this.fileitems_TARJADELLENADO.push(this.fileitem_TARJADELLENADO);
+        //console.log(this.fileitem_TARJADELLENADO);
+    }else if (TipoArchivoCarga=='TICKETDEPESO'){
+      this.fileitem_TICKETDEPESO = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_TICKETDEPESO = pNombreArchivo;
+      this.fileitems_TICKETDEPESO.push(this.fileitem_TICKETDEPESO);
+      //console.log(this.fileitem_TICKETDEPESO);
+    }else if (TipoArchivoCarga=='TICKETDEPESO'){
+      this.fileitem_TICKETDEPESO = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_TICKETDEPESO = pNombreArchivo;
+      this.fileitems_TICKETDEPESO.push(this.fileitem_TICKETDEPESO);
+      //console.log(this.fileitem_TICKETDEPESO);
+    }else if (TipoArchivoCarga=='BOOKING'){
+      this.fileitem_BOOKING = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_BOOKING = pNombreArchivo;
+      this.fileitems_BOOKING.push(this.fileitem_BOOKING);
+      //console.log(this.fileitem_BOOKING);
+    }else if (TipoArchivoCarga=='REPORTDECARGASUELTA'){
+      this.fileitem_REPORTDECARGASUELTA = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_REPORTDECARGASUELTA = pNombreArchivo;
+      this.fileitems_REPORTDECARGASUELTA.push(this.fileitem_REPORTDECARGASUELTA);
+      //console.log(this.fileitem_REPORTDECARGASUELTA);
+    }else if (TipoArchivoCarga=='OTROS'){
+      this.fileitem_OTROS = new FileItem(pNombreArchivo, 0, pArchivo, 0);
+      this.filename_OTROS = pNombreArchivo;
+      this.fileitems_OTROS.push(this.fileitem_OTROS);
+      //console.log(this.fileitem_OTROS);
+    }
+  }
   preview() {
     // Show preview 
     var mimeType = this.fileData.type;
@@ -855,6 +1003,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           if (TipoArchivoCarga == "DAM") {
             if (this.fileitem_DAM != null) {
               this.fileitems_DAM.push(this.fileitem_DAM);
+               console.log(this.fileitem_DAM);
+               console.log(this.fileitems_DAM);
             }
             for (var i = 0; i <= this.fileitems_DAM.length - 1; i++) {
               this.TotalMB_DAM = this.TotalMB_DAM + ((this.fileitems_DAM[i].size / 1024) / 1024);
@@ -1190,61 +1340,61 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   }
 
   public AgregarRefrendo(form: NgForm) {
-    var NBooking: string
+/*     var NBooking: string
     NBooking = form.value.txtbox_NBooking
 
     if (NBooking == undefined) {
       swal("Error: Ingresar Numero de Booking");
       //return false;
-    } else {
+    } else { */
       let DetalleDatos = [];
       let DetalleArchivos = [];
-      for (var clave in this.Datos) {
+/*       for (var clave in this.Datos) {
         DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].Precinto });
       }
       this.Datos = DetalleDatos;
-      console.log("Detalle Booking Guardar " + this.Datos);
-
+      console.log("Detalle Booking Guardar " + this.Datos); */
+      //this.objGenerarRefrendoExpoActualizarRQT.FechaNum = new Date();
       for (var DAM in this.fileitems_DAM) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 1, 'Archivo': this.fileitems_DAM[DAM].base64, 'NombreArchivo': this.fileitems_DAM[DAM].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 1, 'Archivo': this.fileitems_DAM[DAM].base64, 'NombreArchivo': this.fileitems_DAM[DAM].name, 'RefrendoCodDetalle': this.fileitems_DAM[DAM].RefrendoCodDetalle});
       }
       for (var GUIAREMISION in this.fileitems_GUIAREMISION) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 2, 'Archivo': this.fileitems_GUIAREMISION[GUIAREMISION].base64, 'NombreArchivo': this.fileitems_GUIAREMISION[GUIAREMISION].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 2, 'Archivo': this.fileitems_GUIAREMISION[GUIAREMISION].base64, 'NombreArchivo': this.fileitems_GUIAREMISION[GUIAREMISION].name, 'RefrendoCodDetalle': this.fileitems_GUIAREMISION[GUIAREMISION].RefrendoCodDetalle });
       }
       for (var TARJADELLENADO in this.fileitems_TARJADELLENADO) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 3 , 'Archivo': this.fileitems_TARJADELLENADO[TARJADELLENADO].base64, 'NombreArchivo': this.fileitems_TARJADELLENADO[TARJADELLENADO].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 3 , 'Archivo': this.fileitems_TARJADELLENADO[TARJADELLENADO].base64, 'NombreArchivo': this.fileitems_TARJADELLENADO[TARJADELLENADO].name, 'RefrendoCodDetalle': this.fileitems_TARJADELLENADO[TARJADELLENADO].RefrendoCodDetalle });
       }
       for (var TICKETDEPESO in this.fileitems_TICKETDEPESO) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 4, 'Archivo': this.fileitems_TICKETDEPESO[TICKETDEPESO].base64, 'NombreArchivo': this.fileitems_TICKETDEPESO[TICKETDEPESO].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 4, 'Archivo': this.fileitems_TICKETDEPESO[TICKETDEPESO].base64, 'NombreArchivo': this.fileitems_TICKETDEPESO[TICKETDEPESO].name, 'RefrendoCodDetalle': this.fileitems_TICKETDEPESO[TICKETDEPESO].RefrendoCodDetalle });
       }
       for (var BOOKING in this.fileitems_BOOKING) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 5, 'Archivo': this.fileitems_BOOKING[BOOKING].base64, 'NombreArchivo': this.fileitems_BOOKING[BOOKING].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 5, 'Archivo': this.fileitems_BOOKING[BOOKING].base64, 'NombreArchivo': this.fileitems_BOOKING[BOOKING].name, 'RefrendoCodDetalle': this.fileitems_BOOKING[BOOKING].RefrendoCodDetalle });
       }
       for (var OTROS in this.fileitems_OTROS) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 6, 'Archivo': this.fileitems_OTROS[OTROS].base64, 'NombreArchivo': this.fileitems_OTROS[OTROS].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 6, 'Archivo': this.fileitems_OTROS[OTROS].base64, 'NombreArchivo': this.fileitems_OTROS[OTROS].name, 'RefrendoCodDetalle': this.fileitems_OTROS[OTROS].RefrendoCodDetalle });
       }
       for (var REPORTDECARGASUELTA in this.fileitems_REPORTDECARGASUELTA) {
-        DetalleArchivos.push({ 'RefrendoTipoArcCod': 7, 'Archivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].base64, 'NombreArchivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].name });
+        DetalleArchivos.push({ 'RefrendoTipoArcCod': 7, 'Archivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].base64, 'NombreArchivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].name, 'RefrendoCodDetalle': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].RefrendoCodDetalle  });
       }
 
-      console.log("Archivos " + JSON.stringify(DetalleArchivos)); 
+      console.log("Archivos Actualizar " + JSON.stringify(DetalleArchivos)); 
 
 
-      this.objGenerarRefrendoExpoRQT = {
+      this.objGenerarRefrendoExpoActualizarRQT = {
         IDUser: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
         BookLineCodigo: this.Codigo,
-        BookLineNroDoc: form.value.txtbox_NBooking,
+        BookLineNroDoc: this.Booking,
         DAM: form.value.txtbox_NroDeDAM,
         Exportador: this.EntidadesSelect,
-        NumOrden: form.value.txtbox_NroDeOrden,
+        NumOrden: this.NroDeOrden, //form.value.txtbox_NroDeOrden,
         //Despachador: this.DespachadorSelect,
         Despachador: this.Despachador,
         EntiCodAgencia: localStorage.getItem("EntiCodigo").toString(),
         //AgenciaAduana: this.AgenciaAduanaSelect,
         AgenciaAduana: this.AgenciaDeAduana,
-        FechaNum: form.value.txtbox_FechaDeNum,
-        Mercancia: form.value.txtbox_Mercaderia,
+        FechaNum: this.FechaDeNum,//form.value.txtbox_FechaDeNum,
+        Mercancia: this.Mercaderia,//form.value.txtbox_Mercaderia,
         EmpaCodigo: this.ModalidadSelect,
         Llenado: true,
         Aduana: this.Aduana,
@@ -1252,16 +1402,18 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         Regimen: this.RegimenSelect,
         CodProducto: this.CodProducto,
         Producto: this.Producto,
-        FechaCutOff: form.value.txtbox_FechaCutOff,
+        FechaCutOff: this.FechaCutOff,//form.value.txtbox_FechaCutOff,
         FOB: form.value.txtbox_FOB,
         MandatoElectronico: this.MandatoElectronico,
-        Deta: this.Datos,
+        RefrendoCod: Number.parseInt(this.paramCodigo),
+        Deta: this.objConsultaIDDetalleBookingRefrendoExpoRPT,
         ArchivoRefrendo: DetalleArchivos
+        
       }
 
-      console.log("Datos REFRENDON " + JSON.stringify(this.objGenerarRefrendoExpoRQT));
+      console.log("Datos REFRENDON ACTUALIZAR " + JSON.stringify(this.objGenerarRefrendoExpoActualizarRQT));
 
-      if (this.ValidarInput(this.objGenerarRefrendoExpoRQT)) {
+      if (this.ValidarInput(this.objGenerarRefrendoExpoActualizarRQT)) {
         swal({
           text: "Error en los campos de ingreso, por favor verificar",
           icon: "warning",
@@ -1271,10 +1423,10 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
       
 
-      console.log("EMPEZAR A GUARDAR DATOS")
-      this.reportService.GenerarRefrendoExpo(this.objGenerarRefrendoExpoRQT).subscribe(
+      console.log("EMPEZAR A GUARDAR DATOS ACTUALIZAR")
+      this.reportService.ActualizarRefrendoExpo(this.objGenerarRefrendoExpoActualizarRQT).subscribe(
         data => {
-          this.objGenerarRefrendoExpoRPT = data;
+          this.objGenerarRefrendoExpoActualizarRPT = data;
           console.log("Mensaje : " + JSON.stringify(data));
           console.log("Ruta : " + data.Msj.toString());
           console.log("EMPEZAR A Imagenes")
@@ -1287,15 +1439,15 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           console.log("Error : ", error);
         });
 
-    }
+    //}
   }
 
   public Recalcular() {
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
-    for (var clave in this.Datos) {
-      this.CantidadBultos = this.CantidadBultos + Number.parseInt(this.Datos[clave].Bultos.toString());
-      this.CantidadPeso = this.CantidadPeso + + Number.parseInt(this.Datos[clave].Peso.toString());
+    for (var clave in this.objConsultaIDDetalleBookingRefrendoExpoRPT) {
+      this.CantidadBultos = this.CantidadBultos + Number.parseInt(this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].Bultos.toString());
+      this.CantidadPeso = this.CantidadPeso + + Number.parseInt(this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].Pesos.toString());
     }
   }
 
@@ -1306,7 +1458,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     }
     return false;
   }
-  public ValidarInput(param: GenerarRefrendoExpoRQT): boolean {
+  public ValidarInput(param: GenerarRefrendoExpoActualizarRQT): boolean {
 
     if (this.EntidadesSelect == "" || this.ControlEntidades.value.toString() == ""){
       return true;
@@ -1351,9 +1503,9 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 /*     if (this.NullEmpty(param.Regimen)) {
       return true;
     } */
-    var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    this.objGenerarRefrendoExpoRQT.FechaNum = this.objGenerarRefrendoExpoRQT.FechaNum.toLocaleDateString("es-ES", options);
-    console.log(this.objGenerarRefrendoExpoRQT.FechaNum);
+/*      var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    this.objGenerarRefrendoExpoActualizarRQT.FechaNum = this.objGenerarRefrendoExpoActualizarRQT.FechaNum.toLocaleDateString("es-ES", options);
+     console.log(this.objGenerarRefrendoExpoActualizarRQT.FechaNum); */
     return false;
   }
 

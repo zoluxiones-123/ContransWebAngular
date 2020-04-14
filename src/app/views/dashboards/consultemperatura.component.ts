@@ -143,7 +143,8 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
         data => { 
           this.objTemperaturaRPT = data;
           console.log(data);
-          if (data.length >= 1)
+          
+          if (data[0].CodMensaje == 0)
           {
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -155,7 +156,11 @@ import {ConsultaDetalleTemperaturaComponent} from '../dashboards/consuldetallete
           }
           else
           {
-            swal("No existen datos");
+            this.SetGrillaVisibility(false);
+            swal({
+              text: "No existen datos",
+              icon: "warning",
+            });
           }
         }, 
         error => {

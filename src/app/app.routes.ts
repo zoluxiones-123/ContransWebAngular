@@ -10,6 +10,7 @@ import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperat
 import {CartaTemperaturaComponent} from "./views/dashboards/cartatemperatura.component";
 import {RefrendoExpoComponent} from "./views/dashboards/refrendoexpo.component";
 import {RefrendoExpoNuevoComponent} from "./views/dashboards/refrendoexponuevo.component";
+import {RefrendoExpoEditarComponent} from "./views/dashboards/refrendoexpoeditar.component";
 import {RefrendoExpoAnularComponent} from "./views/dashboards/refrendoexpoanular.component";
 import {LiquidacionGeneracionComponent} from "./views/dashboards/liquidaciongeneracion.component";
 import {LiquidacionGeneracionNuevoComponent} from "./views/dashboards/liquidaciongeneracionnuevo.component";
@@ -18,6 +19,8 @@ import {LiquidacionTransportistaClienteComponent} from "./views/dashboards/liqui
 import {PagosCobranzaComponent} from "./views/dashboards/pagoscobranza.component";
 import {PagosCobranzaConsultaComponent} from "./views/dashboards/pagoscobranzaconsulta.component";
 import {PagosConsultaFacturasComponent} from "./views/dashboards/pagosconsultafacturas.component";
+import {PagosCobranzaConsultaDetalleComponent} from "./views/dashboards/pagoscobranzaconsultadetalle.component";
+
 
 
 // Forms: Entrada de Datos / Mantenimientos
