@@ -81,3 +81,36 @@ export class ListaEstadoPagoCobranza {
     Codigo: string;
     Descripcion: string;
   }
+
+  export class ConsultaPagosServicioRQT
+{
+    IDUser: number;
+    IDRol: number;
+    Nope: string;
+    Kent: string;
+    Estado: string;
+}
+
+/* export class ConsultaPagosServicioRPT
+{
+    CodMsj: number;
+    Msj: string;
+    Data: any;
+} */
+
+export class ConsultaPagosServicioRPT
+{
+    NServicio: string;
+    Servicio: string;
+    TMoneda: string;
+    Importe: number;
+    CanalPago: string;
+    FormaPago: string;
+    Banco: string;
+    FRegistro: string;
+    Estado: string;
+    CodEstado: string;
+    ClientePagador: string;
+    Id: number;
+    facturar: string;
+}
