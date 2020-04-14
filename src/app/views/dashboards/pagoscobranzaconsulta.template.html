@@ -17,18 +17,27 @@
               </div> -->
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_NroDocumento" placeholder="Nro Servicio" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_Nope" placeholder="Nro Servicio" class="form-control" [ngModel] required /> 
                 </div>
               </div>
-              <div class="col-sm-2" style="padding-left: 5px;">
-                <div class="form-group">
+              <div class="col-sm-3" style="padding-left: 5px;">
+<!--                 <div class="form-group">
                   <input type="text" name="txtbox_NroDocumento" placeholder="Cliente" class="form-control" [ngModel] required /> 
-                </div>
+                </div> -->
+                <mat-form-field style="width: 100%;">
+                  <input type="text" placeholder="Digite Exportador" matInput [formControl]="ControlEntidades"
+                    [matAutocomplete]="Entidad">
+                  <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValue($event,'Entidad')" #Entidad="matAutocomplete">
+                    <mat-option *ngFor="let enti of filteredEntidad | async" [value]="enti.Entidad">
+                      {{enti.Nombre}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
               </div>
               <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
                 <select name="listEstado"  class="form-control" (change)="ChangingValue($event,'Estado')">
                   <option [value]="" selected hidden>--Estado--</option>
-                  <option *ngFor="let item of this.ListaEstado" [value]="item.EstadoCodigo">{{item.EstadoDesc}}</option> 
+                  <option *ngFor="let item of this.ListaEstado" [value]="item.Codigo">{{item.Descripcion}}</option> 
                 </select>
               </div>
             </div>
@@ -53,29 +62,35 @@
                 [dtTrigger]="dtTrigger" > 
                 <thead>
                   <tr>
-                    <th>Codigo</th>
-                    <th>N° Booking</th>
-                    <th>Modalidad</th>
-                    <th>DAM</th>
-                    <th>N° Orden</th>
-                    <th>Fecha Numeración</th>
-                    <th>Canal</th>
-                    <th>Observacion</th>
+                    <th>N° Servicio</th>
+                    <th>Servicio</th>
+                    <th>Moneda</th>
+                    <th>Importe</th>
+                    <th>Canal Pago</th>
+                    <th>Forma Pago</th>
+                    <th>Banco</th>
+                    <th>F. Registro</th>
                     <th>Estado</th>
-                   <!--  <th colspan="4" style="width: 10%;">Accion</th> -->
+                    <th>Cliente Pagador</th>
+                    <th>Facturado A.</th>
+                    <th style="width: 10%;">Accion</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of this.objConsultaRefrendoExpoRPT">
-                    <td>{{item.Codigo}}</td>
-                    <td>{{item.Booking}}</td> 
-                    <td>{{item.Modalidad}}</td>
-                    <td>{{item.DAM}}</td>
-                    <td>{{item.NroOrden}}</td>
-                    <td>{{item.FechaNumeracion}}</td>
-                    <td>{{item.Canal}}</td>
-                    <td>{{item.Observacion}}</td> 
+                  <tr *ngFor="let item of this.objConsultaPagosServicioRPT">
+                    <td>{{item.NServicio}}</td>
+                    <td>{{item.Servicio}}</td> 
+                    <td>{{item.TMoneda}}</td>
+                    <td>{{item.Importe}}</td>
+                    <td>{{item.CanalPago}}</td>
+                    <td>{{item.FormaPago}}</td>
+                    <td>{{item.Banco}}</td>
+                    <td>{{item.FRegistro}}</td> 
                     <td>{{item.Estado}}</td> 
+                    <td>{{item.ClientePagador}}</td> 
+                    <td>{{item.facturar}}</td> 
+                    <td><a  (click)="popupDetallePagosCobranzaConsulta(item.Id)" ><img src="assets/images/preview.png"></a></td>
+                    <!-- (click)="VerDetalle(item.Id)" -->
                  </tr>
                 </tbody>
               </table>

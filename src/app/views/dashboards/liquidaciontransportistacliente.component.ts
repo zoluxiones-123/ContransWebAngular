@@ -583,7 +583,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
           swal({
           text: "Error al cargar los datos",
           icon: "error",
-        }); 
+        });
           console.log("Error : ", error); 
         }
       );  
@@ -638,7 +638,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
            swal({
           text: "Error al cargar los datos",
           icon: "error",
-        }); 
+        });
            console.log("Error : ", error); 
          }
        );  

@@ -66,7 +66,7 @@ import { stringify } from 'querystring';
       buttons: [
         'excel',
       ],
-
+      order: [[0, 'asc']],
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",

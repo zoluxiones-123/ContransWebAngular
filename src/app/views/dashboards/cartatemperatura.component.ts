@@ -308,9 +308,13 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
                this.dtTrigger.next(this.objCartaTemperaturaRPT);
-               this.SetGrillaVisibility(true);
+               
             });
-            swal("No existen datos");
+            this.SetGrillaVisibility(false);
+            swal({
+              text: "No existen datos",
+              icon: "warning",
+            });
           }
           //this.dtTrigger.unsubscribe();
         }, 
@@ -354,9 +358,13 @@ import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaavis
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
                this.dtTrigger.next(this.objCartaTemperaturaRPT);
-               this.SetGrillaVisibility(true);
+               
             });
-            swal("No existen datos");
+            this.SetGrillaVisibility(false);
+            swal({
+              text: "No existen datos",
+              icon: "warning",
+            });
           }
           //this.dtTrigger.unsubscribe();
         }, 

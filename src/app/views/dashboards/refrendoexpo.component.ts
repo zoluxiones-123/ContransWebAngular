@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
+import {RefrendoExpoEditarComponent} from './refrendoexpoeditar.component';
 import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
 
 
@@ -71,7 +72,6 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
         'colvis',
         'excel',
       ],
-
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",
@@ -114,6 +114,22 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
     popupNuevaRefrendoExpo(){
       localStorage.setItem("paramAccion","Nuevo");
       const dialogRef = this.dialog.open(RefrendoExpoNuevoComponent,{
+        disableClose: true,
+        autoFocus: true,
+        width: "600px",
+        height: "100%"
+      });
+/*       dialogRef.afterClosed().subscribe(result => {
+        this.RefrescarGrilla();
+     
+  }
+  ); */
+
+    }  
+    popupEditarRefrendoExpo(paramCodigo: string){
+      localStorage.setItem("paramAccion","Editar");
+      localStorage.setItem("paramCodigo",paramCodigo);
+      const dialogRef = this.dialog.open(RefrendoExpoEditarComponent,{
         disableClose: true,
         autoFocus: true,
         width: "600px",
@@ -321,8 +337,8 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
                this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
-               this.SetGrillaVisibility(true);
             });
+            this.SetGrillaVisibility(false);
             swal({
               text: data.Msj,
               icon: "warning",
@@ -370,8 +386,8 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
                this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
-               this.SetGrillaVisibility(true);
             });
+            this.SetGrillaVisibility(false);
             swal({
               text: data.Msj,
               icon: "warning",

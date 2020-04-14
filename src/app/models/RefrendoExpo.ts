@@ -29,6 +29,7 @@ export class ConsultaBookingRefrendoExpoRQT {
   Modalidad: string;
   Llenado: boolean;
 }
+
 export class ConsultaBookingRefrendoExpoRPT {
   Cod: number;
   Msj: string;
@@ -57,6 +58,80 @@ export class ConsultaDetalleBookingRefrendoExpoRPT {
  public Peso: number;
  public Ticket: string;
  public Precinto: string;
+}
+
+export class ConsultaIDBookingRefrendoExpoRQT {
+  IDUSer: number;
+  IDRol: number;
+  ID: number;
+}
+
+export class ConsultaIDBookingRefrendoExpoRPT {
+  CodMsj: number;
+  Msj: string;
+/*   Data: ConsultaIDDataBookingRefrendoExpoRPT;
+  Detalle: ConsultaIDDetalleBookingRefrendoExpoRPT;
+  Archivo: ConsultaIDArchivoBookingRefrendoExpoRPT; */
+  Data: any;
+  Detalle: any;
+  Archivo: any;
+}
+export class ConsultaIDDataBookingRefrendoExpoRPT {
+  public Codigo: number;
+  public Booking: string;
+  public Modalidad: string;
+  public DAM: string;
+  public NroOrden: string;
+  public FechaNumeracion: string;
+  public Estado: string;
+  public Observacion: string;
+  public Canal: string;
+  public UsuaCodigo: string;
+  public FechCreacion: string;
+  public Email: string;
+  public RefrendoCod: number;
+  public BookLineCodigo: string;
+  public BookLineNroDoc: string;
+  public Aduana: string;
+  public Anio: string;
+  public Regimen: string;
+  public Exportador: string;
+  public NumOrden: string;
+  public Despachador: string;
+  public EntiCodAgencia: string;
+  public AgenciaAduana: string;
+  public Mercancia: string;
+  public EmpaCodigo: string;
+  public llenado: boolean;
+  public ObservacionAnulacion: string;
+  public CodProducto: string;
+  public Producto: string;
+  public FechaCutOff: string;
+  public FOB: string;
+  public MandatoElectronico: boolean;
+  public UsuaCodigoAnulado: number;
+  public RegistroAnulado: string;
+  public Carpeta: string;
+}
+
+export class ConsultaIDDetalleBookingRefrendoExpoRPT {
+  public RefrendoCodDetalle: number;
+  public efrendoCod: number;
+  public ContCargCodigo: string;
+  public ContDesc: string;
+  public Bultos: number;
+  public Pesos: number;
+  public PctoAduana: string;
+  public UsuaCodigo: number;
+}
+
+export class ConsultaIDArchivoBookingRefrendoExpoRPT {
+  public RefrendoArchCod: number;
+  public RefrendoCod: number;
+  public RefrendoTipoArcCod: number;
+  public Archivo: string;
+  public NombreArchivo: string;
+  public UsuaCodigo: number;
 }
 
 export class GenerarRefrendoExpoRQT {
@@ -105,6 +180,56 @@ export class GenerarRefrendoExpoRPT {
   Cod: number;
   Msj: string;
 }
+
+export class GenerarRefrendoExpoActualizarRQT {
+  IDUser: number;
+  IDRol: number;
+  BookLineCodigo: string;
+  BookLineNroDoc: string;
+  DAM: string;
+  Exportador: string;
+  NumOrden: string;
+  Despachador: string;
+  EntiCodAgencia: string;
+  AgenciaAduana: string;
+  FechaNum: any;
+  Mercancia: string;
+  EmpaCodigo: string;
+  Llenado: boolean;
+  Aduana: string;
+  Anio: string;
+  Regimen: string;
+  CodProducto: string;
+  Producto: string;
+  FechaCutOff: string;
+  FOB: string;
+  MandatoElectronico: boolean;
+  RefrendoCod: number;
+  Deta: any;
+  ArchivoRefrendo: any;
+}
+
+export class GenerarDetalleRefrendoExpoActualizarRQT {
+  public CodContenedor: string;
+  public Contenedor: string;
+  public Bultos: number;
+  public Peso: number;
+  public PctoAduana: string;
+  public RefrendoCodDetalle: number;
+}
+
+export class GenerarArchivoRefrendoExpoActualizarRQT {
+  public RefrendoTipoArcCod: number;
+  public Archivo: string;
+  public NombreArchivo: string;
+}
+
+export class GenerarRefrendoExpoActualizarRPT {
+  Cod: number;
+  Msj: string;
+}
+
+
 export class ListaEstadoRefrendoExpo {
   EstadoCodigo: number;
   EstadoDesc: string;
@@ -163,4 +288,36 @@ export class AnularRefrendoExpoArchivoRQT{
 export class AnularRefrendoExpoRPT{
   Cod: number;
   Msj: string;
+}
+
+export class ListaDetallePagoCobranzaDetalleRQT {
+  IDUSer: number;
+  IDRol: number;
+  Id: number;
+}
+
+export class ListaDetallePagoCobranzaDetalleRPT{
+  Liquidacion: number;
+  TDoc: string;
+  Fecha: string;
+  Cliente: string;
+  AgAduanas: string;
+  UnidadNegocio: string;
+  CodUnidadNegocio: string;
+  Documento: string;
+  Naviera: string;
+  NaveViaje: string;
+  ListaPrecio: string;
+  Estado: string;
+  UM: string;
+  MonedaAbrev: string;
+  Moneda: string;
+  TMon: string;
+  MCod: string;
+  Cantidad: number;
+  PrecioUnit: number;
+  SubTotal: number;
+  Total: number;
+  Servicio: string;
+  GrupoServicio: string;
 }

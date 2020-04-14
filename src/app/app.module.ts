@@ -61,6 +61,7 @@ import { CartaTemperaturaDetalleComponent } from './views/dashboards/cartatemper
 import { CartaTemperaturaNuevoComponent } from './views/dashboards/cartatemperaturanuevo.component';
 import { CartaTemperaturaAvisoComponent } from './views/dashboards/cartatemperaturaaviso.component';
 import { RefrendoExpoNuevoComponent } from './views/dashboards/refrendoexponuevo.component';
+import { RefrendoExpoEditarComponent } from './views/dashboards/refrendoexpoeditar.component';
 import { RefrendoExpoAnularComponent } from './views/dashboards/refrendoexpoanular.component';
 
 
@@ -79,6 +80,9 @@ import { LiquidacionTransportistaClienteComponent } from './views/dashboards/liq
 import { PagosCobranzaComponent } from './views/dashboards/pagoscobranza.component';
 
 import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto.component'
+import { PagosCobranzaConsultaComponent} from './views/dashboards/pagoscobranzaconsulta.component';
+import { PagosCobranzaConsultaDetalleComponent} from './views/dashboards/pagoscobranzaconsultadetalle.component';
+
 
 
 @NgModule({
@@ -112,6 +116,7 @@ import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto
     ActualizarcitaComponent,
     GenerarcitaComponent,
     RefrendoExpoNuevoComponent,
+    RefrendoExpoEditarComponent,
     RefrendoExpoAnularComponent,
     CitavacioasigComponent,
     ConsultasolservComponent,
@@ -120,7 +125,9 @@ import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto
     LiquidacionGeneracionNuevoComponent,
     LiquidacionTransportistaClienteComponent,
     PagosCobranzaComponent,
-    ActualizaprecintoComponent
+    PagosCobranzaConsultaComponent,
+    ActualizaprecintoComponent,
+    PagosCobranzaConsultaDetalleComponent
   ],
   imports: [
     BrowserModule,
@@ -152,7 +159,7 @@ import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,ActualizaprecintoComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,ActualizaprecintoComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent,PagosCobranzaConsultaComponent,RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent]
    
   
 })

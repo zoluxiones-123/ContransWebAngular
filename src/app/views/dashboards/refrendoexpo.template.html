@@ -64,7 +64,7 @@
                     <th style="text-align: -webkit-center;" >Canal</th>
                     <th style="text-align: -webkit-center;" >Observacion</th>
                     <th style="text-align: -webkit-center;" >Estado</th>
-                    <th colspan="2" style="text-align: -webkit-center;" >Accion</th>
+                    <th colspan="4" style="text-align: -webkit-center;width: 30px" >Accion</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -78,8 +78,10 @@
                     <td style="text-align: -webkit-center;" >{{item.Canal}}</td>
                     <td style="text-align: -webkit-center;" >{{item.Observacion}}</td> 
                     <td style="text-align: -webkit-center;" >{{item.Estado}}</td> 
-                    <td style="text-align: -webkit-center;" ><a ><img  style="width: 24px;" src="assets/images/imprimir.png"></a></td>
-                    <td style="text-align: -webkit-center;" ><a (click)="popupAnularRefrendoExpo(item.Codigo)" ><img src="assets/images/delete.png"></a></td> 
+                    <td style="text-align: -webkit-center;width: 10px;" ><a ><img  style="width: 24px;" src="assets/images/imprimir.png" title="Imprimir"></a></td>
+                    <td style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo)" ><img src="assets/images/preview.png" title="Detalle"></a></td>
+                    <td style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo)" ><img src="assets/images/edit-icon.png" title="Editar"></a></td>
+                    <td style="text-align: -webkit-center;width: 10px;" ><a (click)="popupAnularRefrendoExpo(item.Codigo)" ><img src="assets/images/delete.png" title="Anular"></a></td> 
                  </tr>
                 </tbody>
               </table>
