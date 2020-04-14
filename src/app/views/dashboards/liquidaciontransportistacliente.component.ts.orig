@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
-import { entidad,Entidades } from 'app/models/entidad';
+import { entidad,Entidades, Transp, Transportista } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, ValidaFacturarARPT, ValidaFacturarARQT,
   ValidarTerceroRPT, ValidarTerceroRQT, ClienteTrans, ClienteTransConsRPT, ClienteTransConsRQT, RegClienteTransRPT, RegClienteTransRQT }  from '../../models/Liquidacion';
@@ -55,8 +55,8 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
     public ListaEmpresasF : Array<entidad> = [];
     public LEmpresasF : Entidades;
 
-    public ListaEmpresas : Array<entidad> = [];
-    public LEmpresas : Entidades;
+    public ListaTransp : Array<Transportista> = [];
+    public LTransp : Transp;
 
     public objCTConsRQT :  ClienteTransConsRQT;
     public objCTConsRPT :  ClienteTransConsRPT;
@@ -75,7 +75,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
 
     
   filteredEmpresa: Observable<entidad[]>;
-  filteredEmp: Observable<entidad[]>;
+  filteredEmp: Observable<Transportista[]>;
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
    //   this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
@@ -170,7 +170,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
 
       
   this.ListaEmpresasF = new Array;
-  this.ListaEmpresas = new Array;
+  this.ListaTransp = new Array;
 
   this.reportService
   .getListaEntidades()
@@ -189,7 +189,43 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
           //this.options.push(last.Nombre);
         }
 
-        this.ListaEmpresas = this.ListaEmpresasF;
+       // this.ListaEmpresas = this.ListaEmpresasF;
+
+
+      
+      }
+      else{
+        localStorage.removeItem('StockTotal');       
+        this.onIsError();   
+      }
+
+     // this.router.navigate(['home']);    
+
+    },  
+    error => {
+      this.onIsError();           
+      console.log("Error");}
+    );
+
+
+  this.reportService
+  .getListaTransportistas()
+  .subscribe(
+    data => {
+      
+      this.LTransp = data;
+
+      if (this.LTransp.Data != null)
+      {                              
+        let listaent =JSON.parse(JSON.stringify(this.LTransp.Data));              
+       
+        for (var i = 0; i <= listaent.length-1; i++) {
+          let last = listaent[i];            
+          this.ListaTransp.push(last);
+          //this.options.push(last.Nombre);
+        }
+
+       // this.ListaEmpresas = this.ListaEmpresasF;
 
 
       
@@ -284,10 +320,10 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
   }
 
   
-  private _filteremp(value: string): entidad[] {
+  private _filteremp(value: string): Transportista[] {
     const filterValue = value.toLowerCase();
      
-    return this.ListaEmpresas.filter(emp => emp.Nombre.toLowerCase().indexOf(filterValue) === 0);
+    return this.ListaTransp.filter(emp => emp.Descripcion.toLowerCase().indexOf(filterValue) === 0);
   }
 
   
@@ -320,7 +356,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
     //let enti = this.EmpresaSelect;
 
    
-    //swal("Trans " + this.TransSelect  );
+   // swal("Trans " + this.TransSelect  );
     this.myTrans.setValue(this.NTransSelect);
   }
 
@@ -481,16 +517,9 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
     this.objCTConsRQT = {
         IDUser : Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
-<<<<<<< HEAD
         EntiCodigoCliente: this.ClienteSelect,
         IdTransportistaNavis: this.TransSelect ,
         Documento: form.value.txtbox_NroDocumento
-=======
-        TipoConsulta:"",
-        Booking: form.value.txtbox_NroDocumento,
-        Modalidad: this.ModalidadSelect,
-        Estado : Number.parseInt(this.EstadoSelect)
->>>>>>> ac320b373dc21f521a65cac1bf69ac1adfd30ed0
     };
 
     
@@ -550,15 +579,15 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-<<<<<<< HEAD
           this.loading = false;
-          swal("Error al cargar los datos"); 
+<<<<<<< HEAD
+        swal({
 =======
-                  swal({
+          swal({
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
           text: "Error al cargar los datos",
           icon: "error",
-        }); 
->>>>>>> ac320b373dc21f521a65cac1bf69ac1adfd30ed0
+        });
           console.log("Error : ", error); 
         }
       );  
@@ -603,7 +632,6 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
                dtInstance.destroy();
                this.dtTriggerTrans.next(this.objClienteTransL);
                this.SetGrillaVisibility(true);
-<<<<<<< HEAD
              });
             
              swal("No existen datos");
@@ -611,25 +639,17 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
            //this.dtTrigger.unsubscribe();
          }, 
          error => {
-           swal("Error al cargar los datos"); 
+<<<<<<< HEAD
+        swal({
+=======
+           swal({
+>>>>>>> origin/con_el_cambio_a_nueva_Angular
+          text: "Error al cargar los datos",
+          icon: "error",
+        });
            console.log("Error : ", error); 
          }
        );  
-=======
-            });
-            swal("No existen datos");
-          }
-          //this.dtTrigger.unsubscribe();
-        }, 
-        error => {
-                  swal({
-          text: "Error al cargar los datos",
-          icon: "error",
-        }); 
-          console.log("Error : ", error); 
-        }
-      );  
->>>>>>> ac320b373dc21f521a65cac1bf69ac1adfd30ed0
 
     }
 
@@ -669,7 +689,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
       if (param) {
         document.getElementById('grillatrans').style.visibility = "visible";
       }
-      else {
+      else { 
         document.getElementById('grillatrans').style.visibility = "hidden";
       }
     }
@@ -690,6 +710,14 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
     public SiTieneData(param :boolean)
     {
       this.TieneData = false;
+    }
+
+    public Limpiar()
+    {
+      this.myCliente.setValue("");
+      this.myTrans.setValue("");
+      this.Documento = "";
+
     }
 
     public ChangingValue(param : any, paramTipo: string)
