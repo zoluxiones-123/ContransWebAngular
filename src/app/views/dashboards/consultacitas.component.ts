@@ -15,7 +15,7 @@ import { ActualizarcitaComponent  } from 'app/views/dashboards/actualizarcita.co
 import { GenerarcitaComponent  } from 'app/views/dashboards/generarcita.component';
 
 
-import { MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig, throwMatDialogContentAlreadyAttachedError} from '@angular/material';
 import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaaviso.component'
 import "rxjs/add/operator/toPromise";
 
@@ -44,7 +44,9 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
     EmpaCodigo : ""
   };
 
-  public ListaCitas : Array<CitasRPT> = [];
+  public loading = false;
+
+  public ListaCitas : Array<CitasRPT>;
   public CitaE : Citas;
   public objCitasRqt : CitasRQT = {
     Token: "",
@@ -420,6 +422,8 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
       return;
     }
 
+    this.loading = true;
+
 
     let res = this.reportService.getCitas(this.objCitasRqt);
         
@@ -429,6 +433,7 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
         if (data.Data.length >= 1)
         {
           this.SiCargoData = true;
+          this.loading = false;
 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
@@ -442,6 +447,7 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
         else
         {
           this.SiCargoData = true;
+          this.loading = false;
 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
@@ -456,6 +462,7 @@ const dialogRef = this.dialog.open(ActualizarcitaComponent,{
         }
       }, 
       error => {
+         this.loading = false;
                 swal({
           text: "Error al cargar los datos",
           icon: "error",

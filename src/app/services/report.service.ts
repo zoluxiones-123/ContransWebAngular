@@ -16,14 +16,15 @@ import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActC
 import { DireccRQT, DireccRPT } from '../models/Direcc';
 import { AutEntregaPrec,AutEntregaPrecRPT, AutEntregaPrecRQT,LiquidacionBRPT, LiquidacionBRQT, LiquidacionCont, ValidaEdiPrecRPT,
 ValidaEdiPrecRQT, ActualizaPrecRPT, ActualizaPrecRQT, ValidaFacturarARPT, ValidaFacturarARQT, ValidarTerceroRPT, ValidarTerceroRQT,
-ClienteTrans,ClienteTransConsRPT,ClienteTransConsRQT,RegClienteTransRPT, RegClienteTransRQT } from '../models/Liquidacion';
+ClienteTrans,ClienteTransConsRPT,ClienteTransConsRQT,RegClienteTransRPT, RegClienteTransRQT, MensajeRPT,MensajeRQT,VisualizarLiqRPT,
+VisualizarLiqRQT,RegLiquidacionRPT, RegLiquidacionRQT } from '../models/Liquidacion';
 
 import { ListaTareaRQT,ListaTareaRPT,GenerarSolicitudRQT,GenerarSolicitudRPT,ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT }
 from '../models/SolicitudServicio';
 
 import { Base64RPT,Base64RQT } from '../models/Base64';
 
-import { ConsultaPendientesRPT,ConsultaPendientesRQT }from '../models/Pagos';
+import { ConsultaPendientesRPT,ConsultaPendientesRQT, PagoProcesar, PagosProcesarRPT, PagosProcesarRQT }from '../models/Pagos';
 
 
 import { DetRepStockRealRQT } from  '../models/det_repstockreal'
@@ -56,7 +57,7 @@ import { RepOcupabilidad } from "../models/rep_ocupabilidad";
 import { RepFillRate } from "../models/rep_fillrate";
 import { SolicitudInscrip } from '../models/solicinsc';
 import { RespSolicitud } from '../models/resp_solicinsc';
-import { Entidades } from '../models/entidad';
+import { Entidades, Transp } from '../models/entidad';
 import { entidad } from '../models/entidad';
 import { entid } from '../models/entidad';
 import { ArchivoDescarga,StringArchivoDescarga } from '../models/Archivo';
@@ -120,6 +121,17 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  
+  getMensajeLiquidacion(menslrqt: MensajeRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/mensajeliquidacion`;    
+    return this.http
+      .post<MensajeRPT>(
+        url_api, menslrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+
   getPendientesCancelar(conspencanrqt: ConsultaPendientesRQT ): Observable<any> 
   {
     const url_api =`/ContransAPI/api/pendientesacancelar`;    
@@ -138,6 +150,28 @@ export class ReportService {
         url_api, liquidacionbrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
+
+  
+  getVisLiquidacion(visliquirqt: VisualizarLiqRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/visualizarliquidacion`;    
+    return this.http
+      .post<VisualizarLiqRPT>(
+        url_api, visliquirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  
+  RegLiquidacion(regliquirqt: RegLiquidacionRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/registrarliquidacion`;    
+    return this.http
+      .post<RegLiquidacionRPT>(
+        url_api, regliquirqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
 
   getCitas(citasrqt: CitasRQT ): Observable<any> 
   {
@@ -396,6 +430,16 @@ export class ReportService {
     const url_api =`/ContransAPI/api/entidadlist`;    
     return this.http
       .post<Entidades>(
+        url_api, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getListaTransportistas(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/transportistanavis`;    
+    return this.http
+      .post<Transp>(
         url_api, { headers: this.headers })
       .pipe(map(data => data));
   }
@@ -844,6 +888,16 @@ export class ReportService {
 
     return this.http.post<any>(url_api, objRequesta, {headers: this.headers}).pipe(map(data=>data));
   }
+
+  ProcesarPagosOnLine(procpagrqt: PagosProcesarRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/procesarpagos`;    
+    return this.http
+      .post<PagosProcesarRPT>(
+        url_api, procpagrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
 
   setGraficos(DatosGrafico :any) : Observable<any>{
     const url_api =`/ContransAPI/api/dashboardsactualizar`; 

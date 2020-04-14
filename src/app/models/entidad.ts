@@ -10,6 +10,15 @@ export class entidad {
 export class entid {
     constructor(public Entidad: string, public Nombre: string) {}
   }
+
+export class Transportista {
+    Codigo : string;
+    Descripcion : string;
+  }
+  
+export class Transp {
+    Data : any;
+  }
   
 /*   export class Productos {   
     Data: any;

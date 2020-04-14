@@ -15,6 +15,7 @@ export class ConsultaPendientesRPT
 
 export class PendientePago
 {
+      Selec: boolean;
       Liquidacion: number;
       TDoc:  string ;
       Fecha:  string ;
@@ -42,38 +43,39 @@ export class PendientePago
       facturar:  string ;
 }
 
-export class ConsultaPagosServicioRQT
+
+export class PagosProcesarRQT
 {
     IDUser: number;
     IDRol: number;
-    Nope: string;
-    Kent: string;
-    Estado: string;
-}
-
-/* export class ConsultaPagosServicioRPT
-{
-    CodMsj: number;
-    Msj: string;
+    TMon: string;
+    MCod: string;
+    Itot: number;
+    Tope: string;
     Data: any;
-} */
-
-export class ConsultaPagosServicioRPT
-{
-    NServicio: string;
-    Servicio: string;
-    TMoneda: string;
-    Importe: number;
-    CanalPago: string;
-    FormaPago: string;
-    Banco: string;
-    FRegistro: string;
-    Estado: string;
-    CodEstado: string;
-    ClientePagador: string;
-    Id: number;
-    facturar: string;
 }
+
+
+export class PagosProcesarRPT
+{
+    Cod: number;
+    Msj: string;
+}
+
+
+export class PagoProcesar
+{
+   NumDoc:  string;
+   ImporteDoc: number;
+   KDoc: number;
+   Orig: string;
+   TGrupo: string;
+   TDoc: string;
+   TMOV: string;   
+ 
+}
+
+
 
 export class ListaEstadoPagoCobranza {
     Codigo: string;

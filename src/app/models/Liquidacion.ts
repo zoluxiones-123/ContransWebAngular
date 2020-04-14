@@ -58,6 +58,7 @@ export class LiquidacionBRPT{
     CantProgramado: number;
     CantLiquidado: number;
     CantDisponible: number;
+    Cantidad: number;
   }
 
   export class LiquidacionCliente{   
@@ -202,5 +203,117 @@ export class LiquidacionBRPT{
 
     }
 
+    
 
+    
+  export class MensajeRQT {
+  
+    Codigo: number;
+  
+    }
+    
+  export class MensajeRPT {
+    
+    Cod: number;
+    Msj: string;
+  }
+
+  
+  export class VisualizarLiqRQT{   
+    IDUser: number;
+    IDRol: number;
+    Codigo: number;
+    Accion: string;
+    TipoOperacion: string;
+    CodigoUnidadNegocio: string;
+    Extranet: number;
+    Registro: string;
+    FechaLiquidacion: string;
+    Facturar_A: string;
+    NombreCompleto: string;
+    TipoDoc: string;
+    EmpresaPertenece: string
+    Cantidad: number;
+    CodigoEntidadLista: string;
+    Fecha: string;
+    Usuario: string;
+    CodigoEntidadAgencia: string;
+    TipoEntiRecojoPrecinto: string;
+  }
+
+  
+  export class VisualizarLiqRPT{   
+    CodMsj: number;
+    Msj: string;
+    Liquidacion: number;
+    data : any;
+
+  }
+
+  
+  export class VisLiquidacion{   
+            int_LiquDetaId: number;
+            bit_LiquDetaFacturado: boolean;
+            chr_ServCodigo: string;
+            vch_LiquDetaDescripcion: string;
+            chr_HojaServCodigo: string;
+            bit_LiquDetaPublico: boolean;
+            num_LiquDetaCantidad: number;
+            vch_UnidMediDescripcion: string;
+            chr_MoneCodigo: string;
+            vch_MoneAbreviado: string;
+            vch_MoneDescripcion: string;
+            num_LiquDetaPrecio: number;
+            num_LiquDetaDescuento: number;
+            num_LiquDetaMonto: number;
+            num_LiquDetaTotal: number;
+            num_LiquDetaImpuesto: number;
+            num_LiquDetaNeto: number;
+            int_LiquDetaLinea: string;
+            bit_EstaAnulado: boolean;
+    
+  }
+
+  
+  
+  export class RegLiquidacionRQT{   
+    IDUser: number;
+    IDRol: number;
+    Codigo: number;
+    Accion: string;
+    TipoOperacion: string;
+    CodigoUnidadNegocio: string;
+    Extranet: number;
+    Registro: string;
+    FechaLiquidacion: string;
+    Facturar_A: string;
+    NombreCompleto: string;
+    TipoDoc: string;
+    EmpresaPertenece: string;
+    Cantidad: number;
+    CodigoEntidadLista: string;
+    Fecha: string;
+    Usuario: string;
+    CodigoEntidadAgencia: string;
+    TipoEntiRecojoPrecinto: string;
+    MoneCodigo: string;
+    LiquFactSubTotal: number;
+    LiquFactImpuesto: number;
+    LiquFactTotal: number;
+    UsuarioSAP: string;
+    CodigoTipoVenta: string;
+    CodigoDocumento: string;
+    CodigoSerie: string;
+    SerieDocumento: string;
+    CarpetaOC: string;
+    Referencia: string;
+    CodigoFactura: number;
+  }
+
+  export class RegLiquidacionRPT{   
+    CodMsj: number;
+    Msj: string;
+    Liquidacion: number;
+    data: any;
+}
  
