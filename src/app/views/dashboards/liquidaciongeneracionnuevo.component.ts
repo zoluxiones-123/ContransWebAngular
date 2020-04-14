@@ -23,10 +23,13 @@ import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import {SwAlertC} from 'app/models/swalert';
+import { DatePipe } from '@angular/common';
 
 
 import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, ValidaFacturarARPT, ValidaFacturarARQT,
-ValidarTerceroRPT, ValidarTerceroRQT}  from '../../models/Liquidacion';
+ValidarTerceroRPT, ValidarTerceroRQT, MensajeRPT, MensajeRQT, VisLiquidacion,VisualizarLiqRPT, VisualizarLiqRQT,
+RegLiquidacionRPT, RegLiquidacionRQT}  
+from '../../models/Liquidacion';
 
 
 
@@ -53,6 +56,7 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   public ListaDespachador : Array<Despachador> = [];
   ControlDespachador = new FormControl();
   public DespachadorSelect:string = "";
+  public FechaSelec : string = "";
 
   filteredAgenciaAduana: Observable<AgenciaAduana[]>;
   public LAgenciaAduana : AgenciaAduanera;
@@ -60,12 +64,44 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   ControlAgenciaAduana = new FormControl();
   public AgenciaAduanaSelect:string = "";
   public CodigoAgenciaAduanaSelect:string = "";
+
+  public MsjLiqCont : string = "";
+
+  public objCitasVDev = [];
+  
+  public MsjLiqCont1 : string = "";
+  public MsjLiqCont2 : string = "";
+
+  public CodigoLiqui : number = 0;
+  public SubTotal : number = 0;
+  public Impuesto : number = 0;
+  public Total : number = 0;
+  public CodigoMoneda : string = "";
   
 
   public objLiquidacionBRPT: LiquidacionBRPT;
   public objLiquidacionBRQT: LiquidacionBRQT;
   public objListLiquiCont : Array<LiquidacionCont>;
   public objListLiquiCliente : Array<LiquidacionCliente>;
+
+  
+  public objRegLiquiRPT: RegLiquidacionRPT;
+  public objRegLiquiRQT: RegLiquidacionRQT;
+
+  
+  public objVisLiquiRPT: VisualizarLiqRPT;
+  public objVisLiquiRQT: VisualizarLiqRQT;
+  
+  /*public objListVisLiqui: Array<VisLiquidacion>;*/
+  
+  public objListVisLiqui = []; 
+  
+  public objLiquiMsjRQT: MensajeRQT;
+  public objLiquiMsjRPT: MensajeRPT;
+
+  
+  public objLiquiMsj1RQT: MensajeRQT;
+  public objLiquiMsj1RPT: MensajeRPT;
 
   
   public objValFactARQT: ValidaFacturarARQT;
@@ -81,6 +117,8 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
 
   public EmpresaSelect : string;
   public NEmpresaSelect : string;
+  public Cantidad : number = 0;
+
 
 
   
@@ -99,6 +137,7 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   public SiCargoData = true;
   public TieneData = false;
   public MuestraPAP = false;
+  public MuestraLiq = false;
   public buttondis = true;
 
   fechaActual: any;
@@ -348,6 +387,58 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     }
   };
 
+  
+  dtTriggerLiq: Subject<any> = new Subject();
+  dtOptionsLiq: any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    searching: false,
+    autoFill: true,
+    retrieve : true,
+    dom: 'Bfrtip',
+    //processing: true,
+    fixedColumns: true,
+    buttons: [
+      /*'colvis',
+      'excel',*/
+    ],
+    /* footerCallback: function ( row, data, start, end, display ) {
+      var total = this.api()
+          .column(2)//numero de columna a sumar
+          //.column(1, {page: 'current'})//para sumar solo la pagina actual
+          .data()
+          .reduce(function (a, b) {
+              return parseInt(a) + parseInt(b);
+          }, 0 );
+
+      $(this.api().column(2).footer()).html(total);
+      
+    }, */
+
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros",
+      search: "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior"
+      },
+      buttons: {
+        /*         colvis : "Columnas",
+                excel : "Exportar a Excel" */
+      },
+      aria:
+      {
+        sortAscending: "Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
+
+
   public BuscarBooking(form: NgForm) {
     this.objConsultaBookingRefrendoExpoRQT = {
       IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
@@ -427,6 +518,7 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dtTriggerCliente.next();
     this.dtTrigger.next();
+    this.dtTriggerLiq.next();    
     console.log(this.dtElement);
   }
 
@@ -444,13 +536,30 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
 
     //document.getElementById("btnGen").setAttribute("disabled","true");
 
+    this.objLiquiMsjRQT = {
+      Codigo : 1
+      };
 
     if (this.TipoConsulta == "S")
     { this.MuestraPAP = true;
-      this.Contenedor = localStorage.getItem("DocumentoL"); 
-      this.MBL = this.Contenedor;
+      //this.Contenedor =  localStorage.getItem("DocumentoL"); 
+      this.Documento = localStorage.getItem("DocumentoL");       
+      this.Contenedor =  "";       
+      this.MBL = this.Documento;
       this.TipoConsultaD = "BOOKING";
-      this.Documento = ""; }
+      
+      this.objLiquiMsj1RQT = {
+          Codigo : 2
+          };
+
+      this.dtOptions.columnDefs = [
+            {
+                "targets": [ 5 ],
+                "visible": true
+              }
+            ];
+
+    }
 
     if (this.TipoConsulta == "I")
     { this.MuestraPAP = false;
@@ -458,6 +567,14 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
       this.TipoConsultaD = "MBL";  
       this.Documento = localStorage.getItem("DocumentoL"); 
       this.MBL = this.Documento;
+
+      this.dtOptions.columnDefs = [
+        {
+            "targets": [ 5 ],
+            "visible": false
+          }
+        ];
+
     }
 
 
@@ -471,6 +588,62 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
       Documento: this.Documento,
       Contenedor: this.Contenedor
       };
+
+      
+    let resmsj = this.reportService.getMensajeLiquidacion(this.objLiquiMsjRQT);
+
+    resmsj.subscribe( 
+      data => {
+        this.objLiquiMsjRPT = data;
+        if (data.length >= 1)
+        {                              
+       
+          this.MsjLiqCont = data[0].Msj;
+
+        /*  let listaent =JSON.parse(JSON.stringify(this.LEntidades.Data));              
+          for (var i = 0; i <= listaent.length-1; i++) {
+            let last = listaent[i];           
+            this.ListaEntidades.push(last);*/
+     
+        }
+        else{
+          this.onIsError();   
+        }
+
+      },  
+      error => {
+        this.onIsError();           
+        console.log("Error");}
+      );
+
+      let resmsj1 = this.reportService.getMensajeLiquidacion(this.objLiquiMsj1RQT);
+
+      resmsj1.subscribe( 
+        data => {
+          this.objLiquiMsj1RPT = data;
+          if (data.length >= 1)
+          {                              
+         
+            this.MsjLiqCont1 = data[0].Msj;
+
+            this.MsjLiqCont2 = data[1].Msj;
+  
+          /*  let listaent =JSON.parse(JSON.stringify(this.LEntidades.Data));              
+            for (var i = 0; i <= listaent.length-1; i++) {
+              let last = listaent[i];           
+              this.ListaEntidades.push(last);*/
+       
+          }
+          else{
+            this.onIsError();   
+          }
+  
+        },  
+        error => {
+          this.onIsError();           
+          console.log("Error");}
+        );
+     
       
     let res = this.reportService.getLiquidacion(this.objLiquidacionBRQT);
 
@@ -480,7 +653,7 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     res.subscribe( 
       data => {
         this.objLiquidacionBRPT = data;
-        if (this.objLiquidacionBRPT.data != null)
+        if (this.objLiquidacionBRPT.Msj == 'OK')
         {                              
        
           let clienteLiq = new LiquidacionCliente();
@@ -506,6 +679,8 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
         this.objListLiquiCont = data.data;
         }
         else{
+          swal(data.Msj.toString());
+          this.dialogRef.close();
           this.onIsError();   
         }
 
@@ -610,6 +785,8 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     this.muestra_oculta("CONTENEDORES");
     this.muestra_oculta("DOCUMENTOS");
     this.muestra_oculta("PAP");
+    this.muestra_oculta("LIQUIDACION");
+    
     
 
   }
@@ -672,6 +849,60 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
        return;
     }
 
+   this.Cantidad = 0;
+ 
+    if (this.TipoConsulta == "S")
+    { 
+
+      for (var i = 0; i <= this.objListLiquiCont.length - 1; i++) {        
+    
+       if (this.objListLiquiCont[i].Cantidad == undefined || this.objListLiquiCont[i].Cantidad.toString() == "" )
+       {
+        swal("Debe ingresar todas las cantidades");
+        return;
+       }
+       
+      }
+      
+      for (var i = 0; i <= this.objListLiquiCont.length - 1; i++) {        
+    
+        this.Cantidad = this.Cantidad + Number.parseInt(this.objListLiquiCont[i].Cantidad.toString());
+      }
+
+    }
+
+    if (this.TipoConsulta == "I")
+    { 
+
+      for (var i = 0; i <= this.objListLiquiCont.length - 1; i++) {        
+    
+        this.Cantidad = this.Cantidad + Number.parseInt( this.objListLiquiCont[i].CantDisponible.toString());
+      }
+
+    }
+
+    if (this.TipoConsulta == "S")
+    {
+     if (this.NombreCompleto == "" || this.NombreCompleto == undefined || this.TipoDoc == "" || this.TipoDoc == undefined || this.Empresa == "" || this.Empresa == undefined)
+     {
+        swal("Debe ingresar todos los datos de la Persona Autorizada");
+        return;
+     }
+    }
+    else
+    {
+      this.NombreCompleto = "";
+      this.TipoDoc = "";
+      this.Empresa = "";
+     
+    }
+
+    
+    var datePipe = new DatePipe("en-US");
+    let value = new Date();
+    this.FechaSelec =  datePipe.transform(value.toString(), 'dd/MM/yyyy');
+  
+
     this.objValFactARQT = {
       IDUser: Number.parseInt(localStorage.getItem("Usuario")),
       IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -709,35 +940,123 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
               } 
              else{
 
-              this.swAlertC = {             
-  title: 'Alerta Contrans',
-  text: this.objValTercRPT.Msj.toString().toUpperCase(),
-  icon: 'info',
-  showCancelButton: true,
-  confirmButtonColor: '',
-  cancelButtonColor: '',
-  confirmButtonText: 'Aceptar',
-  width : 500
-          
+             /* this.swAlertC = {             
+                 title: 'Alerta Contrans',
+                 text: this.objValTercRPT.Msj.toString().toUpperCase(),
+                 icon: 'info',
+                 showCancelButton: true,
+                 confirmButtonColor: '',
+                 cancelButtonColor: '',
+                 confirmButtonText: 'Aceptar',
+                 width : 500          
                 };              
-              Swal(this.swAlertC
-               // swal(this.objValTercRPT.Msj);              
-              ).then((result) => {
+              Swal(this.swAlertC         
+              ).*/              
+              Swal({
+                title: this.objValTercRPT.Msj.toString().toUpperCase(),
+               /* text: "You won't be able to revert this!",*/
+                type : 'question',
+                showCancelButton : true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText : "Cancelar",
+                cancelButtonColor: '#d33',
+                width : 500      
+              }).then((result) => {
                 if (result.value) {
                   //this.myButton.enable();
                   //this.buttondis = false;
+                
 
-                  var element = <HTMLButtonElement> document.getElementById("btnGen");
-                  element.disabled = false;
+              
+
+                  this.objVisLiquiRQT = {
+                    IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+                    IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+                    Codigo: 0,
+                    Accion: "N",
+                    TipoOperacion: this.TipoConsulta,
+                    CodigoUnidadNegocio: this.UnidadNegocio,
+                    Extranet: 0,
+                    Registro: this.MBL,
+                    FechaLiquidacion: this.FechaSelec,
+                    Facturar_A: this.EmpresaSelect,
+                    NombreCompleto: this.NombreCompleto,
+                    TipoDoc: this.TipoDoc,
+                    EmpresaPertenece: this.Empresa,
+                    Cantidad: this.Cantidad,
+                    CodigoEntidadLista: "",
+                    Fecha: "",
+                    Usuario: "",
+                    CodigoEntidadAgencia: "",
+                    TipoEntiRecojoPrecinto: ""
+                    };
 
                  // document.getElementById("btnGen").setAttribute("disabled","false");
 
-                  console.log(this.buttondis);
-               /*   Swal(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                  )*/
+                 let resvis = this.reportService.getVisLiquidacion(this.objVisLiquiRQT);
+
+                 //  console.log(this.objAutEntregaPrecRQT)
+                // this.objListVisLiqui = new Array;  
+
+                this.MuestraLiq = true;
+             
+                 resvis.subscribe( 
+                   data => {
+                     this.objVisLiquiRPT = data;
+                     if (this.objVisLiquiRPT.Msj == "OK")
+                     {                              
+                    
+                 
+                     /*  let listaent =JSON.parse(JSON.stringify(this.LEntidades.Data));              
+                       for (var i = 0; i <= listaent.length-1; i++) {
+                         let last = listaent[i];           
+                         this.ListaEntidades.push(last);*/
+                   
+                     this.objListVisLiqui = data.data;
+
+                     this.CodigoLiqui = this.objVisLiquiRPT.Liquidacion;
+
+                     this.dtTriggerLiq.next(this.objListVisLiqui);
+
+                     var element = <HTMLButtonElement> document.getElementById("btnGen");
+                     element.disabled = false;
+                     
+                    for (var i = 0; i <= this.objListVisLiqui.length - 1; i++) {  
+                      
+                      this.CodigoMoneda =  this.objListVisLiqui[i].chr_MoneCodigo.toString();          
+                      this.SubTotal = this.SubTotal + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaTotal.toFixed(2));
+                      this.Impuesto = this.Impuesto + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaImpuesto.toFixed(2));
+                      this.Total = this.Total + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaNeto.toFixed(2));
+
+                     }
+                     
+
+
+                     }
+                     else{
+                      this.MuestraLiq = false;
+                       swal(data.Msj);
+                       this.onIsError();   
+                     }
+             
+                     /*this.dtElements.forEach((dtElement: DataTableDirective) => {
+                       dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
+                     });
+                     this.dtTriggerCliente.next(this.objListLiquiCliente); 
+                     this.dtTrigger.next(this.objListLiquiCont);*/
+                 
+                   },  
+                   error => {
+                    this.MuestraLiq = false;
+                    swal({
+                    text: "Error al cargar los datos",
+                    icon: "error",
+                     }); 
+                     this.onIsError();           
+                     console.log("Error");}
+                   );
+             
+                
                 }
               })
 
@@ -745,6 +1064,10 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
              }
             }, 
            error => {
+            swal({
+              text: "Error al Validar Tercero",
+              icon: "error",
+               }); 
            this.onIsError();           
            console.log("Error");}
            );
@@ -759,6 +1082,10 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
      
       },  
       error => {
+        swal({
+          text: "Error al Validar Facturar A",
+          icon: "error",
+           }); 
         this.onIsError();           
         console.log("Error");}
       );
@@ -1463,7 +1790,83 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
    // this.SetGrillaVisibility(false);
     this.dtTrigger.unsubscribe();
     this.dtTriggerCliente.unsubscribe();
+    this.dtTriggerLiq.unsubscribe();
   } 
+
+  GrabarLiquidacion()
+  {
+    if (this.objListVisLiqui.length == 0 || this.objListVisLiqui.length == undefined)
+    {swal('Debe de visualizarse la liquidación primero');
+    return;}
+
+    this.objRegLiquiRQT = {
+      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      Codigo: this.CodigoLiqui,
+      Accion: "Y",
+      TipoOperacion: this.TipoConsulta,
+      CodigoUnidadNegocio: this.UnidadNegocio,
+      Extranet: 0,
+      Registro: this.MBL,
+      FechaLiquidacion: this.FechaSelec,
+      Facturar_A: this.EmpresaSelect,
+      NombreCompleto: this.NombreCompleto,
+      TipoDoc: this.TipoDoc,
+      EmpresaPertenece: this.Empresa,
+      Cantidad: this.Cantidad,
+      CodigoEntidadLista: "",
+      Fecha: this.FechaSelec,
+      Usuario: "",
+      CodigoEntidadAgencia: this.EntidadSelect,
+      TipoEntiRecojoPrecinto: "",
+      MoneCodigo: this.CodigoMoneda,
+      LiquFactSubTotal: this.SubTotal ,
+      LiquFactImpuesto: this.Impuesto ,
+      LiquFactTotal: this.Total,
+      UsuarioSAP: "",
+      CodigoTipoVenta: "",
+      CodigoDocumento: "",
+      CodigoSerie: "",
+      SerieDocumento: "",
+      CarpetaOC: "",
+      Referencia: "",
+      CodigoFactura: 0    
+      };
+
+   // document.getElementById("btnGen").setAttribute("disabled","false");
+
+   let resreg = this.reportService.RegLiquidacion(this.objRegLiquiRQT);
+
+   //  console.log(this.objAutEntregaPrecRQT)
+   
+   resreg.subscribe( 
+    data => {
+      this.objRegLiquiRPT = data;
+
+      if (this.objRegLiquiRPT.CodMsj == 0)
+      {                              
+         swal(data.Msj);
+         this.dialogRef.close();
+
+
+      }
+      else{
+        swal(data.Msj);
+        this.onIsError();   
+      }
+    },  
+    error => {
+      swal({
+        text: "Error al cargar los datos",
+        icon: "error",
+         }); 
+      this.onIsError();           
+      console.log("Error");}
+    );
+
+
+
+  }
 
   public AgregarRefrendo(form: NgForm) {
     var NBooking: string

@@ -15,6 +15,7 @@ export class ConsultaPendientesRPT
 
 export class PendientePago
 {
+      Selec: boolean;
       Liquidacion: number;
       TDoc:  string ;
       Fecha:  string ;
@@ -41,3 +42,38 @@ export class PendientePago
       LiquEstaCodigo: number;
       facturar:  string ;
 }
+
+
+export class PagosProcesarRQT
+{
+    IDUser: number;
+    IDRol: number;
+    TMon: string;
+    MCod: string;
+    Itot: number;
+    Tope: string;
+    Data: any;
+}
+
+
+export class PagosProcesarRPT
+{
+    Cod: number;
+    Msj: string;
+}
+
+
+export class PagoProcesar
+{
+   NumDoc:  string;
+   ImporteDoc: number;
+   KDoc: number;
+   Orig: string;
+   TGrupo: string;
+   TDoc: string;
+   TMOV: string;   
+ 
+}
+
+
+

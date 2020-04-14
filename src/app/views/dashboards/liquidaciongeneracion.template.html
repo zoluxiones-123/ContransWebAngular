@@ -16,8 +16,8 @@
                 </select>
               </div> -->
               <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
-                <select name="listEstado"  class="form-control" (change)="ChangingValue($event,'UniNegocio')">
-                  <option [value]="" selected hidden>--Unidad Negocio--</option>
+                <select name="listUniNeg" class="form-control" (change)="ChangingValue($event,'UniNegocio')">
+                  <option [value]=""  selected hidden>--Unidad Negocio--</option>
                   <option *ngFor="let item of this.ListaUniNegocio" [value]="item.Codigo">{{item.Descripcion}}</option> 
                 </select>
               </div>

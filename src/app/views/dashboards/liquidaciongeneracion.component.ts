@@ -42,10 +42,25 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
     public objLiquidacionBRPT: LiquidacionBRPT;
     public objLiquidacionBRQT: LiquidacionBRQT;
     public objListLiquiCont : Array<LiquidacionCont>;
+    myUnidad = new FormControl();    
     
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
-      this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
+      this.reportService.getunidadnegocio().subscribe(
+        data =>
+         {this.ListaUniNegocio = data.Data
+         
+          if (this.ListaUniNegocio.length > 0)
+      
+          { //let uni = this.ListaUniNegocio[0].Descripcion;
+            let coduni = this.ListaUniNegocio[0].Codigo;
+            
+            this.myUnidad.setValue(coduni.toString());
+            //this.EstadoSelect = coduni;
+            }
+    
+         }
+         );
       this.reportService.gettipoconsulta().subscribe(data => this.ListaTipoConsulta = data.Data);
     }
     

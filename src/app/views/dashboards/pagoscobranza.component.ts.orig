@@ -18,10 +18,8 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 import { Observable } from "rxjs/internal/Observable";
 import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
-import {SwAlert} from 'app/models/swalert';
-import Swal from 'sweetalert2';
 
-import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProcesar, PagosProcesarRPT, PagosProcesarRQT}  from '../../models/Pagos';
+import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago}  from '../../models/Pagos';
 
 @Component({
     selector: 'pagoscobranza',
@@ -44,35 +42,16 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
     public ListaEstado : Array<ListaEstadoRefrendoExpo>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
     myCliente = new FormControl();    
-    myUnidad = new FormControl();    
-    
     public ListaEmpresas : Array<entidad> = [];
     public LEmpresas : Entidades;
     public ClienteSelect : string;
     public NClienteSelect : string;
-    public Documento : string = "";
 
     public objConsPenRQT : ConsultaPendientesRQT;
-    public objConsPenRPT : ConsultaPendientesRPT;    
+    public objConsPenRPT : ConsultaPendientesRPT;
+
+    
     public objPendCancL : Array<PendientePago>;
-    public ProcPago : boolean = false;
-
-    
-    public objProcPagRQT : PagosProcesarRQT;
-    public objProcPagRPT : PagosProcesarRPT;
-    
-    public objProcPag : Array<PagoProcesar>;
-    public Total : number = 0;
-    public Moneda: string = "";
-    public MonedaCod: string = "";
-    public Tope: string = "";
-
-    public MuestraProc : boolean = false;
-    public loading : boolean = false;
-
-    
-    notificaciones = [];
-    
     
     
     
@@ -83,46 +62,7 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
 
-      this.reportService.getunidadnegocio().subscribe(
-       // data => this.ListaUniNegocio = data.Data);
-
-        data => {
-      
-          //this.objProcPagRPT = data;
-          this.ListaUniNegocio = data.Data;
-    
-          if (this.ListaUniNegocio.length > 0)
-      
-          { //let uni = this.ListaUniNegocio[0].Descripcion;
-            let coduni = this.ListaUniNegocio[0].Codigo;
-            
-            this.myUnidad.setValue(coduni.toString());
-            //this.EstadoSelect = coduni;
-            }
-    
-         // this.router.navigate(['home']);    
-    
-        },  
-        error => {
-          swal({
-            text: "Error al cargar Unidades de Negocio",
-            icon: "error",
-          });
-          this.onIsError();           
-          console.log("Error");}
-        );
-    
-    
-
-
-     /* if (this.ListaUniNegocio.length > 0)
-      
-      { let uni = this.ListaUniNegocio[0].Descripcion;
-        let coduni = this.ListaUniNegocio[0].Codigo;
-        
-        this.myUnidad.setValue(uni.toString());
-        this.EstadoSelect = coduni;
-        }*/
+      this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
 
     //  this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
     //  this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
@@ -150,17 +90,13 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
       searching: false,
       autoFill: true, 
       dom: 'Bfrtip',
-      buttons: [
-        'colvis',
-        {
-            extend: 'excel',
-            exportOptions: {
-                columns: ':visible'
-            }
-        }     
-      ],    
       processing: true,
       fixedColumns:   true,
+      buttons: [
+        'colvis',
+        'excel',
+      ],
+
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",
@@ -198,10 +134,6 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
        {this.router.navigate(['/login']);}
 
       this.SetGrillaVisibility(false);
-
-   
-
-      
 
       
     
@@ -268,174 +200,6 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
     setTimeout(() => {
       this.isError = false;
     }, 4000);
-  }
-
-  ProcesarPago()
-  {
-
-    let cant = 0;
-
-    for (var i = 0; i <=  this.objPendCancL.length-1; i++) {
-     
-      if (this.objPendCancL[i].Selec == true)
-      {
-        cant = cant + 1;
-      }
-           //this.options.push(last.Nombre);
-    }
-
-    if (cant == 0)
-     { swal("Debe seleccionar al menos una fila para procesar pago");
-    return;}
-   /* else
-     {swal("Se empieza el proceso de pago");}*/
-
-    this.objProcPag = new Array;
-
-    this.Total = 0;
-   
-    for (var i = 0; i <=  this.objPendCancL.length-1; i++) {
-     
-      if (this.objPendCancL[i].Selec == true)
-      {
-    
-        this.Total = this.Total + Number.parseFloat(this.objPendCancL[i].Total.toFixed(2));
-
-        this.Moneda = this.objPendCancL[i].TMon;
-        this.MonedaCod = this.objPendCancL[i].MCod;
-        this.Tope =  this.objPendCancL[i].GrupoServicio;
-
-        let procpag = new PagoProcesar();
-        procpag.NumDoc = this.objPendCancL[i].Documento;
-        procpag.ImporteDoc = Number.parseFloat(this.objPendCancL[i].Total.toFixed(2));
-        procpag.KDoc = this.objPendCancL[i].Liquidacion;
-        procpag.Orig = this.objPendCancL[i].CodUnidadNegocio;
-        procpag.TGrupo = this.objPendCancL[i].GrupoServicio;
-        procpag.TDoc = this.objPendCancL[i].TDoc;
-        procpag.TMOV = "";
-
-        this.objProcPag.push(procpag);
-
-      }
-           //this.options.push(last.Nombre);
-    }
-
-    this.objProcPagRQT = {
-      IDUser: Number.parseInt(localStorage.getItem("Usuario")),
-      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
-      TMon: this.Moneda,
-      MCod: this.MonedaCod,
-      Itot: Number.parseFloat(this.Total.toFixed(2)),
-      Tope: this.Tope,
-      Data: this.objProcPag
-  };
-
-  this.notificaciones = [];
-
-  /*swal({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'question'
-   }).then((result) => {
-    if (result.value) {
-      Swal.fire(
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      )
-    }
-  })*/
-
-    Swal({
-      title: '¿Esta seguro que desea generar la operación?',
-     /* text: "You won't be able to revert this!",*/
-      type : 'question',
-      showCancelButton : true,
-      confirmButtonText: "Aceptar",
-      cancelButtonText : "Cancelar",
-      cancelButtonColor: '#d33'
-    }).then((result) => {
-      if (result.value) {
-      /* Si acepto procesar el pago, se llama al servicio de procesar pago*/
-  this.loading = true;
-  this.reportService
-  .ProcesarPagosOnLine(this.objProcPagRQT)
-  .subscribe(
-    data => {
-      
-      this.objProcPagRPT = data;
-
-      if (data.Cod == 0)
-      {                              
-        let modal = new SwAlert( 
-          "",
-          `<div class="form-control" style="overflow-y: scroll; height:700px; text-align: justify;">` + data.Msj + "</div>",
-           700
-          );
-
-          this.notificaciones.push(modal);       
-          
-          this.loading = false;
-          
-          Swal.queue(this.notificaciones);
-
-          this.RefrescarGrilla();
-          
-        }
-       
-
-      else{
-        this.loading = false;
-        swal({
-          text: "Error al Procesar Pago",
-          icon: "error",
-        });
-
-     //   localStorage.removeItem('StockTotal');       
-        this.onIsError();   
-      }
-
-     // this.router.navigate(['home']);    
-
-    },  
-    error => {
-      swal({
-        text: "Error del servicio Procesar Pago",
-        icon: "error",
-      });
-      this.onIsError();           
-      console.log("Error");}
-    );
-
-
-
-
-
-      }
-    })
-
- 
-    
-    
-
-
-  }
-
-  
-
-  public CheckedSADA(param : any)
-  {
-    let chekeado = param.currentTarget.checked;
-
-   /* if (chekeado == true)
-    {
-      swal({
-        title: "Alerta Contrans",
-        text:   "Confirmar a: \n DireccionamientosContrans@contrans.com.pe \n canal seleccionado en DAM 2 días antes del \n arribo de la nave",      
-        icon: "warning"
-      });
-    }*/
-
   }
 
 /*     popupAnularCartaTemperatura(Id:string, Usuario:string, NroBooking: string){
@@ -570,12 +334,23 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
       this.SetGrillaVisibility(true); */
     console.log(Number.parseInt(this.EstadoSelect));
     console.log(this.ModalidadSelect);
+<<<<<<< HEAD
 
     this.objConsPenRQT = {
       IDUser: Number.parseInt(localStorage.getItem("Usuario")),
       IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
       EntiCodigoCliente: this.ClienteSelect,
       Documento: form.value.txtbox_NroDocumento
+=======
+    this.objConsultaRefrendoExpoRQT = {
+        IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
+        IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        TipoConsulta:"",
+        Booking: form.value.txtbox_NroDocumento,
+        Modalidad: this.ModalidadSelect,
+        Estado : Number.parseInt(this.EstadoSelect)
+    };
+>>>>>>> ac320b373dc21f521a65cac1bf69ac1adfd30ed0
       
   };
 
@@ -589,8 +364,6 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
         return;
       } 
 
-      this.loading = true;
-
 ///Aun Falta obtener el servicio ///
        let res = this.reportService.getPendientesCancelar(this.objConsPenRQT);
    //  console.log(this.objConsultaRefrendoExpoRQT)
@@ -599,7 +372,7 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
         data => { 
           this.objConsPenRPT = data;
           //console.log(data.data);
-          if (data.Msj == "OK")
+          if (data.Data.length > 1)
           {
             //this.SiCargoData = true;
             //this.dtTrigger.next(this.objTemperaturaRQT);
@@ -608,9 +381,6 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
 
             
             this.objPendCancL = data.Data;
-
-            this.MuestraProc = true;
-            this.loading = false
 
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -623,21 +393,18 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
           }
           else
           {
-            this.loading = false;
-
             this.objPendCancL = data.Data;
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
                this.dtTrigger.next(this.objPendCancL);
-               this.SetGrillaVisibility(false);
+               this.SetGrillaVisibility(true);
             });
             swal("No existen datos");
           }
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
-          this.loading = false;
                   swal({
           text: "Error al cargar los datos",
           icon: "error",
@@ -673,62 +440,48 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
   }
     
     public RefrescarGrilla(){
-     
-      let res = this.reportService.getPendientesCancelar(this.objConsPenRQT);
-      //  console.log(this.objConsultaRefrendoExpoRQT)
-         
-         res.subscribe( 
-           data => { 
-             this.objConsPenRPT = data;
-             //console.log(data.data);
-             if (data.Msj == "OK")
-             {
-               //this.SiCargoData = true;
-               //this.dtTrigger.next(this.objTemperaturaRQT);
-               //this.SetGrillaVisibility(true);
-               // this.TieneData = true;
-   
-               
-               this.objPendCancL = data.Data;
-   
-               this.MuestraProc = true;
-               this.loading = false
-   
-               this.SiCargoData = true;
-               this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-                 dtInstance.destroy();
-                 this.dtTrigger.next(this.objPendCancL);    
-                 this.SetGrillaVisibility(true);     
-               });
-         
-              
-             }
-             else
-             {
-               this.loading = false;
-   
-               this.objPendCancL = data.Data;
-               this.SiCargoData = true;
-               this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-                 dtInstance.destroy();
-                  this.dtTrigger.next(this.objPendCancL);
-                  this.SetGrillaVisibility(false);
-               });
-               swal("No existen datos");
-             }
-             //this.dtTrigger.unsubscribe();
-           }, 
-           error => {
-             this.loading = false;
-                     swal({
-             text: "Error al cargar los datos",
-             icon: "error",
-           }); 
-             console.log("Error : ", error); 
-           }
-         );  
-   
-     
+      let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
+      console.log(this.objConsultaRefrendoExpoRQT)
+      
+      res.subscribe( 
+        data => { 
+          this.objConsultaRefrendoExpoRPT = data.data;
+          console.log(data.data);
+          if (data.data.length >= 1)
+          {
+            //this.SiCargoData = true;
+            //this.dtTrigger.next(this.objTemperaturaRQT);
+            //this.SetGrillaVisibility(true);
+            // this.TieneData = true;
+
+            this.SiCargoData = true;
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              dtInstance.destroy();
+              this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);         
+            });
+            this.SetGrillaVisibility(true);
+           
+          }
+          else
+          {
+            this.SiCargoData = true;
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              dtInstance.destroy();
+               this.dtTrigger.next(this.objConsultaRefrendoExpoRPT);
+               this.SetGrillaVisibility(true);
+            });
+            swal("No existen datos");
+          }
+          //this.dtTrigger.unsubscribe();
+        }, 
+        error => {
+                  swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
+          console.log("Error : ", error); 
+        }
+      );  
 
     }
 
@@ -783,14 +536,6 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
     public SiTieneData(param :boolean)
     {
       this.TieneData = false;
-    }
-
-    public Limpiar()
-    {
-      this.myCliente.setValue("");
-      this.myUnidad.setValue("");
-      this.Documento = "";
-      this.ClienteSelect = "";
     }
 
     public ChangingValue(param : any, paramTipo: string)

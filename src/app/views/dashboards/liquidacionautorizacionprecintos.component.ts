@@ -39,6 +39,7 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     public ModalidadSelect:string;
     public ListaUniNegocio : Array<UnidadNegocio>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
+   
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
       this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
