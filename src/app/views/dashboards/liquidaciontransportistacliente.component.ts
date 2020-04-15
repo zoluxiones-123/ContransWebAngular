@@ -110,9 +110,13 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
       fixedColumns:   true,
       buttons: [
         'colvis',
-        'excel',
-      ],
-
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }     
+      ],    
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",

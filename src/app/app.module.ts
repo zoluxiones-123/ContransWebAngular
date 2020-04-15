@@ -78,6 +78,7 @@ import { NuevoSolServComponent } from './views/dashboards/nuevosolserv.component
 import { LiquidacionGeneracionNuevoComponent } from './views/dashboards/liquidaciongeneracionnuevo.component';
 import { LiquidacionTransportistaClienteComponent } from './views/dashboards/liquidaciontransportistacliente.component';
 import { PagosCobranzaComponent } from './views/dashboards/pagoscobranza.component';
+import { LiquidacionAutorizacionPrecintosComponent } from './views/dashboards/liquidacionautorizacionprecintos.component';
 
 import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto.component'
 import { PagosCobranzaConsultaComponent} from './views/dashboards/pagoscobranzaconsulta.component';
@@ -125,6 +126,7 @@ import { PagosCobranzaConsultaDetalleComponent} from './views/dashboards/pagosco
     LiquidacionGeneracionNuevoComponent,
     LiquidacionTransportistaClienteComponent,
     PagosCobranzaComponent,
+    LiquidacionAutorizacionPrecintosComponent,
     PagosCobranzaConsultaComponent,
     ActualizaprecintoComponent,
     PagosCobranzaConsultaDetalleComponent

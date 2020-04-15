@@ -840,6 +840,17 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     this.myEmpresa.setValue(this.NEmpresaSelect);
   }
 
+  
+  public SetGrillaVisibility(param:boolean)
+  {
+    if (param) {
+      document.getElementById('grillaliq').style.visibility = "visible";
+    }
+    else {
+      document.getElementById('grillaliq').style.visibility = "hidden";
+    }
+  }
+
   VisualizarLiq()
   {
 
@@ -854,7 +865,7 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     if (this.TipoConsulta == "S")
     { 
 
-      for (var i = 0; i <= this.objListLiquiCont.length - 1; i++) {        
+    /*for (var i = 0; i <= this.objListLiquiCont.length - 1; i++) {        
     
        if (this.objListLiquiCont[i].Cantidad == undefined || this.objListLiquiCont[i].Cantidad.toString() == "" )
        {
@@ -862,11 +873,11 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
         return;
        }
        
-      }
+      }*/
       
       for (var i = 0; i <= this.objListLiquiCont.length - 1; i++) {        
     
-        this.Cantidad = this.Cantidad + Number.parseInt(this.objListLiquiCont[i].Cantidad.toString());
+        this.Cantidad = this.Cantidad + Number.parseInt(this.objListLiquiCont[i].CantDisponible.toString());
       }
 
     }
@@ -1012,24 +1023,42 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
                          let last = listaent[i];           
                          this.ListaEntidades.push(last);*/
                    
-                     this.objListVisLiqui = data.data;
+                        this.objListVisLiqui = data.data;
 
-                     this.CodigoLiqui = this.objVisLiquiRPT.Liquidacion;
+                  
+                        this.CodigoLiqui = this.objVisLiquiRPT.Liquidacion;
 
-                     this.dtTriggerLiq.next(this.objListVisLiqui);
+                        this.dtTriggerLiq.next(this.objListVisLiqui);
 
-                     var element = <HTMLButtonElement> document.getElementById("btnGen");
-                     element.disabled = false;
-                     
-                    for (var i = 0; i <= this.objListVisLiqui.length - 1; i++) {  
+                        if (this.objListVisLiqui.length >= 1)
+                        {
+   
+                         if (this.objListVisLiqui[0].num_LiquDetaCantidad == 0)
+                         {swal("No se puede grabar la liquidacion, no existen importes.");                       
+                         }
+                         else
+                         {
+   
+                        var element = <HTMLButtonElement> document.getElementById("btnGen");
+                        element.disabled = false;
+                         }
+                        }
+                        
+                       for (var i = 0; i <= this.objListVisLiqui.length - 1; i++) {  
+                         
+                         this.CodigoMoneda =  this.objListVisLiqui[i].chr_MoneCodigo.toString();          
+                         this.SubTotal = this.SubTotal + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaTotal.toFixed(2));
+                         this.Impuesto = this.Impuesto + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaImpuesto.toFixed(2));
+                         this.Total = this.Total + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaNeto.toFixed(2));
+   
+                        }
+                        
+
                       
-                      this.CodigoMoneda =  this.objListVisLiqui[i].chr_MoneCodigo.toString();          
-                      this.SubTotal = this.SubTotal + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaTotal.toFixed(2));
-                      this.Impuesto = this.Impuesto + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaImpuesto.toFixed(2));
-                      this.Total = this.Total + Number.parseFloat(this.objListVisLiqui[i].num_LiquDetaNeto.toFixed(2));
 
-                     }
                      
+
+                   
 
 
                      }
@@ -2032,14 +2061,14 @@ export class LiquidacionGeneracionNuevoComponent implements OnInit {
     return !(typeof param != 'undefined' && param)
   }
 
-  public SetGrillaVisibility(paramControl: string,  param: boolean) {
+  /*public SetGrillaVisibility(paramControl: string,  param: boolean) {
     if (param) {
       document.getElementById(paramControl).style.visibility = "visible";
     }
     else {
       document.getElementById(paramControl).style.visibility = "hidden";
     }
-  }
+  }*/
   public muestra_oculta(param: string) {
     if (document.getElementById) { //se obtiene el id
       var el = document.getElementById(param); //se define la variable "el" igual a nuestro div

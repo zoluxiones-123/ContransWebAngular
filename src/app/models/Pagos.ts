@@ -41,6 +41,7 @@ export class PendientePago
       GrupoServicio:  string ;
       LiquEstaCodigo: number;
       facturar:  string ;
+      Currency : string;
 }
 
 
