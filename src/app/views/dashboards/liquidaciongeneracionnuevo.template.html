@@ -184,7 +184,7 @@
           </div>
           <div id="CONTENEDORES" class="form-group row" >
             <div class="row">
-              <div style="width: 97%;overflow-y: hidden;">
+              <div id="grillaliq"   style="width: 97%;overflow-y: hidden;">
                <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptions"
                   [dtTrigger]="dtTrigger" > 
                   <thead>
@@ -205,7 +205,7 @@
                       <td>{{item.ContTipoIdentificador}}</td> 
                       <td>{{item.CantProgramado}}</td> 
                       <td>{{item.CantDisponible}}</td> 
-                           <td> <input type="text" name="txtbox_Cantidad"  id = "txtCantidad" placeholder="Cantidad"  class="form-control  tamanio-device"  [(ngModel)]="item.Cantidad" /> 
+                           <td> <input type="text" name="txtbox_Cantidad" disabled = "true" id = "txtCantidad" placeholder="Cantidad"  class="form-control  tamanio-device"  [(ngModel)]="item.CantDisponible" /> 
                       </td> 
                       <!-- <td><input type="number" (change)="Recalcular()" name="txtbox_Bulto_{{item.Contenedor}}"  id = "txtBulto_{{item.Contenedor}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" /></td>-->
                       <!-- <td >{{item.Bultos}}</td> -->
@@ -326,12 +326,12 @@
                 <td style = "text-align: center;">{{item.vch_UnidMediDescripcion}}</td> 
                 <td style = "text-align: center;">{{item.vch_LiquDetaDescripcion}}</td>                 
                 <td style = "text-align: center;">{{item.vch_MoneAbreviado}}</td> 
-                <td style = "text-align: center;">{{item.num_LiquDetaPrecio}}</td> 
-                <td style = "text-align: center;">{{item.num_LiquDetaMonto}}</td> 
-                <td style = "text-align: center;">{{item.num_LiquDetaDescuento}}</td> 
-                <td style = "text-align: center;">{{item.num_LiquDetaTotal}}</td> 
-                <td style = "text-align: center;">{{item.num_LiquDetaImpuesto}}</td> 
-                <td style = "text-align: center;">{{item.num_LiquDetaNeto}}</td>                                    
+                <td style = "text-align: right;">{{item.num_LiquDetaPrecio | currency : " " }}</td> 
+                <td style = "text-align: right;">{{item.num_LiquDetaMonto | currency : " " }}</td> 
+                <td style = "text-align: right;">{{item.num_LiquDetaDescuento | currency : " " }}</td> 
+                <td style = "text-align: right;">{{item.num_LiquDetaTotal | currency : " " }}</td> 
+                <td style = "text-align: right;">{{item.num_LiquDetaImpuesto | currency : " " }}</td> 
+                <td style = "text-align: rigth;">{{item.num_LiquDetaNeto | currency : " " }}</td>                                    
                
              </tr>
             </tbody>

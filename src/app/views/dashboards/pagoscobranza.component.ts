@@ -277,6 +277,15 @@ import { ConsultaPendientesRPT, ConsultaPendientesRQT, PendientePago, PagoProces
 
     for (var i = 0; i <=  this.objPendCancL.length-1; i++) {
      
+      if (this.objPendCancL[i].TMon == "DOL")
+      {
+        this.objPendCancL[i].Currency = "$/"
+      }
+      else
+      {
+        this.objPendCancL[i].Currency = "S/."
+      }
+
       if (this.objPendCancL[i].Selec == true)
       {
         cant = cant + 1;

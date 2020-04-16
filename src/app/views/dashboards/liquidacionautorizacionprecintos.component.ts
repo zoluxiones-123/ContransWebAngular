@@ -15,6 +15,7 @@ import { UniNegocio,UnidadNegocio}  from '../../models/Factura';
 import { AutEntregaPrec,AutEntregaPrecRPT,AutEntregaPrecRQT, ValidaEdiPrecRPT, ValidaEdiPrecRQT, ActualizaPrecRPT,
 ActualizaPrecRQT}  from '../../models/Liquidacion';
 import { ActualizaprecintoComponent  } from 'app/views/dashboards/actualizaprecinto.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 //import {CartaTemperaturaDetalleComponent} from './cartatemperaturadetalle.component';
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
@@ -39,10 +40,42 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     public ModalidadSelect:string;
     public ListaUniNegocio : Array<UnidadNegocio>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
+    myUnidad = new FormControl();    
    
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
-      this.reportService.getunidadnegocio().subscribe(data => this.ListaUniNegocio = data.Data);
+      this.reportService.getunidadnegocio().subscribe(
+        
+        
+      //  data => this.ListaUniNegocio = data.Data);
+
+        data => {
+      
+          //this.objProcPagRPT = data;
+          this.ListaUniNegocio = data.Data;
+    
+          if (this.ListaUniNegocio.length > 0)
+      
+          { //let uni = this.ListaUniNegocio[0].Descripcion;
+            let coduni = this.ListaUniNegocio[0].Codigo;
+            
+            this.myUnidad.setValue(coduni.toString());
+            this.UniNegocioSelect = coduni;
+            //this.EstadoSelect = coduni;
+            }
+    
+         // this.router.navigate(['home']);    
+    
+        },  
+        error => {
+          swal({
+            text: "Error al cargar Unidades de Negocio",
+            icon: "error",
+          });
+      //    this.onIsError();           
+          console.log("Error");}
+        );
+
       this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
     }
     
@@ -68,13 +101,17 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
       searching: false,
       autoFill: true, 
       dom: 'Bfrtip',
-      processing: true,
-      fixedColumns:   true,
       buttons: [
         'colvis',
-        'excel',
-      ],
-
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }     
+      ],    
+      processing: true,
+      fixedColumns:   true,
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
         search : "Buscar",
@@ -108,7 +145,8 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 
     
     public objAutEntregaPrecRQT : AutEntregaPrecRQT;
-    public objListaAutEntregaPrec: Array<AutEntregaPrec>;    
+    public objListaAutEntregaPrec: Array<AutEntregaPrec>;   
+    public objListaAutEntregaPrecF: Array<AutEntregaPrec>;   
     public objAutEntregaPrecRPT : AutEntregaPrecRPT;
     
 
@@ -306,6 +344,13 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 
       this.loading = true;
 
+      this.dtOptions.columnDefs = [
+        {
+            "targets": [ 0 ],
+            "visible": false
+          }
+      ];
+
 ///Aun Falta obtener el servicio ///
        //let res = this.reportService.ConsultaRefrendoExpo(this.objConsultaRefrendoExpoRQT);
        let res = this.reportService.getAutorizacionPersonal(this.objAutEntregaPrecRQT);
@@ -317,6 +362,7 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           //this.objConsultaRefrendoExpoRPT = data.data;
           this.objAutEntregaPrecRPT = data;
 
+
           console.log(data);
           if (data.Msj == "OK")
           {
@@ -327,14 +373,17 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 
             this.objListaAutEntregaPrec = data.data;
 
+           // this.objListaAutEntregaPrecF = this.objListaAutEntregaPrec.sort((a, b) => (a.LiquCodigo >= b.LiquCodigo) ? 1 : -1)
+            //this.objListaAutEntregaPrecF = this.objListaAutEntregaPrec.sort();
             this.loading = false;
 
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
-              this.dtTrigger.next(this.objListaAutEntregaPrec);         
+              this.dtTrigger.next(this.objListaAutEntregaPrec); 
+              this.SetGrillaVisibility(true);        
             });
-            this.SetGrillaVisibility(true);
+         
            
           }
           else
@@ -351,6 +400,7 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
+          this.loading = false;
                   swal({
           text: "Error al cargar los datos",
           icon: "error",
@@ -441,6 +491,8 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
     
     public RefrescarGrilla(){
      
+      this.loading = true;
+
       let res = this.reportService.getAutorizacionPersonal(this.objAutEntregaPrecRQT);
 
       console.log(this.objAutEntregaPrecRQT)

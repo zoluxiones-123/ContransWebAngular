@@ -41,7 +41,6 @@ export class PendientePago
       GrupoServicio:  string ;
       LiquEstaCodigo: number;
       facturar:  string ;
-      Currency : string;
 }
 
 
@@ -81,6 +80,9 @@ export class PagoProcesar
 export class ListaEstadoPagoCobranza {
     Codigo: string;
     Descripcion: string;
+<<<<<<< HEAD
+  }
+=======
   }
 
   export class ConsultaPagosServicioRQT
@@ -115,3 +117,4 @@ export class ConsultaPagosServicioRPT
     Id: number;
     facturar: string;
 }
+>>>>>>> origin/con_el_cambio_a_nueva_Angular

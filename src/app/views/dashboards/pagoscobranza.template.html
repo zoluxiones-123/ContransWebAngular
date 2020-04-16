@@ -104,8 +104,8 @@
                     <td>{{item.Documento}}</td>
                     <td>{{item.Naviera}}</td>
                     <td>{{item.NaveViaje}}</td>
-                    <td>{{item.Moneda}}</td>
-                    <td>{{item.Total}}</td>                  
+                    <td style = "text-align: center;">{{item.Moneda}}</td>
+                    <td>{{item.Total | currency : " " }}</td>                  
                  </tr>
                 </tbody>
               </table>
