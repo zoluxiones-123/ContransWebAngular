@@ -83,7 +83,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
   NroDeOrden: string;
   NroDeDAM: string;
   FechaDeNum: any;
-
+  Editar: boolean;
   MandatoElectronico: boolean;/// CONSULTAR
   FOB: string;/// CONSULTAR
 
@@ -127,6 +127,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
   public ListaRegimen: Array<ListaRegimenRefrendoExpo>;
 
   public paramCodigo: string;
+  public loading: boolean;
 
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
@@ -137,7 +138,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
 
   constructor(private reportService: ReportService, public dialogRef: MatDialogRef<RefrendoExpoEditarComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router,private _sanitizer: DomSanitizer) {
 /*     this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data); */
-    this.reportService.ConsultaRegimenRefrendoExpo().subscribe(data => this.ListaRegimen = data.Data);
+    
     var emptyString = "";
 
     this.Codigo = emptyString;
@@ -168,6 +169,17 @@ export class RefrendoExpoEditarComponent implements OnInit {
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
     this.paramCodigo=localStorage.getItem("paramCodigo")
+    
+    this.loading=false;
+
+    if (localStorage.getItem("paramAccion")=="Editar"){
+      this.Editar=true;
+      console.log("Editar: " + this.Editar);
+    }else{
+      this.Editar=false;
+      console.log("No Editar: " + this.Editar);
+      }
+
 
   }
 
@@ -395,7 +407,8 @@ export class RefrendoExpoEditarComponent implements OnInit {
 
   public ngOnInit(): any {
     if (localStorage.getItem("Usuario") == null) { this.router.navigate(['/login']); }
-
+    this.loading = true;
+    this.reportService.ConsultaRegimenRefrendoExpo().subscribe(data => this.ListaRegimen = data.Data);
 
     this.filteredEntidad = this.ControlEntidades.valueChanges.pipe(
       startWith(''),
@@ -472,22 +485,13 @@ export class RefrendoExpoEditarComponent implements OnInit {
     } 
     console.log(JSON.stringify(this.objConsultaIDBookingRefrendoExpoRQT));
 
-/* 
-    if(this.ValidarInputCabecera(this.objConsultaBookingRefrendoExpoRQT))
-    {        
-      swal({
-            text: "Error en los campos de ingreso, por favor verificar",
-            icon: "warning",
-          });
-      return;
-    } */
-    
+   
     let res = this.reportService.ConsultaIDBookingRefrendoExpo(this.objConsultaIDBookingRefrendoExpoRQT);
     res.subscribe(
       data => {
         var resp: ConsultaIDBookingRefrendoExpoRPT;
         resp = data;
-
+        
         console.log("CONSULTA DATOS" + JSON.stringify(data));
         if (data.Cod == 1) {
           swal({
@@ -496,6 +500,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
           });
 
         } else {
+          
           this.objConsultaIDDataBookingRefrendoExpoRPT= data.Data;
           this.objConsultaIDDetalleBookingRefrendoExpoRPT= data.Detalle;
           this.objConsultaIDArchivoBookingRefrendoExpoRPT= data.Archivo;
@@ -510,6 +515,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
           this.NroDeDAM = this.objConsultaIDDataBookingRefrendoExpoRPT[0].DAM;
           this.FechaDeNum = this.objConsultaIDDataBookingRefrendoExpoRPT[0].FechaNumeracion;
           this.Mercaderia = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Mercancia;
+          this.ModalidadSelect = this.objConsultaIDDataBookingRefrendoExpoRPT[0].EmpaCodigo;
           this.FechaCutOff = this.objConsultaIDDataBookingRefrendoExpoRPT[0].FechaCutOff;
           this.CodProducto = this.objConsultaIDDataBookingRefrendoExpoRPT[0].CodProducto;
           this.Producto = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Producto;
@@ -521,8 +527,9 @@ export class RefrendoExpoEditarComponent implements OnInit {
           this.AnioSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Anio;
           this.ControlAnio.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Anio);
 
-          this.RegimenSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Regimen;
-          this.ControlRegimen.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Regimen);
+          this.RegimenSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Regimen.toString();
+          this.ControlRegimen.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Regimen.toString());
+
 
           this.EntidadesSelect=this.objConsultaIDDataBookingRefrendoExpoRPT[0].Exportador;
           this.ControlEntidades.setValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].Exportador);
@@ -580,6 +587,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
           //this.muestra_oculta("CONTENEDORES");
 
           this.SiCargoData = true;
+          this.loading = false;
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.destroy();
             console.log("ENTREEEEEE");
@@ -588,6 +596,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
         }
       },
       error => {
+        this.loading = false;
         swal({
           text: "Error al cargar los datos",
           icon: "error",
@@ -595,6 +604,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
         console.log("Error : ", error);
       }); 
 
+     
 /*     this.muestra_oculta("DAM");
     this.muestra_oculta("CONTENEDORES");
     this.muestra_oculta("DOCUMENTOS");
@@ -1349,11 +1359,11 @@ export class RefrendoExpoEditarComponent implements OnInit {
     } else { */
       let DetalleDatos = [];
       let DetalleArchivos = [];
-/*       for (var clave in this.Datos) {
-        DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].Precinto });
+      for (var clave in this.objConsultaIDDetalleBookingRefrendoExpoRPT) {
+        DetalleDatos.push({ 'CodContenedor': this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].ContCargCodigo, 'Contenedor': this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].ContDesc, 'Bultos': Number.parseInt(this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].Bultos.toString()), 'Peso': Number.parseInt(this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].Pesos.toString()), 'PctoAduana': this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].PctoAduana, 'RefrendoCodDetalle': this.objConsultaIDDetalleBookingRefrendoExpoRPT[clave].RefrendoCodDetalle });
       }
       this.Datos = DetalleDatos;
-      console.log("Detalle Booking Guardar " + this.Datos); */
+      console.log("Detalle Booking Guardar " + this.Datos);
       //this.objGenerarRefrendoExpoActualizarRQT.FechaNum = new Date();
       for (var DAM in this.fileitems_DAM) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 1, 'Archivo': this.fileitems_DAM[DAM].base64, 'NombreArchivo': this.fileitems_DAM[DAM].name, 'RefrendoCodDetalle': this.fileitems_DAM[DAM].RefrendoCodDetalle});
@@ -1401,13 +1411,14 @@ export class RefrendoExpoEditarComponent implements OnInit {
         Anio: this.AnioSelect,
         Regimen: this.RegimenSelect,
         CodProducto: this.CodProducto,
-        Producto: this.Producto,
+        Producto: this.ProductosSelect,
         FechaCutOff: this.FechaCutOff,//form.value.txtbox_FechaCutOff,
-        FOB: form.value.txtbox_FOB,
+        FOB: this.FOB,//form.value.txtbox_FOB,
         MandatoElectronico: this.MandatoElectronico,
         RefrendoCod: Number.parseInt(this.paramCodigo),
-        Deta: this.objConsultaIDDetalleBookingRefrendoExpoRPT,
+        Deta: DetalleDatos,
         ArchivoRefrendo: DetalleArchivos
+
         
       }
 
@@ -1568,7 +1579,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
       this.CodProducto=param.option.value;
       this.ProductosSelect=param.option.viewValue
       this.ControlProductos.setValue(param.option.viewValue);
-      console.log(this.CodProducto);
+      console.log(this.ProductosSelect);
     }else if (paramTipo == "Despachador") {
       this.DespachadorSelect=param.option.viewValue
       this.ControlDespachador.setValue(param.option.viewValue);
