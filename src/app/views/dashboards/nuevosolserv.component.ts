@@ -63,12 +63,15 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
   Nombre: string;
   Apellidos : string;
   NCelular:number;
-
+  CTieneDUA_Opcion: string;
   Seleccion_Opcion: string;
   TareaSelect: string;
 
   CantidadBultos: number;
   CantidadPeso: number;
+  Despachador:string;
+  AgenciaDeAduana:string;
+  loading:boolean;
 
   public unaAM : string = "01:00";
   public dosAM : string = "02:00";
@@ -111,7 +114,7 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
 
   public objListaTareaRPT: Array<ListaTareaRPT>;
   public objListaTareaRQT: ListaTareaRQT;
-  
+  public DetalleServiciosUnicosOK = [];
 
   setearFechasLimite(DiaMas:number,DiasRepeticion:number ){
     let date = new Date();
@@ -147,6 +150,9 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
   this.Apellidos = "";
   this.NCelular=0;
   this.TareaSelect="0";
+  this.CTieneDUA_Opcion=""
+  this.Despachador = "";
+  this.AgenciaDeAduana = "";
   }
 
   @ViewChild(DataTableDirective)
@@ -261,6 +267,8 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
   };
   public BuscarServicio(form: NgForm) {
 
+    this.loading=true;
+    this.CTieneDUA_Opcion="D"
     this.objListaTareaRQT = {
       Index: "0",
   }
@@ -337,6 +345,8 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           this.EntiCodigo= data.EntiCodigo;
           this.CodCliente= data.CodCliente;
           this.CodViaje= data.CodViaje;
+          this.Despachador = localStorage.getItem("NombreUsuario").toString();
+          this.AgenciaDeAduana = localStorage.getItem("EntiNombre").toString();
 
           for (var contn in data.data){
             DetalleContenedores.push({'CONTCARGCODIGO': data.data[contn].CONTCARGCODIGO, 'CONTNUMERO': data.data[contn].CONTNUMERO, 'CONTCAPAIDENTIFICADOR': data.data[contn].CONTCAPAIDENTIFICADOR, 'CONTTIPO': data.data[contn].CONTTIPO, 'PESO': data.data[contn].PESO, 'BULTOS': data.data[contn].BULTOS, 'Empaque': data.data[contn].Empaque, "Seleccion": false });
@@ -383,6 +393,7 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           this.ServiciosContenedores = DetalleServiciosContenedores;
 
           this.SiCargoData = true;
+          this.loading=false;
           this.dtElements.forEach((dtElement: DataTableDirective) => {
             dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
           });
@@ -511,6 +522,14 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
 
   public CargarTarea(paramValor: string) {
 
+
+    if (paramValor=="D"){
+       document.getElementById('DUA').style.visibility = "visible";
+    }else {
+       document.getElementById('DUA').style.visibility = "hidden";
+    } 
+    //}
+
     this.objListaTareaRQT = {
       Index: paramValor,
   }
@@ -549,6 +568,7 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
     console.log("CONSULTA SELECCION Servicios " + JSON.stringify(this.Servicios ));
     console.log("CONSULTA SELECCION Contenedor " + JSON.stringify(this.Contenedores ));
     let DetalleServiciosContenedores = []; 
+    
     let CkContenedores: boolean;
     let CkServicios: boolean;
     CkContenedores = false;
@@ -587,18 +607,31 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
       }
     }
 
+    for (var contn in this.DetalleServiciosUnicosOK){
+      NOrden = NOrden + 1;
+    }
+
     for (var contn in this.Contenedores){
         for (var servc in this.ServiciosUnicos){
           if (this.Contenedores[contn].Seleccion == true){
             if (this.ServiciosUnicos[servc].Seleccion == true){
 
-              let DetalleServiciosUnicos = [];                                                                                                                                                                                                                                                                                                                                                                                                              
+              let DetalleServiciosUnicos = [];                                                                                                                                                                                                                                                                                                                                                                                                    
               DetalleServiciosUnicos = this.Servicios.filter(detalle => detalle.SERVDESCRIPCION == this.ServiciosUnicos[servc].SERVDESCRIPCION);
         
               for (var servcu in DetalleServiciosUnicos){
                 if (this.Contenedores[contn].CONTCAPAIDENTIFICADOR== DetalleServiciosUnicos[servcu].CONTCAPACODIGO){
+
+                  for (var servcs in this.DetalleServiciosUnicosOK){
+                    if (this.DetalleServiciosUnicosOK[servcs].SERVDETACODIGO==DetalleServiciosUnicos[servcu].SERVDETACODIGO){
+                      console.log("Valor Duplicado "+ this.DetalleServiciosUnicosOK[servcs].SERVDETACODIGO);
+                      return false;
+                    }
+                  }
+
                   NOrden = NOrden + 1;
-                  DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': DetalleServiciosUnicos[servcu].SERVDESCRIPCION.trim(), 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': DetalleServiciosUnicos[servcu].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
+                  //DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': DetalleServiciosUnicos[servcu].SERVDESCRIPCION.trim(), 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': DetalleServiciosUnicos[servcu].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
+                  this.DetalleServiciosUnicosOK.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': DetalleServiciosUnicos[servcu].SERVDESCRIPCION.trim(), 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': DetalleServiciosUnicos[servcu].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
                 }
               }
 
@@ -609,7 +642,8 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
                 for (var servcu in DetalleServiciosUnicos){
                   if (this.Contenedores[contn].CONTCAPAIDENTIFICADOR== DetalleServiciosUnicos[servcu].CONTCAPACODIGO){
                     NOrden = NOrden + 1;
-                    DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': DetalleServiciosUnicos[servcu].SERVDESCRIPCION.trim(), 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': DetalleServiciosUnicos[servcu].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
+                    //DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': DetalleServiciosUnicos[servcu].SERVDESCRIPCION.trim(), 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': DetalleServiciosUnicos[servcu].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
+                    this.DetalleServiciosUnicosOK.push({'ORDEN': NOrden,'CONTNUMERO': this.Contenedores[contn].CONTNUMERO,'SERVDESCRIPCION': DetalleServiciosUnicos[servcu].SERVDESCRIPCION.trim(), 'Empaque': this.Contenedores[contn].Empaque, 'BULTOS': this.Contenedores[contn].BULTOS, 'SERVDETACODIGO': DetalleServiciosUnicos[servcu].SERVDETACODIGO, 'CONTCARGCODIGO': this.Contenedores[contn].CONTCARGCODIGO });
                   }
                 }
               }
@@ -620,7 +654,15 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
           }
         }
     }
-    this.ServiciosContenedores = DetalleServiciosContenedores;
+    
+    this.ServiciosContenedores = this.DetalleServiciosUnicosOK;
+
+    for (var servcu in this.Contenedores){
+      this.Contenedores[servcu].Seleccion = false;
+     }
+     for (var servcu in this.ServiciosUnicos){
+      this.ServiciosUnicos[servcu].Seleccion = false;
+     }
 
     this.dtElements.forEach((dtElement: DataTableDirective) => {
       dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
@@ -646,6 +688,8 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
     VCONTNUMERO="";
     VORDEN=0;
 
+    this.DetalleServiciosUnicosOK = DetalleServiciosContenedores;
+
     for (var servcontn in this.ServiciosContenedores){
       if (this.ServiciosContenedores[servcontn].ORDEN == paramOrden && this.ServiciosContenedores[servcontn].SERVDESCRIPCION.trim()=="CUADRILLA" ){
         VCONTNUMERO=this.ServiciosContenedores[servcontn].CONTNUMERO;
@@ -670,15 +714,18 @@ export class NuevoSolServComponent implements AfterViewInit, OnDestroy, OnInit{
 
     console.log(" Eliminar: " + VCONTNUMERO +" - "+VORDEN );
 
-
     for (var servcontn in this.ServiciosContenedores){
+      console.log(" ENTRE FOR " );
       if (this.ServiciosContenedores[servcontn].ORDEN != paramOrden && this.ServiciosContenedores[servcontn].ORDEN != VORDEN){
             NOrden = NOrden + 1;
-            DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.ServiciosContenedores[servcontn].CONTNUMERO,'SERVDESCRIPCION': this.ServiciosContenedores[servcontn].SERVDESCRIPCION, 'Empaque': this.ServiciosContenedores[servcontn].Empaque, 'BULTOS': this.ServiciosContenedores[servcontn].BULTOS, 'SERVDETACODIGO': this.ServiciosContenedores[servcontn].SERVDETACODIGO, 'CONTCARGCODIGO': this.ServiciosContenedores[servcontn].CONTCARGCODIGO });
+            console.log(" ENTRE IF " );
+            //DetalleServiciosContenedores.push({'ORDEN': NOrden,'CONTNUMERO': this.ServiciosContenedores[servcontn].CONTNUMERO,'SERVDESCRIPCION': this.ServiciosContenedores[servcontn].SERVDESCRIPCION, 'Empaque': this.ServiciosContenedores[servcontn].Empaque, 'BULTOS': this.ServiciosContenedores[servcontn].BULTOS, 'SERVDETACODIGO': this.ServiciosContenedores[servcontn].SERVDETACODIGO, 'CONTCARGCODIGO': this.ServiciosContenedores[servcontn].CONTCARGCODIGO });
+            this.DetalleServiciosUnicosOK.push({'ORDEN': NOrden,'CONTNUMERO': this.ServiciosContenedores[servcontn].CONTNUMERO,'SERVDESCRIPCION': this.ServiciosContenedores[servcontn].SERVDESCRIPCION, 'Empaque': this.ServiciosContenedores[servcontn].Empaque, 'BULTOS': this.ServiciosContenedores[servcontn].BULTOS, 'SERVDETACODIGO': this.ServiciosContenedores[servcontn].SERVDETACODIGO, 'CONTCARGCODIGO': this.ServiciosContenedores[servcontn].CONTCARGCODIGO });
       }
     }
 
-    this.ServiciosContenedores = DetalleServiciosContenedores;
+    //this.ServiciosContenedores = DetalleServiciosContenedores;
+    this.ServiciosContenedores =this.DetalleServiciosUnicosOK;
     this.dtElements.forEach((dtElement: DataTableDirective) => {
       dtElement.dtInstance.then((dtInstance: DataTables.Api) => {dtInstance.destroy();});
     });
