@@ -223,10 +223,9 @@ export class ConsultacitasComponent implements AfterViewInit, OnDestroy, OnInit 
       }
     });
 
-    
     dialogRef.afterClosed().subscribe(  result => {         
-    this.RefrescarGrilla();}
-    );
+      this.RefrescarGrilla();}
+      );
 
    /* dialogRef.afterClosed().subscribe(result => {
       if (result){    

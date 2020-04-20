@@ -19,7 +19,9 @@ ValidaEdiPrecRQT, ActualizaPrecRPT, ActualizaPrecRQT, ValidaFacturarARPT, Valida
 ClienteTrans,ClienteTransConsRPT,ClienteTransConsRQT,RegClienteTransRPT, RegClienteTransRQT, MensajeRPT,MensajeRQT,VisualizarLiqRPT,
 VisualizarLiqRQT,RegLiquidacionRPT, RegLiquidacionRQT } from '../models/Liquidacion';
 
-import { ListaTareaRQT,ListaTareaRPT,GenerarSolicitudRQT,GenerarSolicitudRPT,ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT }
+import { ListaTareaRQT,ListaTareaRPT,GenerarSolicitudRQT,GenerarSolicitudRPT,ConsultarSolicitudRPT,ConsultarSolicitudRQT, SolicitudServicio, EstSolServicio, 
+  EstadoSolServicio,ConsultarVolanteSolicitudRQT,ConsultarVolanteSolicitudRPT,ImprimirSolicitudRPT,ImprimirSolicitudRQT,AnularSolServRPT,
+AnularSolServRQT }
 from '../models/SolicitudServicio';
 
 import { Base64RPT,Base64RQT } from '../models/Base64';
@@ -49,6 +51,8 @@ import { RepStockExpRPT } from "../models/rep_stockexpRPT";
 
 
 import { GrabarDireccRQT,GrabarDireccRPT } from '../models/GrabarDirecc';
+
+import { ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante } from "../models/Permiso";
 
 
 import { RepEriRPT } from "../models/rep_eriRPT";
@@ -112,6 +116,26 @@ export class ReportService {
       .pipe(map(data => data));
   }
 
+  
+  ImprimirSolicitudServicio(imprimirsolrqt: ImprimirSolicitudRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/imprimirsolicitudservicio`;    
+    return this.http
+      .post<ImprimirSolicitudRPT>(
+        url_api, imprimirsolrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  AnularSolicitudServicio(anularsolrqt: AnularSolServRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/anularsolicitud`;    
+    return this.http
+      .post<AnularSolServRPT>(
+        url_api, anularsolrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
   getAutorizacionPersonal(autentregaprecrqt: AutEntregaPrecRQT ): Observable<any> 
   {
     const url_api =`/ContransAPI/api/consultaautorizacionpersonal`;    
@@ -148,6 +172,16 @@ export class ReportService {
     return this.http
       .post<LiquidacionBRPT>(
         url_api, liquidacionbrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getLevante(levanterqt: ConsultaLevanteRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultalevante`;    
+    return this.http
+      .post<ConsultaLevanteRPT>(
+        url_api, levanterqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 
@@ -742,6 +776,21 @@ export class ReportService {
   gettipoconsulta() : Observable<any>
   {
     const url_api =`/ContransAPI/api/tipoconsulta`;
+    return this.http.get<UniNegocio>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  
+  getaduana() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/aduana`;
+    return this.http.get<UniNegocio>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  getregimen() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/regimen`;
     return this.http.get<UniNegocio>(
         url_api, { headers: this.headers }).pipe(map(data => data));
   }

@@ -9,23 +9,6 @@
   </div>
   <form class="m-t" role="form" #formUsuario="ngForm" >
     <div class="ibox-content cuerpo-con-overflow">
-<!--       <div class="form-group row">
-        <label class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 0px;padding-top: 7px;">
-          N° Booking :</label>
-        <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 5px;">
-          <input type="text" name="txtbox_NBooking" class="form-control tamanio-device" [ngModel]>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-lg-3 label_device" style="padding-left: 5px;padding-bottom: 10px;">
-          <select name="listModalidad" class="form-control" style=" padding-left: 5px;padding-right: 5px;"
-            (change)="ChangingValue($event,'Modalidad')">
-            <option [value]="" selected hidden>--Modalidad--</option>
-            <option *ngFor="let item of this.ListaModalidad" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}
-            </option>
-          </select>
-        </div>
-        <div class="col-xs-5 col-sm-2 col-lg-2" style="padding: 1px 5px 2px;width: auto;"><button type="button"
-            (click)="BuscarBooking(formUsuario)" class="btn btn-primary block m-b tamanio-device">Buscar</button></div>
-      </div> -->
       <div>
         <!-- ------------PARTE 1------------ -->
         <div>
@@ -268,7 +251,8 @@
                     </mat-form-field> -->
                 </div>
               </div>
-              <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Empresa a la que pertenece:</label>
+              <div class="form-group row">
+                <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Empresa a la que pertenece:</label>
                 <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
                   <input type="text"  [(ngModel)]="Empresa" maxlength="50" name="txtbox_Empresa" 
                   class="form-control">

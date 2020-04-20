@@ -1654,7 +1654,7 @@ this.VisualizarHoras();
     {
         "targets": [ 1 ],
         "visible": false
-      },
+    },
     {
         "targets": [ 2 ],
         "visible": false

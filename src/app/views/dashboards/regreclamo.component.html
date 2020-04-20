@@ -1,0 +1,279 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Registro de Reclamo</h5>
+          <iboxtools></iboxtools>
+        </div>
+  
+        <div class="ibox-content">
+          <form class="m-t" role="form" #formFact="ngForm">
+            <div class="row">
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
+                  <input type="text" name="txtbox_Fecha" placeholder="Fecha de Reclamo" class="form-control  tamanio-device" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue' }"[ngModel] required>
+                </div>
+              </div>
+
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_Empresa" placeholder="Empresa"  class="form-control  tamanio-device" [ngModel] required /> 
+                </div>
+              </div>
+
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_Direccion" placeholder="Direccion"  class="form-control  tamanio-device" [ngModel] required /> 
+                </div>
+              </div>
+            </div>                             
+          </form>
+       
+        </div>
+
+
+      </div>
+         <!-- Fin del Ibox Content -->
+    
+         <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Datos del Consumidor</h5>
+            <iboxtools></iboxtools>
+          </div>
+         
+          <div class="ibox-content">
+            <form class="m-t" role="form" #formFact="ngForm">
+              <div class="row">
+
+               
+                  
+                  <div class="col-sm-2" style="padding-left: 5px;">                 
+                    <mat-form-field>
+                      <input type="text" placeholder="Digite la Empresa" matInput [formControl]="myControlE"
+                        [matAutocomplete]="autoAg">
+                      <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueE($event)" #autoAg="matAutocomplete">
+                        <mat-option *ngFor="let emp of filteredEmp | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                          {{emp.Nombre}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>                      
+  
+                <div class="col-sm-2" style="padding-left: 5px;">
+                  <div class="form-group">
+                    <input type="text" name="txtbox_Nombres"  [formControl]="myNombres" placeholder="Nombres"  class="form-control  tamanio-device" [ngModel] required /> 
+                  </div>
+                </div>
+  
+                <div class="col-sm-2" style="padding-left: 5px;">
+                  <div class="form-group">
+                    <input type="text" name="txtbox_Apellidos"  [formControl]="myApellidos" placeholder="Apellidos"  class="form-control  tamanio-device" [ngModel] required /> 
+                  </div>
+                </div>
+       
+                <div class="col-sm-2" style="padding-left: 5px;">
+                  <div class="form-group">
+                    <input type="text" name="txtbox_Direccion" placeholder="Direccion"  class="form-control  tamanio-device" [ngModel] required /> 
+                  </div>
+                </div>
+                           
+  
+              </div>
+              <div class="row">
+                <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                  <select name="listUniNeg"  class="form-control  tamanio-device" (change)="ChangingValueTD($event)">
+                    <option [value]="" selected hidden>--Tipo Documento--</option>
+                    <option *ngFor="let item of this.TipoDocumento" [value]="item.AlmaCodigo">{{item.AlmaDescripcion}}</option>
+                  </select>
+                </div>
+
+                <div class="col-sm-2" style="padding-left: 5px;">
+                  <div class="form-group">
+                    <input type="text" name="txtbox_NroDocumento"  [formControl]="myNroDocumento" placeholder="Nro Documento"  class="form-control  tamanio-device" [ngModel] required /> 
+                  </div>
+                </div>
+
+                <div class="col-sm-2" style="padding-left: 5px;">
+                  <div class="form-group">
+                    <input type="text" name="txtbox_Telefono"  [formControl]="myTelefono" placeholder="Telefono"  class="form-control  tamanio-device" [ngModel] required /> 
+                  </div>
+                </div>
+
+              
+            
+              </div>
+              <div class="row">
+                <div class="col-sm-2" style="padding-left: 5px;" >
+                  <div class="form-group" >
+                    <input id ="txtbox_Celular" type="text"  [formControl]="myCelular" name="txtbox_Celular" placeholder="Celular" class="form-control  tamanio-device"  [ngModel] required/>
+                  </div>
+                </div>
+  
+                <div class="col-sm-2" style="padding-left: 5px;" >
+                  <div class="form-group" >
+                    <input id ="txtbox_EMail" type="text" name="txtbox_Email"  [formControl]="myEmail" placeholder="EMail" class="form-control  tamanio-device"  [ngModel] required/>
+                  </div>
+                </div>
+
+                <div class="col-sm-2" style="padding-left: 5px;" >
+                  <div class="form-group" >
+                    <input id ="txtbox_Apoderado" type="text" name="txtbox_Apoderado" placeholder="Apoderado" class="form-control  tamanio-device"  [ngModel] required/>
+                  </div>
+                </div>
+              
+              </div>
+              <div class="row">
+                <div class="ibox-title">
+                  <h5>Identificación del Bien Contratado</h5>
+                  <iboxtools></iboxtools>
+                </div>
+                <div class="ibox-content">
+                  <form class="m-t" role="form" #formTipo="ngForm">
+                    <div class="row">
+
+                      <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                        <select name="listTipoContrato"  class="form-control  tamanio-device" (change)="ChangingValueTC($event)">
+                          <option [value]="" selected hidden>--Tipo Contrato--</option>
+                          <option *ngFor="let item of this.TipoContrato" [value]="item.AlmaCodigo">{{item.AlmaDescripcion}}</option>
+                        </select>
+                      </div>
+      
+                    <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                       <select name="listUniNeg"  class="form-control  tamanio-device" (change)="ChangingValueUN($event)">
+                           <option [value]="" selected hidden>--Unidad de Negocio--</option>                           
+                           <option *ngFor="let item of this.ListaUnidadNegocio" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option>
+            
+                       </select>
+                    </div>
+
+        
+                      <div class="col-sm-2" style="padding-left: 5px;">
+                        <div class="form-group">
+                          <input type="text" name="txtbox_Registro" placeholder="BL"  class="form-control  tamanio-device" [ngModel] required /> 
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-sm-4" style="padding-left: 5px;">
+                        <div class="form-group">
+                          <input type="text" name="txtbox_Descripcion" placeholder="Descripcion"  class="form-control  tamanio-device" [ngModel] required /> 
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+                    
+                  </form>
+               
+                </div>
+             
+             
+             
+              </div>
+
+              <div class="row">
+                <div class="ibox-title">
+                  <h5>Detalle del Reclamo</h5>
+                  <iboxtools></iboxtools>
+                </div>
+                <div class="ibox-content">
+          
+                    <div class="row">
+
+                      <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                        <select name="listTipoReclamo"  class="form-control  tamanio-device" (change)="ChangingValueTRec($event)">
+                          <option [value]="" selected hidden>--Tipo Reclamo--</option>
+                          <option *ngFor="let item of this.TipoReclamo" [value]="item.AlmaCodigo">{{item.AlmaDescripcion}}</option>
+                        </select>
+                      </div>
+
+                      <div class="col-sm-3" style="padding-left: 5px;">
+                        <div class="form-group">
+                          <input type="text" name="txtbox_DescripcionDR" placeholder="Descripcion Detalle Reclamo"  class="form-control  tamanio-device" [ngModel] required /> 
+                        </div>
+                      </div>
+      
+                    <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                       <select name="listMotivo"  class="form-control  tamanio-device" (change)="ChangingValueMotivo($event)">
+                           <option [value]="" selected hidden>--Motivo--</option>                           
+                           <option *ngFor="let item of this.ListaMotivo" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option>            
+                       </select>
+                    </div>
+
+                    <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                      <select name="listDReclamo"  class="form-control  tamanio-device" (change)="ChangingValueDR($event)">
+                          <option [value]="" selected hidden>--Detalle Reclamo--</option>                           
+                          <option *ngFor="let item of this.ListaMotivo" [value]="item.IDUnidadNegocio">{{item.UnidadNegocio}}</option>            
+                      </select>
+                   </div>
+
+                 
+                    </div>
+                    
+                    <div class="row">
+                     <!--Aca va lo del Adjuntar Evidencia -->
+                     <label class="col-sm-2 col-form-label">Adjuntar Evidencia:</label>
+                     <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                       <div class="form-group">
+                         <input type="file" [accept]="[
+                           '.jpg',
+                           '.jpeg',
+                           '.pdf',
+                           '.png']" (change)="changeListener($event)">
+                         <button (click)="AgregarArchivo(this.filename1)">Agregar Archivo</button>
+                       </div>
+             
+                     </div>
+             
+
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-sm-5" style="padding-left: 5px;padding-bottom: 10px;">
+                        <mat-selection-list #list>
+                          <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                            [value]="item.name">
+                            <label style="color:blue;"> Archivo: {{item.name}} Tamaño:
+                              {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
+                            </label>
+                          </mat-list-option>
+                        </mat-selection-list>
+                      </div>
+              
+                      <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                        <button (click)="EliminarSelect()" class="btn btn-w-m btn-default">Eliminar</button>
+                      </div>
+
+
+
+
+                    </div>
+                    
+                    
+                    
+               
+               
+                </div>
+             
+             
+             
+              </div>
+                
+           
+           
+            </form>
+         
+  
+          </div>
+  
+  
+        </div>
+
+
+    </div>
+  </div>
+</div>
+

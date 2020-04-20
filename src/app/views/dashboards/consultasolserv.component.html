@@ -85,12 +85,15 @@
             
           </form>
           <div class="row">
+            <div class="loading" *ngIf = "loading" style="text-align:center;height: 420px ;margin-right: 0px;margin-left: 0px;" >
+              <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+           </div>
             <div id="grillaserv" class="table-responsive">
               <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
                 [dtTrigger]="dtTrigger">
                 <thead>
                   <tr>                    
-                    <th>Acciones</th>                     
+                    <th>Imprimir</th>                     
                     <th>Anular</th>                                 
                     <th>Hoja Serv</th>
                     <th>Tarea</th>
@@ -110,8 +113,10 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of this.ListaSolServ">
-                    <td><a ><img  style="width: 24px;" src="assets/images/imprimir.png"></a></td>                                                            
-                    <td><a ><img src="assets/images/delete.png"></a></td>                                      
+                    <td><a (click)="ImprimirSolServ(item.HojaServCodigo)"><img  style="width: 24px;" src="assets/images/imprimir.png"></a></td>                                                                             
+                    <td><a (click)="popupAnularSolServ(item.HojaServCodigo)"><img src="assets/images/delete.png"></a></td>                                                                             
+                 
+                                                    
                     <td>{{item.HojaServCodigo}}</td>
                     <td>{{item.TareServDescripcion}}</td> 
                     <td>{{item.FechaPrograma}}</td>

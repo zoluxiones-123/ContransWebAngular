@@ -65,6 +65,38 @@ export class ConsultarVolanteSolicitudRQT
   UnidadNeg: string;
 }
 
+
+export class ImprimirSolicitudRQT
+{
+  IDUser: number;
+  IDRol: number;
+  HojaServCodigo: string;
+  
+}
+
+
+export class AnularSolServRQT
+{
+  IDUser: number;
+  IDRol: number;
+  HojaServCodigo: string;
+  Observacion: string;
+}
+
+
+export class AnularSolServRPT
+{
+  Cod: number;
+  Msj: string;
+}
+
+
+export class ImprimirSolicitudRPT
+{
+  Cod: number;
+  Msj: string;
+}
+
 export class ConsultarVolanteSolicitudRPT
 {
   CodMsj: number;

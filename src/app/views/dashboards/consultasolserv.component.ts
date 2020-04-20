@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ConsultarSolicitudRPT,ConsultarSolicitudRQT,EstSolServicio,EstadoSolServicio, SolicitudServicio } 
+import { ConsultarSolicitudRPT,ConsultarSolicitudRQT,EstSolServicio,EstadoSolServicio, SolicitudServicio,ImprimirSolicitudRPT,ImprimirSolicitudRQT } 
 from '../../models/SolicitudServicio';
 import { CitasRPT, CitasRQT, Citas } from '../../models/Cita';
 
@@ -13,10 +13,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClient } from 'selenium-webdriver/http';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
-import { ActualizarcitaComponent  } from 'app/views/dashboards/actualizarcita.component';
+import { AnularsolservComponent  } from 'app/views/dashboards/anularsolserv.component';
 import { GenerarcitaComponent  } from 'app/views/dashboards/generarcita.component';
 import {NuevoSolServComponent} from './nuevosolserv.component';
 import { DatePipe } from '@angular/common';
+import {SwAlert} from 'app/models/swalert';
+import Swal from 'sweetalert2';
 
 
 import { MatDialog, MatDialogConfig} from '@angular/material';
@@ -49,6 +51,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
   public FilePathImpo : string = "";
   public NombreArchivoImpo : string = "";
 
+  public loading : boolean;
+
   
   myFechaDesde = new FormControl();
   myFechaHasta = new FormControl();
@@ -59,6 +63,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
   
   public ListaEstSol : Array<EstSolServicio> = [];
   public EstadoSolServ : EstadoSolServicio;
+
+  notificaciones = [];
   
 
   public ListaCitas : Array<CitasRPT> = [];
@@ -75,6 +81,19 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
     BkgNbr: "",
     Estado: ""
 
+   };
+
+   
+  public objImprimirSolRqt : ImprimirSolicitudRQT = {
+    IDUser: 0,
+    IDRol: 0,
+    HojaServCodigo: "" 
+   };
+
+   
+  public objImprimirSolRpt : ImprimirSolicitudRPT = {
+   Cod : -1,
+   Msj: "" 
    };
 
   public TieneData = false;
@@ -102,6 +121,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
 
     
    // this.ListaAlmacenes = new Array;
+
+   this.loading = false;
 
    this.FilePathDJ = "C://Documentos//declaracion_jurada_reconocimiento_fisico.pdf";
    this.NombreArchivoDJ = "declaracion_jurada_reconocimiento_fisico";
@@ -249,6 +270,93 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
   public GenerarSolServ()
   {}
 
+  popupAnularSolServ(NroSolServ:string)
+  {
+  localStorage.setItem("NroSolServ",NroSolServ);
+
+  const dialogRef = this.dialog.open(AnularsolservComponent,{
+    disableClose: true,
+    autoFocus: true,
+    width: "500px",
+    height : "500px",
+    position: {
+      top: '10%'
+    }
+  });
+
+  
+  dialogRef.afterClosed().subscribe(  result => { 
+
+    let AnuloSolServ =  localStorage.getItem("AnuloSolServ").toString();
+
+      if (AnuloSolServ == "Si")
+      {this.RefrescarGrilla();}    
+  }
+
+  );
+
+ 
+}
+
+  public ImprimirSolServ(CodigoServicio : string)
+  {
+
+    this.objImprimirSolRqt = {  
+    IDUser:  Number(localStorage.getItem("Usuario").toString()), 
+    IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+    HojaServCodigo : CodigoServicio
+    };
+
+    this.notificaciones = [];
+
+    this.reportService.ImprimirSolicitudServicio(this.objImprimirSolRqt)
+    .subscribe(
+      data => {
+        
+        this.objImprimirSolRpt = data;
+  
+        if (data.Cod == 0)
+        {               
+          
+          const linkSource = 'data:application/pdf;base64,' + data.Msj.toString();
+          const downloadLink = document.createElement("a");
+          const fileName = "SolicitudServicio" + CodigoServicio + ".pdf";
+  
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+          
+
+       /*   let modal = new SwAlert( 
+            "",
+            `<div class="form-control" style="overflow-y: scroll; height:700px; text-align: justify;">` + data + "</div>",
+             700
+            );
+  
+            this.notificaciones.push(modal);       
+            
+          
+            Swal.queue(this.notificaciones);
+  */
+            
+          }
+         
+  
+        else{
+         // this.loading = false;
+          swal({
+            text: "Error al Imprimir Solicitud de Servicio",
+            icon: "error",
+          });
+  
+
+        }
+
+      }
+    );
+
+  }
+
   public DescargarArchivo(paramUri:string, paramNombre:string){
 
     this.reportService.getArchivoByte(paramUri,paramNombre,"pdf").subscribe(
@@ -268,7 +376,65 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
       }, (error)=> console.log("Salio error en la descarga: ", error));
   }
 
-  
+  RefrescarGrilla()
+  {
+    
+
+    let res = this.reportService.getSolicitudServicio(this.objConsultarSolRqt);
+    
+    this.loading = true;
+
+    res.subscribe( 
+      data => { 
+        this.objConsultarSolRpt = data;
+        if (data.Msj == "Ok")
+        {
+          this.SiCargoData = true;
+
+          this.ListaSolServ =  this.objConsultarSolRpt.data;
+
+          
+          this.loading = false;
+
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+
+            dtInstance.destroy();
+    
+            this.dtTrigger.next(this.ListaSolServ);
+            this.SetGrillaVisibility(true);
+          });
+
+        }
+        else
+        {
+          this.SiCargoData = true;
+          
+          this.loading = false;
+
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+
+          dtInstance.destroy();
+     
+             this.dtTrigger.next(this.ListaSolServ);
+             this.SetGrillaVisibility(true);
+          });
+
+          swal("No existen datos");
+        
+        }
+      }, 
+      error => {
+
+        this.loading = false;
+                swal({
+          text: "Error al cargar los datos",
+          icon: "error",
+        }); 
+        console.log("Error : ", error); 
+      }
+    );
+
+  }
 
 
 
@@ -307,6 +473,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
 
 
     let res = this.reportService.getSolicitudServicio(this.objConsultarSolRqt);
+
+    this.loading = true;
         
     res.subscribe( 
       data => { 
@@ -316,6 +484,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
           this.SiCargoData = true;
 
           this.ListaSolServ =  this.objConsultarSolRpt.data;
+
+          this.loading = false;
 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
@@ -330,6 +500,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
         {
           this.SiCargoData = true;
 
+          this.loading = false;
+
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
           dtInstance.destroy();
@@ -343,6 +515,7 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
         }
       }, 
       error => {
+        this.loading = false;
                 swal({
           text: "Error al cargar los datos",
           icon: "error",

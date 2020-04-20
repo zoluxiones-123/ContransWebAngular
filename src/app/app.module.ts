@@ -83,6 +83,9 @@ import { LiquidacionAutorizacionPrecintosComponent } from './views/dashboards/li
 import { ActualizaprecintoComponent } from './views/dashboards/actualizaprecinto.component'
 import { PagosCobranzaConsultaComponent} from './views/dashboards/pagoscobranzaconsulta.component';
 import { PagosCobranzaConsultaDetalleComponent} from './views/dashboards/pagoscobranzaconsultadetalle.component';
+import { ConsultasolpermisosComponent } from './views/dashboards/consultasolpermisos.component';
+import { GenerarsolpermisoComponent } from './views/dashboards/generarsolpermiso.component';
+import { AnularsolservComponent } from './views/dashboards/anularsolserv.component';
 
 
 
@@ -129,7 +132,10 @@ import { PagosCobranzaConsultaDetalleComponent} from './views/dashboards/pagosco
     LiquidacionAutorizacionPrecintosComponent,
     PagosCobranzaConsultaComponent,
     ActualizaprecintoComponent,
-    PagosCobranzaConsultaDetalleComponent
+    PagosCobranzaConsultaDetalleComponent,
+    ConsultasolpermisosComponent,
+    GenerarsolpermisoComponent,
+    AnularsolservComponent
   ],
   imports: [
     BrowserModule,
@@ -161,7 +167,12 @@ import { PagosCobranzaConsultaDetalleComponent} from './views/dashboards/pagosco
   bootstrap: [AppComponent],
     
 
-    entryComponents: [SuscripComponent,ActualizarcitaComponent,ActualizaprecintoComponent,DetrepstockestComponent, DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent,PagosCobranzaConsultaComponent,RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent]
+    entryComponents: [SuscripComponent,ActualizarcitaComponent,AnularsolservComponent, ActualizaprecintoComponent,DetrepstockestComponent,
+       DetrepstockcliexpComponent, ContraseniaComponent, RegdireccComponent,ConsultaDetalleTemperaturaComponent,
+       CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,
+       DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,
+       CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent,PagosCobranzaConsultaComponent,
+       RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent, GenerarsolpermisoComponent]
    
   
 })

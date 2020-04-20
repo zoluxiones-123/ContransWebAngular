@@ -48,6 +48,8 @@ import {RepstockDTComponent} from  "./views/dashboards/repstock-dt.component";
 import {RepstockexpComponent} from  "./views/dashboards/repstockexp.component";
 import {RepstockrealComponent} from  "./views/dashboards/repstockreal.component";
 import {ConsultasolservComponent} from "./views/dashboards/consultasolserv.component";
+
+import {ConsultasolpermisosComponent} from "./views/dashboards/consultasolpermisos.component";
 //import {RegreclamoComponent} from "./views/dashboards/regreclamo.component";
 
 import {NuevoSolServComponent} from "./views/dashboards/nuevosolserv.component";
@@ -94,7 +96,9 @@ export const ROUTES:Routes = [
       {path: 'liquidaciontransportistacliente', component: LiquidacionTransportistaClienteComponent},
       {path: 'pagoscobranza', component: PagosCobranzaComponent},
       {path: 'pagoscobranzaconsulta', component: PagosCobranzaConsultaComponent},
-      {path: 'pagosconsultafacturas', component: PagosConsultaFacturasComponent}
+      {path: 'pagosconsultafacturas', component: PagosConsultaFacturasComponent},
+      {path: 'consultasolpermisos', component: ConsultasolpermisosComponent}
+      
     ]
   },
   // App views

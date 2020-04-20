@@ -55,7 +55,9 @@ import { Router } from '@angular/router';
         {
             extend: 'excel',
             exportOptions: {
-                columns: ':visible'
+               // columns: ':visible'
+               //  columns: ':visible:not(:eq(0))'
+               columns: ':visible(:not(.not-PDF))' 
             }
         }     
       ],    
@@ -131,6 +133,17 @@ import { Router } from '@angular/router';
       }
 
       this.loading = true;
+
+      this.dtOptions.columnDefs = [
+        {
+            "targets": [ 0 ],
+            "exportable": false
+        },
+        {
+            "targets": [ 1 ],
+            "exportable": false
+        }
+      ];
 
       let res = this.reportService.getFacturas(this.objFacturaRQT);
       
