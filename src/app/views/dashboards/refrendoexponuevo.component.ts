@@ -111,6 +111,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public ListaModalidad: Array<ListaModalidadRefrendoExpo>;
   public ListaRegimen: Array<ListaRegimenRefrendoExpo>;
 
+  public loading: boolean;
+
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
     let date = new Date();
@@ -150,6 +152,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.FechaDeNum = emptyString;
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
+
+    this.loading=false;
   }
 
   fileData: File = null;
@@ -266,6 +270,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   };
 
   public BuscarBooking(form: NgForm) {
+    this.loading=true;
     this.objConsultaBookingRefrendoExpoRQT = {
       IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
       IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -347,6 +352,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           this.muestra_oculta("CONTENEDORES");
 
           this.SiCargoData = true;
+          this.loading=false;
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.destroy();
             console.log("ENTREEEEEE");
@@ -355,6 +361,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         }
       },
       error => {
+        this.loading=false;
         swal({
           text: "Error al cargar los datos",
           icon: "error",
@@ -372,6 +379,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   }
 
   public ngOnInit(): any {
+    this.loading=false;
     //this.Contnumero = localStorage.getItem("paramNBooking");
     if (localStorage.getItem("Usuario") == null) { this.router.navigate(['/login']); }
 
@@ -1190,6 +1198,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   }
 
   public AgregarRefrendo(form: NgForm) {
+
+    this.loading=true;
     var NBooking: string
     NBooking = form.value.txtbox_NBooking
 
@@ -1251,7 +1261,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         Anio: this.AnioSelect,
         Regimen: this.RegimenSelect,
         CodProducto: this.CodProducto,
-        Producto: this.Producto,
+        Producto: this.ProductosSelect,
         FechaCutOff: form.value.txtbox_FechaCutOff,
         FOB: form.value.txtbox_FOB,
         MandatoElectronico: this.MandatoElectronico,
@@ -1278,11 +1288,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           console.log("Mensaje : " + JSON.stringify(data));
           console.log("Ruta : " + data.Msj.toString());
           console.log("EMPEZAR A Imagenes")
-
+          this.loading=false;
           swal("Se Guardo Correctamente");
           this.cerrarPopup();
         },
         error => {
+          this.loading=false;
           swal("Error al crear Refrendo Expo");
           console.log("Error : ", error);
         });

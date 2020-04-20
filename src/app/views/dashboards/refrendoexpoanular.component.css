@@ -49,7 +49,7 @@ width: 66%;
       padding-top: 5px;
       overflow-y: scroll;
       overflow-x: hidden;
-      height: 510px;
+      height: 230px;
       margin: '0 auto';
     }
     .titulo_boton {
@@ -72,7 +72,7 @@ width: 66%;
     padding-top: 5px;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 630px;
+    height: 240px;
     margin: '0 auto';
   }
   } 
@@ -86,7 +86,7 @@ width: 66%;
       padding-top: 5px;
       overflow-y: scroll;
       overflow-x: hidden;
-      height: 490px;
+      height: 235px;
       margin: '0 auto';
     }
       .tamanio-device {

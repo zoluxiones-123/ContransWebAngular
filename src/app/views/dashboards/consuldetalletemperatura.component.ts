@@ -78,10 +78,14 @@ import { stringify } from 'querystring';
           next:     "Siguiente",
           previous: "Anterior"
         },
-        buttons : {
-          colvis : "Columnas",
-          excel : "Exportar a Excel"
-        },
+        buttons: [
+          'colvis',
+          {
+              extend: 'excel',
+              exportOptions: {
+                  columns: ':visible'
+              }
+          }],
         aria :
         {
           sortAscending :"Activar para ordenar la columna de manera ascendente",
@@ -184,10 +188,15 @@ import { stringify } from 'querystring';
           if (data.Data.length >= 1)
           {
             //swal("Si existen datos");
+            this.SetGrillaVisibility(true);
           }
           else
           {
-            swal("No existen datos");
+            this.SetGrillaVisibility(false);
+            swal({
+              text: "No existen datos",
+              icon: "warning",
+            });
             
           }
 
@@ -198,7 +207,7 @@ import { stringify } from 'querystring';
             this.dtTriggerCabecera.next(this.objTemperaturaVDRPT); 
             this.dtTrigger.next(this.objTemperaturaDataRPT);
 
-          this.SetGrillaVisibility(true);
+          //this.SetGrillaVisibility(true);
         }, 
         error => {
                   swal({

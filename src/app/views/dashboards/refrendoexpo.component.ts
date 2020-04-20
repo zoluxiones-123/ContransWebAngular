@@ -126,8 +126,15 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
   ); */
 
     }  
-    popupEditarRefrendoExpo(paramCodigo: string){
-      localStorage.setItem("paramAccion","Editar");
+    popupEditarRefrendoExpo(paramCodigo: string,paramEstado: string ){
+
+      if (paramEstado =="Pendiente"){
+        localStorage.setItem("paramAccion","Editar");
+      }else{
+        localStorage.setItem("paramAccion","Ver");
+      }
+      
+
       localStorage.setItem("paramCodigo",paramCodigo);
       const dialogRef = this.dialog.open(RefrendoExpoEditarComponent,{
         disableClose: true,
@@ -149,7 +156,7 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
         disableClose: true,
         autoFocus: true,
         width: "600px",
-        height: "100%"
+        height: "60%"
       });
 /*       dialogRef.afterClosed().subscribe(result => {
         this.RefrescarGrilla();
