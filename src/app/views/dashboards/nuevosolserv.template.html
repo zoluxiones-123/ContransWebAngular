@@ -37,6 +37,9 @@
           <button type="button" (click)="BuscarServicio(formUsuario)"
             class="btn btn-primary block m-b tamanio-device">Buscar</button></div>
       </div>
+      <div class="loading" *ngIf="loading" style="height: 500px;margin-right: 0px;margin-left: 0px;display: flex;justify-content: center;align-items: center;" >
+        <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+     </div>      
       <div>
         <!-- ------------PARTE 1------------ -->
         <div>
@@ -60,17 +63,17 @@
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
                 <label for="rbt01" style="padding-right: 5px;">SI</label>
                 <input type="radio" id="rbt02" name="rbtTieneDUA" value="D"
-                  style="width: auto;vertical-align: text-bottom;"
+                  style="width: auto;vertical-align: text-bottom;" [(ngModel)]="CTieneDUA_Opcion"
                   (click)="CargarTarea('D')">
                 <label style="padding-right: 5px;padding-left: 10px;">NO</label>
                 <input type="radio" name="rbtTieneDUA" value="0" style="width: auto;vertical-align: text-bottom;"
-                  checked="checked"
+                  checked="checked" [(ngModel)]="CTieneDUA_Opcion"
                   (click)="CargarTarea('0')">
               </div>
 
 
             </div>
-            <div class="form-group row">
+            <div id="DUA" class="form-group row">
               <label class="col-xs-2 col-sm-2 col-lg-2 label_device">Año:</label>
               <div class="col-xs-2 col-sm2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
                 <input type="number" maxlength="50" [(ngModel)]="Anio" name="txtbox_Anio" class="form-control">
@@ -174,7 +177,7 @@
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Despachador :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" readonly="readonly" maxlength="50" name="txtbox_Despachador" class="form-control">
+                <input type="text" readonly="readonly" [(ngModel)]="Despachador" maxlength="50" name="txtbox_Despachador" class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Manifiesto/Nave
@@ -192,7 +195,7 @@
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Agencia :</label>
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" readonly="readonly" maxlength="50" name="txtbox_Agencia" class="form-control">
+                <input type="text" readonly="readonly" [(ngModel)]="AgenciaDeAduana" maxlength="50" name="txtbox_Agencia" class="form-control">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observación :</label>
