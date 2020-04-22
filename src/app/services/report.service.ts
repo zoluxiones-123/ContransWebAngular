@@ -52,7 +52,8 @@ import { RepStockExpRPT } from "../models/rep_stockexpRPT";
 
 import { GrabarDireccRQT,GrabarDireccRPT } from '../models/GrabarDirecc';
 
-import { ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante } from "../models/Permiso";
+import { ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante,EstadoSolPermiso,ConsultaSolPermisoRPT,ConsultaSolPermisoRQT,
+SolicitudPermiso,RegistrarSolPermisoRPT,RegistrarSolPermisoRQT } from "../models/Permiso";
 
 
 import { RepEriRPT } from "../models/rep_eriRPT";
@@ -117,12 +118,44 @@ export class ReportService {
   }
 
   
+  getSolicitudPermiso(consultasolperrqt: ConsultaSolPermisoRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarsolicitudpermiso`;    
+    return this.http
+      .post<ConsultaSolPermisoRPT>(
+        url_api, consultasolperrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  
+  RegistrarSolicitudPermiso(regsolperrqt: RegistrarSolPermisoRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/registrarsolicitudpermiso`;    
+    return this.http
+      .post<RegistrarSolPermisoRPT>(
+        url_api, regsolperrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+
+  
   ImprimirSolicitudServicio(imprimirsolrqt: ImprimirSolicitudRQT ): Observable<any> 
   {
     const url_api =`/ContransAPI/api/imprimirsolicitudservicio`;    
     return this.http
       .post<ImprimirSolicitudRPT>(
         url_api, imprimirsolrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  getEstadosSolPermiso(): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/estadosolicitudpermiso`;    
+    return this.http
+      .post<EstadoSolPermiso>(
+        url_api, { headers: this.headers })
       .pipe(map(data => data));
   }
 
