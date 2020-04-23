@@ -25,8 +25,53 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angul
 })
 export class ConsultasolpermisosComponent implements OnInit {
 
-  constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router) { }
+  constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router) { 
 
+    
+  }
+
+  public loading: false;
+  myUnidad = new FormControl();   
+  public ListaUniNegocio : Array<UnidadNegocio>;
+
+  
+  dtTrigger:Subject<any> = new Subject();
+  dtOptions : any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    searching: false,
+    dom: 'Bfrtip',  
+    buttons: [
+      'colvis',
+      {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          }
+      }     
+    ],    
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros" ,
+      search : "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate : {
+        first:    "Primero",
+        last:     "Último",
+        next:     "Siguiente",
+        previous: "Anterior"
+      },
+      buttons : {
+        colvis : "Columnas",
+        excel : "Exportar a Excel"
+      },
+      aria :
+      {
+        sortAscending :"Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
   ngOnInit() {
   }
 
@@ -39,6 +84,10 @@ export class ConsultasolpermisosComponent implements OnInit {
       height: "100%"
     });
     
+  }
+
+  
+  public CargarGrilla(form: NgForm) {
   }
 
 }
