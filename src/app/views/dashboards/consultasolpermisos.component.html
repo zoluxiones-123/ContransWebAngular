@@ -7,32 +7,32 @@
           <iboxtools></iboxtools>
         </div>
         <div class="ibox-content">
-          <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
+          <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla()">
             <div class="row">
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_NroDocumento" placeholder="Documento" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_NroDocumento" [(ngModel)]="Documento" m placeholder="Documento" class="form-control" [ngModel] required /> 
                 </div>
               </div>
               <div class="col-sm-1" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_Anio" placeholder="Año" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_Anio"   [(ngModel)]="DAMAnio" m placeholder="Año" class="form-control" [ngModel] required /> 
                 </div>
               </div>
               <div class="col-sm-2" style="padding-left: 5px;">
                 <div class="form-group">
-                  <input type="text" name="txtbox_Numero" placeholder="Número" class="form-control" [ngModel] required /> 
+                  <input type="text" name="txtbox_Numero"   [(ngModel)]="DAMNro" m placeholder="Número" class="form-control" [ngModel] required /> 
                 </div>
               </div>
               <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
-                <select name="listEstado" [formControl]="myUnidad"  class="form-control" >              
-                  <option [value]="" selected hidden>--Unidad Negocio--</option>
+                <select name="listEstado"   class="form-control" (change)="ChangingValue($event)" >                           
+                  <option [value]="" selected hidden>--Seleccione--</option>
                   <option *ngFor="let item of this.ListaUniNegocio" [value]="item.Codigo">{{item.Descripcion}}</option> 
                 </select>
               </div>
              
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
-                <button type="reset" (click)="CargarGrilla(formFact)"
+                <button type="reset" (click)="CargarGrilla()"
               class="btn btn-default block  m-b tamanio-device">Consultar</button></div>
               
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
@@ -60,17 +60,32 @@
                 [dtTrigger]="dtTrigger" > 
                 <thead>
                   <tr>
-                    <th>Codigo</th>
-                    <th>Booking</th>
-                    <th>Nombre del Personal</th>
-                    <th>Nro de Documento</th>
-                    <th>Empresa</th>
-                    <th>Actualiza</th>                    
+                    <th>Accion</th>
+                    <th>BL</th>
+                    <th>Nro Declaración</th>
+                    <th>Comitente</th>
+                    <th>Agencia de Aduanas</th>
+                    <th>Facturar A</th>     
+                    <th>Estado</th>                    
+                    <th>Usuario Creación</th>    
+                    <th>Fecha de Creación</th>     
                    <!--  <th colspan="4" style="width: 10%;">Accion</th> -->
                   </tr>
                 </thead>
                 <tbody>
-                 
+                  <tr *ngFor="let item of this.objLSolPer">
+                    <td><a (click)="popupAccion(item.Estado)"><img  style="width: 24px;" src="assets/images/Accion.png"></a></td>                                                         
+                    
+                    <td>{{item.BL}}</td>
+                    <td>{{item.NroDeclaracion}}</td> 
+                    <td>{{item.Importador}}</td>
+                    <td>{{item.AgenteAduana}}</td>
+                    <td>{{item.FacturarA}}</td>  
+                    <td>{{item.Estado}}</td>  
+                    <td>{{item.RegistradoPor}}</td>  
+                    <td>{{item.FechaDeRegistro}}</td>
+                                               
+                  </tr>
                 </tbody>
               </table>
             </div>

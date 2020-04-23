@@ -292,13 +292,13 @@
     </div>
   </div>
   </form>
-
-
-
+  <div class="loadingGrabar" *ngIf = "loadingG" style="text-align:center;height: 220px ;margin-right: 0px;margin-left: 0px;" >
+    <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+ </div>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
       <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
-      <button id="btnGen" disabled = "true" class="btn btn-w-m btn-primary">Grabar</button>
+      <button (click)="GrabarSolicitud()"  id="btnGen" disabled = "true" class="btn btn-w-m btn-primary">Grabar</button>
       <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
   </div>
 </div>

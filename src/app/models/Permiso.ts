@@ -22,6 +22,34 @@ export class BL {
   FacturarA: string;
   Data: any;
   }
+
+  
+  export class RegistrarSolPermisoRQT {     
+    IDUser: number;
+    IDRol: number;
+    CodAleatorio: string;
+    FacturarA: string;
+    FOB: number;
+    Archivos: any;
+    }
+
+    
+  export class RegistrarSolPermisoRPT {     
+    Cod: number;
+    Msj: string;
+    }
+
+  export class Archivo {     
+    Archivo: string;
+    NombreArchivo: string;
+      }
+  
+
+  
+export class EstadoSolPermiso
+{
+  Data: any;
+}
       
   export class ConsultaLevanteRPT {   
     CodMsj: number;
@@ -64,6 +92,7 @@ export class BL {
     COdigoRestringidoSENASA: string;
     RestringidoSENASA: string;
     FechaFinProceso: string;
+    CodAleatorio: string;
     Data: any;
 }
 
@@ -90,4 +119,53 @@ export class DetConsLevante
   FechaTerminoDescarga: string;
   Documentos: any ;  
   Contenedores: any ;
+}
+
+
+export class ConsultaSolPermisoRQT
+{
+  IDUser: number;
+  IDRol: number;
+  Codigo: number;
+  Estado: number;
+  Bl: string;
+  Anio: string;
+  Dam: string;
+}
+
+export class ConsultaSolPermisoRPT
+{
+  Data: any;
+}
+
+export class SolicitudPermiso{
+CodMjs: number;
+MSJ: string;
+Codigo: number;
+Registro: string;
+BL: string;
+NroDeclaracion: string;
+FechaDeclaracion: string;
+ModalidadDespacho: string;
+Importador: string;
+FechaSalidaAlmacen: string;
+AgenteAduana: string;
+Bultos: number;
+Peso: number;
+FechaLevante: string;
+Via: string;
+Manifiesto: string;
+Canal: string;
+ACE: string;
+SENASA: string;
+FechaFinProceso: string;
+Estado: string;
+RegistradoPor: string;
+FechaDeRegistro: string;
+AnuladoPor: string;
+FechaDeAnulacion: string;
+Observación: string;
+CodFacturarA: string;
+FacturarA: string;
+
 }

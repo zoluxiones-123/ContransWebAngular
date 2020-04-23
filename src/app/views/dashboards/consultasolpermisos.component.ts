@@ -15,8 +15,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Router } from '@angular/router';
 import { UniNegocio,UnidadNegocio}  from '../../models/Factura';
 import { LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont}  from '../../models/Liquidacion';
-
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento,
+ConsultaSolPermisoRPT,ConsultaSolPermisoRQT,SolicitudPermiso } from '../../models/Permiso';
+
 
 @Component({
   selector: 'app-consultasolpermisos',
@@ -24,15 +26,42 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angul
   styleUrls: ['./consultasolpermisos.component.css']
 })
 export class ConsultasolpermisosComponent implements OnInit {
+  
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtInstance: DataTables.Api;
+
+
+  public loading: boolean = false;
+  myUnidad = new FormControl();   
+  public ListaUniNegocio : Array<UnidadNegocio>;
+  public EstSolPerSelect : string = "";
+
+  public Documento : string = "";
+  public DAMAnio : string = "";
+  public DAMNro : string = "";
+  
+
+  
+  public objConsultaSolPerRQT : ConsultaSolPermisoRQT;
+
+  public objConsultaSolPerRPT: ConsultaSolPermisoRPT;
+  
+  public objLSolPer : Array<SolicitudPermiso>;
 
   constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router) { 
+    this.reportService.getEstadosSolPermiso().subscribe(
+    data => {
 
+      this.ListaUniNegocio = data.Data;
+         
+
+} 
+);
     
   }
 
-  public loading: false;
-  myUnidad = new FormControl();   
-  public ListaUniNegocio : Array<UnidadNegocio>;
 
   
   dtTrigger:Subject<any> = new Subject();
@@ -46,7 +75,8 @@ export class ConsultasolpermisosComponent implements OnInit {
       {
           extend: 'excel',
           exportOptions: {
-              columns: ':visible'
+              //columns: ':visible'
+              columns: ':visible:not(:eq(0))'
           }
       }     
     ],    
@@ -73,6 +103,34 @@ export class ConsultasolpermisosComponent implements OnInit {
     }
   };
   ngOnInit() {
+  
+    this.SetGrillaVisibility(false);
+    this.loading = false;
+  
+  }
+
+  public ngOnDestroy():any {
+    this.SetGrillaVisibility(false);
+    this.dtTrigger.unsubscribe();
+  }
+
+  public popupAccion(estado:string)
+  { 
+
+    if (estado == "Liquidado")
+    {/*Consulta Monto a Pagar*/ }
+
+    if (estado == "Habilitado")
+    {/*Imprimir*/ }
+
+  }
+
+
+  
+  ngAfterViewInit(): void {
+    //this.dtTrigger.next();
+    this.dtTrigger.next();
+    console.log(this.dtElement);
   }
 
   GenerarSolicitud()
@@ -87,7 +145,127 @@ export class ConsultasolpermisosComponent implements OnInit {
   }
 
   
-  public CargarGrilla(form: NgForm) {
+  public CargarGrilla() {
+
+    this.objConsultaSolPerRQT = {
+      IDUser : Number.parseInt(localStorage.getItem("Usuario")),
+      IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+      Codigo : 0,
+      Estado : Number.parseInt(this.EstSolPerSelect),
+      Bl : this.Documento,
+      Anio : this.DAMAnio,
+      Dam : this.DAMNro
+    };
+
+    if(this.ValidarInput(this.objConsultaSolPerRQT))
+    {        
+      swal({
+            text: "Error en los campos de ingreso, por favor verificar",
+            icon: "warning",
+          });
+      return;
+    }
+
+    this.loading = true;
+
+  
+
+    let res = this.reportService.getSolicitudPermiso(this.objConsultaSolPerRQT);
+        
+    res.subscribe( 
+      data => { 
+        this.objLSolPer = data;
+        if (data.length >= 1)
+        {
+          this.loading = false;
+
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+
+            dtInstance.destroy();
+    
+            this.dtTrigger.next(this.objLSolPer);
+            this.SetGrillaVisibility(true);
+          });
+
+         // this.dtTrigger.next(this.objFacturaRPT);
+          //this.SetGrillaVisibility(true);
+          // this.TieneData = true;
+        }
+        else
+        {
+          //this.SiCargoData = true;
+
+          this.loading = false;
+
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+
+          dtInstance.destroy();
+     
+             this.dtTrigger.next(this.objLSolPer);
+             this.SetGrillaVisibility(true);
+          });
+
+          swal("No existen datos");
+        
+        }
+        //this.dtTrigger.unsubscribe();
+      }, 
+      error => {
+                swal({
+        text: "Error al cargar los datos",
+        icon: "error",
+      }); 
+        console.log("Error : ", error); 
+      }
+    );
+
+
+
+  }
+
+  public ValidarInput(param : ConsultaSolPermisoRQT) : boolean
+  {
+    if (this.NullEmpty(this.EstSolPerSelect))
+    {
+      return true;
+    }
+
+    if(this.NullEmpty(param.Bl))
+    {
+      this.objConsultaSolPerRQT.Bl = "";
+    }
+
+    if(this.NullEmpty(param.Anio))
+    {
+      this.objConsultaSolPerRQT.Anio = " ";
+    }
+
+    if(this.NullEmpty(param.Dam))
+    {
+      this.objConsultaSolPerRQT.Dam = " ";
+    }
+
+    return false;
+  }
+
+  public NullEmpty (param:any) : boolean
+  {
+    return !(typeof param!='undefined' && param)
+  }
+
+  public SetGrillaVisibility(param:boolean)
+  {
+    if (param) {
+      document.getElementById('grilla').style.visibility = "visible";
+    }
+    else {
+      document.getElementById('grilla').style.visibility = "hidden";
+    }
+  }
+  
+  public ChangingValue(param : any)
+  {
+    this.EstSolPerSelect = param.target.value;
   }
 
 }

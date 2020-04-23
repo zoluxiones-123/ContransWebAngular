@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Inject, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
-import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento } from '../../models/Permiso';
+import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento,
+RegistrarSolPermisoRPT,RegistrarSolPermisoRQT,Archivo} from '../../models/Permiso';
 
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
@@ -52,6 +53,12 @@ export class GenerarsolpermisoComponent implements OnInit {
 
   public objListContenedores : Array<Contenedor> = [];
   public objListDocumentos : Array<Documento> = [];
+  public objListArchivos : Array<Archivo> = [];
+
+  
+  public objRegSolPerRQT : RegistrarSolPermisoRQT;
+  public objRegSolPerRPT : RegistrarSolPermisoRPT;
+  
 
   
   public BL:string = "";
@@ -75,6 +82,7 @@ export class GenerarsolpermisoComponent implements OnInit {
   public PesoBruto : string = "";
   public FOB : string = "";
   public loading : boolean =  false;
+  public loadingG : boolean =  false;
 
   image: any;
   fileitem : any;
@@ -171,6 +179,71 @@ export class GenerarsolpermisoComponent implements OnInit {
       
            }
            );
+
+     }
+
+     GrabarSolicitud()
+     {
+
+      if (this.FOB == "")
+      { swal("Debe ingresar el FOB para grabar la solicitud");
+        return; }
+
+        
+      if (this.EmpresaSelect == "")
+      { swal("Debe seleccionar la Empresa a facturar");
+        return; }
+        
+
+      if (this.objListArchivos.length == 0)
+        { swal("Debe seleccionar por lo menos 1 archivo");
+          return; }
+
+      this.objRegSolPerRQT = {
+          IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+          IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+          
+          CodAleatorio: this.objConsLevRPT.CodAleatorio,
+          FacturarA:  this.EmpresaSelect,
+          FOB: Number.parseFloat(this.FOB),
+          Archivos : this.objListArchivos
+        }
+
+        let res = this.reportService.RegistrarSolicitudPermiso(this.objRegSolPerRQT);
+
+        //  console.log(this.objAutEntregaPrecRQT)
+
+        this.loadingG = true;
+        
+        res.subscribe( 
+         data => {
+           this.objRegSolPerRPT = data;
+     
+           if (this.objRegSolPerRPT.Cod > 0)
+           {                
+            this.loadingG = false; 
+            
+            swal("Se registro correctamente la Solicitud de Permiso Nro: " + data.Cod.toString());  
+            this.dialogRef.close();                                       
+           }
+           else{
+            
+            this.loadingG = false; 
+
+             swal(this.objRegSolPerRPT.Msj);
+             this.onIsError();   
+           }
+         },  
+         error => {
+          this.loadingG = false; 
+           swal({
+             text: "Error al grabar los datos",
+             icon: "error",
+              }); 
+           this.onIsError();           
+           console.log("Error");}
+         );
+
 
      }
 
@@ -293,6 +366,9 @@ export class GenerarsolpermisoComponent implements OnInit {
         this.CantBultos = this.objConsLevRPT.CantidadBultos.toFixed(2);
 
         this.PesoBruto =  this.objConsLevRPT.PesoBruto.toFixed(2);
+
+        var element = <HTMLButtonElement> document.getElementById("btnGen");
+        element.disabled = false;
 
 
        }
@@ -544,7 +620,14 @@ export class GenerarsolpermisoComponent implements OnInit {
 
       if (this.fileitem != null)
       {
-        this.fileitems.push(this.fileitem);             
+        this.fileitems.push(this.fileitem);      
+        
+        let archivo = new Archivo();
+        archivo.Archivo = this.fileitem.Base64;
+        archivo.NombreArchivo = nombarc;
+
+        this.objListArchivos.push(archivo);
+
       }
 
       if (this.fileitemz != null)
@@ -604,6 +687,8 @@ EliminarSelect()
 
        this.fileitems.splice(pos,1);  
        this.fileitemsZ.splice(pos,1);
+
+       this.objListArchivos.splice(pos,1);
       
       //let pos = this.selectedOptions[i];
       
