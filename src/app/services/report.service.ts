@@ -53,7 +53,10 @@ import { RepStockExpRPT } from "../models/rep_stockexpRPT";
 import { GrabarDireccRQT,GrabarDireccRPT } from '../models/GrabarDirecc';
 
 import { ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante,EstadoSolPermiso,ConsultaSolPermisoRPT,ConsultaSolPermisoRQT,
-SolicitudPermiso,RegistrarSolPermisoRPT,RegistrarSolPermisoRQT } from "../models/Permiso";
+SolicitudPermiso,RegistrarSolPermisoRPT,RegistrarSolPermisoRQT,ConsultaLevanteMasivoRPT,ConsultaLevanteMasivoRQT,
+ConsultaSolPerEstRPT,ConsultaSolPerEstRQT,SolPerArchivoRPT,SolPerArchivoRQT,RegistrarObsPagoRPT,RegistrarObsPagoRQT, 
+FormatoExcel } 
+from "../models/Permiso";
 
 
 import { RepEriRPT } from "../models/rep_eriRPT";
@@ -128,6 +131,16 @@ export class ReportService {
   }
 
   
+  getSolicitudPermisoxEstado(consultasolperestrqt: ConsultaSolPerEstRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarsolicitudpermisoxestado`;    
+    return this.http
+      .post<ConsultaSolPerEstRPT>(
+        url_api, consultasolperestrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
   
   RegistrarSolicitudPermiso(regsolperrqt: RegistrarSolPermisoRQT ): Observable<any> 
   {
@@ -135,6 +148,16 @@ export class ReportService {
     return this.http
       .post<RegistrarSolPermisoRPT>(
         url_api, regsolperrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  RegistrarObsPago(regobspagrqt: RegistrarObsPagoRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/registratobservacionpago`;    
+    return this.http
+      .post<RegistrarObsPagoRPT>(
+        url_api, regobspagrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 
@@ -146,6 +169,16 @@ export class ReportService {
     return this.http
       .post<ImprimirSolicitudRPT>(
         url_api, imprimirsolrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
+  
+  ImprimirSolicitudPermiso(imprimirsolperrqt: SolPerArchivoRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultarsolicitudpermisoarchivo`;    
+    return this.http
+      .post<SolPerArchivoRPT>(
+        url_api, imprimirsolperrqt, { headers: this.headers })
       .pipe(map(data => data));
   }
 
@@ -217,6 +250,17 @@ export class ReportService {
         url_api, levanterqt, { headers: this.headers })
       .pipe(map(data => data));
   }
+
+  
+  getLevanteMasivo(levantemasrqt: ConsultaLevanteMasivoRQT ): Observable<any> 
+  {
+    const url_api =`/ContransAPI/api/consultalevantemasivo`;    
+    return this.http
+      .post<ConsultaLevanteMasivoRPT>(
+        url_api, levantemasrqt, { headers: this.headers })
+      .pipe(map(data => data));
+  }
+
 
   
   getVisLiquidacion(visliquirqt: VisualizarLiqRQT ): Observable<any> 
@@ -885,6 +929,14 @@ export class ReportService {
         url_api, { headers: this.headers }).pipe(map(data => data));
   }
 
+  getFormatoExcel() : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/solicitudpermisoformato`;
+    return this.http.get<FormatoExcel>(
+        url_api, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  
   getTiposCita() : Observable<any>
   {
     const url_api =`/ContransAPI/api/listatipocita`;

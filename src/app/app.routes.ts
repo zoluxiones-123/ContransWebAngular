@@ -63,7 +63,7 @@ import {SuscripComponent} from "./views/appviews/suscrip.component";
 
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
 import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.component";
-import {topnavigationlayout} from "./components/common/layouts/topnavigationlayout.component";
+//import {topnavigationlayout} from "./components/common/layouts/topnavigationlayout.component";
 
 export const ROUTES:Routes = [
   // Main redirect

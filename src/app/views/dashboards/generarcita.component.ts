@@ -1945,6 +1945,7 @@ resh.subscribe(
        var datePipe = new DatePipe("en-US");
        let fechaact = datePipe.transform(date.toString(), 'yyyy/MM/dd'); 
        let horaact = date.getHours();
+      
        
        //if ( this.FechaSelec < fechaact.toString() )
       // {return false;}

@@ -18,6 +18,7 @@ import { LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont}  from '../../models/Li
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento,
 ConsultaSolPermisoRPT,ConsultaSolPermisoRQT,SolicitudPermiso } from '../../models/Permiso';
+import {MontopagarsolpermisoComponent} from './montopagarsolpermiso.component';
 
 
 @Component({
@@ -114,15 +115,20 @@ export class ConsultasolpermisosComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  public popupAccion(estado:string)
+  public popupAccion(estado:string, codigosolper:number)
   { 
+    if (estado != "Pendiente")
+    {
+    localStorage.setItem("SolPerEst", codigosolper.toString());
 
-    if (estado == "Liquidado")
-    {/*Consulta Monto a Pagar*/ }
-
-    if (estado == "Habilitado")
-    {/*Imprimir*/ }
-
+    const dialogRef = this.dialog.open(MontopagarsolpermisoComponent,{
+      disableClose: true,
+      autoFocus: true,
+      width: "700px",
+      height: "100%"
+    });
+    
+  }
   }
 
 

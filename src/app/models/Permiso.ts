@@ -11,6 +11,50 @@ export class BL {
     BL: string;
   }
 
+  export class FormatoExcel {
+    data: any;
+  }
+
+  
+  export class ObservacionPer {
+  CodHelp: number;
+  Codigo: number;
+  CodTipoObervacion: number;
+  TipoObervacion: string;
+  Observacion: string;
+  RegistroCreado: string;
+  }
+
+  
+  export class RegistrarObsPagoRQT {
+    IDUser: number;
+    IDRol: number;
+    SolicitudPermiso: number;
+    Observacion: string;
+    Data: any;
+    }
+
+    
+  export class RegistrarObsPagoRPT {
+    Cod: number;
+    Msj: string;
+    }
+
+  export class SolPerArchivoRQT {
+    IDUser: number;
+    IDRol: number;
+    Codigo: number;
+    CodHelp: number;
+  }
+
+  
+  export class SolPerArchivoRPT {
+    Cod: number;
+    Msj: string;
+    Data: any;
+  }
+
+
   export class ConsultaLevanteRQT {     
   IDUser: number;
   IDRol: number;
@@ -24,6 +68,48 @@ export class BL {
   }
 
   
+  export class ConsultaSolPerEstRQT{     
+    IDUser: number;
+    IDRol: number;
+    SolicitudPermiso: number;
+    }
+
+    
+  export class ConsultaSolPerEstRPT{     
+    CodMsj: number;
+    Mensaje: string;
+    CodigoEstado: number;
+    DataObservaciones: any;
+    DataLiquidacion: any;
+    }
+
+    export class LiquidacionPer{     
+      CodHelp: number;
+      SolicitudPermisoLiquidacionDeta: number;
+      Bl: string;
+      Liquidacion: string;
+      Moneda: string;
+      Monto: number;
+      Observacion: string;
+      }
+  
+
+  
+  export class ConsultaLevanteMasivoRQT {     
+    IDUser: number;
+    IDRol: number;
+    FacturarA: string;
+    Data: any;
+    }
+  
+    export class ConsultaLevanteMasivoRPT {     
+      CodAleatorio: string;
+      DAM: any;
+      Documentos : any;
+      Contenedores : any;
+      }
+    
+  
   export class RegistrarSolPermisoRQT {     
     IDUser: number;
     IDRol: number;
@@ -31,6 +117,15 @@ export class BL {
     FacturarA: string;
     FOB: number;
     Archivos: any;
+    }
+
+    
+  export class DAM {     
+    BL: string;
+    CodigoAduana: string;
+    Regimen: string;
+    Anio: string;
+    DAM: string;
     }
 
     
@@ -95,6 +190,51 @@ export class EstadoSolPermiso
     CodAleatorio: string;
     Data: any;
 }
+
+     
+export class DAMMasivo {   
+  CodMsj: number;
+  Mensaje: string;
+  Codigo: string;
+  CodigoAduanaDeclaracion: string;
+  AduanaDeclaracion: string;
+  AnioDeclaracion: string;
+  CodRegimen: string;
+  Regimen: string;
+  NroDeclaracion: string;
+  FechaDeclaracion: string;
+  CodigoModalidaDespacho: string;
+  ModalidaDespacho: string;
+  CodigoEntidadImportador: string;
+  CodigoClientImportador: string;
+  RazonSocialImportador: string;
+  RucImportador: string;
+  FechaSalidaAlmacen: string;
+  CodigoEntidadAgenteAduana: string;
+  CodigoClientAgenteAduana: string;
+  RazonSocialAgenteAduana: string;
+  RucAgenteAduana: string;
+  CantidadBultos: number;
+  PesoBruto: number;
+  FechaLevante: string;
+  CodigoEntidadPuntoLlegada: string;
+  CodigoClientPuntoLlegada: string;
+  RazonSocialPuntoLlegada: string;
+  RucPuntoLlegada: string;
+  CodViaTransporte: string;
+  ViaTransporte: string;
+  CodAduanaManifiesto: string;
+  AnioManifiesto: string;
+  NumManifiesto: string;
+  CodCanal: string;
+  Canal: string;
+  CodigoACE: string;
+  ACE: string;
+  COdigoRestringidoSENASA: string;
+  RestringidoSENASA: string;
+  FechaFinProceso: string;
+}
+
 
 
 export class Documento 

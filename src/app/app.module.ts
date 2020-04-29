@@ -15,7 +15,7 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 import { FormulariosModule } from "./views/formularios/formularios.module";
 
 // App modules/components
-//import { topnavigationlayout } from './components/common/layouts/topnavigationlayout.component';
+//import { topnavigationlayoutComponent } from './components/common/layouts/topnavigationlayout.component';
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 
 import { SuscripComponent } from './views/appviews/suscrip.component';
@@ -86,6 +86,7 @@ import { PagosCobranzaConsultaDetalleComponent} from './views/dashboards/pagosco
 import { ConsultasolpermisosComponent } from './views/dashboards/consultasolpermisos.component';
 import { GenerarsolpermisoComponent } from './views/dashboards/generarsolpermiso.component';
 import { AnularsolservComponent } from './views/dashboards/anularsolserv.component';
+import { MontopagarsolpermisoComponent } from './views/dashboards/montopagarsolpermiso.component';
 
 
 
@@ -135,7 +136,9 @@ import { AnularsolservComponent } from './views/dashboards/anularsolserv.compone
     PagosCobranzaConsultaDetalleComponent,
     ConsultasolpermisosComponent,
     GenerarsolpermisoComponent,
-    AnularsolservComponent
+    AnularsolservComponent,
+    MontopagarsolpermisoComponent
+   // topnavigationlayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -163,6 +166,7 @@ import { AnularsolservComponent } from './views/dashboards/anularsolserv.compone
     DataTablesModule,
     MatTabsModule
   ],
+ // exports: [topnavigationlayoutComponent],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
     
@@ -172,7 +176,7 @@ import { AnularsolservComponent } from './views/dashboards/anularsolserv.compone
        CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,
        DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,
        CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent,PagosCobranzaConsultaComponent,
-       RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent, GenerarsolpermisoComponent]
+       RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent, GenerarsolpermisoComponent, MontopagarsolpermisoComponent]
    
   
 })

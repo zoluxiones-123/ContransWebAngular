@@ -38,7 +38,7 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
   dtInstance: DataTables.Api;
 
   public SiCargoData = true;
-  public ListaSolServ : Array<SolicitudServicio> = [];
+  public ListaSolServ : Array<SolicitudServicio>;
   //public ListaTiposCarga : Array<TipoCarga> = [];
   //public TipoCargaE : TiposCarga;
   public isError = false;
@@ -298,6 +298,20 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
  
 }
 
+ CalculateDate(date1, date2){
+  //our custom function with two parameters, each for a selected date
+  let diffc;
+  let days;
+   
+    diffc = date1.getTime() - date2.getTime();
+    //getTime() function used to convert a date into milliseconds. This is needed in order to perform calculations.
+   
+    days = Math.round(Math.abs(diffc/(1000*60*60*24)));
+    //this is the actual equation that calculates the number of days.
+   
+  return days;
+  }
+
   public ImprimirSolServ(CodigoServicio : string)
   {
 
@@ -475,6 +489,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
     let res = this.reportService.getSolicitudServicio(this.objConsultarSolRqt);
 
     this.loading = true;
+
+    //this.ListaSolServ = new Array;
         
     res.subscribe( 
       data => { 
@@ -498,6 +514,8 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
         }
         else
         {
+          this.ListaSolServ = [];
+          
           this.SiCargoData = true;
 
           this.loading = false;
@@ -536,13 +554,10 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
       return true;
     }
 
-    if (this.NullEmpty(param.FechaDesde) || this.NullEmpty(param.FechaHasta))
+   /* if (this.NullEmpty(param.FechaDesde) || this.NullEmpty(param.FechaHasta))
     {
       return true;
-    }
-
-    this.objConsultarSolRqt.FechaDesde = this.objConsultarSolRqt.FechaDesde.toLocaleDateString();
-    this.objConsultarSolRqt.FechaHasta = this.objConsultarSolRqt.FechaHasta.toLocaleDateString();
+    }*/
 
     //console.log(this.objCitasRqt.Desde);
 
@@ -556,6 +571,17 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
       this.objConsultarSolRqt.FechaHasta = "";
     }
 
+    if ((this.objConsultarSolRqt.FechaDesde != "" && this.objConsultarSolRqt.FechaHasta == "") ||  (this.objConsultarSolRqt.FechaHasta != "" && this.objConsultarSolRqt.FechaDesde == ""))
+    {
+      return true;
+    }
+
+    if (this.objConsultarSolRqt.FechaDesde != "")
+    {this.objConsultarSolRqt.FechaDesde = this.objConsultarSolRqt.FechaDesde.toLocaleDateString();}
+
+    
+    if (this.objConsultarSolRqt.FechaHasta != "")
+    {this.objConsultarSolRqt.FechaHasta = this.objConsultarSolRqt.FechaHasta.toLocaleDateString();}
 
     if(this.NullEmpty(param.HojaServCodigo))
     {
@@ -584,6 +610,7 @@ export class ConsultasolservComponent implements AfterViewInit, OnDestroy, OnIni
   public ChangingValueUN(param : any)
   {
     this.EstadoSelect = param.target.value;
+  
   }
 
   popupNuevoServicio(){
