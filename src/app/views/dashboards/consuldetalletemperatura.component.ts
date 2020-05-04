@@ -64,8 +64,14 @@ import { stringify } from 'querystring';
       fixedColumns:   true,
       processing: true,
       buttons: [
-        'excel',
-      ],
+        'colvis',
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }     
+      ], 
       order: [[0, 'asc']],
       language: {
         lengthMenu: "Mostrar _MENU_ registros" ,
@@ -78,14 +84,10 @@ import { stringify } from 'querystring';
           next:     "Siguiente",
           previous: "Anterior"
         },
-        buttons: [
-          'colvis',
-          {
-              extend: 'excel',
-              exportOptions: {
-                  columns: ':visible'
-              }
-          }],
+        buttons : {
+          colvis : "Columnas",
+          excel : "Exportar a Excel"
+        },
         aria :
         {
           sortAscending :"Activar para ordenar la columna de manera ascendente",

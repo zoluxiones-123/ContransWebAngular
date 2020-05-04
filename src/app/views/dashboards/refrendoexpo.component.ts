@@ -37,6 +37,7 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
     public ModalidadSelect:string;
     public ListaEstado : Array<ListaEstadoRefrendoExpo>;
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
+    public MensajeError: string;
 
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
       this.Seleccion_Opcion="B"
@@ -309,7 +310,7 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
        if(this.ValidarInput(this.objConsultaRefrendoExpoRQT))
       {        
         swal({
-              text: "Error en los campos de ingreso, por favor verificar",
+              text: "Error en los campos de ingreso, por favor verificar. " + this.MensajeError,
               icon: "warning",
             });
         return;
@@ -426,10 +427,12 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
       }
       if(this.NullEmpty(param.Modalidad))
       {
+        this.MensajeError = "Seleccionar Modalidad"
         return true;
       }
       if(this.NullEmpty(param.Estado))
       {
+        this.MensajeError = "Seleccionar Estado"
         return true;
       }
     

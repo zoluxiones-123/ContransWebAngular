@@ -1,0 +1,106 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Consulta de Solicitud de Permisos</h5>
+          <iboxtools></iboxtools>
+        </div>
+        <div class="ibox-content">
+          <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla()">
+            <div class="row">
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_NroDocumento" [(ngModel)]="Documento" m placeholder="Documento" class="form-control" [ngModel] required /> 
+                </div>
+              </div>
+              <div class="col-sm-1" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_Anio"   [(ngModel)]="DAMAnio" m placeholder="Año" class="form-control" [ngModel] required /> 
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group">
+                  <input type="text" name="txtbox_Numero"   [(ngModel)]="DAMNro" m placeholder="Número" class="form-control" [ngModel] required /> 
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+<<<<<<< HEAD
+                <select name="listEstado" [formControl]="myUnidad"  class="form-control" >              
+                  <option [value]="" selected hidden>--Unidad Negocio--</option>
+=======
+                <select name="listEstado"   class="form-control" (change)="ChangingValue($event)" >                           
+                  <option [value]="" selected hidden>--Seleccione--</option>
+>>>>>>> 89a7785c6660c75e1ea4fb2b2c5306196e58010d
+                  <option *ngFor="let item of this.ListaUniNegocio" [value]="item.Codigo">{{item.Descripcion}}</option> 
+                </select>
+              </div>
+             
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="reset" (click)="CargarGrilla()"
+              class="btn btn-default block  m-b tamanio-device">Consultar</button></div>
+              
+              <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                <button type="button" (click)="GenerarSolicitud()"
+                class="btn btn-primary block m-b tamanio-device"  >Generar Solicitud</button></div>
+
+            </div>
+            <div class="row">
+            
+
+           
+
+<!--                 <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
+                  <button type="button" (click)="popupNuevaRefrendoExpo()"
+                  class="btn btn-primary block m-b tamanio-device"  >Nuevo</button>
+                </div> -->
+            </div>
+          </form>
+          <div class="row">
+            <div class="loading" *ngIf = "loading" style="text-align:center;height: 420px ;margin-right: 0px;margin-left: 0px;" >
+              <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+           </div>
+            <div id="grilla"  class="table-responsive" >
+             <table datatable class="datatable table-striped row-border hover" [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger" > 
+                <thead>
+                  <tr>
+                    <th>Accion</th>
+                    <th>BL</th>
+                    <th>Nro Declaración</th>
+                    <th>Comitente</th>
+                    <th>Agencia de Aduanas</th>
+                    <th>Facturar A</th>     
+                    <th>Estado</th>                    
+                    <th>Usuario Creación</th>    
+                    <th>Fecha de Creación</th>     
+                   <!--  <th colspan="4" style="width: 10%;">Accion</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+<<<<<<< HEAD
+                 
+=======
+                  <tr *ngFor="let item of this.objLSolPer">
+                    <td><a (click)="popupAccion(item.Estado)"><img  style="width: 24px;" src="assets/images/Accion.png"></a></td>                                                         
+                    
+                    <td>{{item.BL}}</td>
+                    <td>{{item.NroDeclaracion}}</td> 
+                    <td>{{item.Importador}}</td>
+                    <td>{{item.AgenteAduana}}</td>
+                    <td>{{item.FacturarA}}</td>  
+                    <td>{{item.Estado}}</td>  
+                    <td>{{item.RegistradoPor}}</td>  
+                    <td>{{item.FechaDeRegistro}}</td>
+                                               
+                  </tr>
+>>>>>>> 89a7785c6660c75e1ea4fb2b2c5306196e58010d
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,304 @@
+<div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
+  <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
+    <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
+    <h4 class="modal-title pull-left" style="display: inline-table;">Generar Solicitud de Permisos</h4>
+    <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
+      (click)="cerrarPopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="m-t" role="form" #formUsuario="ngForm" >
+    <div class="ibox-content cuerpo-con-overflow">
+      <div>
+        <!-- ------------PARTE 1------------ -->
+        <div>
+          <div id="Cabecera" class="form-group row" >
+            <div class="row">
+              <label class="col-xs-12 col-sm-4 col-lg-4 label_device">MODALIDAD NORMAL</label>
+              <label class="col-xs-12 col-sm-4 col-lg-4 label_device">DAM Masivo</label>
+              <br/>
+              <br/>
+            </div>
+            <div class="row">
+              <label class="col-xs-12 col-sm-2 col-lg-2 label_device">BL:</label>
+             <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  [(ngModel)]="BL" maxlength="50" name="txtbox_BL" 
+                class="form-control">            
+            </div>            
+            <div class="col-sm-3"><button (click) = "AgregarBL(BL)" class="btn btn-w-m btn-primary">Agregar</button></div>
+          </div>
+          <br/>      
+          <div class="row">
+           <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 8px;padding-right: 4px;">                                       
+            <table class="table table-hover">
+              <thead>
+              <tr>                              
+                  <th>BL</th>              
+                  <th>Acción</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of this.objListBLV">
+                  <td>{{item.BL}}</td>               
+                  <td><a (click)="EliminarBL(item.BL)"><img src="assets/images/delete.png"></a></td>                                                                                                                                   
+                </tr>                                                                                             
+              </tbody>
+             </table>
+           </div>
+          </div> 
+          <br/>      
+          <div class="form-group row">
+            <label class="col-xs-12 col-sm-4 col-lg-4 label_device"  style="width: 110px;"><br/>Facturar a:</label>
+          
+            <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+            
+           
+              <mat-form-field>    
+                
+                
+        
+                <input type="text" placeholder="Digite la Empresa" matInput [formControl]="myEmpresa"
+                  [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueF($event)" #auto="matAutocomplete">
+                  <mat-option *ngFor="let emp of filteredEmpresa | async" [value]="emp.Entidad + ',' + emp.Nombre">
+                    {{emp.Nombre}}
+                  </mat-option>
+                </mat-autocomplete>            
+              </mat-form-field>
+
+              
+         
+
+            </div>
+          </div>  
+          
+          <div class="form-group row">
+            <label class="col-xs-12 col-sm-2 col-lg-2 label_device" style="padding-top: 10px;" >Aduana:</label>
+            <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 0px;padding-right: 4px;">
+            
+            <select name="listAduana"  [formControl]="myAduana" class="form-control" (change)="ChangingValue($event,'Aduana')">
+              <option [value]=""  selected hidden>--Aduana--</option>
+              <option *ngFor="let item of this.ListaAduana" [value]="item.Codigo">{{item.Descripcion}}</option> 
+            </select>
+          </div>
+          <label class="col-xs-12 col-sm-2 col-lg-2 label_device" style="padding-top: 10px;" >Regimen:</label>
+            <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 0px;padding-right: 4px;">
+            <select name="listRegimen" [formControl]="myRegimen"  class="form-control" (change)="ChangingValue($event,'Regimen')">
+              <option [value]="" selected hidden>--Regimen--</option>
+              <option *ngFor="let item of this.ListaRegimen" [value]="item.Codigo">{{item.Descripcion}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-xs-12 col-sm-2 col-lg-2 label_device" style="padding-top: 10px;" >DAM:</label>        
+
+        <div class="col-xs-12 col-sm-2 col-lg-2" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" placeholder="Año" [(ngModel)]="DAMAnio" maxlength="50" name="txtbox_DAMAnio" 
+          class="form-control">
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 0px;padding-right: 4px;">
+          <input type="text" placeholder="Número" [(ngModel)]="DAMNro" maxlength="50" name="txtbox_DAMNro" 
+          class="form-control">
+        </div>
+
+        <div class="col-sm-4"><button (click) = "ConsultarLev()" class="btn btn-w-m btn-primary">Consultar Levante</button></div>
+                
+      </div>
+
+     
+
+        </div>
+        <!-- ------------PARTE 2------------ -->
+        <div class="loading" *ngIf = "loading" style="text-align:center;height: 220px ;margin-right: 0px;margin-left: 0px;" >
+          <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+       </div>
+
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Datos de la Consulta de Levante</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('DCL')"></b>
+          </div>
+          <div id="DCL">
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Número de Declaración:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="NroDeclaracion" maxlength="50" name="txtbox_NroDeclaracion" 
+                class="form-control">
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de Numeración:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="FecNumeracion" maxlength="50" name="txtbox_FecNumeracion" 
+                class="form-control">
+
+              </div>
+            </div>
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de Levante:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="FecLevante" maxlength="50" name="txtbox_FecLevante" 
+                class="form-control">
+              </div>
+            </div>
+        
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Comitente:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="Comitente" maxlength="50" name="txtbox_Comitente" 
+                class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Agencia de Aduanas:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="AgAduanas" maxlength="50" name="txtbox_AgAduanas" 
+                class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Punto de Llegada:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="PtoLlegada" maxlength="50" name="txtbox_PtoLlegada" 
+                class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Cantidad de Bultos:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="CantBultos" maxlength="50" name="txtbox_CantBultos" 
+                class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Peso Bruto:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text" disabled = "true" [(ngModel)]="PesoBruto" maxlength="50" name="txtbox_PesoBruto" 
+                class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">FOB:</label>
+              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
+                <input type="text"  [(ngModel)]="FOB" maxlength="50" name="txtbox_FOB" 
+                class="form-control">
+              </div>
+            </div>
+            <!--Row con Botones-->
+
+          </div>
+        </div>
+        <!-- ------------PARTE 3------------ -->
+        <div>
+          <div class="form-group row titulo_boton">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Número de Documento de Transporte/Contenedores</h4>
+            <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+            <b class="caret boton_mostrar" (click)="muestra_oculta('CONTENEDORES')"></b>
+          </div>
+          <div id="CONTENEDORES">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 0px;padding-right: 4px;">
+              <table class="table table-hover no-margins">
+                <thead>
+                <tr>                              
+                    <th>BL</th>              
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.objListDocs">
+                    <td>{{item.BL}}</td>                                                                                                                                                           
+                  </tr>                                                                                             
+                </tbody>
+              </table>
+             </div>
+
+             <div class="col-xs-12 col-sm-4 col-lg-4" style="padding-left: 25px;padding-right: 4px;">
+              <table class="table table-hover no-margins">
+                <thead>
+                <tr>                              
+                    <th>Contenedores</th>              
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.objListCont">
+                    <td>{{item.NroContenedor}}</td>                                                                                                                                                           
+                  </tr>                                                                                             
+                </tbody>
+              </table>
+             </div>
+
+
+            </div>
+
+          
+
+
+
+          </div>
+        </div>
+          <!-- ------------PARTE 4------------ -->
+        <div >
+            <div class="form-group row titulo_boton">
+              <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Documentos Adjuntos</h4>
+              <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+              <b class="caret boton_mostrar" (click)="muestra_oculta('Docs')"></b>
+            </div>
+            <div id="Docs">  
+              <div class="row">
+                <!--Aca va lo del Adjuntar Evidencia -->
+                <label class="col-sm-2 col-form-label">Adjuntar Evidencia:</label>
+                <div class="col-sm-4" style="padding-left: 5px;padding-bottom: 10px;">
+                  <div class="form-group">
+                    <input type="file" [accept]="[
+                      '.jpg',
+                      '.jpeg',
+                      '.pdf',
+                      '.png']" (change)="changeListener($event)">
+                    <button (click)="AgregarArchivo(this.filename1)">Agregar Archivo</button>
+                  </div>        
+                </div>
+               </div>
+
+               <div class="row">
+                 <div class="col-sm-8" style="padding-left: 5px;padding-bottom: 10px;">
+                   <mat-selection-list #list>
+                     <mat-list-option *ngFor="let item of this.fileitemsZ" (click)="onListControlChanged(list)"
+                       [value]="item.name">
+                       <label style="color:blue;"> Archivo: {{item.name}} Tamaño:
+                         {{((item.size/1024)/1024) | number: '1.1-2'   }} MB
+                       </label>
+                     </mat-list-option>
+                   </mat-selection-list>
+                 </div>         
+                 <div class="col-sm-2" style="padding-left: 5px;padding-bottom: 10px;">
+                   <button (click)="EliminarSelect()" class="btn btn-w-m btn-default">Eliminar</button>
+                 </div>
+               </div>
+            
+
+              
+            
+          
+                       
+            </div>
+        </div>
+
+  <!-- ------------PARTE 5------------ -->
+  
+
+
+      </div>
+    </div>
+  </div>
+  </form>
+  <div class="loadingGrabar" *ngIf = "loadingG" style="text-align:center;height: 220px ;margin-right: 0px;margin-left: 0px;" >
+    <img src = "assets/images/loader.gif" style="width: 150px;height: 100px;">
+ </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
+      <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
+      <button (click)="GrabarSolicitud()"  id="btnGen" disabled = "true" class="btn btn-w-m btn-primary">Grabar</button>
+      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
+  </div>
+</div>
