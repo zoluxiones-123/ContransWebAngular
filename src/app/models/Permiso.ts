@@ -16,6 +16,40 @@ export class BL {
   }
 
   
+  export class PermisoListarRQT {
+    IDUser: number;
+    IDRol: number
+    CodigoSolicitud: number;    
+  }
+
+  
+  export class Permiso {
+    Permiso: string;
+    Registo: string;
+    Documento: string;
+    FechaCreacion: string;
+  }
+
+  
+  export class PermisoImprimirRQT {
+    IDUser: number;
+    IDRol: number;
+    Permiso: string;    
+  }
+  
+  export class PermisoImprimirRPT {
+    Cod: number;
+    Msj: string;
+    Data: any;
+  }
+
+
+  
+  export class PermisoListarRPT {
+    Data:any;
+  }
+
+  
   export class ObservacionPer {
   CodHelp: number;
   Codigo: number;
@@ -271,6 +305,8 @@ export class ConsultaSolPermisoRQT
   Bl: string;
   Anio: string;
   Dam: string;
+  Desde: any;
+  Hasta: any;
 }
 
 export class ConsultaSolPermisoRPT

@@ -9,9 +9,9 @@
         <div class="ibox-content">
           <form class="m-t" role="form" #formFact="ngForm" (ngSubmit)="CargarGrilla(formFact)">
             <div class="row">
-              <div class="col-sm-2" style="padding-left: 5px;">
+              <div class="col-sm-4" style="padding-left: 5px;">
                 <div class="form-group">
-                   <mat-form-field>
+                   <mat-form-field style="width: 350px;">
                     <input type="text" placeholder="Cliente" matInput [formControl]="myCliente"
                       [matAutocomplete]="auto">
                     <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueF($event)" #auto="matAutocomplete">
@@ -24,10 +24,10 @@
 
 
               </div>
-              <div class="col-sm-2" style="padding-left: 5px;">
+              <div class="col-sm-4" style="padding-left: 5px;">
                 <div class="form-group">
     
-                  <mat-form-field>
+                  <mat-form-field style="width: 350px;">
                     <input type="text" placeholder="Transportista" matInput [formControl]="myTrans"
                       [matAutocomplete]="autoAg">
                     <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueE($event)" #autoAg="matAutocomplete">

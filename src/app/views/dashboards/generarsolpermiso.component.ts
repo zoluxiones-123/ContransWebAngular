@@ -1282,7 +1282,17 @@ export class GenerarsolpermisoComponent implements OnInit {
         this.fileitems.push(this.fileitem);      
         
         let archivo = new Archivo();
-        archivo.Archivo = this.fileitem.Base64;
+
+        var oldstr1 = this.fileitem.Base64.toString();
+        var newstr1 = oldstr1.toString().replace("data:image/png;base64,","");
+
+        var oldstr2 = newstr1;
+        var newstr2 = oldstr2.toString().replace("data:image/jpeg;base64,","");
+
+        var oldstr3 = newstr2;
+        var newstr3 = oldstr3.toString().replace("data:application/pdf;base64,","");
+
+        archivo.Archivo = newstr3;
         archivo.NombreArchivo = nombarc;
 
         this.objListArchivos.push(archivo);
@@ -1342,7 +1352,17 @@ AgregarArchivoMasivo(nombarc: string)
       this.fileitemsm.push(this.fileitemm);      
       
       let archivo = new Archivo();
-      archivo.Archivo = this.fileitemm.Base64;
+
+      var oldstr1 = this.fileitemm.Base64.toString();
+      var newstr1 = oldstr1.toString().replace("data:image/png;base64,","");
+
+      var oldstr2 = newstr1;
+      var newstr2 = oldstr2.toString().replace("data:image/jpeg;base64,","");
+
+      var oldstr3 = newstr2;
+      var newstr3 = oldstr3.toString().replace("data:application/pdf;base64,","");
+
+      archivo.Archivo = newstr3;
       archivo.NombreArchivo = nombarc;
 
       this.objListArchivosMasivo.push(archivo);

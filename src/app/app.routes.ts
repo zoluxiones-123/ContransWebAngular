@@ -50,6 +50,7 @@ import {RepstockrealComponent} from  "./views/dashboards/repstockreal.component"
 import {ConsultasolservComponent} from "./views/dashboards/consultasolserv.component";
 
 import {ConsultasolpermisosComponent} from "./views/dashboards/consultasolpermisos.component";
+
 //import {RegreclamoComponent} from "./views/dashboards/regreclamo.component";
 
 import {NuevoSolServComponent} from "./views/dashboards/nuevosolserv.component";

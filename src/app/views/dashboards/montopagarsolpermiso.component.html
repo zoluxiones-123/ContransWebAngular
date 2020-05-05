@@ -1,7 +1,7 @@
 <div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
   <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
     <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
-    <h4 class="modal-title pull-left" style="display: inline-table;">Consulta de Monto a Pagar y Pago Adjunto</h4>
+    <h4 class="modal-title pull-left" style="display: inline-table;"> {{this.TituloGeneral}} </h4>
     <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
       (click)="cerrarPopup()">
       <span aria-hidden="true">&times;</span>
@@ -15,40 +15,97 @@
     
         <!-- ------------PARTE 2------------ -->
         <div class="loading"  style="text-align:center;height: 120px ;margin-right: 0px;margin-left: 0px;" >
-          <img src = "assets/images/MontoAdjPago.png" >
+          <img src = {{this.RutaImg}} >
        </div>
 
+       <div>
+        <div class="form-group row titulo_boton" *ngIf = "MuestraObser">
+          <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Observaciones</h4>
+          <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
+          <b class="caret boton_mostrar" (click)="muestra_oculta('Obser')"></b>
+        </div>
+        <div id="Obser">
+
+                     
+          <div class="form-group row"  *ngIf = "MuestraObser" ><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observaciones:</label>              
+          </div>
+
+          <div class="row">
+            <div id="grillaobs" style="visibility: hidden; width: 97%;overflow-y: hidden; padding-left: 12px;">
+             <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsO"
+                [dtTrigger]="dtTriggerO" > 
+                <thead>
+                  <tr>
+                    <th>Tipo de Observación</th>
+                    <th>Observación</th>
+                    <th>Fecha de Creación</th>                                           
+                    <th>Descargar PDF</th>
+                                 
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.objListObser">
+                    <td>{{item.TipoObervacion}}</td> 
+                    <td>{{item.Observacion}}</td>  
+                    <td>{{item.RegistroCreado}}</td>                                            
+                    <td style="text-align: center;"><a (click)="ImprimirSolPer(item.Codigo, item.CodHelp)"><img  style="width: 24px;" src="assets/images/IconPDF.png"></a></td>                                                                             
+                               
+                    <!-- <td>{{item.PctoAduana}}</td> -->
+                 </tr>
+                </tbody>                 
+              </table>
+            </div>
+          </div>
+
+
+       
+
+
+        </div>
+      </div>      
+
         <div>
-          <div class="form-group row titulo_boton">
-            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Datos de Liquidacion a Pagar</h4>
+          <div class="form-group row titulo_boton"  *ngIf = "MuestraLiqui">
+            <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">{{this.TituloLiq}}</h4>
             <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
             <b class="caret boton_mostrar" (click)="muestra_oculta('DPL')"></b>
           </div>
           <div id="DPL">
-           <!-- <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Número de Liquidacón:</label>
-              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" disabled = "true" [(ngModel)]="NroLiquidacion" maxlength="50" name="txtbox_NroLiquidacion" 
-                class="form-control">
 
+            <div class="row" >
+              <div id="grillaPer" style="visibility: hidden;  width: 97%;overflow-y: hidden; padding-left: 12px;">
+               <table datatable class="datatable table-striped row-border hover " [dtOptions]="dtOptionsPer"
+                  [dtTrigger]="dtTriggerPer" > 
+                  <thead>
+                    <tr>
+                      <th>Permiso</th>
+                      <th>Registro</th>
+                      <th>Documento</th>                      
+                      <th>Fecha Creación</th>
+                      <th>PDF</th>
+                     
+                  
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of this.objListPermisos">
+                      <td>{{item.Permiso}}</td> 
+                      <td style="text-align: center;">{{item.Registo}}</td>  
+                      <td style="text-align: center;">{{item.Documento}}</td>  
+                      <td style="text-align: center;">{{item.FechaCreacion}}</td>                            
+                    
+                      <td style="text-align: center;"><a (click)="ImprimirPermiso(item.Permiso)"><img  style="width: 24px;" src="assets/images/IconPDF.png"></a></td>                                                                             
+                                 
+                      <!-- <td>{{item.PctoAduana}}</td> -->
+                   </tr>
+                  </tbody>                 
+                </table>
               </div>
             </div>
-            <div class="form-group row">
-              <label class="col-xs-12 col-sm-4 col-lg-4 label_device">Monto a Pagar:</label>
-              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
-                <input type="text" disabled = "true" [(ngModel)]="Monto" maxlength="50" name="txtbox_Monto" 
-                class="form-control">
 
-              </div>
-            </div>
-            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observación:</label>
-              <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">               
-                <textarea type="text" [(ngModel)]="Observacion" name="txtarea_Obs" class="form-control" [ngModel]>
-                </textarea>
-
-              </div>
-            </div> -->
+         
         
-            <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Liquidaciones:</label>              
+            <div class="form-group row"  *ngIf = "MuestraLiqui" ><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Liquidaciones:</label>              
             </div>
 
             <div class="row">
@@ -83,7 +140,7 @@
               </div>
             </div>
 
-            <div class="form-group row"  *ngIf = "MuestraObser" ><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observaciones:</label>              
+          <!--  <div class="form-group row"  *ngIf = "MuestraObser" ><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Observaciones:</label>              
             </div>
 
             <div class="row">
@@ -106,24 +163,22 @@
                       <td>{{item.RegistroCreado}}</td>                                            
                       <td style="text-align: center;"><a (click)="ImprimirSolPer(item.Codigo, item.CodHelp)"><img  style="width: 24px;" src="assets/images/IconPDF.png"></a></td>                                                                             
                                  
-                      <!-- <td>{{item.PctoAduana}}</td> -->
                    </tr>
                   </tbody>                 
                 </table>
               </div>
             </div>
+               -->
 
-
-         
+     
 
            
-            <!--Row con Botones-->
 
           </div>
         </div>       
           <!-- ------------PARTE 4------------ -->
-        <div>
-            <div class="form-group row titulo_boton">
+        <div >
+            <div class="form-group row titulo_boton" *ngIf = "MuestraAdj">
               <h4 class="modal-title pull-left" style="display: inline-table;margin-top: 0px;">Adjunto de Pago</h4>
               <!-- <a style='cursor: pointer;' (click)="muestra_oculta('datosbooking')" title="" class="boton_mostrar">Mostrar / Ocultar</a> -->
               <b class="caret boton_mostrar" (click)="muestra_oculta('AdjPago')"></b>
@@ -191,8 +246,8 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
       <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
-      <button (click)="GrabarPago()"  id="btnGen" class="btn btn-w-m btn-primary">Grabar</button>
-      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
+      <button (click)="GrabarPago()" *ngIf = "MuestraLiq" id="btnGen" class="btn btn-w-m btn-primary">Grabar</button>
+      <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">{{this.BotonDesc}}</button></div>
   </div>
 </div>
 

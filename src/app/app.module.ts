@@ -138,6 +138,7 @@ import { MontopagarsolpermisoComponent } from './views/dashboards/montopagarsolp
     GenerarsolpermisoComponent,
     AnularsolservComponent,
     MontopagarsolpermisoComponent
+  
    // topnavigationlayoutComponent
   ],
   imports: [
