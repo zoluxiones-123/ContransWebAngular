@@ -128,6 +128,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
 
   public paramCodigo: string;
   public loading: boolean;
+  public Grabar: boolean;
 
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
@@ -171,6 +172,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
     this.paramCodigo=localStorage.getItem("paramCodigo")
     
     this.loading=false;
+    this.Grabar=true;
 
     if (localStorage.getItem("paramAccion")=="Editar"){
       this.Editar=true;
@@ -1350,6 +1352,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
   }
 
   public AgregarRefrendo(form: NgForm) {
+    this.Editar=false;
 /*     var NBooking: string
     NBooking = form.value.txtbox_NBooking
 
@@ -1425,6 +1428,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
       console.log("Datos REFRENDON ACTUALIZAR " + JSON.stringify(this.objGenerarRefrendoExpoActualizarRQT));
 
       if (this.ValidarInput(this.objGenerarRefrendoExpoActualizarRQT)) {
+        this.Editar=true;
         swal({
           text: "Error en los campos de ingreso, por favor verificar",
           icon: "warning",
@@ -1441,11 +1445,12 @@ export class RefrendoExpoEditarComponent implements OnInit {
           console.log("Mensaje : " + JSON.stringify(data));
           console.log("Ruta : " + data.Msj.toString());
           console.log("EMPEZAR A Imagenes")
-
+          this.Editar=true;
           swal("Se Guardo Correctamente");
           this.cerrarPopup();
         },
         error => {
+          this.Editar=true;
           swal("Error al crear Refrendo Expo");
           console.log("Error : ", error);
         });
