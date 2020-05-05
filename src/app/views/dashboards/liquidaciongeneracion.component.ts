@@ -34,9 +34,9 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
     fechaActual: string;
     minDate: Date;
     maxDate: Date;
-    public UniNegocioSelect:string;
+    public UniNegocioSelect:string = "";
     public UniNegocioSelectD:string;
-    public TipoConsultaSelect:string;
+    public TipoConsultaSelect:string = "";
     public ListaUniNegocio : Array<UnidadNegocio>;
     public ListaTipoConsulta : Array<UnidadNegocio>;
     public objLiquidacionBRPT: LiquidacionBRPT;
@@ -133,6 +133,23 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
     
     }        
     popupNuevaRefrendoExpo(form: NgForm){
+      
+
+      if (this.UniNegocioSelect == "")
+      { swal("Selecciona la Unidad de Negocio");
+        return; }
+
+      if (this.TipoConsultaSelect == "")
+      { swal("Seleccione el Tipo de Consulta");
+       return; }
+
+       let doc = form.value.txtbox_Documento;
+
+       if (doc == null || doc == undefined || doc == "")
+       { swal("Ingrese el Nro de Documento");
+       return; } 
+
+       
       localStorage.setItem("paramAccion","Nuevo");
       localStorage.setItem("UniNegocioL",this.UniNegocioSelect);
       localStorage.setItem("TipoConsultaL",this.TipoConsultaSelect);

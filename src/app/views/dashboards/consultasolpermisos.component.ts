@@ -37,11 +37,17 @@ export class ConsultasolpermisosComponent implements OnInit {
   public loading: boolean = false;
   myUnidad = new FormControl();   
   public ListaUniNegocio : Array<UnidadNegocio>;
-  public EstSolPerSelect : string = "";
+  public Estados : Array<string>;
+
+  public EstSolPerSelect : string = "-1";
 
   public Documento : string = "";
   public DAMAnio : string = "";
   public DAMNro : string = "";
+
+  
+  minDate: Date;
+  maxDate: Date;
   
 
   
@@ -52,14 +58,14 @@ export class ConsultasolpermisosComponent implements OnInit {
   public objLSolPer : Array<SolicitudPermiso>;
 
   constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router) { 
-    this.reportService.getEstadosSolPermiso().subscribe(
+   /* this.reportService.getEstadosSolPermiso().subscribe(
     data => {
 
       this.ListaUniNegocio = data.Data;
          
 
 } 
-);
+);*/
     
   }
 
@@ -107,7 +113,31 @@ export class ConsultasolpermisosComponent implements OnInit {
   
     this.SetGrillaVisibility(false);
     this.loading = false;
+    this.setearFechasLimite();
+
+    this.Estados = new Array;
+    
+    this.Estados.push("Pendiente");
+    this.Estados.push("Cancelado");
+    this.Estados.push("En Proceso");
   
+
+    this.reportService.getEstadosSolPermiso().subscribe(
+      data => {
+  
+        this.ListaUniNegocio = data.Data;
+           
+  
+  } 
+  );
+  
+  }
+
+
+  setearFechasLimite(){
+    let date = new Date();
+    this.minDate = new Date(date.getFullYear(), date.getMonth() - 5, 1);
+    this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
   }
 
   public ngOnDestroy():any {
@@ -117,9 +147,24 @@ export class ConsultasolpermisosComponent implements OnInit {
 
   public popupAccion(estado:string, codigosolper:number)
   { 
-    if (estado != "Pendiente")
+
+    let noaccion : boolean = false;
+      
+    for (var i = 0; i <= this.Estados.length-1; i++) {
+      let last = this.Estados[i];            
+      if (estado == last)
+      {
+        noaccion = true;
+      }
+    }
+
+
+
+    if (noaccion == false)
+    // "Cancelado", "En Proceso")) 
     {
     localStorage.setItem("SolPerEst", codigosolper.toString());
+    localStorage.setItem("EstadoPermiso", estado);
 
     const dialogRef = this.dialog.open(MontopagarsolpermisoComponent,{
       disableClose: true,
@@ -128,6 +173,10 @@ export class ConsultasolpermisosComponent implements OnInit {
       height: "100%"
     });
     
+  }
+  else
+  {
+    swal("No existe acción a realizar en estado " + estado);
   }
   }
 
@@ -144,23 +193,31 @@ export class ConsultasolpermisosComponent implements OnInit {
     const dialogRef = this.dialog.open(GenerarsolpermisoComponent,{
       disableClose: true,
       autoFocus: true,
-      width: "700px",
+      width: "900px",
       height: "100%"
     });
     
   }
 
   
-  public CargarGrilla() {
+  public CargarGrilla(form: NgForm) {
 
     this.objConsultaSolPerRQT = {
       IDUser : Number.parseInt(localStorage.getItem("Usuario")),
       IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
       Codigo : 0,
       Estado : Number.parseInt(this.EstSolPerSelect),
-      Bl : this.Documento,
-      Anio : this.DAMAnio,
-      Dam : this.DAMNro
+      Bl :  form.value.txtbox_NroDocumento,
+      Anio : form.value.txtbox_Anio,
+      Dam : form.value.txtbox_Numero,
+      Desde : form.value.txtbox_Desde,
+      Hasta : form.value.txtbox_Hasta
+
+    //  Anio : this.DAMAnio,
+
+     
+     // Dam : this.DAMNro
+
     };
 
     if(this.ValidarInput(this.objConsultaSolPerRQT))
@@ -217,6 +274,7 @@ export class ConsultasolpermisosComponent implements OnInit {
         //this.dtTrigger.unsubscribe();
       }, 
       error => {
+        this.loading = false;
                 swal({
         text: "Error al cargar los datos",
         icon: "error",
@@ -231,10 +289,29 @@ export class ConsultasolpermisosComponent implements OnInit {
 
   public ValidarInput(param : ConsultaSolPermisoRQT) : boolean
   {
-    if (this.NullEmpty(this.EstSolPerSelect))
+  /*  if (this.NullEmpty(param.Estado))
+    {
+      if (param.Estado = NaN)
+      return true;
+    }*/
+
+    if (param.Estado == -1 )
     {
       return true;
     }
+    
+    if(this.NullEmpty(param.Desde))
+    {
+      this.objConsultaSolPerRQT.Desde = "";
+    }
+    
+    if(this.NullEmpty(param.Hasta))
+    {
+      this.objConsultaSolPerRQT.Hasta = "";
+    }
+    
+   // this.objConsultaSolPerRQT.Desde = this.objConsultaSolPerRQT.Desde.toLocaleDateString();
+   // this.objConsultaSolPerRQT.Hasta = this.objConsultaSolPerRQT.Hasta.toLocaleDateString();
 
     if(this.NullEmpty(param.Bl))
     {
@@ -243,12 +320,12 @@ export class ConsultasolpermisosComponent implements OnInit {
 
     if(this.NullEmpty(param.Anio))
     {
-      this.objConsultaSolPerRQT.Anio = " ";
+      this.objConsultaSolPerRQT.Anio = "";
     }
 
     if(this.NullEmpty(param.Dam))
     {
-      this.objConsultaSolPerRQT.Dam = " ";
+      this.objConsultaSolPerRQT.Dam = "";
     }
 
     return false;
@@ -262,10 +339,10 @@ export class ConsultasolpermisosComponent implements OnInit {
   public SetGrillaVisibility(param:boolean)
   {
     if (param) {
-      document.getElementById('grilla').style.visibility = "visible";
+      document.getElementById('grillapermisos').style.visibility = "visible";
     }
     else {
-      document.getElementById('grilla').style.visibility = "hidden";
+      document.getElementById('grillapermisos').style.visibility = "hidden";
     }
   }
   

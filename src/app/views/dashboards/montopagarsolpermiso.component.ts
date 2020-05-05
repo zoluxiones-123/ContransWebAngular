@@ -11,7 +11,8 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookingRefrendoExpoRPT, ConsultaDetalleBookingRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ListaModalidadRefrendoExpo, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, GenerarDetalleRefrendoExpoRQT,GenerarArchivoRefrendoExpoRQT } from '../../models/RefrendoExpo';
 import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento,
 RegistrarSolPermisoRPT,RegistrarSolPermisoRQT,Archivo, ConsultaSolPerEstRPT,ConsultaSolPerEstRQT,LiquidacionPer,
-SolPerArchivoRPT,SolPerArchivoRQT,ObservacionPer, RegistrarObsPagoRPT, RegistrarObsPagoRQT}
+SolPerArchivoRPT,SolPerArchivoRQT,ObservacionPer, RegistrarObsPagoRPT, RegistrarObsPagoRQT, PermisoListarRPT,
+PermisoListarRQT,Permiso,PermisoImprimirRQT, PermisoImprimirRPT}
 from '../../models/Permiso';
 
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -53,11 +54,14 @@ export class MontopagarsolpermisoComponent implements OnInit {
 
   public objConsSolPerRQT : ConsultaSolPerEstRQT;
   public objConsSolPerRPT : ConsultaSolPerEstRPT;
-
+  
+  public objPerListRQT : PermisoListarRQT;
+  public objPerListRPT : PermisoListarRPT;
   
   public objListLiqui : Array<LiquidacionPer> = [];
   public objListObser : Array<ObservacionPer> = [];
-
+  
+  public objListPermisos : Array<Permiso> = [];
 
   public objListContenedores : Array<Contenedor> = [];
   public objListDocumentos : Array<Documento> = [];
@@ -69,6 +73,10 @@ export class MontopagarsolpermisoComponent implements OnInit {
 
   public objImprimirSolRqt : SolPerArchivoRQT;
   public objImprimirSolRpt : SolPerArchivoRPT;
+
+
+  public objImprimirPerRqt : PermisoImprimirRQT;
+  public objImprimirPerRpt : PermisoImprimirRQT;
   
   
 
@@ -97,7 +105,19 @@ export class MontopagarsolpermisoComponent implements OnInit {
   public loading : boolean =  false;
   public loadingG : boolean =  false;
   public MuestraObser : boolean =  false;
+  public MuestraLiq : boolean =  true;
+  public MuestraLiqui : boolean =  true;
   
+  public EstadoPermiso : string = "";
+  public TituloLiq : string = "";
+  public BotonDesc : string = "";
+  public RutaImg : string = "";
+
+  public TituloGeneral : string = "";
+  
+
+  public MuestraAdj : boolean = true;
+  public MuestraPer : boolean = false;
 
   image: any;
   fileitem : any;
@@ -163,6 +183,36 @@ export class MontopagarsolpermisoComponent implements OnInit {
       }
     }
   };
+
+  dtTriggerPer:Subject<any> = new Subject();
+  dtOptionsPer : any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    retrieve : true,
+    searching: false,
+    dom: 'Bfrtip',
+    buttons: [
+     
+    ],
+    language: {
+      lengthMenu: "Mostrar_MENU_registros" ,
+      search : "Buscar",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      paginate : {
+        first:    "Primero",
+        last:     "Último",
+        next:     "Siguiente",
+        previous: "Anterior"
+      },
+      aria :
+      {
+        sortAscending :"Activar para ordenar la columna de manera ascendente",
+        sortDescending: "Activar para ordenar la columna de manera descendente"
+      }
+    }
+  };
+ 
  
 
   dtTriggerO:Subject<any> = new Subject();
@@ -241,6 +291,9 @@ export class MontopagarsolpermisoComponent implements OnInit {
         }
 
         let res = this.reportService.RegistrarObsPago(this.objRegObsPagRQT);
+
+        
+        this.loadingG = true; 
         
         res.subscribe( 
          data => {
@@ -328,12 +381,91 @@ export class MontopagarsolpermisoComponent implements OnInit {
       }
 
       this.SolPermiso =  Number.parseInt(localStorage.getItem("SolPerEst"));
+      this.EstadoPermiso = localStorage.getItem("EstadoPermiso").toString();
                
+    if (this.EstadoPermiso == "Habilitado" || this.EstadoPermiso == "Cerrado") /*Estado Habilitado o Cerrado*/
+    {
+      this.objPerListRQT = {
+        IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+        IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),                
+        CodigoSolicitud : this.SolPermiso               
+      }
 
-      let res = this.reportService.getSolicitudPermisoxEstado(this.objConsSolPerRQT);
+      let resp = this.reportService.getPermisosListar(this.objPerListRQT);
+      this.BotonDesc = "Aceptar";
 
-    //  console.log(this.objAutEntregaPrecRQT)
-    
+      this.RutaImg =  "assets/images/Habilitado.jpeg" 
+
+      this.TituloGeneral = "Permisos de la Solicitud Nro: " + this.SolPermiso.toString();
+
+      resp.subscribe( 
+       data => {
+         this.objPerListRPT = data;
+   
+         if (data.Data.length > 0 )
+         {                              
+          // this.loading = false;
+  
+         this.objListPermisos = data.Data;
+  
+           if (this.objListPermisos.length > 0)
+           {         
+            this.TituloLiq = "Lista de Permisos";  
+            this.MuestraAdj = false;
+            this.MuestraLiq = false;  
+            this.MuestraLiqui = false;                      
+            this.dtTriggerPer.next(this.objListPermisos);  
+            this.SetGrillaVisibilityPer(true);
+           }
+  
+           
+         
+         
+         // this.SetGrillaVisibility(true);
+  
+        
+         }
+         else{
+                   
+        //  this.loading = false;
+           swal("No existen permisos");
+           this.onIsError();   
+         }
+       },  
+       error => {
+         swal({
+           text: "Error al cargar los datos",
+           icon: "error",
+            }); 
+         this.onIsError();           
+         console.log("Error");}
+       );
+   
+
+
+    }
+    else
+    {
+       
+    let res = this.reportService.getSolicitudPermisoxEstado(this.objConsSolPerRQT);
+
+    this.BotonDesc = "Cancelar";
+
+    switch (this.EstadoPermiso) {
+      case "Observado":
+          this.RutaImg =  "assets/images/Observado.jpeg" 
+          this.TituloGeneral = "Observaciones de la Solicitud Nro: " + this.SolPermiso.toString();
+      break;
+      case "Liquidado":
+        this.RutaImg =  "assets/images/Liquidado.jpeg" 
+        this.TituloGeneral = "Liquidaciones de la Solicitud Nro: " + this.SolPermiso.toString();
+        break;
+      default:
+          this.RutaImg =  "assets/images/MontoAdjPago.png" ;
+          this.TituloGeneral = "Consulta de Monto a Pagar y Pago Adjunto de la Solicitud Nro: " + this.SolPermiso.toString();
+    }
+
+
     res.subscribe( 
      data => {
        this.objConsSolPerRPT = data;
@@ -341,6 +473,8 @@ export class MontopagarsolpermisoComponent implements OnInit {
        if (this.objConsSolPerRPT.Mensaje == "OK")
        {                              
         // this.loading = false;
+
+         this.TituloLiq = "Datos de Liquidacion a Pagar";  
 
          this.objListLiqui = data.DataLiquidacion;
          
@@ -355,10 +489,17 @@ export class MontopagarsolpermisoComponent implements OnInit {
 
          
         this.dtTrigger.next(this.objListLiqui);   
-       
-       
-        this.SetGrillaVisibility(true);
 
+        
+        if (this.objListLiqui.length <= 0)
+        {     
+          this.MuestraLiqui = false;
+          this.SetGrillaVisibility(false);
+        }
+        else
+       {       
+        this.SetGrillaVisibility(true);
+       }
       
        }
        else{
@@ -376,9 +517,9 @@ export class MontopagarsolpermisoComponent implements OnInit {
        this.onIsError();           
        console.log("Error");}
      );
- 
-   
-  
+    
+   }
+
   }
 
   public cerrarPopup() {
@@ -433,6 +574,53 @@ export class MontopagarsolpermisoComponent implements OnInit {
 
   }
 
+  public ImprimirPermiso(permiso: string)
+  {
+
+    this.objImprimirPerRqt = {  
+    IDUser:  Number(localStorage.getItem("Usuario").toString()), 
+    IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+    Permiso : permiso
+    };
+
+
+    this.reportService.ImprimirPermiso(this.objImprimirPerRqt)
+    .subscribe(
+      data => {
+        
+        this.objImprimirPerRqt = data;
+  
+        if (data.Cod == 0)
+        {               
+          
+          const linkSource = 'data:application/pdf;base64,' + data.Data[0].Archivo.toString();
+          const downloadLink = document.createElement("a");
+          const fileName =  data.Data[0].NombreArchivo.toString();
+  
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+          
+          }
+         
+  
+        else{
+         // this.loading = false;
+         swal(data.Msj.toString());
+       /*   swal({
+            text: "Error al Imprimir Solicitud de Permiso",
+            icon: "error",
+          });*/
+  
+
+        }
+
+      }
+    );
+
+  }
+
+
 
   
  public SetGrillaVisibility(param:boolean)
@@ -458,6 +646,19 @@ export class MontopagarsolpermisoComponent implements OnInit {
    }
    else {    
      document.getElementById('grillaobs').style.visibility = "hidden";
+   }
+ }
+
+ 
+ public SetGrillaVisibilityPer(param:boolean)
+ {
+   if (param) {
+     document.getElementById('grillaPer').style.visibility = "visible";
+    
+
+   }
+   else {    
+     document.getElementById('grillaPer').style.visibility = "hidden";
    }
  }
 

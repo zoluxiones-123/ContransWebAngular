@@ -570,12 +570,13 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
           }
           else
           {
+            this.objClienteTransL =  data.Data;
             this.loading = false;
             this.SiCargoData = true;
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               dtInstance.destroy();
               this.dtTriggerTrans.next(this.objClienteTransL);
-              this.SetGrillaVisibility(true);
+              this.SetGrillaVisibility(false);
             });
            
             swal("No existen datos");
@@ -583,6 +584,7 @@ import { LiquidacionCliente, LiquidacionBRQT,LiquidacionBRPT,LiquidacionCont, Va
           //this.dtTrigger.unsubscribe();
         }, 
         error => {
+          this.SetGrillaVisibility(false);
           this.loading = false;
           swal({
           text: "Error al cargar los datos",
