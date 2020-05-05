@@ -75,7 +75,10 @@
                     <td style="text-align: -webkit-center;" >{{item.DAM}}</td>
                     <td style="text-align: -webkit-center;" >{{item.NroOrden}}</td>
                     <td style="text-align: -webkit-center;" >{{item.FechaNumeracion}}</td>
-                    <td style="text-align: -webkit-center;" >{{item.Canal}}</td>
+                    <td *ngIf="item.Canal == ''" style="text-align: -webkit-center;">{{item.Canal}}</td> 
+                    <td *ngIf="item.Canal == 'VERDE'" style="text-align: -webkit-center;color: white;;background-color:#088A08">{{item.Canal}}</td> 
+                    <td *ngIf="item.Canal == 'NARANJA-(DOCUM)'" style="text-align: -webkit-center;color: white;;background-color:#FF8000">{{item.Canal}}</td> 
+                    <td *ngIf="item.Canal == 'ROJO-(FISICO)'" style="text-align: -webkit-center;color: white;;background-color:#FE0303">{{item.Canal}}</td> 
                     <td style="text-align: -webkit-center;" >{{item.Observacion}}</td> 
                     <td style="text-align: -webkit-center;" >{{item.Estado}}</td> 
                     <td style="text-align: -webkit-center;width: 10px;" ><a ><img  style="width: 24px;" src="assets/images/imprimir.png" title="Imprimir"></a></td>

@@ -28,7 +28,7 @@ import { startWith, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import {SwAlertC} from 'app/models/swalert';
 import { DatePipe } from '@angular/common';
-import {  WorkBook, read, utils, write, readFile } from 'xlsx';
+//import {  WorkBook, read, utils, write, readFile } from 'xlsx';
 
 import { UniNegocio,UnidadNegocio}  from '../../models/Factura';
 
@@ -950,7 +950,7 @@ export class GenerarsolpermisoComponent implements OnInit {
   
 
     //myreader.onload = function(){
-    myreader.onloadend = (e) =>{
+  /*   myreader.onloadend = (e) =>{
         //  alert(reader.result);
         let data = myreader.result;
          workbookkk=read(data,{type: 'binary'});
@@ -999,7 +999,7 @@ export class GenerarsolpermisoComponent implements OnInit {
         
         }
 
-        };
+        }; */
   
 
   }
@@ -1516,7 +1516,7 @@ onListControlChangedM(list:any)
 
 }
 
-convertExcelToJson(file)
+/* convertExcelToJson(file)
 {
  let reader = new FileReader();
  let workbookkk;
@@ -1541,7 +1541,7 @@ convertExcelToJson(file)
      });
      };
  });
- }
+ } */
 
 
 EliminarSelect()

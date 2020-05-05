@@ -550,10 +550,10 @@ export class RefrendoExpoEditarComponent implements OnInit {
             var TipoArchivo = TFile[1];
 
             if ((TipoArchivo.toLowerCase() == "jpg") || (TipoArchivo.toLowerCase() == "jpeg") || (TipoArchivo.toLowerCase() == "png")) {
-              FormatoArchivo="data:image/"+ TipoArchivo.toLowerCase() +";base64,";
+              //FormatoArchivo="data:image/"+ TipoArchivo.toLowerCase() +";base64,";
             }
             if (TipoArchivo.toLowerCase() == "pdf"){
-              FormatoArchivo="data:application/pdf;base64,";
+              //FormatoArchivo="data:application/pdf;base64,";
             }
             
 
@@ -647,7 +647,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
       }
 
       var oldstr = this.image.toString();
-      var newstr = oldstr.toString().replace("data:text/plain;base64,", "");
+      var newstr = oldstr.toString().replace("data:text/plain;base64,", "").replace("data:application/pdf;base64,", "").replace("data:image/png;base64,", "").replace("data:image/jpeg;base64,", "");
       this.reqBase64.Base64 = newstr;
       this.fileitem = new Base64RQT("", this.reqBase64.Base64, this.reqBase64.NombreArc, this.reqBase64.TipoArc);
       let index: number = 0;

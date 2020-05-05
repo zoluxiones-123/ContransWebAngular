@@ -214,7 +214,7 @@
                       <td><input type="number" (change)="Recalcular()" name="txtbox_Bulto_{{item.ContDesc}}"  id = "txtBulto_{{item.ContDesc}}"  placeholder="Bultos"  class="form-control  tamanio-device"  [(ngModel)]="item.Bultos" style="width: 56px;padding-right: 2px;padding-left: 2px;"/></td>
                       <!-- <td >{{item.Bultos}}</td> -->
                       <td>{{item.Pesos| number}}</td>
-                      <td></td>                      
+                      <td>{{item.Ticket}}</td>                      
                       <td><input type="text" name="txtbox_PctoAduana_{{item.ContDesc}}"  id = "txtPctoAduana_{{item.ContDesc}}"  placeholder="Pcto Aduana"  class="form-control  tamanio-device"  [(ngModel)]="item.PctoAduana" style="width: 186px;padding-right: 2px;padding-left: 2px;"/></td>
                    </tr>
                   </tbody>

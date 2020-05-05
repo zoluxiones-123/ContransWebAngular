@@ -110,6 +110,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public ModalidadSelect: string;
   public ListaModalidad: Array<ListaModalidadRefrendoExpo>;
   public ListaRegimen: Array<ListaRegimenRefrendoExpo>;
+  public Mensaje: string
 
   public loading: boolean;
 
@@ -292,9 +293,10 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     console.log ("Lista Anio" + JSON.stringify(this.ListaAnio));
 
     if(this.ValidarInputCabecera(this.objConsultaBookingRefrendoExpoRQT))
-    {        
+    {       
+      this.loading=false; 
       swal({
-            text: "Error en los campos de ingreso, por favor verificar",
+            text: "Error en los campos de ingreso, por favor verificar. " + this.Mensaje,
             icon: "warning",
           });
       return;
@@ -541,7 +543,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       }
 
       var oldstr = this.image.toString();
-      var newstr = oldstr.toString().replace("data:text/plain;base64,", "");
+      var newstr = oldstr.toString().replace("data:text/plain;base64,", "").replace("data:application/pdf;base64,", "").replace("data:image/png;base64,", "").replace("data:image/jpeg;base64,", "");
       this.reqBase64.Base64 = newstr;
       this.fileitem = new Base64RQT("", this.reqBase64.Base64, this.reqBase64.NombreArc, this.reqBase64.TipoArc);
       let index: number = 0;
@@ -1313,6 +1315,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public ValidarInputCabecera(param: ConsultaBookingRefrendoExpoRQT): boolean {
 
     if (this.NullEmpty(param.Modalidad)) {
+      this.Mensaje="Seleccionar Modalidad"
       return true;
     }
     return false;

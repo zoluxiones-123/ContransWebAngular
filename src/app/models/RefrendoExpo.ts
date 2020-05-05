@@ -123,6 +123,7 @@ export class ConsultaIDDetalleBookingRefrendoExpoRPT {
   public Pesos: number;
   public PctoAduana: string;
   public UsuaCodigo: number;
+  public Ticket: string;
 }
 
 export class ConsultaIDArchivoBookingRefrendoExpoRPT {
