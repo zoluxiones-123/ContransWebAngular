@@ -1,5 +1,5 @@
 
-import {GenerarsolpermisoComponent} from './generarsolpermiso.component';
+//import {GenerarsolpermisoComponent} from './generarsolpermiso.component';
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef,AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 //import { CartaTemperaturaRQT,AnularCerrarCartaTemperaturaRQT,AnularCerrarCartaTemperaturaRPT,CartaTemperaturaRPT,ListaEstado} from '../../models/Temperatura';
@@ -227,12 +227,12 @@ export class ConsultasolpermisosComponent implements OnInit {
 
   GenerarSolicitud()
   {
-    const dialogRef = this.dialog.open(GenerarsolpermisoComponent,{
+/*     const dialogRef = this.dialog.open(GenerarsolpermisoComponent,{
       disableClose: true,
       autoFocus: true,
       width: "900px",
       height: "100%"
-    });
+    }); */
     
   }
 

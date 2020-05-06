@@ -77,13 +77,19 @@
                     <td style="text-align: -webkit-center;" >{{item.FechaNumeracion}}</td>
                     <td *ngIf="item.Canal == ''" style="text-align: -webkit-center;">{{item.Canal}}</td> 
                     <td *ngIf="item.Canal == 'VERDE'" style="text-align: -webkit-center;color: white;;background-color:#088A08">{{item.Canal}}</td> 
-                    <td *ngIf="item.Canal == 'NARANJA-(DOCUM)'" style="text-align: -webkit-center;color: white;;background-color:#FF8000">{{item.Canal}}</td> 
-                    <td *ngIf="item.Canal == 'ROJO-(FISICO)'" style="text-align: -webkit-center;color: white;;background-color:#FE0303">{{item.Canal}}</td> 
+                    <td *ngIf="item.Canal == 'NARANJA'" style="text-align: -webkit-center;color: white;;background-color:#FF8000">{{item.Canal}}</td> 
+                    <td *ngIf="item.Canal == 'ROJO'" style="text-align: -webkit-center;color: white;;background-color:#FE0303">{{item.Canal}}</td> 
                     <td style="text-align: -webkit-center;" >{{item.Observacion}}</td> 
                     <td style="text-align: -webkit-center;" >{{item.Estado}}</td> 
-                    <td style="text-align: -webkit-center;width: 10px;" ><a ><img  style="width: 24px;" src="assets/images/imprimir.png" title="Imprimir"></a></td>
-                    <td *ngIf="item.Estado != 'Pendiente'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/preview.png" title="Detalle"></a></td>
-                    <td *ngIf="item.Estado == 'Pendiente'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/edit-icon.png" title="Editar"></a></td>
+                    <td style="text-align: -webkit-center;width: 10px;" >
+                      <a (click)="popupVistaPreviaPDF(item.Codigo,item.Booking)"><img  style="width: 24px;" src="assets/images/imprimir.png" title="Imprimir"></a>
+
+                      <!-- <a download="{{item.Booking}}" [href]=getSantizeUrl(item.Codigo)>
+                        <img src="assets/images/imprimir.png" style="width: 24px;" title="Imprimir">
+                      </a> -->
+                    </td>
+                    <td *ngIf="item.Estado != 'Pendiente' && item.Estado != 'Observado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/preview.png" title="Detalle"></a></td>
+                    <td *ngIf="item.Estado == 'Pendiente' || item.Estado == 'Observado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/edit-icon.png" title="Editar"></a></td>
                     <td *ngIf="item.Estado == 'Anulado'" style="text-align: -webkit-center;width: 10px;" ><a ><img src="assets/images/delete.png" title="Anular"></a></td> 
                     <td *ngIf="item.Estado != 'Anulado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupAnularRefrendoExpo(item.Codigo)" ><img src="assets/images/delete.png" title="Anular"></a></td> 
                  </tr>

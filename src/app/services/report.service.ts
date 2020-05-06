@@ -6,7 +6,7 @@ import { LoginRQT } from "../models/user-LoginRQT";
 import { map, tap} from 'rxjs/operators';
 import { FacturasRPT, FacturasRQT, ListaUnidadNegocio,TiposCarga, AlmacenRQT, Almacenes, TiposCita, UniNegocio } from '../models/Factura';
 import { TemperaturaRPT,BuscarNuevoCartaDetalleTemperaturaRQT,BuscarNuevoCartaDetalleTemperaturaRPT,BuscarCartaDetalleTemperaturaRQT,BuscarCartaDetalleTemperaturaRPT,NuevoCartaDetalleTemperaturaRQT,NuevoCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRQT,CartaDetalleTemperatura2RQT,CartaDetalleTemperatura2RPT,ActualizarCartaDetalleTemperaturaRQT,ActualizarCartaDetalleTemperaturaRPT,CartaDetalleTemperaturaRPT,TemperaturaRQT,TemperaturaDetalleRPT, AnularCerrarCartaTemperaturaRPT,AnularCerrarCartaTemperaturaRQT,TemperaturaDetalleRQT,CartaTemperaturaRQT,CartaTemperaturaRPT, ListaEstado } from '../models/Temperatura';
-import { GenerarRefrendoExpoActualizarRQT,GenerarRefrendoExpoActualizarRPT,ConsultaIDBookingRefrendoExpoRQT,ConsultaIDBookingRefrendoExpoRPT,ListaRegimenRefrendoExpo,AnularRefrendoExpoRQT,AnularRefrendoExpoRPT,ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo, Despachadores, AgenciaAduanera, Productos,ListaDetallePagoCobranzaDetalleRQT,ListaDetallePagoCobranzaDetalleRPT } from '../models/RefrendoExpo';
+import { GenerarRefrendoExpoActualizarRQT,GenerarRefrendoExpoActualizarRPT,ConsultaIDBookingRefrendoExpoRQT,ConsultaIDBookingRefrendoExpoRPT,ListaRegimenRefrendoExpo,AnularRefrendoExpoRQT,AnularRefrendoExpoRPT,ConsultaRefrendoExpoRQT, ConsultaRefrendoExpoRPT, ConsultaBookingRefrendoExpoRQT, ConsultaBookingRefrendoExpoRPT, GenerarRefrendoExpoRQT, GenerarRefrendoExpoRPT, ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo, Despachadores, AgenciaAduanera, Productos,ListaDetallePagoCobranzaDetalleRQT,ListaDetallePagoCobranzaDetalleRPT,ImprimirRefrendoExpoRPT,ImprimirRefrendoExpoRQT } from '../models/RefrendoExpo';
 import {ConsultaPagosServicioRQT,ConsultaPagosServicioRPT,ListaEstadoPagoCobranza} from '../models/Pagos';
 import { CitasRPT, CitasRQT, Citas, TokenCitaRPT, TokenCitaRQT, ActCitaRPT, ActCitaRQT, ValidarTokenCitaRPT, 
   ValidarTokenCitaRQT, ActTokenCitaRPT, ActTokenCitaRQT, AnularCitaRPT, AnularCitaRQT, ImpriCitaRPT, ImpriCitaRQT,
@@ -777,6 +777,13 @@ export class ReportService {
     const url_api =`/ContransAPI/api/consultarbooking`;    
     return this.http.post<ConsultaBookingRefrendoExpoRPT>(
       url_api, objConsultaBookingRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
+  }
+
+  ImprimirRefrendoExpo(objImprimirRefrendoExpo : ImprimirRefrendoExpoRQT) : Observable<any>
+  {
+    const url_api =`/ContransAPI/api/imprimirrefrendo`;    
+    return this.http.post<ImprimirRefrendoExpoRPT>(
+      url_api, objImprimirRefrendoExpo, { headers: this.headers }).pipe(map(data => data));
   }
 
   ConsultaIDBookingRefrendoExpo(objConsultaIDBookingRefrendoExpoRQT : ConsultaIDBookingRefrendoExpoRQT) : Observable<any>

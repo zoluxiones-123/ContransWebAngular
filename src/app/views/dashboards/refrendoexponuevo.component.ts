@@ -22,7 +22,7 @@ import { isError } from 'util';
 import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
-
+import {formatCurrency, getCurrencySymbol} from '@angular/common';
 
 @Component({
   selector: 'refrendoexponuevo',
@@ -97,6 +97,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   CantidadPeso: number;
 
   public Datos: ConsultaDetalleBookingRefrendoExpoRPT[];
+  public DetalleDatos= [];
 
   public objConsultaBookingRefrendoExpoRQT: ConsultaBookingRefrendoExpoRQT;
   public objConsultaBookingRefrendoExpoRPT: ConsultaBookingRefrendoExpoRPT;
@@ -113,7 +114,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public Mensaje: string
 
   public loading: boolean;
-
+  public Grabar: boolean;
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
     let date = new Date();
@@ -155,6 +156,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     this.CantidadPeso = 0;
 
     this.loading=false;
+    this.Grabar=true;
   }
 
   fileData: File = null;
@@ -315,7 +317,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           });
 
         } else {
-          let DetalleDatos = [];
+          //let DetalleDatos = [];
           this.Codigo = resp.Codigo;
           this.Exportador = resp.Exportador;
           this.Despachador = localStorage.getItem("NombreUsuario").toString();
@@ -345,10 +347,11 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           for (var clave in data.Datos) {
             this.CantidadBultos = this.CantidadBultos + data.Datos[clave].Bultos;
             this.CantidadPeso = this.CantidadPeso + data.Datos[clave].Peso;
-            DetalleDatos.push({ 'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'Ticket': data.Datos[clave].Ticket, 'Precinto': data.Datos[clave].Precinto });
+            this.DetalleDatos.push({ 'CodContenedor': data.Datos[clave].CodContenedor, 'Contenedor': data.Datos[clave].Contenedor, 'Capacidad': data.Datos[clave].Capacidad, 'TipoCont': data.Datos[clave].TipoCont, 'Bultos': data.Datos[clave].Bultos, 'Peso': data.Datos[clave].Peso, 'Ticket': data.Datos[clave].Ticket, 'Precinto': data.Datos[clave].Precinto });
           }
-          this.Datos = DetalleDatos;
-          console.log("CONSULTA DETALLE BOOKING " + this.Datos);
+          //this.Datos = this.DetalleDatos;
+          //console.log("CONSULTA DETALLE BOOKING " + this.Datos);
+          console.log("CONSULTA DETALLE BOOKING " + this.DetalleDatos);
 
           this.muestra_oculta('DAM');
           this.muestra_oculta("CONTENEDORES");
@@ -358,7 +361,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.destroy();
             console.log("ENTREEEEEE");
-            this.dtTrigger.next(this.Datos);
+            //this.dtTrigger.next(this.Datos);
+            this.dtTrigger.next(this.DetalleDatos);
           });
         }
       },
@@ -1202,20 +1206,23 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public AgregarRefrendo(form: NgForm) {
 
     this.loading=true;
+    this.Grabar=false;
     var NBooking: string
     NBooking = form.value.txtbox_NBooking
 
     if (NBooking == undefined) {
+      this.loading=false;
       swal("Error: Ingresar Numero de Booking");
       //return false;
     } else {
-      let DetalleDatos = [];
+      let DetalleDatosFinal = [];
       let DetalleArchivos = [];
       for (var clave in this.Datos) {
-        DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].Precinto });
+        this.DetalleDatos.push({ 'CodContenedor': this.Datos[clave].CodContenedor, 'Contenedor': this.Datos[clave].Contenedor, 'Bultos': Number.parseInt(this.Datos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.Datos[clave].Peso.toString()), 'PctoAduana': this.Datos[clave].Precinto });
       }
-      this.Datos = DetalleDatos;
-      console.log("Detalle Booking Guardar " + this.Datos);
+      //this.Datos = DetalleDatos;
+      //console.log("Detalle Booking Guardar " + this.Datos);
+      console.log("Detalle Booking Guardar " + this.DetalleDatos);
 
       for (var DAM in this.fileitems_DAM) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 1, 'Archivo': this.fileitems_DAM[DAM].base64, 'NombreArchivo': this.fileitems_DAM[DAM].name });
@@ -1241,7 +1248,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
       console.log("Archivos " + JSON.stringify(DetalleArchivos)); 
 
-
+      for (var clave in this.DetalleDatos) {
+        DetalleDatosFinal.push({ 'CodContenedor': this.DetalleDatos[clave].CodContenedor, 'Contenedor': this.DetalleDatos[clave].Contenedor, 'Bultos': Number.parseInt(this.DetalleDatos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.DetalleDatos[clave].Peso.toString()), 'PctoAduana': this.DetalleDatos[clave].Precinto });
+      }
+      this.FOB=form.value.txtbox_FOB;
+      this.FOB=this.FOB.toString().replace(",","").replace("$","").replace(".00",""),
+      console.log(this.FOB);
       this.objGenerarRefrendoExpoRQT = {
         IDUser: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -1265,15 +1277,18 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         CodProducto: this.CodProducto,
         Producto: this.ProductosSelect,
         FechaCutOff: form.value.txtbox_FechaCutOff,
-        FOB: form.value.txtbox_FOB,
+        FOB: this.FOB,
         MandatoElectronico: this.MandatoElectronico,
-        Deta: this.Datos,
+        Deta: DetalleDatosFinal,
         ArchivoRefrendo: DetalleArchivos
       }
 
       console.log("Datos REFRENDON " + JSON.stringify(this.objGenerarRefrendoExpoRQT));
 
       if (this.ValidarInput(this.objGenerarRefrendoExpoRQT)) {
+        this.Grabar=true;
+        this.loading=false;
+        this.updateValue(this.FOB);
         swal({
           text: "Error en los campos de ingreso, por favor verificar",
           icon: "warning",
@@ -1290,12 +1305,15 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           console.log("Mensaje : " + JSON.stringify(data));
           console.log("Ruta : " + data.Msj.toString());
           console.log("EMPEZAR A Imagenes")
+          this.Grabar=true;
           this.loading=false;
           swal("Se Guardo Correctamente");
           this.cerrarPopup();
         },
         error => {
+          this.Grabar=true;
           this.loading=false;
+          this.updateValue(this.FOB);
           swal("Error al crear Refrendo Expo");
           console.log("Error : ", error);
         });
@@ -1306,9 +1324,9 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public Recalcular() {
     this.CantidadBultos = 0;
     this.CantidadPeso = 0;
-    for (var clave in this.Datos) {
-      this.CantidadBultos = this.CantidadBultos + Number.parseInt(this.Datos[clave].Bultos.toString());
-      this.CantidadPeso = this.CantidadPeso + + Number.parseInt(this.Datos[clave].Peso.toString());
+    for (var clave in this.DetalleDatos) {
+      this.CantidadBultos = this.CantidadBultos + Number.parseInt(this.DetalleDatos[clave].Bultos.toString());
+      this.CantidadPeso = this.CantidadPeso + + Number.parseInt(this.DetalleDatos[clave].Peso.toString());
     }
   }
 
@@ -1464,5 +1482,13 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.ListaAgenciaAduana.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
+
+  updateValue(value: string) {
+    let val = parseInt(value, 10);
+    if (Number.isNaN(val)) {
+      val = 0;
+    }
+    this.FOB = formatCurrency(val, 'en-US', getCurrencySymbol('USD', 'wide'));
+}
   
 }

@@ -23,7 +23,7 @@ import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-
+import {formatCurrency, getCurrencySymbol} from '@angular/common';
 
 @Component({
   selector: 'refrendoexpoeditar',
@@ -128,6 +128,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
 
   public paramCodigo: string;
   public loading: boolean;
+  public Grabar: boolean;
 
   //public Datas: Array<ConsultaDetalleBookingRefrendoExpoRPT>;
   setearFechasLimite() {
@@ -171,6 +172,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
     this.paramCodigo=localStorage.getItem("paramCodigo")
     
     this.loading=false;
+    this.Grabar=true;
 
     if (localStorage.getItem("paramAccion")=="Editar"){
       this.Editar=true;
@@ -520,7 +522,8 @@ export class RefrendoExpoEditarComponent implements OnInit {
           this.CodProducto = this.objConsultaIDDataBookingRefrendoExpoRPT[0].CodProducto;
           this.Producto = this.objConsultaIDDataBookingRefrendoExpoRPT[0].Producto;
           this.MandatoElectronico= this.objConsultaIDDataBookingRefrendoExpoRPT[0].MandatoElectronico;
-          this.FOB= this.objConsultaIDDataBookingRefrendoExpoRPT[0].FOB;
+          this.updateValue(this.objConsultaIDDataBookingRefrendoExpoRPT[0].FOB)
+          //this.FOB= this.objConsultaIDDataBookingRefrendoExpoRPT[0].FOB;
           this.Viaje= this.objConsultaIDDataBookingRefrendoExpoRPT[0].Viaje;
           this.Aduana= "118";
 
@@ -1350,6 +1353,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
   }
 
   public AgregarRefrendo(form: NgForm) {
+    this.Editar=false;
 /*     var NBooking: string
     NBooking = form.value.txtbox_NBooking
 
@@ -1413,7 +1417,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
         CodProducto: this.CodProducto,
         Producto: this.ProductosSelect,
         FechaCutOff: this.FechaCutOff,//form.value.txtbox_FechaCutOff,
-        FOB: this.FOB,//form.value.txtbox_FOB,
+        FOB: this.FOB.toString().replace(",","").replace("$","").replace(".00",""),//form.value.txtbox_FOB,
         MandatoElectronico: this.MandatoElectronico,
         RefrendoCod: Number.parseInt(this.paramCodigo),
         Deta: DetalleDatos,
@@ -1425,6 +1429,7 @@ export class RefrendoExpoEditarComponent implements OnInit {
       console.log("Datos REFRENDON ACTUALIZAR " + JSON.stringify(this.objGenerarRefrendoExpoActualizarRQT));
 
       if (this.ValidarInput(this.objGenerarRefrendoExpoActualizarRQT)) {
+        this.Editar=true;
         swal({
           text: "Error en los campos de ingreso, por favor verificar",
           icon: "warning",
@@ -1441,11 +1446,12 @@ export class RefrendoExpoEditarComponent implements OnInit {
           console.log("Mensaje : " + JSON.stringify(data));
           console.log("Ruta : " + data.Msj.toString());
           console.log("EMPEZAR A Imagenes")
-
+          this.Editar=true;
           swal("Se Guardo Correctamente");
           this.cerrarPopup();
         },
         error => {
+          this.Editar=true;
           swal("Error al crear Refrendo Expo");
           console.log("Error : ", error);
         });
@@ -1613,5 +1619,40 @@ export class RefrendoExpoEditarComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.ListaAgenciaAduana.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
+
+  public popupVistaPreviaPDF(paramNombre:string,paramArchivo:string){
+      var res = paramNombre.split(".");
+      var tag="";
+      if (res.length > 0) {
+        var tipoarchivo = res[1];
+        if (tipoarchivo.toLowerCase() == "pdf"){
+          tag='data:application/pdf;base64,'
+        }
+        if ((tipoarchivo.toLowerCase() == "jpg") || (tipoarchivo.toLowerCase() == "jpeg")){
+          tag='data:image/jpeg;base64,'
+        }
+        if (tipoarchivo.toLowerCase() == "png"){
+          tag='data:image/png;base64,'
+        }
+      }
+
+        const linkSource = tag + paramArchivo;
+        const downloadLink = document.createElement("a");
+        const fileName = paramNombre;
+        console.log(linkSource);
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+
+      
+  }
+  updateValue(value: string) {
+    let val = parseInt(value, 10);
+    if (Number.isNaN(val)) {
+      val = 0;
+    }
+    this.FOB = formatCurrency(val, 'en-US', getCurrencySymbol('USD', 'wide'));
+}
   
 }
