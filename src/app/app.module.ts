@@ -177,7 +177,7 @@ import { MontopagarsolpermisoComponent } from './views/dashboards/montopagarsolp
        CartaTemperaturaDetalleComponent,CartaTemperaturaNuevoComponent,CartaTemperaturaAvisoComponent,
        DetrepstockCliComponent,DetrepstockComponent,GenerarcitaComponent,RefrendoExpoNuevoComponent,
        CitavacioasigComponent,NuevoSolServComponent,RefrendoExpoAnularComponent,PagosCobranzaConsultaComponent,
-       RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent, GenerarsolpermisoComponent, MontopagarsolpermisoComponent]
+       RefrendoExpoEditarComponent,PagosCobranzaConsultaDetalleComponent, GenerarsolpermisoComponent ,  MontopagarsolpermisoComponent]
    
   
 })

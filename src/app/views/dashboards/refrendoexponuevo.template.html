@@ -152,7 +152,7 @@
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
 <!--                 <input type="number" maxlength="50" name="txtbox_Mercaderia"
                   class="form-control"> -->
-                  <input type="text" [(ngModel)]="FOB" name="txtbox_FOB" id="currency-field"  value="" data-type="currency" placeholder="$0,000,000.00">
+                  <input type="text" [(ngModel)]="FOB" name="txtbox_FOB" id="currency-field"  value="" data-type="currency" placeholder="$0,000,000.00" (change)="updateValue($event.target.value)">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de CutOff :</label>
@@ -251,7 +251,7 @@
                   class="form-control">
               </div>
             </div> -->
-
+            <div style="color: red;text-align: -webkit-center;padding-bottom: 10px;font-weight: bold;">Capacidad maxima soportada 5Mb. Solamente se admiten archivos pdf, jpg, png.</div>
             <div class="form-group row" style="margin-bottom: 0px;height: 40px;" >
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">DAM:</label>
               <div class="" style="padding-left: 0px;padding-right: 0px;">

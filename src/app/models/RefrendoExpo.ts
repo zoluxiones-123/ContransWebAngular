@@ -322,3 +322,13 @@ export class ListaDetallePagoCobranzaDetalleRPT{
   Servicio: string;
   GrupoServicio: string;
 }
+
+export class ImprimirRefrendoExpoRQT {
+  IDUSer: number;
+  IDRol: number;
+  Refrendo: number;
+}
+
+export class ImprimirRefrendoExpoRPT{
+  Archivo: string;
+}

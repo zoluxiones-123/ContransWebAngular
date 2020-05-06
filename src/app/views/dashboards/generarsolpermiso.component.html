@@ -54,13 +54,9 @@
                 <label class="col-xs-12 col-sm-4 col-lg-4 label_device"  style="width: 110px;"><br/>Facturar a:</label>              
                 <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">              
                   <mat-form-field style="width: 450px;">                      
-                  <mat-form-field style="width: 100%;">    
-                    
-                    
-            
-                    <input type="text" placeholder="Digite la Empresa" matInput [formControl]="myEmpresa"
-                      [matAutocomplete]="auto">
-                    <mat-autocomplete  autoActiveFirstOption (optionSelected)="ChangingValueF($event)" #auto="matAutocomplete">
+                    <input type="text"  placeholder="Digite la Empresa" matInput [formControl]="myEmpresa"
+                      [matAutocomplete]="auto" >
+                    <mat-autocomplete autoActiveFirstOption (optionSelected)="ChangingValueF($event)" #auto="matAutocomplete">
                       <mat-option *ngFor="let emp of filteredEmpresa | async" [value]="emp.Entidad + ',' + emp.Nombre">
                         {{emp.Nombre}}
                       </mat-option>

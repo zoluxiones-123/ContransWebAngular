@@ -152,7 +152,7 @@
               <div class="col-xs-12 col-sm-8 col-lg-8" style="padding-left: 0px;padding-right: 4px;">
 <!--                 <input type="number" maxlength="50" name="txtbox_Mercaderia"
                   class="form-control"> -->
-                  <input type="text" [(ngModel)]="FOB" name="txtbox_FOB" id="currency-field"  value="" data-type="currency" placeholder="$0,000,000.00">
+                  <input type="text" [(ngModel)]="FOB" name="txtbox_FOB" id="currency-field"  value="" data-type="currency" placeholder="$0,000,000.00" (change)="updateValue($event.target.value)">
               </div>
             </div>
             <div class="form-group row"><label class="col-xs-12 col-sm-4 col-lg-4 label_device">Fecha de CutOff :</label>
@@ -251,7 +251,7 @@
                   class="form-control">
               </div>
             </div> -->
-            <div style="color: red;text-align: -webkit-center;padding-bottom: 10px;font-weight: bold;">Solamente se admiten archivos pdf, jpg, png.</div>
+            <div style="color: red;text-align: -webkit-center;padding-bottom: 10px;font-weight: bold;">Capacidad maxima soportada 5Mb. Solamente se admiten archivos pdf, jpg, png.</div>
             <div class="form-group row" style="margin-bottom: 0px;" >
               <label class="col-sm-2 col-form-label" style="padding-left: 0px;padding-right: 0px;">DAM:</label>
               <div class="" style="padding-left: 0px;padding-right: 0px;">
@@ -271,7 +271,7 @@
                 <mat-selection-list #list_DAM >
                   <mat-list-option *ngFor="let item of this.fileitems_DAM" (click)="onListControlChanged(list_DAM,'DAM')"
                     [value]="item.name" style="font-size: smaller;">
-                    <a style="color:blue;" download="{{item.name}}" [href]=getSantizeUrl(item.base64)>Archivo: {{item.name}}
+                    <a style="color:blue;" (click)="popupVistaPreviaPDF(item.name,item.base64)">Archivo: {{item.name}}
                     <!-- <label style="color:blue;">Archivo: {{item.name}} --> Tamaño:
                       {{((item.size/1024)/1024) | number: '1.1-2'   }} MB <img src="assets/images/downloads-icon.png" style="padding-left: 5px;" title="Descargar">
                     <!-- </label> --></a>
@@ -299,7 +299,7 @@
                 <mat-selection-list #list_GUIAREMISION >
                   <mat-list-option *ngFor="let item of this.fileitems_GUIAREMISION" (click)="onListControlChanged(list_GUIAREMISION,'GUIAREMISION')"
                     [value]="item.name" style="font-size: smaller;">
-                    <a style="color:blue;" download="{{item.name}}" [href]=getSantizeUrl(item.base64)>Archivo: {{item.name}}
+                    <a style="color:blue;" (click)="popupVistaPreviaPDF(item.name,item.base64)">Archivo: {{item.name}}
                       <!-- <label style="color:blue;">Archivo: {{item.name}} --> Tamaño:
                         {{((item.size/1024)/1024) | number: '1.1-2'   }} MB <img src="assets/images/downloads-icon.png" style="padding-left: 5px;" title="Descargar">
                       <!-- </label> --></a>
@@ -329,7 +329,7 @@
                   <mat-selection-list #list_TARJADELLENADO >
                     <mat-list-option *ngFor="let item of this.fileitems_TARJADELLENADO" (click)="onListControlChanged(list_TARJADELLENADO,'TARJADELLENADO')"
                       [value]="item.name" style="font-size: smaller;">
-                      <a style="color:blue;" download="{{item.name}}" [href]=getSantizeUrl(item.base64)>Archivo: {{item.name}}
+                      <a style="color:blue;" (click)="popupVistaPreviaPDF(item.name,item.base64)">Archivo: {{item.name}}
                         <!-- <label style="color:blue;">Archivo: {{item.name}} --> Tamaño:
                           {{((item.size/1024)/1024) | number: '1.1-2'   }} MB <img src="assets/images/downloads-icon.png" style="padding-left: 5px;" title="Descargar">
                         <!-- </label> --></a>
@@ -361,7 +361,7 @@
                   <mat-selection-list #list_REPORTDECARGASUELTA>
                     <mat-list-option *ngFor="let item of this.fileitems_REPORTDECARGASUELTA" (click)="onListControlChanged(list_REPORTDECARGASUELTA,'REPORTDECARGASUELTA')"
                       [value]="item.name" style="font-size: smaller;">
-                      <a style="color:blue;" download="{{item.name}}" [href]=getSantizeUrl(item.base64)>Archivo: {{item.name}}
+                      <a style="color:blue;" (click)="popupVistaPreviaPDF(item.name,item.base64)">Archivo: {{item.name}}
                         <!-- <label style="color:blue;">Archivo: {{item.name}} --> Tamaño:
                           {{((item.size/1024)/1024) | number: '1.1-2'   }} MB <img src="assets/images/downloads-icon.png" style="padding-left: 5px;" title="Descargar">
                         <!-- </label> --></a>
@@ -441,7 +441,7 @@
                 <mat-selection-list #list_OTROS >
                   <mat-list-option *ngFor="let item of this.fileitems_OTROS" (click)="onListControlChanged(list_OTROS,'OTROS')"
                     [value]="item.name" style="font-size: smaller;">
-                    <a style="color:blue;" download="{{item.name}}" [href]=getSantizeUrl(item.base64)>Archivo: {{item.name}}
+                    <a style="color:blue;" (click)="popupVistaPreviaPDF(item.name,item.base64)">Archivo: {{item.name}}
                       <!-- <label style="color:blue;">Archivo: {{item.name}} --> Tamaño:
                         {{((item.size/1024)/1024) | number: '1.1-2'   }} MB <img src="assets/images/downloads-icon.png" style="padding-left: 5px;" title="Descargar">
                       <!-- </label> --></a>
@@ -474,7 +474,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 20px 5px 2px;">
       <!-- <div class="col-xs-12 col-sm-12 col-lg-12" style="text-align: center;padding: 1px 5px 2px;width: auto;"> -->
-      <button *ngIf="Editar" (click)="AgregarRefrendo(formUsuario)" type="submit" class="btn btn-w-m btn-primary">Actualizar</button>
+      <button *ngIf="Editar"  (click)="AgregarRefrendo(formUsuario)" type="submit" class="btn btn-w-m btn-primary">Actualizar</button>
       <button (click)="cerrarPopup()" class="btn btn-w-m btn-default" style="margin-left: 15px;">Cancelar</button></div>
   </div>
 </div>

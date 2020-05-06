@@ -22,7 +22,7 @@ import { isError } from 'util';
 import { entidad,Entidades } from 'app/models/entidad';
 import { startWith, map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
-
+import {formatCurrency, getCurrencySymbol} from '@angular/common';
 
 @Component({
   selector: 'refrendoexponuevo',
@@ -1251,7 +1251,9 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var clave in this.DetalleDatos) {
         DetalleDatosFinal.push({ 'CodContenedor': this.DetalleDatos[clave].CodContenedor, 'Contenedor': this.DetalleDatos[clave].Contenedor, 'Bultos': Number.parseInt(this.DetalleDatos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.DetalleDatos[clave].Peso.toString()), 'PctoAduana': this.DetalleDatos[clave].Precinto });
       }
-
+      this.FOB=form.value.txtbox_FOB;
+      this.FOB=this.FOB.toString().replace(",","").replace("$","").replace(".00",""),
+      console.log(this.FOB);
       this.objGenerarRefrendoExpoRQT = {
         IDUser: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -1275,7 +1277,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         CodProducto: this.CodProducto,
         Producto: this.ProductosSelect,
         FechaCutOff: form.value.txtbox_FechaCutOff,
-        FOB: form.value.txtbox_FOB,
+        FOB: this.FOB,
         MandatoElectronico: this.MandatoElectronico,
         Deta: DetalleDatosFinal,
         ArchivoRefrendo: DetalleArchivos
@@ -1286,6 +1288,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       if (this.ValidarInput(this.objGenerarRefrendoExpoRQT)) {
         this.Grabar=true;
         this.loading=false;
+        this.updateValue(this.FOB);
         swal({
           text: "Error en los campos de ingreso, por favor verificar",
           icon: "warning",
@@ -1310,6 +1313,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
         error => {
           this.Grabar=true;
           this.loading=false;
+          this.updateValue(this.FOB);
           swal("Error al crear Refrendo Expo");
           console.log("Error : ", error);
         });
@@ -1478,5 +1482,13 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.ListaAgenciaAduana.filter(ent => ent.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
+
+  updateValue(value: string) {
+    let val = parseInt(value, 10);
+    if (Number.isNaN(val)) {
+      val = 0;
+    }
+    this.FOB = formatCurrency(val, 'en-US', getCurrencySymbol('USD', 'wide'));
+}
   
 }

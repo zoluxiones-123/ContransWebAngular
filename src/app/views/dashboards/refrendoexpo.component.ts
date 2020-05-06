@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef,AfterViewInit } from '@angular/core';
 //import { CartaTemperaturaRQT,AnularCerrarCartaTemperaturaRQT,AnularCerrarCartaTemperaturaRPT,CartaTemperaturaRPT,ListaEstado} from '../../models/Temperatura';
-import { ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo,ConsultaRefrendoExpoRQT,ConsultaRefrendoExpoRPT}  from '../../models/RefrendoExpo';
+import { ImprimirRefrendoExpoRQT,ImprimirRefrendoExpoRPT,ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo,ConsultaRefrendoExpoRQT,ConsultaRefrendoExpoRPT}  from '../../models/RefrendoExpo';
 import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
@@ -15,6 +15,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angul
 import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 import {RefrendoExpoEditarComponent} from './refrendoexpoeditar.component';
 import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -39,7 +40,7 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
     public MensajeError: string;
 
-    constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router){
+    constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router,private _sanitizer: DomSanitizer){
       this.Seleccion_Opcion="B"
       this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
       this.reportService.ConsultaModalidadRefrendoExpo().subscribe(data => this.ListaModalidad = data.Data);
@@ -103,6 +104,10 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
 
     public objConsultaRefrendoExpoRQT : ConsultaRefrendoExpoRQT;
     public objConsultaRefrendoExpoRPT: Array<ConsultaRefrendoExpoRPT>;
+
+    public objImprimirRefrendoExpoRQT : ImprimirRefrendoExpoRQT;
+    public objImprimirRefrendoExpoRPT: Array<ImprimirRefrendoExpoRPT>;
+    
     
     public ngOnInit():any {      
 
@@ -129,7 +134,7 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
     }  
     popupEditarRefrendoExpo(paramCodigo: string,paramEstado: string ){
 
-      if (paramEstado =="Pendiente"){
+      if (paramEstado =="Pendiente" || paramEstado =="Observado" ){
         localStorage.setItem("paramAccion","Editar");
       }else{
         localStorage.setItem("paramAccion","Ver");
@@ -481,5 +486,25 @@ import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
         this.ModalidadSelect = param.target.value;
       }
     }
+
+    public popupVistaPreviaPDF(paramCodigo:number,paramNombre:string){
+      this.objImprimirRefrendoExpoRQT = {
+        IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
+        IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+        Refrendo:  paramCodigo
+    };
+      this.reportService.ImprimirRefrendoExpo(this.objImprimirRefrendoExpoRQT).subscribe(
+        data => {
+          
+          const linkSource = 'data:application/pdf;base64,' + data.Data.Archivo;
+          const downloadLink = document.createElement("a");
+          const fileName = paramNombre + ".pdf";
+          console.log(linkSource);
   
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+  
+        }, (error)=> console.log("Salio error en la descarga: ", error));
+    }
 }
