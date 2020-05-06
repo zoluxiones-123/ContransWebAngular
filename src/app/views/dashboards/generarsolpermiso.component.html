@@ -1,7 +1,7 @@
 <div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 0px 0px 0px 0px;">
   <div class="modal-header" style="display: inline-flex; align-items: center;width: 100%; padding: 0px 0px 5px 0px;">
     <img style="width: 32px;height: 32px;" src="assets/images/RosaNautica4.png">
-    <h4 class="modal-title pull-left" style="display: inline-table;">Generar Solicitud de Permisos</h4>
+    <h4 class="modal-title pull-left" style="display: inline-table;">Generar Solicitud de Levante Documentario</h4>
     <button type="button" class="close pull-right" style="position: absolute; right: 15px;" aria-label="Close"
       (click)="cerrarPopup()">
       <span aria-hidden="true">&times;</span>
@@ -514,8 +514,8 @@
       
                      <div class="row">
                        <div class="col-sm-8" style="padding-left: 5px;padding-bottom: 10px;">
-                         <mat-selection-list #list>
-                           <mat-list-option *ngFor="let item of this.fileitemsZm" (click)="onListControlChangedM(list)"
+                         <mat-selection-list #lista>
+                           <mat-list-option *ngFor="let item of this.fileitemsZm" (click)="onListControlChangedM(lista)"
                              [value]="item.name">
                              <label style="color:blue;"> Archivo: {{item.name}} Tamaño:
                                {{((item.size/1024)/1024) | number: '1.1-2'   }} MB

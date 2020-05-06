@@ -104,6 +104,8 @@ export class MontopagarsolpermisoComponent implements OnInit {
   public FOB : string = "";
   public loading : boolean =  false;
   public loadingG : boolean =  false;
+  public loadingPDF : boolean =  false;
+  
   public MuestraObser : boolean =  false;
   public MuestraLiq : boolean =  true;
   public MuestraLiqui : boolean =  true;
@@ -114,6 +116,9 @@ export class MontopagarsolpermisoComponent implements OnInit {
   public RutaImg : string = "";
 
   public TituloGeneral : string = "";
+  public AdjuntoLabel : string = "Adjunto de Pago";
+  public AdjuntoEv : string = "Adjuntar Evidencia de Pago";
+  public ObsPago : string = "Observación del Pago";
   
 
   public MuestraAdj : boolean = true;
@@ -455,6 +460,11 @@ export class MontopagarsolpermisoComponent implements OnInit {
       case "Observado":
           this.RutaImg =  "assets/images/Observado.jpeg" 
           this.TituloGeneral = "Observaciones de la Solicitud Nro: " + this.SolPermiso.toString();
+          this.AdjuntoLabel = "Adjunto de Observación";
+          this.AdjuntoEv  = "Adjuntar Evidencia de Observación";
+          this.ObsPago = "Observación";
+  
+
       break;
       case "Liquidado":
         this.RutaImg =  "assets/images/Liquidado.jpeg" 
@@ -583,6 +593,7 @@ export class MontopagarsolpermisoComponent implements OnInit {
     Permiso : permiso
     };
 
+    this.loadingPDF = true;
 
     this.reportService.ImprimirPermiso(this.objImprimirPerRqt)
     .subscribe(
@@ -596,6 +607,8 @@ export class MontopagarsolpermisoComponent implements OnInit {
           const linkSource = 'data:application/pdf;base64,' + data.Data[0].Archivo.toString();
           const downloadLink = document.createElement("a");
           const fileName =  data.Data[0].NombreArchivo.toString();
+
+          this.loadingPDF = false;
   
           downloadLink.href = linkSource;
           downloadLink.download = fileName;

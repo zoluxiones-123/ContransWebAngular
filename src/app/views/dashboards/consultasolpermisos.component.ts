@@ -19,6 +19,9 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angul
 import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento,
 ConsultaSolPermisoRPT,ConsultaSolPermisoRQT,SolicitudPermiso } from '../../models/Permiso';
 import {MontopagarsolpermisoComponent} from './montopagarsolpermiso.component';
+import { DatePipe } from '@angular/common';
+
+
 
 
 @Component({
@@ -35,7 +38,9 @@ export class ConsultasolpermisosComponent implements OnInit {
 
 
   public loading: boolean = false;
-  myUnidad = new FormControl();   
+  myUnidad = new FormControl(); 
+  Desde = new FormControl();  
+  Hasta = new FormControl();  
   public ListaUniNegocio : Array<UnidadNegocio>;
   public Estados : Array<string>;
 
@@ -44,10 +49,15 @@ export class ConsultasolpermisosComponent implements OnInit {
   public Documento : string = "";
   public DAMAnio : string = "";
   public DAMNro : string = "";
+ 
+   
 
   
   minDate: Date;
   maxDate: Date;
+
+  DesdeDate: Date;
+  HastaDate: Date;
   
 
   
@@ -126,6 +136,11 @@ export class ConsultasolpermisosComponent implements OnInit {
       data => {
   
         this.ListaUniNegocio = data.Data;
+
+        let coduni = this.ListaUniNegocio[1].Codigo;
+            
+        this.myUnidad.setValue(coduni.toString());
+        this.EstSolPerSelect = coduni;
            
   
   } 
@@ -133,11 +148,33 @@ export class ConsultasolpermisosComponent implements OnInit {
   
   }
 
+  sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
+
 
   setearFechasLimite(){
     let date = new Date();
     this.minDate = new Date(date.getFullYear(), date.getMonth() - 5, 1);
-    this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
+    this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);   
+    
+    //this.DesdeDate = new Date(date.getFullYear(), date.getDate() - 7, 1);
+    this.HastaDate = date;
+
+    var d = new Date();
+    this.DesdeDate = this.sumarDias(d, -7);
+    
+    var datePipe = new DatePipe("en-US");
+    let valued = datePipe.transform(this.DesdeDate.toString(), 'dd/MM/yyyy');
+    let valueh = datePipe.transform(this.HastaDate.toString(), 'dd/MM/yyyy');
+    
+    //this.FechaSeleccionada = value.toString();
+
+    this.Desde.setValue(valued);    
+    this.Hasta.setValue(valueh);
+    
+    
   }
 
   public ngOnDestroy():any {
@@ -210,8 +247,8 @@ export class ConsultasolpermisosComponent implements OnInit {
       Bl :  form.value.txtbox_NroDocumento,
       Anio : form.value.txtbox_Anio,
       Dam : form.value.txtbox_Numero,
-      Desde : form.value.txtbox_Desde,
-      Hasta : form.value.txtbox_Hasta
+      Desde : this.Desde.value,
+      Hasta : this.Hasta.value
 
     //  Anio : this.DAMAnio,
 
@@ -304,11 +341,19 @@ export class ConsultasolpermisosComponent implements OnInit {
     {
       this.objConsultaSolPerRQT.Desde = "";
     }
+  /*  else
+    {
+       this.objConsultaSolPerRQT.Desde = this.objConsultaSolPerRQT.Desde.toLocaleDateString();
+    }*/
     
     if(this.NullEmpty(param.Hasta))
     {
       this.objConsultaSolPerRQT.Hasta = "";
     }
+   /* else
+    {
+        this.objConsultaSolPerRQT.Hasta = this.objConsultaSolPerRQT.Hasta.toLocaleDateString();
+    }*/
     
    // this.objConsultaSolPerRQT.Desde = this.objConsultaSolPerRQT.Desde.toLocaleDateString();
    // this.objConsultaSolPerRQT.Hasta = this.objConsultaSolPerRQT.Hasta.toLocaleDateString();

@@ -376,6 +376,10 @@ export class GenerarsolpermisoComponent implements OnInit {
       this.ArchivosF = this.objListArchivosMasivo
      }
 
+     
+     var element = <HTMLButtonElement> document.getElementById("btnGen");
+     element.disabled = true;
+
       this.objRegSolPerRQT = {
           IDUser: Number.parseInt(localStorage.getItem("Usuario")),
           IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -793,7 +797,7 @@ export class GenerarsolpermisoComponent implements OnInit {
 
 
     let bln = new BL();
-    bln.BL = num;
+    bln.BL = num.trim();
 
     this.objListBLV.push(bln);
 

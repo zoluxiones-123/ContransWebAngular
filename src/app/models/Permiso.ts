@@ -343,5 +343,7 @@ FechaDeAnulacion: string;
 Observación: string;
 CodFacturarA: string;
 FacturarA: string;
+Responsable: string;
+FechaResponsabe: string;
 
 }
