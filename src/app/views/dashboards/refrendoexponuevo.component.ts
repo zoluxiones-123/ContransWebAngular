@@ -1223,30 +1223,45 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       //this.Datos = DetalleDatos;
       //console.log("Detalle Booking Guardar " + this.Datos);
       console.log("Detalle Booking Guardar " + this.DetalleDatos);
-
+      var conteo=0;
       for (var DAM in this.fileitems_DAM) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 1, 'Archivo': this.fileitems_DAM[DAM].base64, 'NombreArchivo': this.fileitems_DAM[DAM].name });
+        conteo = conteo + 1 ;
       }
       for (var GUIAREMISION in this.fileitems_GUIAREMISION) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 2, 'Archivo': this.fileitems_GUIAREMISION[GUIAREMISION].base64, 'NombreArchivo': this.fileitems_GUIAREMISION[GUIAREMISION].name });
+        conteo = conteo + 1 ;
       }
       for (var TARJADELLENADO in this.fileitems_TARJADELLENADO) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 3 , 'Archivo': this.fileitems_TARJADELLENADO[TARJADELLENADO].base64, 'NombreArchivo': this.fileitems_TARJADELLENADO[TARJADELLENADO].name });
+        conteo = conteo + 1 ;
       }
       for (var TICKETDEPESO in this.fileitems_TICKETDEPESO) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 4, 'Archivo': this.fileitems_TICKETDEPESO[TICKETDEPESO].base64, 'NombreArchivo': this.fileitems_TICKETDEPESO[TICKETDEPESO].name });
+        conteo = conteo + 1 ;
       }
       for (var BOOKING in this.fileitems_BOOKING) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 5, 'Archivo': this.fileitems_BOOKING[BOOKING].base64, 'NombreArchivo': this.fileitems_BOOKING[BOOKING].name });
+        conteo = conteo + 1 ;
       }
       for (var OTROS in this.fileitems_OTROS) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 6, 'Archivo': this.fileitems_OTROS[OTROS].base64, 'NombreArchivo': this.fileitems_OTROS[OTROS].name });
+        conteo = conteo + 1 ;
       }
       for (var REPORTDECARGASUELTA in this.fileitems_REPORTDECARGASUELTA) {
         DetalleArchivos.push({ 'RefrendoTipoArcCod': 7, 'Archivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].base64, 'NombreArchivo': this.fileitems_REPORTDECARGASUELTA[REPORTDECARGASUELTA].name });
+        conteo = conteo + 1 ;
       }
 
-      console.log("Archivos " + JSON.stringify(DetalleArchivos)); 
+      console.log("Archivos " + JSON.stringify(DetalleArchivos));
+      
+      if (conteo==0){
+        swal({
+          text: "Debe Ajuntar archivos para poder grabar el Refrendo",
+          icon: "warning",
+        });
+        return true;
+      }
 
       for (var clave in this.DetalleDatos) {
         DetalleDatosFinal.push({ 'CodContenedor': this.DetalleDatos[clave].CodContenedor, 'Contenedor': this.DetalleDatos[clave].Contenedor, 'Bultos': Number.parseInt(this.DetalleDatos[clave].Bultos.toString()), 'Peso': Number.parseInt(this.DetalleDatos[clave].Peso.toString()), 'PctoAduana': this.DetalleDatos[clave].Precinto });

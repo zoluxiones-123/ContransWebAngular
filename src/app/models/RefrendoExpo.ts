@@ -5,6 +5,8 @@ export class ConsultaRefrendoExpoRQT {
   Booking: string;
   Modalidad: string;
   Estado: number;
+  Desde: any;
+  Hasta: any;
 }
 export class ConsultaRefrendoExpoRPT {
   //public data:any;

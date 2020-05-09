@@ -302,14 +302,14 @@ import {LiquidacionGeneracionNuevoComponent} from './liquidaciongeneracionnuevo.
       this.SetGrillaVisibility(true); */
     //console.log(Number.parseInt(this.EstadoSelect));
     //console.log(this.ModalidadSelect);
-    this.objConsultaRefrendoExpoRQT = {
+/*     this.objConsultaRefrendoExpoRQT = {
         IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
         IDRol : Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
         TipoConsulta: "",
         Booking: form.value.txtbox_NroDocumento,
         Modalidad: this.TipoConsultaSelect,
         Estado : Number.parseInt(this.UniNegocioSelect)
-    };
+    }; */
       
        if(this.ValidarInput(this.objConsultaRefrendoExpoRQT))
       {        

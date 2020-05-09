@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef,AfterViewInit } from '@angular/core';
 //import { CartaTemperaturaRQT,AnularCerrarCartaTemperaturaRQT,AnularCerrarCartaTemperaturaRPT,CartaTemperaturaRPT,ListaEstado} from '../../models/Temperatura';
-import { ImprimirRefrendoExpoRQT,ImprimirRefrendoExpoRPT,ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo,ConsultaRefrendoExpoRQT,ConsultaRefrendoExpoRPT}  from '../../models/RefrendoExpo';
+import { AnularRefrendoExpoRQT,AnularRefrendoExpoRPT,ImprimirRefrendoExpoRQT,ImprimirRefrendoExpoRPT,ListaEstadoRefrendoExpo,ListaModalidadRefrendoExpo,ConsultaRefrendoExpoRQT,ConsultaRefrendoExpoRPT}  from '../../models/RefrendoExpo';
 import { ReportService } from '../../services/report.service';
 import { Subject, fromEventPattern } from 'rxjs';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
@@ -16,6 +16,7 @@ import {RefrendoExpoNuevoComponent} from './refrendoexponuevo.component';
 import {RefrendoExpoEditarComponent} from './refrendoexpoeditar.component';
 import {RefrendoExpoAnularComponent} from './refrendoexpoanular.component';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import {CartaTemperaturaAvisoComponent} from '../dashboards/cartatemperaturaaviso.component'
 
 
 @Component({
@@ -40,6 +41,9 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     public ListaModalidad : Array<ListaModalidadRefrendoExpo>;
     public MensajeError: string;
 
+    public objAnularRefrendoExpoRQT: AnularRefrendoExpoRQT;
+    public objAnularRefrendoExpoRPT: AnularRefrendoExpoRPT;
+
     constructor(private reportService: ReportService,private dialog : MatDialog, private router: Router,private _sanitizer: DomSanitizer){
       this.Seleccion_Opcion="B"
       this.reportService.ConsultaEstadoRefrendoExpo().subscribe(data => this.ListaEstado = data.data);
@@ -58,7 +62,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     setearFechasLimite(){
       let date = new Date();
       this.minDate = new Date(date.getFullYear(), date.getMonth() - 5, 1);
-      this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);    
+      this.maxDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);   
+      
     }
     
     dtTrigger:Subject<any> = new Subject();
@@ -155,7 +160,65 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
   ); */
 
     }  
-    popupAnularRefrendoExpo(paramCodigo: string){
+    popupAnularRefrendoExpo(paramCodigo: string, paramEstado: string){
+
+      if (paramEstado=="Pendiente"){
+
+      let DetalleArchivos = [];
+        localStorage.setItem("MsgCabecera","Seguró que desea anular el Refrendo: " + paramCodigo);
+        const dialogRefs = this.dialog.open(CartaTemperaturaAvisoComponent,{
+          disableClose: true,
+          autoFocus: true,
+          width: "300px",
+          position: {
+            top: '10%'
+          }
+        });
+  
+        dialogRefs.afterClosed().subscribe(result => {
+          if (result){
+            //this.AnularCerrarRegistro(Id,Usuario,"Anular")
+
+            this.objAnularRefrendoExpoRQT = {
+              IDUser: Number.parseInt(localStorage.getItem("Usuario")),
+              IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
+              RefrendoCod: Number.parseInt(paramCodigo),
+              Observacion: "",
+              ArchivoRefrendo: DetalleArchivos
+            }
+      
+
+            this.reportService.AnularRefrendoExpo(this.objAnularRefrendoExpoRQT).subscribe(
+              data => {
+                //this.objGenerarRefrendoExpoRPT = data;
+                console.log("Mensaje : " + JSON.stringify(data));
+                console.log("Ruta : " + data.Msj.toString());
+                console.log("EMPEZAR A Imagenes")
+      
+                swal({
+                  text: "Se Anulo correctamente. " + + paramCodigo,
+                  icon: "success",
+                });
+                
+                //this.cerrarPopup();
+              },
+              error => {
+                swal("Error al anular Refrendo Expo");
+                console.log("Error : ", error);
+              });
+
+
+
+
+            this.RefrescarGrilla();
+          }
+        
+      });
+      
+    }else {
+
+
+
       localStorage.setItem("paramAccion","Anular");
       localStorage.setItem("paramCodigoAnular",paramCodigo);
       const dialogRef = this.dialog.open(RefrendoExpoAnularComponent,{
@@ -164,6 +227,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
         width: "600px",
         height: "60%"
       });
+    }
 /*       dialogRef.afterClosed().subscribe(result => {
         this.RefrescarGrilla();
      
@@ -309,9 +373,11 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
         TipoConsulta:  this.Seleccion_Opcion,
         Booking: form.value.txtbox_NroDocumento,
         Modalidad: this.ModalidadSelect,
-        Estado : Number.parseInt(this.EstadoSelect)
+        Estado : Number.parseInt(this.EstadoSelect),
+        Desde : form.value.txtbox_Desde,
+        Hasta : form.value.txtbox_Hasta
     };
-      
+      console.log(JSON.stringify(this.objConsultaRefrendoExpoRQT));
        if(this.ValidarInput(this.objConsultaRefrendoExpoRQT))
       {        
         swal({
@@ -426,6 +492,23 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 
     public ValidarInput(param : ConsultaRefrendoExpoRQT) : boolean
     {
+      var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+/*       if (this.NullEmpty(param.Desde) || this.NullEmpty(param.Hasta))
+      {
+        return true;
+      } */
+      if(this.NullEmpty(param.Desde))
+      {
+        this.objConsultaRefrendoExpoRQT.Desde = "";
+      }else{
+        this.objConsultaRefrendoExpoRQT.Desde = this.objConsultaRefrendoExpoRQT.Desde.toLocaleDateString("es-ES",options);
+      }
+      if(this.NullEmpty(param.Hasta))
+      {
+        this.objConsultaRefrendoExpoRQT.Hasta = "";
+      }else{
+        this.objConsultaRefrendoExpoRQT.Hasta = this.objConsultaRefrendoExpoRQT.Hasta.toLocaleDateString("es-ES",options);
+      }
       if(this.NullEmpty(param.Booking))
       {
         this.objConsultaRefrendoExpoRQT.Booking = "";
@@ -435,7 +518,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
         this.MensajeError = "Seleccionar Modalidad"
         return true;
       }
-      if(this.NullEmpty(param.Estado))
+      console.log(param.Estado);
+      if(this.NullEmpty(param.Estado.toString()))
       {
         this.MensajeError = "Seleccionar Estado"
         return true;
@@ -480,6 +564,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     public ChangingValue(param : any, paramTipo: string)
     {
       if (paramTipo== "Estado"){
+        console.log(param.target.value);
         this.EstadoSelect = param.target.value;
       }
       if (paramTipo== "Modalidad"){

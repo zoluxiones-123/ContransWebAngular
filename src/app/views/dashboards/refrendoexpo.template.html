@@ -34,6 +34,16 @@
                   <option *ngFor="let item of this.ListaModalidad" [value]="item.EmpaCodigo">{{item.EmpaIdentificador}}</option>
                 </select>
               </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
+                  <input type="text" name="txtbox_Desde" placeholder="Desde" class="form-control" autocomplete="off" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es', containerClass : 'theme-blue' }"[ngModel]="fechaActual" required>
+                </div>
+              </div>
+              <div class="col-sm-2" style="padding-left: 5px;">
+                <div class="form-group" tooltip="Solo se puede consultar los ultimos 6 meses" placement="top">
+                  <input type="text" name="txtbox_Hasta" placeholder="Hasta" class="form-control" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', locale : 'es' , containerClass : 'theme-blue'}"[ngModel]="fechaActual" autocomplete="off" required>
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-xs-5 col-sm-3 col-lg-2" style="padding: 1px 5px 2px;width: auto;">
@@ -91,7 +101,7 @@
                     <td *ngIf="item.Estado != 'Pendiente' && item.Estado != 'Observado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/preview.png" title="Detalle"></a></td>
                     <td *ngIf="item.Estado == 'Pendiente' || item.Estado == 'Observado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupEditarRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/edit-icon.png" title="Editar"></a></td>
                     <td *ngIf="item.Estado == 'Anulado'" style="text-align: -webkit-center;width: 10px;" ><a ><img src="assets/images/delete.png" title="Anular"></a></td> 
-                    <td *ngIf="item.Estado != 'Anulado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupAnularRefrendoExpo(item.Codigo)" ><img src="assets/images/delete.png" title="Anular"></a></td> 
+                    <td *ngIf="item.Estado != 'Anulado'" style="text-align: -webkit-center;width: 10px;" ><a (click)="popupAnularRefrendoExpo(item.Codigo,item.Estado)" ><img src="assets/images/delete.png" title="Anular"></a></td> 
                  </tr>
                 </tbody>
               </table>
