@@ -12,7 +12,7 @@ import { Despachador,Despachadores,AgenciaAduana, AgenciaAduanera,ConsultaBookin
 import { BL,Contenedor,ConsultaLevanteRPT,ConsultaLevanteRQT, DetConsLevante, ContenedorL,DocumentoBL,Documento,
 RegistrarSolPermisoRPT,RegistrarSolPermisoRQT,Archivo,DAM,ConsultaLevanteMasivoRPT,ConsultaLevanteMasivoRQT, DAMMasivo } from '../../models/Permiso';
 
-
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import swal from 'sweetalert';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -108,6 +108,7 @@ export class GenerarsolpermisoComponent implements OnInit {
   public PesoBruto : string = "";
   public FOB : string = "";
   public FOBMasivo : string = "";
+  public SUMAFOB: number=0;
   
   public loading : boolean =  false;  
   public loadingmas : boolean =  false;
@@ -647,6 +648,8 @@ export class GenerarsolpermisoComponent implements OnInit {
 
          this.objListDAMMasivo = this.objConsLevMasRPT.DAM;
 
+
+
         for (var i = 0; i <= data.Documentos.length-1; i++) {
           
           let doc =  data.Documentos[i];
@@ -692,7 +695,11 @@ export class GenerarsolpermisoComponent implements OnInit {
        else{
                  
         this.loadingmas = false;
-         swal(data.Mensaje);
+         swal({
+          text: data.DAM[0].Mensaje,
+          icon: "error",
+           });  
+         //swal(data.DAM[0].Mensaje);
          this.onIsError();   
        }
      },  
@@ -997,12 +1004,21 @@ export class GenerarsolpermisoComponent implements OnInit {
           dam.CodigoAduana = last.Aduana.toString();
           dam.DAM = last.DAM.toString();
           dam.Regimen = last.Regimen.toString();
-
+          dam.FOB = last.FOB.toString();
           this.objListDAM.push(dam);
           
         
         }
 
+        for (var DAMs in this.objListDAM) {
+          //public SUMAFOB: number=0;
+        // JSON.parse(JSON.stringify(this.LProductos.Data))
+          this.SUMAFOB= this.SUMAFOB + Number(this.objListDAM[DAMs].FOB);
+        console.log(JSON.stringify(this.objListDAM[DAMs].FOB));
+        }
+        this.FOBMasivo =  this.SUMAFOB.toString();
+        console.log(this.SUMAFOB);
+        
         }; 
   
 
@@ -1120,7 +1136,7 @@ export class GenerarsolpermisoComponent implements OnInit {
 
         let totalmbb = this.TotalMBm;
         
-        if ( this.TotalMBm < 5)
+        if ( this.TotalMBm < 2)
         {this.EsMayor5m = false}
       }
 
@@ -1383,7 +1399,7 @@ AgregarArchivoMasivo(nombarc: string)
     this.TotalMBm = this.TotalMBm + ((this.fileitemsZm[i].size/1024)/1024);
     }
 
-    if ( this.TotalMBm > 5)
+    if ( this.TotalMBm > 2)
     {this.EsMayor5m = true}
   }
   else
@@ -1398,7 +1414,6 @@ AgregarArchivoMasivo(nombarc: string)
 AgregarArchivoExcel(nombarc: string)
 {
 
-  
  // if (this.filenameexcel == "" || this.filenameexcel == null || this.filenameexcel == undefined)
  if (this.objListDAM.length == 0) 
   {
@@ -1654,7 +1669,7 @@ EliminarSelect()
     {
     this.TotalMBm = this.TotalMBm + ((this.fileitemsZm[i].size/1024)/1024);
     
-    if ( this.TotalMBm < 5)
+    if ( this.TotalMBm < 2)
     {this.EsMayor5m = false}
     }
       

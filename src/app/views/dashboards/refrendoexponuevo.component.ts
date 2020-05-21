@@ -205,6 +205,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   public fname5: string = "";
   public fname6: string = ""; */
   //public TotalMB: number = 0.00;
+  public TotalMB_General: number = 0.00;
   public TotalMB_DAM: number = 0.00;
   public TotalMB_GUIAREMISION: number = 0.00;
   public TotalMB_TARJADELLENADO: number = 0.00;
@@ -274,6 +275,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
   public BuscarBooking(form: NgForm) {
     this.loading=true;
+    this.DetalleDatos= [];
     this.objConsultaBookingRefrendoExpoRQT = {
       IDUSer: Number.parseInt(localStorage.getItem("Usuario")),
       IDRol: Number.parseInt(localStorage.getItem("RolEmpUsuaCodigoDefault")),
@@ -610,6 +612,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_DAM = this.TotalMB_DAM - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_DAM;
             //if (this.TotalMB_DAM < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -634,6 +638,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_GUIAREMISION = this.TotalMB_GUIAREMISION - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_GUIAREMISION;
             //if (this.TotalMB_GUIAREMISION < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -658,6 +664,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_TARJADELLENADO = this.TotalMB_TARJADELLENADO - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_TARJADELLENADO;
             //if (this.TotalMB_TARJADELLENADO < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -682,6 +690,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_TICKETDEPESO = this.TotalMB_TICKETDEPESO - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_TICKETDEPESO;
             //if (this.TotalMB_TICKETDEPESO < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -706,6 +716,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_BOOKING = this.TotalMB_BOOKING - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_BOOKING;
             //if (this.TotalMB_BOOKING < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -730,6 +742,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_OTROS = this.TotalMB_OTROS - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_OTROS;
             //if (this.TotalMB_OTROS < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -754,6 +768,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             this.TotalMB_REPORTDECARGASUELTA = this.TotalMB_REPORTDECARGASUELTA - ((fitemf.size / 1024) / 1024);
             let totalmbb = this.TotalMB_REPORTDECARGASUELTA;
             //if (this.TotalMB_REPORTDECARGASUELTA < 5) { this.EsMayor5 = false }
+            this.TotalMB_General = this.TotalMB_General - ((fitemf.size / 1024) / 1024);
+            if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
           }
           var pos = this.fileitems.map(function (e) {
             return e.NombreArc;
@@ -855,6 +871,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
 
 
           //this.TotalMB = 0;
+          this.TotalMB_General=0;
           this.TotalMB_DAM = 0;
           this.TotalMB_GUIAREMISION = 0;
           this.TotalMB_TARJADELLENADO = 0;
@@ -872,6 +889,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_DAM.length - 1; i++) {
               this.TotalMB_DAM = this.TotalMB_DAM + ((this.fileitems_DAM[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_DAM[i].size / 1024) / 1024);
             }
           } else if (TipoArchivoCarga == "GUIAREMISION") {
             if (this.fileitem_GUIAREMISION != null) {
@@ -879,6 +897,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_GUIAREMISION.length - 1; i++) {
               this.TotalMB_GUIAREMISION = this.TotalMB_GUIAREMISION + ((this.fileitems_GUIAREMISION[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_GUIAREMISION[i].size / 1024) / 1024);
             }
           } else if (TipoArchivoCarga == "TARJADELLENADO") {
             if (this.fileitem_TARJADELLENADO != null) {
@@ -886,6 +905,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_TARJADELLENADO.length - 1; i++) {
               this.TotalMB_TARJADELLENADO = this.TotalMB_TARJADELLENADO + ((this.fileitems_TARJADELLENADO[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_TARJADELLENADO[i].size / 1024) / 1024);
             }
           } else if (TipoArchivoCarga == "TICKETDEPESO") {
             if (this.fileitem_TICKETDEPESO != null) {
@@ -893,6 +913,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_TICKETDEPESO.length - 1; i++) {
               this.TotalMB_TICKETDEPESO = this.TotalMB_TICKETDEPESO + ((this.fileitems_TICKETDEPESO[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_TICKETDEPESO[i].size / 1024) / 1024);
             }
           } else if (TipoArchivoCarga == "BOOKING") {
             if (this.fileitem_BOOKING != null) {
@@ -900,6 +921,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_BOOKING.length - 1; i++) {
               this.TotalMB_BOOKING = this.TotalMB_BOOKING + ((this.fileitems_BOOKING[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_BOOKING[i].size / 1024) / 1024);
             }
           } else if (TipoArchivoCarga == "REPORTDECARGASUELTA") {
             if (this.fileitem_REPORTDECARGASUELTA!= null) {
@@ -907,6 +929,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_REPORTDECARGASUELTA.length - 1; i++) {
               this.TotalMB_REPORTDECARGASUELTA= this.TotalMB_REPORTDECARGASUELTA + ((this.fileitems_REPORTDECARGASUELTA[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_REPORTDECARGASUELTA[i].size / 1024) / 1024);
             }
           } else if (TipoArchivoCarga == "OTROS") {
             if (this.fileitem_OTROS != null) {
@@ -914,10 +937,12 @@ export class RefrendoExpoNuevoComponent implements OnInit {
             }
             for (var i = 0; i <= this.fileitems_OTROS.length - 1; i++) {
               this.TotalMB_OTROS = this.TotalMB_OTROS + ((this.fileitems_OTROS[i].size / 1024) / 1024);
+              this.TotalMB_General = this.TotalMB_General + ((this.fileitems_OTROS[i].size / 1024) / 1024);
             }
           }
 
           //if (this.TotalMB > 5) { this.EsMayor5 = true }
+          if (this.TotalMB_General > 1.5) { this.EsMayor5 = true }
         }
         else {
           swal({
@@ -933,6 +958,7 @@ export class RefrendoExpoNuevoComponent implements OnInit {
   EliminarSelect(TipoArchivoCarga: string) {
     this.cerrado = true;
     //this.TotalMB = 0;
+    this.TotalMB_General = 0;
     this.TotalMB_DAM = 0;
     this.TotalMB_GUIAREMISION = 0;
     this.TotalMB_TARJADELLENADO = 0;
@@ -958,6 +984,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_DAM.length - 1; i++) {
         this.TotalMB_DAM = this.TotalMB_DAM + ((this.fileitems_DAM[i].size / 1024) / 1024);
         //if (this.TotalMB_DAM < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.fileitems_DAM[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }else if (TipoArchivoCarga == 'GUIAREMISION') {
       for (var i = 0; i <= this.selectedOptions_GUIAREMISION.length - 1; i++) {
@@ -976,6 +1004,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_GUIAREMISION.length - 1; i++) {
         this.TotalMB_GUIAREMISION = this.TotalMB_GUIAREMISION + ((this.fileitems_GUIAREMISION[i].size / 1024) / 1024);
         //if (this.TotalMB_GUIAREMISION < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.TotalMB_GUIAREMISION[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }else if (TipoArchivoCarga == 'TARJADELLENADO') {
       for (var i = 0; i <= this.selectedOptions_TARJADELLENADO.length - 1; i++) {
@@ -994,6 +1024,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_TARJADELLENADO.length - 1; i++) {
         this.TotalMB_TARJADELLENADO = this.TotalMB_TARJADELLENADO + ((this.fileitems_TARJADELLENADO[i].size / 1024) / 1024);
         //if (this.TotalMB_TARJADELLENADO < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.TotalMB_TARJADELLENADO[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }else if (TipoArchivoCarga == 'TICKETDEPESO') {
       for (var i = 0; i <= this.selectedOptions_TICKETDEPESO.length - 1; i++) {
@@ -1012,6 +1044,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_TICKETDEPESO.length - 1; i++) {
         this.TotalMB_TICKETDEPESO = this.TotalMB_TICKETDEPESO + ((this.fileitems_TICKETDEPESO[i].size / 1024) / 1024);
         //if (this.TotalMB_TICKETDEPESO < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.TotalMB_TICKETDEPESO[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }else if (TipoArchivoCarga == 'BOOKING') {
       for (var i = 0; i <= this.selectedOptions_BOOKING.length - 1; i++) {
@@ -1030,6 +1064,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_BOOKING.length - 1; i++) {
         this.TotalMB_BOOKING = this.TotalMB_BOOKING + ((this.fileitems_BOOKING[i].size / 1024) / 1024);
         //if (this.TotalMB_BOOKING < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.TotalMB_BOOKING[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }else if (TipoArchivoCarga == 'OTROS') {
       for (var i = 0; i <= this.selectedOptions_OTROS.length - 1; i++) {
@@ -1048,6 +1084,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_OTROS.length - 1; i++) {
         this.TotalMB_OTROS = this.TotalMB_OTROS + ((this.fileitems_OTROS[i].size / 1024) / 1024);
         //if (this.TotalMB_OTROS < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.TotalMB_OTROS[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }else if (TipoArchivoCarga == 'REPORTDECARGASUELTA') {
       for (var i = 0; i <= this.selectedOptions_REPORTDECARGASUELTA.length - 1; i++) {
@@ -1066,6 +1104,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       for (var i = 0; i <= this.fileitems_REPORTDECARGASUELTA.length - 1; i++) {
         this.TotalMB_REPORTDECARGASUELTA = this.TotalMB_REPORTDECARGASUELTA + ((this.fileitems_REPORTDECARGASUELTA[i].size / 1024) / 1024);
         //if (this.TotalMB_OTROS < 5) { this.EsMayor5 = false }
+        this.TotalMB_General = this.TotalMB_General + ((this.TotalMB_REPORTDECARGASUELTA[i].size / 1024) / 1024);
+        if (this.TotalMB_General < 1.5) { this.EsMayor5 = false }
       }
     }
 
@@ -1210,6 +1250,9 @@ export class RefrendoExpoNuevoComponent implements OnInit {
     var NBooking: string
     NBooking = form.value.txtbox_NBooking
 
+    if (this.EsMayor5 == true)
+    {return; }
+
     if (NBooking == undefined) {
       this.loading=false;
       swal("Error: Ingresar Numero de Booking");
@@ -1256,6 +1299,8 @@ export class RefrendoExpoNuevoComponent implements OnInit {
       console.log("Archivos " + JSON.stringify(DetalleArchivos));
       
       if (conteo==0){
+        this.Grabar=true;
+        this.loading=false;
         swal({
           text: "Debe Ajuntar archivos para poder grabar el Refrendo",
           icon: "warning",
@@ -1322,15 +1367,16 @@ export class RefrendoExpoNuevoComponent implements OnInit {
           console.log("EMPEZAR A Imagenes")
           this.Grabar=true;
           this.loading=false;
-          swal("Se Guardo Correctamente");
+          swal(data.Msj.toString());
           this.cerrarPopup();
         },
         error => {
           this.Grabar=true;
           this.loading=false;
           this.updateValue(this.FOB);
-          swal("Error al crear Refrendo Expo");
-          console.log("Error : ", error);
+          //swal("Error al crear Refrendo Expo");
+          swal("Error: " + error.message);
+          console.log("Error : ", error.message);
         });
 
     }

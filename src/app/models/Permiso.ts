@@ -160,6 +160,7 @@ export class BL {
     Regimen: string;
     Anio: string;
     DAM: string;
+    FOB: string;
     }
 
     
